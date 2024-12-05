@@ -1,9 +1,15 @@
-import React from 'react'
+import SectionHeader from "../../../components/SectionHeader";
 
 const Services = () => {
-  return (
-    <div>Services</div>
-  )
-}
+    return (
+        <div>
+            <SectionHeader
+                bgTitle="Services"
+                primaryTitle="Services We Provide"
+                secondaryTitle="Our Services"
+            />
+        </div>
+    );
+};
 
-export default Services
+export default Services;

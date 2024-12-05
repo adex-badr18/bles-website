@@ -1,9 +1,11 @@
-import React from 'react'
+import SectionHeader from "../../../components/SectionHeader";
 
 const About = () => {
-  return (
-    <div>About</div>
-  )
-}
+    return (
+        <div>
+            About
+        </div>
+    );
+};
 
-export default About
+export default About;

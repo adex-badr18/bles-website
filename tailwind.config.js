@@ -20,7 +20,7 @@ export default {
             },
             padding: {
                 default: "15px"
-            }
+            },
         },
     },
     plugins: [],
