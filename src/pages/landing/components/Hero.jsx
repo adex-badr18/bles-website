@@ -31,7 +31,7 @@ const slidesData = [
     },
     {
         id: 2,
-        bgTitle: "Health",
+        bgTitle: "HealthCare",
         bgImage: homeSlider2,
         topSmallText: "Welcome to BrightLife Enhancement Services",
         bottomSmallText: "We've 25 years of experience in Health Care.",

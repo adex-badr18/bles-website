@@ -20,7 +20,7 @@ const HeroSlide = ({
                     {bgTitle}
                 </div>
 
-                <div className="flex flex-col items-start gap-6 mt-6 md:mt-24">
+                <div className="flex flex-col items-start gap-6 mt-6 pl-[10px] md:mt-24">
                     <div className="space-y-3 md:space-y-5 w-2/3 md:w-[512px]">
                         <h4 className="text-sm md:text-base text-[#66737D] font-medium">
                             {topSmallText}
