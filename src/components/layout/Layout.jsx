@@ -10,7 +10,7 @@ const Layout = () => {
         <div className="">
             <Header />
 
-            <main className="pt-24">
+            <main className="">
                 <Outlet />
             </main>
 

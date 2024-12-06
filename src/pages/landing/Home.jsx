@@ -10,7 +10,7 @@ import Experts from "./components/Experts";
 
 const Home = () => {
     return (
-        <div className="">
+        <section className="">
             <Hero />
             <Services />
             <About />
@@ -20,7 +20,7 @@ const Home = () => {
             <Testimonials />
             <GetInTouch />
             <Blog />
-        </div>
+        </section>
     );
 };
 

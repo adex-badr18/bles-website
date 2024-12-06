@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
 import LinkButton from "../LinkButton";
@@ -16,6 +16,7 @@ const Nav = () => {
     const [isServicesHovered, setIsServicesHovered] = useState(false);
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isSticky, setIsSticky] = useState(false);
 
     const handleMouseHover = (menuItem) => {
         if (menuItem.subMenu) {
@@ -31,8 +32,23 @@ const Nav = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollY = window.scrollY;
+            const threshold = 160;
+
+            setIsSticky(scrollY > threshold);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
     return (
-        <nav className="bg-white fixed px-default py-[10px] lg:py-0 shadow w-full">
+        <nav className={`bg-white ${isSticky ? "fixed top-0 left-0 shadow w-full z-50" : ""} px-default py-[10px] lg:py-0`}>
             <div className="flex items-center justify-between gap-4">
                 <Link to="/" className="">
                     <img
