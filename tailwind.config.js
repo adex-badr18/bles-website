@@ -9,17 +9,33 @@ export default {
                 lightGreen: "#8FB569",
                 lightGrey: "#F0F1F2",
                 deepGrey: "#2b3944",
-                lightGrey: "#959ca2"
+                lightGrey: "#959ca2",
+                grey: "#647589",
             },
             fontFamily: {
                 poppins: ["Poppins", "sans-serif"],
                 rubik: ["Rubik", "sans-serif"],
             },
             fontSize: {
-                default: "15px"
+                default: "15px",
             },
             padding: {
-                default: "15px"
+                default: "15px",
+            },
+            backgroundImage: {
+                "service-center-image":
+                    "url('/src/assets/service-center-image.webp')",
+                "psychotic-service-image":
+                    "url('/src/assets/behavioral-disorder.jpg')",
+                "depression-service-image": "url('/src/assets/depression.jpg')",
+                "anxiety-service-image": "url('/src/assets/anxiety.jpg')",
+                "more-services-image":
+                    "url('/src/assets/behavioral-disorder2.jpg')",
+            },
+            screens: {
+                blg: "1000px",
+                bxl: "1200px",
+                b2xl: "1400px",
             },
         },
     },
