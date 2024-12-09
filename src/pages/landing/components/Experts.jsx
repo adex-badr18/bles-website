@@ -52,62 +52,64 @@ const Experts = () => {
 
     return (
         <section className="py-8 md:py-20 space-y-6">
-            <SectionHeader
-                bgTitle="Doctors"
-                primaryTitle="Our Expert Doctors"
-                secondaryTitle="Meet Our Specialists"
-                titleAlignment="center"
-            />
+            <div className="w-full max-w-[1320px] mx-auto">
+                <SectionHeader
+                    bgTitle="Doctors"
+                    primaryTitle="Our Expert Doctors"
+                    secondaryTitle="Meet Our Specialists"
+                    titleAlignment="center"
+                />
 
-            <div className="px-2 sm:mx-auto w-full sm:max-w-[540px] md:max-w-[760px] blg:max-w-[990px] bxl:max-w-[1170px] b2xl:max-w-[1320px]">
-                <Swiper
-                    modules={[Navigation, Autoplay, Pagination]}
-                    spaceBetween={30}
-                    centeredSlides={true}
-                    loop={true}
-                    speed={2000}
-                    autoplay={{ delay: 5000, disableOnInteraction: false }}
-                    onSwiper={(swiper) => {
-                        swiper.params.navigation.prevEl = prevBtn.current;
-                        swiper.params.navigation.nextEl = nextBtn.current;
-                        swiper.navigation.init();
-                        swiper.navigation.update();
-                    }}
-                    breakpoints={{
-                        320: { slidesPerView: 1.5 },
-                        768: {
-                            slidesPerView: 2,
-                        },
-                        1024: { slidesPerView: 3 },
-                    }}
-                    className="group w-full"
-                >
-                    {expertsData.map((expert) => (
-                        <SwiperSlide key={expertsData.id}>
-                            <ExpertCard
-                                image={expert.image}
-                                name={expert.name}
-                                specialization={expert.specialization}
-                                link={expert.link}
-                            />
-                        </SwiperSlide>
-                    ))}
+                <div className="px-2 sm:mx-auto w-full sm:max-w-[540px] md:max-w-[760px] blg:max-w-[990px] bxl:max-w-[1170px] b2xl:max-w-[1320px]">
+                    <Swiper
+                        modules={[Navigation, Autoplay, Pagination]}
+                        spaceBetween={30}
+                        centeredSlides={true}
+                        loop={true}
+                        speed={2000}
+                        autoplay={{ delay: 5000, disableOnInteraction: false }}
+                        onSwiper={(swiper) => {
+                            swiper.params.navigation.prevEl = prevBtn.current;
+                            swiper.params.navigation.nextEl = nextBtn.current;
+                            swiper.navigation.init();
+                            swiper.navigation.update();
+                        }}
+                        breakpoints={{
+                            320: { slidesPerView: 1.5 },
+                            768: {
+                                slidesPerView: 2,
+                            },
+                            1024: { slidesPerView: 3 },
+                        }}
+                        className="group w-full"
+                    >
+                        {expertsData.map((expert) => (
+                            <SwiperSlide key={expertsData.id}>
+                                <ExpertCard
+                                    image={expert.image}
+                                    name={expert.name}
+                                    specialization={expert.specialization}
+                                    link={expert.link}
+                                />
+                            </SwiperSlide>
+                        ))}
 
-                    <div className="hidden md:flex items-center justify-between absolute inset-x-4 inset-y-0 z-50 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
-                        <button
-                            ref={prevBtn}
-                            className="prev-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
-                        >
-                            <FaLongArrowAltLeft />
-                        </button>
-                        <button
-                            ref={nextBtn}
-                            className="next-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
-                        >
-                            <FaLongArrowAltRight />
-                        </button>
-                    </div>
-                </Swiper>
+                        <div className="hidden md:flex items-center justify-between absolute inset-x-4 inset-y-0 z-50 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+                            <button
+                                ref={prevBtn}
+                                className="prev-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
+                            >
+                                <FaLongArrowAltLeft />
+                            </button>
+                            <button
+                                ref={nextBtn}
+                                className="next-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
+                            >
+                                <FaLongArrowAltRight />
+                            </button>
+                        </div>
+                    </Swiper>
+                </div>
             </div>
         </section>
     );
