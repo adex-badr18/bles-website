@@ -46,8 +46,6 @@ const Hero = () => {
     const prevButton = useRef();
     const nextButton = useRef();
 
-    console.log(prevButton.current);
-
     return (
         <section className="md:h-screen w-full">
             <Swiper

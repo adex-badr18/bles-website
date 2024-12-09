@@ -15,7 +15,7 @@ const HeroSlide = ({
             className="relative h-full bg-cover bg-no-repeat bg-center"
             style={{ backgroundImage: `url("${bgImage}")` }}
         >
-            <div className="relative z-10 mx-1 md:mx-14 px-3 py-10 flex flex-col w-full h-full md:h-auto justify-center gap-3 md:gap-5 font-poppins">
+            <div className="relative z-10 mx-1 md:mx-14 px-3 py-10 flex flex-col  w-full max-w-[1320px] lg:mx-auto h-full md:h-auto justify-center gap-3 md:gap-5 font-poppins">
                 <div className="absolute top-0 md:-top-0 text-[70px] md:text-[120px] lg:text-[160px] text-transparent font-bold capitalize -z-10 bg-clip-text bg-gradient-to-b from-white from-10% to-70% select-none">
                     {bgTitle}
                 </div>
