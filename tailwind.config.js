@@ -33,6 +33,7 @@ export default {
                     "url('/src/assets/behavioral-disorder2.jpg')",
             },
             screens: {
+                bsm: "400px",
                 blg: "1000px",
                 bxl: "1200px",
                 b2xl: "1400px",

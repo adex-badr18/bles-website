@@ -13,7 +13,7 @@ const Services = () => {
             className={`py-8 md:py-20 h-full bg-cover bg-no-repeat bg-center`}
             style={{ backgroundImage: `url("${sectionBg}")` }}
         >
-            <div className="w-full max-w-[1320px] mx-auto">
+            <div className="container">
                 <SectionHeader
                     bgTitle="Services"
                     primaryTitle="Services We Provide"
