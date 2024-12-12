@@ -5,6 +5,8 @@ export default {
         extend: {
             colors: {
                 darkBlue: "#223645",
+                deepBlue: "#13232F",
+                borderColor: "#24333E",
                 vividRed: "#E12454",
                 lightGreen: "#8FB569",
                 lightGrey: "#F0F1F2",
@@ -22,6 +24,9 @@ export default {
             padding: {
                 default: "15px",
             },
+            lineHeight: {
+                default: "20px",
+            },
             backgroundImage: {
                 "service-center-image":
                     "url('/src/assets/service-center-image.webp')",
@@ -35,6 +40,7 @@ export default {
             },
             screens: {
                 bsm: "400px",
+                smallsm: "500px",
                 blg: "1000px",
                 bxl: "1200px",
                 b2xl: "1400px",
