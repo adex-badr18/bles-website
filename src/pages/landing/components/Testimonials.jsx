@@ -56,58 +56,64 @@ const Testimonials = () => {
                     titleAlignment="center"
                 />
 
-                {/* <div className="px-2"> */}
-                    <div className="px-2 space-y-4 sm:mx-auto w-full sm:max-w-[540px] md:max-w-[760px] blg:max-w-[990px] bxl:max-w-[1170px] b2xl:max-w-[1320px]">
-                        <div className="hidden md:flex items-center justify-end gap-3">
-                            <button
-                                ref={prevButton}
-                                className="prev-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
-                            >
-                                <FaLongArrowAltLeft />
-                            </button>
-                            <button
-                                ref={nextButton}
-                                className="next-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
-                            >
-                                <FaLongArrowAltRight />
-                            </button>
-                        </div>
-                        <Swiper
-                            modules={[Navigation, Pagination, Autoplay]}
-                            loop={true}
-                            autoplay={{
-                                delay: 5000,
-                                disableOnInteraction: false,
-                            }}
-                            spaceBetween={30}
-                            onSwiper={(swiper) => {
-                                swiper.params.navigation.prevEl =
-                                    prevButton.current;
-                                swiper.params.navigation.nextEl =
-                                    nextButton.current;
-                                swiper.navigation.init();
-                                swiper.navigation.update();
-                            }}
-                            speed={2000}
-                            breakpoints={{
-                                320: { slidesPerView: 1 },
-                                1000: { slidesPerView: 2 },
-                            }}
-                            className="group"
+                <div className="px-2 space-y-4 sm:mx-auto w-full sm:max-w-[540px] md:max-w-[760px] blg:max-w-[990px] bxl:max-w-[1170px] b2xl:max-w-[1320px]">
+                    <div className="hidden md:flex items-center justify-end gap-3">
+                        <button
+                            ref={prevButton}
+                            className="prev-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
                         >
-                            {testimonialsData.map((testimony) => (
-                                <SwiperSlide>
-                                    <TestimonialCard
-                                        name={testimony.name}
-                                        image={testimony.image}
-                                        profession={testimony.profession}
-                                        message={testimony.message}
-                                    />
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
+                            <FaLongArrowAltLeft />
+                        </button>
+                        <button
+                            ref={nextButton}
+                            className="next-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
+                        >
+                            <FaLongArrowAltRight />
+                        </button>
                     </div>
-                {/* </div> */}
+                    <Swiper
+                        modules={[Navigation, Pagination, Autoplay]}
+                        loop={true}
+                        autoplay={{
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        }}
+                        pagination={{
+                            clickable: true,
+                            el: ".pagination-wrapper",
+                            bulletClass: "pagination-bullet",
+                            bulletActiveClass: "pagination-bullet-active",
+                        }}
+                        spaceBetween={30}
+                        onSwiper={(swiper) => {
+                            swiper.params.navigation.prevEl =
+                                prevButton.current;
+                            swiper.params.navigation.nextEl =
+                                nextButton.current;
+                            swiper.navigation.init();
+                            swiper.navigation.update();
+                        }}
+                        speed={2000}
+                        breakpoints={{
+                            320: { slidesPerView: 1 },
+                            1000: { slidesPerView: 2 },
+                        }}
+                        className="group"
+                    >
+                        {testimonialsData.map((testimony) => (
+                            <SwiperSlide>
+                                <TestimonialCard
+                                    name={testimony.name}
+                                    image={testimony.image}
+                                    profession={testimony.profession}
+                                    message={testimony.message}
+                                />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+
+                    <div className="pagination-wrapper flex justify-center gap-2 pt-4"></div>
+                </div>
             </div>
         </section>
     );
