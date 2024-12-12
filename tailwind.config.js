@@ -31,6 +31,7 @@ export default {
                 "anxiety-service-image": "url('/src/assets/anxiety.jpg')",
                 "more-services-image":
                     "url('/src/assets/behavioral-disorder2.jpg')",
+                "get-in-touch-bg": "url('/src/assets/section-bg2.jpg')",
             },
             screens: {
                 bsm: "400px",
