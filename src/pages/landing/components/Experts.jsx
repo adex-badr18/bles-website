@@ -84,7 +84,7 @@ const Experts = () => {
                         className="group w-full"
                     >
                         {expertsData.map((expert) => (
-                            <SwiperSlide key={expertsData.id}>
+                            <SwiperSlide key={expert.id}>
                                 <ExpertCard
                                     image={expert.image}
                                     name={expert.name}

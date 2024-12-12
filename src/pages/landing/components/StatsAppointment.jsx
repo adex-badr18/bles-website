@@ -21,19 +21,19 @@ const statsData = [
         icon: <FaUserDoctor className="text-lightGreen text-[80px]" />,
     },
     {
-        id: 1,
+        id: 2,
         title: "Satisfied Patients",
         val: 1030,
         icon: <LiaUsersSolid className="text-lightGreen text-[80px]" />,
     },
     {
-        id: 1,
+        id: 3,
         title: "Years of Experience",
         val: 15,
         icon: <GrAchievement className="text-lightGreen text-[80px]" />,
     },
     {
-        id: 1,
+        id: 4,
         title: "Acclaimed Recognition",
         val: 178,
         icon: <GiLaurelCrown className="text-lightGreen text-[80px]" />,

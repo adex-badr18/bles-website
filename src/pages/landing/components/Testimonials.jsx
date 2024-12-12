@@ -101,7 +101,7 @@ const Testimonials = () => {
                         className="group"
                     >
                         {testimonialsData.map((testimony) => (
-                            <SwiperSlide>
+                            <SwiperSlide key={testimony.id}>
                                 <TestimonialCard
                                     name={testimony.name}
                                     image={testimony.image}
