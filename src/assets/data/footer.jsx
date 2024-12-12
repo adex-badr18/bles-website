@@ -26,7 +26,7 @@ export const contact = [
     },
     {
         id: 4,
-        text: "+1(410)988-2655",
+        text: "+1(410)-988-2655",
         icon: <MdOutlinePhoneIphone className="text-lightGreen flex-shrink-0" />,
     },
 ];

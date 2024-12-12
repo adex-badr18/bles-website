@@ -22,7 +22,7 @@ const Header = () => {
                             />
                         }
                         title="Working Hour"
-                        text="8:00am - 9:00pm"
+                        text="9:00am - 6:00pm"
                         classAttrs="md:pr-3"
                     />
                     <FlexItem
@@ -33,7 +33,7 @@ const Header = () => {
                             />
                         }
                         title="Email"
-                        text="info@behavioralhealth.com"
+                        text="info@blesomhc.com"
                         classAttrs="md:pl-3"
                     />
                 </div>
@@ -53,10 +53,10 @@ const Header = () => {
                     <p className="text-white md:pl-3">
                         <span className="font-bold">Hotline: </span>
                         <Link
-                            to={`tel:+0123456789`}
+                            to={`tel:+19882655`}
                             className="hover:text-lightGreen transition duration-500"
                         >
-                            +0123 (456) 789
+                            +1(410)-988-2655
                         </Link>
                     </p>
                 </div>

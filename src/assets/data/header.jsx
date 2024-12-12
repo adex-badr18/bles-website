@@ -6,10 +6,10 @@ import {
 } from "react-icons/fa";
 
 export const headerSocialData = [
-    { id: 1, icon: <FaFacebookF />, to: "" },
-    { id: 2, icon: <FaTwitter />, to: "" },
-    { id: 3, icon: <FaLinkedinIn />, to: "" },
-    { id: 4, icon: <FaInstagram />, to: "" },
+    { id: 1, icon: <FaFacebookF />, to: "https://web.facebook.com/profile.php?id=61551444698635" },
+    { id: 2, icon: <FaTwitter />, to: "https://twitter.com/BLESOMHC?t=ORTbOzVi3ydX0LTxBUZG1A&s=08" },
+    { id: 3, icon: <FaLinkedinIn />, to: "https://www.linkedin.com/in/brightlife-enhancement-services-155b0a2a8/" },
+    { id: 4, icon: <FaInstagram />, to: "https://www.instagram.com/blesomhc/" },
 ];
 
 export const navMenu = [
