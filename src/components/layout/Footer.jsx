@@ -7,6 +7,7 @@ import SocialLink from "../SocialLink";
 import logo from "../../assets/logo-white.webp";
 import { headerSocialData } from "../../assets/data/header";
 import { FlexContactInfo } from "../FlexItem";
+import Logo from "./Logo";
 import { quickLinks, contact } from "../../assets/data/footer";
 
 const Footer = () => {
@@ -17,11 +18,12 @@ const Footer = () => {
             <div className="px-5 w-full mx-auto sm:max-w-[540px] md:max-w-[760px] blg:max-w-[990px] bxl:max-w-[1170px] b2xl:max-w-[1320px] text-[#CFD3D5] font-poppins">
                 <div className="footer-top flex flex-col md:flex-row justify-between items-center gap-10 py-8 md:py-16 border-b-2 border-borderColor">
                     <Link to="/" className="">
-                        <img
+                        {/* <img
                             src={logo}
                             alt="Logo"
                             className="w-[150px] md:w-[190px]"
-                        />
+                        /> */}
+                        <Logo textColor="white" />
                     </Link>
 
                     <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 font-poppins">

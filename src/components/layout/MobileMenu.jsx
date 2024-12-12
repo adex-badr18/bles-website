@@ -7,6 +7,7 @@ import { IoMdArrowDropright } from "react-icons/io";
 import { navMenu } from "../../assets/data/header";
 
 import logo from "../../assets/logo-white.webp";
+import Logo from "./Logo";
 
 const MobileMenu = ({ isOpen, setIsOpen }) => {
     const { pathname } = useLocation();
@@ -28,7 +29,8 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
             } transition-transform duration-300 ease-in-out overflow-y-auto`}
         >
             <div className="p-12 flex justify-between gap-5">
-                <img src={logo} alt="Logo" className="w-[150px] md:w-[190px]" />
+                {/* <img src={logo} alt="Logo" className="w-[150px] md:w-[190px]" /> */}
+                <Logo textColor="white" />
                 <AiOutlineClose
                     className="text-white"
                     onClick={closeMenu}

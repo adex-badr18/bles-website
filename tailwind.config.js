@@ -17,6 +17,7 @@ export default {
             fontFamily: {
                 poppins: ["Poppins", "sans-serif"],
                 rubik: ["Rubik", "sans-serif"],
+                agu: ["Agu Display", "serif"]
             },
             fontSize: {
                 default: "15px",

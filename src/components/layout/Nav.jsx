@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 
 import LinkButton from "../LinkButton";
 import MobileMenu from "./MobileMenu";
+import Logo from "./Logo";
 
 import { navMenu } from "../../assets/data/header";
 
@@ -51,11 +52,12 @@ const Nav = () => {
         <nav className={`bg-white ${isSticky ? "fixed top-0 left-0 shadow w-full z-50" : ""} px-default py-[10px] lg:py-0`}>
             <div className="flex items-center justify-between gap-4">
                 <Link to="/" className="">
-                    <img
+                    {/* <img
                         src={logo}
                         alt="Logo"
                         className="w-[150px] md:w-[190px]"
-                    />
+                    /> */}
+                    <Logo />
                 </Link>
 
                 <div className="hidden lg:flex items-center justify-center flex-wrap">
