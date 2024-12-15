@@ -1,76 +1,80 @@
+import { Link } from "react-router-dom";
+import anxietyImg from "../../../assets/anxiety.jpg";
+import psycoticImg from "../../../assets/behavioral-disorder.jpg";
+import moreImg from "../../../assets/behavioral-disorder2.jpg";
+import depressionImg from "../../../assets/depression.jpg";
 import SectionHeader from "../../../components/SectionHeader";
-import ServiceCard from "./ServiceCard";
-import sectionBg from "../../../assets/section-bg.jpg";
 
-import bgImage from "../../../assets/service-center-image.webp";
+import { CgChevronDoubleRight } from "react-icons/cg";
 
-import { GiBrain } from "react-icons/gi";
-import { MdOutlineHealthAndSafety, MdOutlineScheduleSend, MdOutlineBedroomParent } from "react-icons/md";
-import { PiHeartbeat } from "react-icons/pi";
-
-
+const servicesData = [
+    {
+        id: 1,
+        title: "Anxiety Disorder",
+        descr: "Find peace with our effective anxiety treatments.",
+        imgClass: "bg-anxiety-service-image",
+        img: anxietyImg,
+        link: "/services/#",
+    },
+    {
+        id: 2,
+        title: "Psychotic Disorder",
+        descr: "Reconnect with reality through our compassionate care.",
+        imgClass: "bg-psychotic-service-image",
+        img: psycoticImg,
+        link: "/services/#",
+    },
+    {
+        id: 3,
+        title: "Depression",
+        descr: "Rediscover joy with our supportive depression programs.",
+        imgClass: "bg-depression-service-image",
+        img: depressionImg,
+        link: "/services/#",
+    },
+    {
+        id: 4,
+        title: "More Services",
+        descr: "Discover more ways we can support your well-being.",
+        imgClass: "bg-more-services-image",
+        img: moreImg,
+        link: "/services",
+    },
+];
 
 const Services = () => {
     return (
-        <section
-            className={`py-8 md:py-20 h-full bg-cover bg-no-repeat bg-center`}
-            style={{ backgroundImage: `url("${sectionBg}")` }}
-        >
-            <div className="container">
+        <section className="py-8 md:py-20">
+            <div className="w-full max-w-[1320px] mx-auto px-4 pb-10">
                 <SectionHeader
                     bgTitle="Services"
                     primaryTitle="Services We Provide"
                     secondaryTitle="Our Services"
+                    titleAlignment="center"
                 />
 
-                <div
-                    className={`space-y-8 md:space-y-20 md:bg-service-center-image bg-center bg-no-repeat`}
-                >
-                    <div className="px-5 md:px-10 lg:px-28 xl:px-40 flex flex-col sm:flex-row sm:justify-between gap-8">
-                        <ServiceCard
-                            icon={
-                                <MdOutlineHealthAndSafety className="text-vividRed text-5xl md:text-7xl" />
-                            }
-                            title="Outpatient Health"
-                            descr="Professional mental health or substance use treatment."
-                            link="/services/outpatient"
-                            data-aos="fade-down-right"
-                            data-aos-delay=""
-                        />
-                        <ServiceCard
-                            icon={
-                                <PiHeartbeat className="text-vividRed text-5xl md:text-7xl" />
-                            }
-                            title="Intensive Outpatient"
-                            descr="More severe challenges with mental health or addiction."
-                            link="/services/iop"
-                            data-aos="fade-down-left"
-                            data-aos-delay=""
-                        />
-                    </div>
+                <div className="flex flex-wrap justify-center gap-x-6 gap-y-28">
+                    {servicesData.map((service) => (
+                        <div key={service.id} className="relative w-full max-w-sm" data-aos="zoom-in">
+                            <Link to={service.link} className="">
+                                <img src={service.img} alt="" className="w-full h-full object-cover" />
+                            </Link>
 
-                    <div className="px-5 md:px-20 lg:px-44 xl:px-60 flex flex-col sm:flex-row sm:justify-between gap-8">
-                        <ServiceCard
-                            icon={
-                                <MdOutlineScheduleSend className="text-vividRed text-5xl md:text-7xl" />
-                            }
-                            title="Partial Hospitalization"
-                            descr="Treatment for individuals who need extensive care."
-                            link="/services/php"
-                            data-aos="fade-up-right"
-                            data-aos-delay=""
-                        />
-                        <ServiceCard
-                            icon={
-                                <MdOutlineBedroomParent className="text-vividRed text-5xl md:text-7xl" />
-                            }
-                            title="Residential Program"
-                            descr="Structured environment for patients needing intensive care."
-                            link="/services/neuro"
-                            data-aos="fade-up-left"
-                            data-aos-delay=""
-                        />
-                    </div>
+                            <div className="group font-rubik w-10/12 absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-white py-5 px-6 space-y-2 text-center shadow-xl z-10">
+                                <Link to={service.link} className="md:text-[22px] text-darkBlue hover:text-vividRed font-semibold">
+                                    {service.title}
+                                </Link>
+                                <p className="text-sm md:text-base text-grey">{service.descr}</p>
+                                <Link
+                                    to={service.link}
+                                    className="text-vividRed text-sm md:text-base font-semibold font-poppins hidden md:group-hover:inline-flex items-center gap-1"
+                                >
+                                    <span className="">Read More</span>
+                                    <CgChevronDoubleRight className="" />
+                                </Link>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>
