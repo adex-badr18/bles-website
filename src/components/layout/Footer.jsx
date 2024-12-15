@@ -106,7 +106,7 @@ const Footer = () => {
 
                         <div className="space-y-4">
                             {contact.map((item) => (
-                                <FlexContactInfo icon={item.icon} classAttrs="font-rubik">
+                                <FlexContactInfo key={item.id} icon={item.icon} classAttrs="font-rubik">
                                     {item.text}
                                 </FlexContactInfo>
                             ))}
