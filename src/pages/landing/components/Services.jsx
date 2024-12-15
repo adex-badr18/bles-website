@@ -5,9 +5,12 @@ import sectionBg from "../../../assets/section-bg.jpg";
 import bgImage from "../../../assets/service-center-image.webp";
 
 import { GiBrain } from "react-icons/gi";
+import { MdOutlineHealthAndSafety, MdOutlineScheduleSend, MdOutlineBedroomParent } from "react-icons/md";
+import { PiHeartbeat } from "react-icons/pi";
+
+
 
 const Services = () => {
-    console.log(bgImage);
     return (
         <section
             className={`py-8 md:py-20 h-full bg-cover bg-no-repeat bg-center`}
@@ -26,7 +29,7 @@ const Services = () => {
                     <div className="px-5 md:px-10 lg:px-28 xl:px-40 flex flex-col sm:flex-row sm:justify-between gap-8">
                         <ServiceCard
                             icon={
-                                <GiBrain className="text-vividRed text-5xl md:text-7xl" />
+                                <MdOutlineHealthAndSafety className="text-vividRed text-5xl md:text-7xl" />
                             }
                             title="Outpatient Health"
                             descr="Professional mental health or substance use treatment."
@@ -36,7 +39,7 @@ const Services = () => {
                         />
                         <ServiceCard
                             icon={
-                                <GiBrain className="text-vividRed text-5xl md:text-7xl" />
+                                <PiHeartbeat className="text-vividRed text-5xl md:text-7xl" />
                             }
                             title="Intensive Outpatient"
                             descr="More severe challenges with mental health or addiction."
@@ -49,7 +52,7 @@ const Services = () => {
                     <div className="px-5 md:px-20 lg:px-44 xl:px-60 flex flex-col sm:flex-row sm:justify-between gap-8">
                         <ServiceCard
                             icon={
-                                <GiBrain className="text-vividRed text-5xl md:text-7xl" />
+                                <MdOutlineScheduleSend className="text-vividRed text-5xl md:text-7xl" />
                             }
                             title="Partial Hospitalization"
                             descr="Treatment for individuals who need extensive care."
@@ -59,7 +62,7 @@ const Services = () => {
                         />
                         <ServiceCard
                             icon={
-                                <GiBrain className="text-vividRed text-5xl md:text-7xl" />
+                                <MdOutlineBedroomParent className="text-vividRed text-5xl md:text-7xl" />
                             }
                             title="Residential Program"
                             descr="Structured environment for patients needing intensive care."
