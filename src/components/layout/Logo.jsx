@@ -13,16 +13,16 @@ const Logo = ({ textColor }) => {
                 <BiPlusMedical className="text-lightGreen text-lg absolute top-1/2 -translate-y-1/6 right-1 shadow-2xl" />
             </div>
 
-            <div className="flex font-bold flex-col font-agu text-xl">
+            <div className="flex flex-col text-xl">
                 <span
-                    className={`uppercase ${
-                        textColor === "white" ? "text-white" : "text-deepBlue"
+                    className={`font-poppins font-black tracking-[2.4px] uppercase ${
+                        textColor === "white" ? "text-white" : "text-darkBlue"
                     } -mb-2`}
                 >
-                    B<span className="text-vividRed">ri</span>ght
+                    Bright<span className="text-vividRed">Life</span>
                 </span>
-                <span className="uppercase text-lightGreen tracking-[10px]">
-                    Life
+                <span className="capitalize text-lightGreen font-poppins text-xs">
+                    Enhancement Services
                 </span>
             </div>
         </div>
