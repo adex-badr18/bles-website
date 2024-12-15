@@ -55,7 +55,7 @@ const ServicesTwo = () => {
 
                 <div className="flex flex-wrap justify-center gap-x-6 gap-y-28">
                     {servicesData.map((service) => (
-                        <div key={service.id} className="relative w-full max-w-sm">
+                        <div key={service.id} className="relative w-full max-w-sm" data-aos="zoom-in">
                             <Link to={service.link} className="">
                                 <img src={service.img} alt="" className="w-full h-full object-cover" />
                             </Link>

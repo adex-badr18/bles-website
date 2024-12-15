@@ -31,6 +31,8 @@ const Services = () => {
                             title="Outpatient Health"
                             descr="Professional mental health or substance use treatment."
                             link="/services/outpatient"
+                            data-aos="fade-down-right"
+                            data-aos-delay=""
                         />
                         <ServiceCard
                             icon={
@@ -39,6 +41,8 @@ const Services = () => {
                             title="Intensive Outpatient"
                             descr="More severe challenges with mental health or addiction."
                             link="/services/iop"
+                            data-aos="fade-down-left"
+                            data-aos-delay=""
                         />
                     </div>
 
@@ -50,6 +54,8 @@ const Services = () => {
                             title="Partial Hospitalization"
                             descr="Treatment for individuals who need extensive care."
                             link="/services/php"
+                            data-aos="fade-up-right"
+                            data-aos-delay=""
                         />
                         <ServiceCard
                             icon={
@@ -58,6 +64,8 @@ const Services = () => {
                             title="Residential Program"
                             descr="Structured environment for patients needing intensive care."
                             link="/services/neuro"
+                            data-aos="fade-up-left"
+                            data-aos-delay=""
                         />
                     </div>
                 </div>
