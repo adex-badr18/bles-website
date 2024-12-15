@@ -46,12 +46,17 @@ const statsData = [
 const StatsAppointment = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
 
+    const { ref, inView } = useInView({
+        triggerOnce: true,
+        threshold: 0.5,
+    });
+
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
 
     return (
-        <section className="py-8 md:py-20">
+        <section ref={ref} className="py-8 md:py-20">
             <div className="bg-vividRed py-6 px-4">
                 <div className="w-full max-w-[1320px] mx-auto">
                     <div className="flex items-center justify-center">
@@ -83,16 +88,17 @@ const StatsAppointment = () => {
                                 >
                                     {stat.icon}
                                     <div className="space-y-3">
-                                        <p className="text-[35px] md:text-[45px] leading-[35px] lg:text-[55px] font-medium text-white font-poppins">
-                                            <CountUp
-                                                start={0}
-                                                end={stat.val}
-                                                duration={4}
-                                                separator=","
-                                            />
-                                            <span className="">+</span>                                            
-                                        </p>
-                                        {/* <p className="text-[35px] md:text-[45px] leading-[35px] lg:text-[55px] font-medium text-white font-poppins">{`${stat.val}+`}</p> */}
+                                        {inView && (
+                                            <p className="text-[35px] md:text-[45px] leading-[35px] lg:text-[55px] font-medium text-white font-poppins">
+                                                <CountUp
+                                                    start={0}
+                                                    end={stat.val}
+                                                    duration={4}
+                                                    separator=","
+                                                />
+                                                <span className="">+</span>
+                                            </p>
+                                        )}
                                         <p className="text-[20px] leading-[28px] text-[#FFFFFFA6] font-rubik">
                                             {stat.title}
                                         </p>
