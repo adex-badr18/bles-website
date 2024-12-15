@@ -12,10 +12,19 @@ import Logo from "./Logo";
 const MobileMenu = ({ isOpen, setIsOpen }) => {
     const { pathname } = useLocation();
     const isServicesActive = pathname.includes("/services");
-    const [isServicesOpen, setIsServicesOpen] = useState(false);
+    const isProgramsActive = pathname.includes("/programs");
 
-    const handleServicesMenuClick = () => {
-        setIsServicesOpen(!isServicesOpen);
+    const [isServicesOpen, setIsServicesOpen] = useState(false);
+    const [isProgramsOpen, setIsProgramsOpen] = useState(false);
+
+    const handleMenuClick = (menuItem) => {
+        if (menuItem.name.toLowerCase() === "services") {
+            setIsServicesOpen(!isServicesOpen);
+        }
+
+        if (menuItem.name.toLowerCase() === "programs") {
+            setIsProgramsOpen(!isProgramsOpen);
+        }
     };
 
     const closeMenu = () => {
@@ -29,7 +38,6 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
             } transition-transform duration-300 ease-in-out overflow-y-auto`}
         >
             <div className="p-12 flex justify-between gap-5">
-                {/* <img src={logo} alt="Logo" className="w-[150px] md:w-[190px]" /> */}
                 <Logo textColor="white" />
                 <AiOutlineClose
                     className="text-white"
@@ -41,7 +49,7 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
             <nav className="px-12 pb-4">
                 <ul className="text-white font-rubik font-medium text-[17px] divide-y divide-[#FFFFFF29]">
                     {navMenu.map((menuItem) =>
-                        menuItem.subMenu ? (
+                        menuItem.name.toLowerCase() === "services" ? (
                             <li key={menuItem.id} className="relative py-4">
                                 <div
                                     className={`flex items-center justify-between hover:text-lightGreen ${
@@ -49,13 +57,51 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
                                             ? "text-lightGreen"
                                             : ""
                                     }`}
-                                    onClick={handleServicesMenuClick}
+                                    onClick={() => handleMenuClick(menuItem)}
                                 >
-                                    <span className="">Services</span>
+                                    <span className="">{menuItem.name}</span>
                                     <IoMdArrowDropright className="text-xl" />
                                 </div>
 
                                 {isServicesOpen && (
+                                    <ul
+                                        className={`pl-4 bg-darkBlue divide-y divide-[#FFFFFF29]`}
+                                    >
+                                        {menuItem.subMenu?.map((menu) => (
+                                            <li
+                                                key={menu.id}
+                                                className={`py-4 ${
+                                                    pathname === menu.to
+                                                        ? "text-lightGreen"
+                                                        : ""
+                                                }`}
+                                            >
+                                                <NavLink
+                                                    to={menu.to}
+                                                    className={``}
+                                                >
+                                                    {menu.name}
+                                                </NavLink>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </li>
+                        ) : menuItem.name.toLowerCase() === "programs" ? (
+                            <li key={menuItem.id} className="relative py-4">
+                                <div
+                                    className={`flex items-center justify-between hover:text-lightGreen ${
+                                        isProgramsActive
+                                            ? "text-lightGreen"
+                                            : ""
+                                    }`}
+                                    onClick={() => handleMenuClick(menuItem)}
+                                >
+                                    <span className="">{menuItem.name}</span>
+                                    <IoMdArrowDropright className="text-xl" />
+                                </div>
+
+                                {isProgramsOpen && (
                                     <ul
                                         className={`pl-4 bg-darkBlue divide-y divide-[#FFFFFF29]`}
                                     >

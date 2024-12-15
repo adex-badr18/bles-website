@@ -20,27 +20,79 @@ export const navMenu = [
         name: "Services",
         to: "/services",
         subMenu: [
-            { id: 1, name: "Outpatient Program", to: "/services/outpatient" },
+            { id: 1, name: "Anxiety Disorder", to: "/services/outpatient" },
+            {
+                id: 2,
+                name: "Substance Use Disorder",
+                to: "/services/substance-use",
+            },
+            {
+                id: 3,
+                name: "ADHD",
+                to: "/services/adhd",
+            },
+            {
+                id: 4,
+                name: "Depression",
+                to: "/services/depression",
+            },
+            {
+                id: 5,
+                name: "Schizophrenia Disorder",
+                to: "/services/schizophrenia",
+            },
+            {
+                id: 6,
+                name: "PTSD",
+                to: "/services/ptsd",
+            },
+            {
+                id: 7,
+                name: "Bipolar",
+                to: "/services/depression",
+            },
+            {
+                id: 8,
+                name: "Family Psychoeducation",
+                to: "/services/psychoeducation",
+            },
+            {
+                id: 9,
+                name: "Medication Management",
+                to: "/services/medication-mgt",
+            },
+            {
+                id: 10,
+                name: "More Services...",
+                to: "/services",
+            },
+        ],
+    },
+    {
+        id: 4,
+        name: "Programs",
+        to: "/programs",
+        subMenu: [
+            { id: 1, name: "Outpatient Program", to: "/programs/outpatient" },
             {
                 id: 2,
                 name: "Intensive Outpatient Program (IOP)",
-                to: "/services/iop",
+                to: "/programs/iop",
             },
             {
                 id: 3,
                 name: "Partial Hospitalization Program (PHP)",
-                to: "/services/php",
+                to: "/programs/php",
             },
             {
                 id: 4,
                 name: "Residential Program",
-                to: "/services/residential",
+                to: "/programs/residential",
             },
-            // { id: 5, name: "", to: "" },
         ],
     },
-    { id: 4, name: "Specialists", to: "/specialists" },
-    { id: 5, name: "Forms", to: "/forms" },
-    { id: 6, name: "FAQ", to: "/faq" },
-    { id: 7, name: "Contact", to: "/contact" },
+    { id: 5, name: "Specialists", to: "/specialists" },
+    { id: 6, name: "Forms", to: "/forms" },
+    { id: 7, name: "FAQ", to: "/faq" },
+    { id: 8, name: "Contact", to: "/contact" },
 ];
