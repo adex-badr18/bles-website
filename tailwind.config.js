@@ -17,7 +17,7 @@ export default {
             fontFamily: {
                 poppins: ["Poppins", "sans-serif"],
                 rubik: ["Rubik", "sans-serif"],
-                agu: ["Agu Display", "serif"]
+                agu: ["Agu Display", "serif"],
             },
             fontSize: {
                 default: "15px",
@@ -45,6 +45,15 @@ export default {
                 blg: "1000px",
                 bxl: "1200px",
                 b2xl: "1400px",
+            },
+            keyframes: {
+                "fade-up": {
+                    "0%": { opacity: 0, transform: "translateY(70px)" },
+                    "100%": { opacity: 1, transform: "translateY(0)" },
+                },
+            },
+            animation: {
+                "fade-up": "fade-up 1s ease-out",
             },
         },
     },
