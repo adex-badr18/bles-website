@@ -1,10 +1,13 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
+
+// import AOS from "aos";
+// import "aos/dist/aos.css";
 
 import {
     MdOutlineMedicalServices,
@@ -43,8 +46,21 @@ const slidesData = [
 ];
 
 const Hero = () => {
+    const [activeIndex, setActiveIndex] = useState(0);
     const prevButton = useRef();
     const nextButton = useRef();
+
+    // useEffect(() => {
+    //     AOS.init({
+    //         duration: 800,
+    //         easing: "ease-in-out-cubic",
+    //         once: false,
+    //     });
+    // }, []);
+
+    // const onSlideChange = () => {
+    //     AOS.refresh();
+    // };
 
     return (
         <section className="md:h-screen w-full">
@@ -60,9 +76,10 @@ const Hero = () => {
                     swiper.navigation.init();
                     swiper.navigation.update();
                 }}
+                onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
                 className="relative h-full group"
             >
-                {slidesData.map((slide) => (
+                {slidesData.map((slide, index) => (
                     <SwiperSlide key={slide.id}>
                         <HeroSlide
                             bgImage={slide.bgImage}
@@ -73,6 +90,7 @@ const Hero = () => {
                             ctaText={slide.ctaText}
                             ctaLink={slide.ctaLink}
                             ctaIcon={slide.ctaIcon}
+                            isActiveSlide={activeIndex === index}
                         />
                     </SwiperSlide>
                 ))}
