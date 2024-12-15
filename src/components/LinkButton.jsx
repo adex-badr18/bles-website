@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const LinkButton = ({ name, to, icon, bgColor, classAttrs }) => {
+const LinkButton = ({ name, to, icon, bgColor, classAttrs, ...rest }) => {
     return (
         <Link
             to={to}
@@ -9,6 +9,7 @@ const LinkButton = ({ name, to, icon, bgColor, classAttrs }) => {
             } hover:${
                 bgColor === "red" ? "bg-lightGreen" : "bg-vividRed"
             } ${classAttrs}`}
+            {...rest}
         >
             <span className="">{name}</span>
             <i className="pl-2">{icon}</i>
