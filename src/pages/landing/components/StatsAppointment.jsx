@@ -3,6 +3,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import SectionHeader from "../../../components/SectionHeader";
 
+import CountUp from "react-countup";
+import { useInView } from "react-intersection-observer";
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -80,7 +83,16 @@ const StatsAppointment = () => {
                                 >
                                     {stat.icon}
                                     <div className="space-y-3">
-                                        <p className="text-[35px] md:text-[45px] leading-[35px] lg:text-[55px] font-medium text-white font-poppins">{`${stat.val}+`}</p>
+                                        <p className="text-[35px] md:text-[45px] leading-[35px] lg:text-[55px] font-medium text-white font-poppins">
+                                            <CountUp
+                                                start={0}
+                                                end={stat.val}
+                                                duration={4}
+                                                separator=","
+                                            />
+                                            <span className="">+</span>                                            
+                                        </p>
+                                        {/* <p className="text-[35px] md:text-[45px] leading-[35px] lg:text-[55px] font-medium text-white font-poppins">{`${stat.val}+`}</p> */}
                                         <p className="text-[20px] leading-[28px] text-[#FFFFFFA6] font-rubik">
                                             {stat.title}
                                         </p>
