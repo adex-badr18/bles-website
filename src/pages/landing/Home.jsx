@@ -12,6 +12,7 @@ import Experts from "./components/Experts";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
+import ScrollToTop from "./components/ScrollToTop";
 
 const Home = () => {
     useEffect(() => {
@@ -32,6 +33,8 @@ const Home = () => {
             <Testimonials />
             <GetInTouch />
             {/* <Blog /> */}
+
+            <ScrollToTop />
         </section>
     );
 };
