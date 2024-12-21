@@ -20,49 +20,34 @@ export const navMenu = [
         name: "Services",
         to: "/services",
         subMenu: [
-            { id: 1, name: "Anxiety Disorder", to: "/services/outpatient" },
+            { id: 1, name: "Anxiety Disorder", to: "/services/6" },
             {
                 id: 2,
                 name: "Substance Use Disorder",
-                to: "/services/substance-use",
+                to: "/services/1",
             },
             {
                 id: 3,
                 name: "ADHD",
-                to: "/services/adhd",
+                to: "/services/8",
             },
             {
                 id: 4,
                 name: "Depression",
-                to: "/services/depression",
+                to: "/services/3",
             },
             {
                 id: 5,
-                name: "Schizophrenia Disorder",
-                to: "/services/schizophrenia",
+                name: "PTSD",
+                to: "/services/12",
             },
             {
                 id: 6,
-                name: "PTSD",
-                to: "/services/ptsd",
+                name: "Bipolar",
+                to: "/services/2",
             },
             {
                 id: 7,
-                name: "Bipolar",
-                to: "/services/depression",
-            },
-            {
-                id: 8,
-                name: "Family Psychoeducation",
-                to: "/services/psychoeducation",
-            },
-            {
-                id: 9,
-                name: "Medication Management",
-                to: "/services/medication-mgt",
-            },
-            {
-                id: 10,
                 name: "More Services...",
                 to: "/services",
             },
