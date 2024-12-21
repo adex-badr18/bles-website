@@ -31,13 +31,8 @@ export default {
             backgroundImage: {
                 "service-center-image":
                     "url('/src/assets/service-center-image.webp')",
-                "psychotic-service-image":
-                    "url('/src/assets/behavioral-disorder.jpg')",
-                "depression-service-image": "url('/src/assets/depression.jpg')",
-                "anxiety-service-image": "url('/src/assets/anxiety.jpg')",
-                "more-services-image":
-                    "url('/src/assets/behavioral-disorder2.jpg')",
                 "get-in-touch-bg": "url('/src/assets/section-bg2.jpg')",
+                "breadcrumb-bg": "url('/src/assets/banner.webp')",
             },
             screens: {
                 bsm: "400px",

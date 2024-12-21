@@ -42,7 +42,8 @@ export const servicesData = [
         descr1: "Substance Use Disorder is a complex condition that affects not only the individual but also their loved ones. It often begins with occasional use, which can develop into dependency, impacting relationships, careers, and overall health. We understand how overwhelming this journey can feel, but recovery is possible with the right support and care.",
         descr2: "we understand the journey to recovery can be daunting. That’s why we provide personalized care, offering proven treatments and unwavering support to help you regain control and rediscover joy in life. Recovery isn’t just possible—it’s within your reach.",
         summary: "Difficulty controlling substance use despite harm.",
-        advertText: "Break free from addiction and embrace a healthier tomorrow.",
+        advertText:
+            "Break free from addiction and embrace a healthier tomorrow.",
         symptoms: [
             "Cravings for substances",
             "Loss of self-control",
@@ -63,7 +64,8 @@ export const servicesData = [
         descr1: "Bipolar Disorder is a mental health condition characterized by extreme mood swings, ranging from emotional highs (mania or hypomania) to intense lows (depression). These shifts can disrupt daily life, relationships, and productivity, making it difficult to maintain a sense of stability. It’s not a sign of weakness but a condition that requires expert care and understanding.",
         descr2: "we focus on helping individuals find balance and resilience. With the right treatment plan and compassionate support, managing bipolar disorder is possible, allowing individuals to live fulfilling and stable lives.",
         summary: "Mood swings between depression and mania.",
-        advertText: "Find stability and hope through personalized treatment plans.",
+        advertText:
+            "Find stability and hope through personalized treatment plans.",
         symptoms: [
             "Extreme mood swings",
             "Periods of high energy",
@@ -144,7 +146,8 @@ export const servicesData = [
         descr1: "Anxiety Disorder is more than just occasional worry or stress—it’s a persistent feeling of fear and unease that can interfere with daily life. It often manifests as physical symptoms like a racing heart, restlessness, or difficulty sleeping, making it hard to focus or feel at ease.",
         descr2: "we offer compassionate and effective treatments to help you regain control over anxiety. Through personalized care and proven techniques, we guide you toward a calmer and more fulfilling life.",
         summary: "Excessive worry and fear affecting daily life.",
-        advertText: "Overcome the weight of worry with our compassionate anxiety care.",
+        advertText:
+            "Overcome the weight of worry with our compassionate anxiety care.",
         symptoms: [
             "Persistent worry",
             "Restlessness",
@@ -180,7 +183,7 @@ export const servicesData = [
     },
     {
         id: 8,
-        name: "Attention-Deficit/Hyperactivity Disorder",
+        name: "Attention-Deficit / Hyperactivity Disorder",
         shortName: "ADHD",
         descr1: "ADHD is a condition that impacts attention, impulsivity, and activity levels, often making everyday tasks feel overwhelming. It’s not just a childhood condition—it affects adults too, challenging productivity and relationships.",
         descr2: "we understand the frustrations ADHD can bring, and we are here to help. With evidence-based treatments and ongoing support, we can guide you toward better focus, organization, and balance in life.",
@@ -359,5 +362,34 @@ export const servicesData = [
             "Our specialists use psychotherapy to explore underlying causes and guide individuals toward healthier patterns of thinking and behavior.",
         icon: <PersonalityIcon className="text-vividRed w-12 md:w-16" />,
         image: personalityImg,
+    },
+];
+
+export const servicesFastLinks = [
+    { id: 1, name: "Anxiety Disorder", to: "/services/6" },
+    {
+        id: 2,
+        name: "Substance Use Disorder",
+        to: "/services/1",
+    },
+    {
+        id: 3,
+        name: "ADHD",
+        to: "/services/8",
+    },
+    {
+        id: 4,
+        name: "Depression",
+        to: "/services/3",
+    },
+    {
+        id: 5,
+        name: "PTSD",
+        to: "/services/12",
+    },
+    {
+        id: 6,
+        name: "Bipolar",
+        to: "/services/2",
     },
 ];
