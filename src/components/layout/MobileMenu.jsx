@@ -79,6 +79,7 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
                                                 <NavLink
                                                     to={menu.to}
                                                     className={``}
+                                                    onClick={closeMenu}
                                                 >
                                                     {menu.name}
                                                 </NavLink>
@@ -117,6 +118,7 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
                                                 <NavLink
                                                     to={menu.to}
                                                     className={``}
+                                                    onClick={closeMenu}
                                                 >
                                                     {menu.name}
                                                 </NavLink>
@@ -130,6 +132,7 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
                                 <NavLink
                                     to={menuItem.to}
                                     className={`hover:text-lightGreen`}
+                                    onClick={closeMenu}
                                 >
                                     {menuItem.name}
                                 </NavLink>
