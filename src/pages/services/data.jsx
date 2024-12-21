@@ -17,6 +17,23 @@ import {
     ObsessiveCompulsiveIcon,
 } from "./components/icons";
 
+import substanceImg from "../../assets/substance-use.webp";
+import bipolarImg from "../../assets/bipolar.webp";
+import anxietyImg from "../../assets/anxiety.jpg";
+import depressionImg from "../../assets/depression.jpg";
+import schizoImg from "../../assets/schizo.jpg";
+import delusionImg from "../../assets/delusion.webp";
+import autismImg from "../../assets/autism.jpg";
+import adhdImg from "../../assets/adhd.jpg";
+import uschizoImg from "../../assets/uschizo.jpg";
+import personalityImg from "../../assets/personality.webp";
+import bpdImg from "../../assets/bpd.jpg";
+import ptsdImg from "../../assets/ptsd.jpg";
+import adjustmentImg from "../../assets/adjustment.jpg";
+import coOccurImg from "../../assets/co-occur.png";
+import majorDepressionImg from "../../assets/major-depression.jpg";
+import ocdImg from "../../assets/ocd.jpg";
+
 export const servicesData = [
     {
         id: 1,
@@ -36,7 +53,7 @@ export const servicesData = [
         diagnosis:
             "Our team of specialists provides comprehensive assessments to understand your unique challenges. Through evidence-based therapies, medical care, and supportive guidance, we create a customized path to recovery, equipping you with the tools to sustain a substance-free life.",
         icon: <SubstanceUseIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: substanceImg,
     },
     {
         id: 2,
@@ -56,7 +73,7 @@ export const servicesData = [
         diagnosis:
             "Our specialists provide a comprehensive evaluation to identify patterns and triggers, followed by a tailored treatment plan involving therapy, medication, and support systems to achieve emotional balance and long-term stability.",
         icon: <BipolarIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: bipolarImg,
     },
     {
         id: 3,
@@ -76,7 +93,7 @@ export const servicesData = [
         diagnosis:
             "Our experts provide a thorough diagnosis and use advanced therapies, including medication adjustments and innovative techniques, to treat both common and treatment-resistant depression. We’re dedicated to finding what works for you.",
         icon: <DepressionIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: depressionImg,
     },
     {
         id: 4,
@@ -96,7 +113,7 @@ export const servicesData = [
         diagnosis:
             "Through expert evaluations, tailored therapies, and medication management, our specialists provide comprehensive care to manage symptoms and support long-term recovery.",
         icon: <SchizophreniaIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: schizoImg,
     },
     {
         id: 5,
@@ -116,7 +133,7 @@ export const servicesData = [
         diagnosis:
             "Our specialists use targeted therapy and medication to help individuals reframe beliefs and regain emotional well-being. Compassionate care is at the heart of our approach.",
         icon: <DelusionalIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: delusionImg,
     },
     {
         id: 6,
@@ -136,7 +153,7 @@ export const servicesData = [
         diagnosis:
             "Our specialists use a combination of therapy, relaxation techniques, and, when necessary, medication to help you overcome anxiety and regain confidence in your daily life.",
         icon: <AnxietyIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: anxietyImg,
     },
     {
         id: 7,
@@ -156,7 +173,7 @@ export const servicesData = [
         diagnosis:
             "Our experts offer comprehensive assessments and therapies, focusing on improving communication, social skills, and coping mechanisms, while celebrating each individual’s strengths.",
         icon: <AutismIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: autismImg,
     },
     {
         id: 8,
@@ -164,8 +181,7 @@ export const servicesData = [
         shortName: "ADHD",
         descr1: "ADHD is a condition that impacts attention, impulsivity, and activity levels, often making everyday tasks feel overwhelming. It’s not just a childhood condition—it affects adults too, challenging productivity and relationships.",
         descr2: "we understand the frustrations ADHD can bring, and we are here to help. With evidence-based treatments and ongoing support, we can guide you toward better focus, organization, and balance in life.",
-        summary:
-            "Inattention and hyperactivity affecting daily tasks.",
+        summary: "Inattention and hyperactivity affecting daily tasks.",
         symptoms: [
             "Difficulty focusing",
             "Impulsivity",
@@ -177,7 +193,7 @@ export const servicesData = [
         diagnosis:
             "Our specialists provide accurate diagnoses and personalized strategies, combining therapy, skill-building, and medication management to empower individuals with ADHD.",
         icon: <AdhdIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: adhdImg,
     },
     {
         id: 9,
@@ -197,7 +213,7 @@ export const servicesData = [
         diagnosis:
             "Our specialists provide a thorough evaluation and use evidence-based therapies to address symptoms, improve functioning, and foster emotional well-being.",
         icon: <USchizophreniaIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: uschizoImg,
     },
     {
         id: 10,
@@ -217,7 +233,7 @@ export const servicesData = [
         diagnosis:
             "Our team uses therapies like Dialectical Behavior Therapy (DBT) and personalized strategies to help individuals develop emotional regulation and healthy relationship skills.",
         icon: <BorderlineIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: bpdImg,
     },
     {
         id: 16,
@@ -225,8 +241,7 @@ export const servicesData = [
         shortName: "OCD",
         descr1: "Obsessive-Compulsive Disorder (OCD) involves persistent, unwanted thoughts (obsessions) and repetitive behaviors (compulsions) that individuals feel compelled to perform to reduce anxiety or prevent harm. These actions can be time-consuming and interfere with daily life, making it challenging to manage relationships, work, and other activities. Individuals with OCD often experience significant distress, believing their compulsions are necessary to avoid negative outcomes, even though they may know their actions are excessive.",
         descr2: "we understand how OCD can affect your well-being. Our dedicated team offers compassionate, personalized treatment plans that address both the obsessive thoughts and compulsive behaviors. With the right support, we can help you regain control of your life and work toward lasting recovery.",
-        summary:
-            "Unwanted thoughts and repetitive behaviors.",
+        summary: "Unwanted thoughts and repetitive behaviors.",
         symptoms: [
             "Intrusive unwanted thoughts",
             "Repetitive compulsive behaviors",
@@ -236,11 +251,11 @@ export const servicesData = [
             "Difficulty concentrating",
         ],
         diagnosis:
-        "Our specialists offer personalized care, using cognitive-behavioral therapy (CBT) with Exposure and Response Prevention (ERP) to help you manage obsessive thoughts and compulsive actions. We also explore medication options to help reduce anxiety and support your healing process. Let us help you regain control and lead a fulfilling life.",
+            "Our specialists offer personalized care, using cognitive-behavioral therapy (CBT) with Exposure and Response Prevention (ERP) to help you manage obsessive thoughts and compulsive actions. We also explore medication options to help reduce anxiety and support your healing process. Let us help you regain control and lead a fulfilling life.",
         icon: (
             <ObsessiveCompulsiveIcon className="text-vividRed w-12 md:w-16" />
         ),
-        image: "",
+        image: ocdImg,
     },
     {
         id: 12,
@@ -258,9 +273,9 @@ export const servicesData = [
             "Hypervigilance",
         ],
         diagnosis:
-        "Our experts use evidence-based therapies, such as trauma-focused CBT and EMDR, to help individuals process traumatic experiences and rebuild a sense of safety.",
+            "Our experts use evidence-based therapies, such as trauma-focused CBT and EMDR, to help individuals process traumatic experiences and rebuild a sense of safety.",
         icon: <PtsdIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: ptsdImg,
     },
     {
         id: 13,
@@ -280,7 +295,7 @@ export const servicesData = [
         diagnosis:
             "Our specialists offer therapy focused on building resilience and coping strategies, helping individuals navigate life’s changes with confidence.",
         icon: <AdjustmentIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: adjustmentImg,
     },
     {
         id: 14,
@@ -299,8 +314,8 @@ export const servicesData = [
         ],
         diagnosis:
             "Our specialists use an integrated treatment model combining therapy, medical care, and support groups to address both mental health and substance use challenges.",
-            icon: <CoOccurringIcon className="text-vividRed w-12 md:w-16" />,
-            image: "",
+        icon: <CoOccurringIcon className="text-vividRed w-12 md:w-16" />,
+        image: coOccurImg,
     },
     {
         id: 15,
@@ -320,7 +335,7 @@ export const servicesData = [
         diagnosis:
             "Our team provides evidence-based therapies and medication management to address depression, focusing on restoring emotional balance and improving quality of life.",
         icon: <MajorDepressiveIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: majorDepressionImg,
     },
     {
         id: 11,
@@ -340,6 +355,6 @@ export const servicesData = [
         diagnosis:
             "Our specialists use psychotherapy to explore underlying causes and guide individuals toward healthier patterns of thinking and behavior.",
         icon: <PersonalityIcon className="text-vividRed w-12 md:w-16" />,
-        image: "",
+        image: personalityImg,
     },
 ];
