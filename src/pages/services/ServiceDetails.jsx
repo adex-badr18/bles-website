@@ -52,7 +52,7 @@ const ServiceDetails = () => {
 
     return (
         <section className="">
-            <Breadcrumb obj={serviceInfo} />
+            <Breadcrumb obj={serviceInfo} page="services" />
 
             <div className="wrapper py-5 md:py-20">
                 <div className="flex flex-col md:flex-row px-5 gap-10 w-full max-w-[1024px] mx-auto">
@@ -72,20 +72,25 @@ const ServiceDetails = () => {
                                 />
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                {serviceInfo.symptoms.map((symptom) => (
-                                    <div className="flex items-center gap-3">
-                                        <MdCheckCircleOutline className="text-vividRed text-xl" />
-                                        <span className="text-darkBlue font-medium font-rubik leading-[28px]">
-                                            {symptom}
-                                        </span>
-                                    </div>
-                                ))}
+                            <div className="space-y-3">
+                                <h3 className="text-xl md:text-2xl font-bold font-poppins text-darkBlue">
+                                    Symptoms
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    {serviceInfo.symptoms.map((symptom) => (
+                                        <div className="flex items-center gap-3">
+                                            <MdCheckCircleOutline className="text-vividRed text-xl" />
+                                            <span className="text-darkBlue font-medium font-rubik leading-[28px]">
+                                                {symptom}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
 
                             <div className="space-y-3">
-                                <h3 className="text-xl md:text-3xl font-bold font-poppins text-darkBlue">
-                                    Approach and Benefit
+                                <h3 className="text-xl md:text-2xl font-bold font-poppins text-darkBlue">
+                                    Approach and Benefits
                                 </h3>
                                 <p className="text-grey font-rubik leading-[28px]">
                                     At{" "}
