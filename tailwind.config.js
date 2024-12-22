@@ -32,7 +32,8 @@ export default {
                 "service-center-image":
                     "url('/src/assets/service-center-image.webp')",
                 "get-in-touch-bg": "url('/src/assets/section-bg2.jpg')",
-                "breadcrumb-bg": "url('/src/assets/banner.webp')",
+                "services-breadcrumb-bg": "url('/src/assets/banner.webp')",
+                "programs-breadcrumb-bg": "url('/src/assets/banner.webp')",
             },
             screens: {
                 bsm: "400px",

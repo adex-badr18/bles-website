@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 
-const Breadcrumb = ({ obj }) => {
+const Breadcrumb = ({ obj, page }) => {
     const { pathname } = useLocation();
 
     const breadcrumbList = pathname.split("/").map((path, index) => {
@@ -20,8 +20,18 @@ const Breadcrumb = ({ obj }) => {
     });
 
     return (
-        <div className="flex flex-col items-center justify-center gap-[10px] px-3 font-poppins h-[350px] bg-breadcrumb-bg bg-no-repeat bg-cover bg-center">
-            <h1 className="text-white text-center text-[40px] font-bold">{obj.name}</h1>
+        <div
+            className={`flex flex-col items-center justify-center gap-[10px] px-3 font-poppins h-[350px] ${
+                page.toLowerCase() === "services"
+                    ? "bg-services-breadcrumb-bg"
+                    : page.toLowerCase() === "programs"
+                    ? "bg-get-in-touch-bg"
+                    : "bg-deepBlue"
+            } bg-no-repeat bg-cover bg-center`}
+        >
+            <h1 className="text-white text-center text-[40px] font-bold">
+                {obj.name}
+            </h1>
 
             <div className="flex items-center justify-center flex-wrap gap-3 divide-x-2 divide-white">
                 {breadcrumbList.map((item) => {
