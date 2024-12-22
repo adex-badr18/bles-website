@@ -9,7 +9,7 @@ export default {
                 borderColor: "#24333E",
                 vividRed: "#E12454",
                 lightGreen: "#8FB569",
-                lightGrey: "#F0F1F2",
+                lightGray: "#F0F1F2",
                 deepGrey: "#2b3944",
                 lightGrey: "#959ca2",
                 grey: "#647589",

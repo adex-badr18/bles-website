@@ -29,8 +29,8 @@ const Programs = () => {
                                 <MdOutlineHealthAndSafety className="text-vividRed text-5xl md:text-7xl" />
                             }
                             title="Outpatient Health"
-                            descr="Professional mental health or substance use treatment."
-                            link="/services/outpatient"
+                            descr="Flexible, expert care that fits smoothly into your daily routine."
+                            link="/programs/1"
                             data-aos="fade-down-right"
                             data-aos-delay=""
                         />
@@ -39,8 +39,8 @@ const Programs = () => {
                                 <PiHeartbeat className="text-vividRed text-5xl md:text-7xl" />
                             }
                             title="Intensive Outpatient"
-                            descr="More severe challenges with mental health or addiction."
-                            link="/services/iop"
+                            descr="Structured support designed to help you recover while managing everyday life."
+                            link="/programs/2"
                             data-aos="fade-down-left"
                             data-aos-delay=""
                         />
@@ -52,8 +52,8 @@ const Programs = () => {
                                 <MdOutlineScheduleSend className="text-vividRed text-5xl md:text-7xl" />
                             }
                             title="Partial Hospitalization"
-                            descr="Treatment for individuals who need extensive care."
-                            link="/services/php"
+                            descr="Comprehensive, day-long care for meaningful and lasting progress."
+                            link="/programs/3"
                             data-aos="fade-up-right"
                             data-aos-delay=""
                         />
@@ -62,8 +62,8 @@ const Programs = () => {
                                 <MdOutlineBedroomParent className="text-vividRed text-5xl md:text-7xl" />
                             }
                             title="Residential Program"
-                            descr="Structured environment for patients needing intensive care."
-                            link="/services/neuro"
+                            descr="Round-the-clock care in a safe and supportive environment for total healing."
+                            link="/programs/4"
                             data-aos="fade-up-left"
                             data-aos-delay=""
                         />

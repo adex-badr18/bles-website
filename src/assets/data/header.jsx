@@ -6,9 +6,21 @@ import {
 } from "react-icons/fa";
 
 export const headerSocialData = [
-    { id: 1, icon: <FaFacebookF />, to: "https://web.facebook.com/profile.php?id=61551444698635" },
-    { id: 2, icon: <FaTwitter />, to: "https://twitter.com/BLESOMHC?t=ORTbOzVi3ydX0LTxBUZG1A&s=08" },
-    { id: 3, icon: <FaLinkedinIn />, to: "https://www.linkedin.com/in/brightlife-enhancement-services-155b0a2a8/" },
+    {
+        id: 1,
+        icon: <FaFacebookF />,
+        to: "https://web.facebook.com/profile.php?id=61551444698635",
+    },
+    {
+        id: 2,
+        icon: <FaTwitter />,
+        to: "https://twitter.com/BLESOMHC?t=ORTbOzVi3ydX0LTxBUZG1A&s=08",
+    },
+    {
+        id: 3,
+        icon: <FaLinkedinIn />,
+        to: "https://www.linkedin.com/in/brightlife-enhancement-services-155b0a2a8/",
+    },
     { id: 4, icon: <FaInstagram />, to: "https://www.instagram.com/blesomhc/" },
 ];
 
@@ -58,21 +70,21 @@ export const navMenu = [
         name: "Programs",
         to: "/programs",
         subMenu: [
-            { id: 1, name: "Outpatient Program", to: "/programs/outpatient" },
+            { id: 1, name: "Outpatient Program", to: "/programs/1" },
             {
                 id: 2,
                 name: "Intensive Outpatient Program (IOP)",
-                to: "/programs/iop",
+                to: "/programs/2",
             },
             {
                 id: 3,
                 name: "Partial Hospitalization Program (PHP)",
-                to: "/programs/php",
+                to: "/programs/3",
             },
             {
                 id: 4,
                 name: "Residential Program",
-                to: "/programs/residential",
+                to: "/programs/4",
             },
         ],
     },
