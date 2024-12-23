@@ -1,8 +1,9 @@
 import { Link, NavLink, useLoaderData, useLocation } from "react-router-dom";
 import { servicesData } from "./data";
 import { servicesFastLinks } from "./data";
-import LinkButton from "../../components/LinkButton";
 
+import LinkButton from "../../components/LinkButton";
+import StickySideNav from "../../components/StickySideNav";
 import Breadcrumb from "../../components/Breadcrumb";
 
 import {
@@ -114,37 +115,10 @@ const ServiceDetails = () => {
                         </div>
                     </div>
 
-                    <div className="w-full max-w-[360px]">
-                        <div className="px-5 py-3 md:px-10 bg-vividRed rounded-t-md">
-                            <h3 className="text-white text-lg md:text-2xl font-bold">
-                                Other Services
-                            </h3>
-                        </div>
-
-                        <div className="flex flex-col gap-4 px-4 md:px-8 py-5 md:py-10 bg-[#F4F9FC]">
-                            {servicesFastLinks.map((service) => (
-                                <NavLink
-                                    key={service.id}
-                                    to={service.to}
-                                    className={({ isActive }) =>
-                                        [
-                                            isActive
-                                                ? "bg-vividRed text-white"
-                                                : "bg-white text-deepBlue",
-                                            "border border-[#dddddd8f] rounded-md p-4 font-rubik hover:bg-vividRed hover:text-white transition duration-300",
-                                        ].join(" ")
-                                    }
-                                >
-                                    <div className="flex gap-2 items-center">
-                                        <BiChevronsRight className="" />
-                                        <span className="font-medium">
-                                            {service.name}
-                                        </span>
-                                    </div>
-                                </NavLink>
-                            ))}
-                        </div>
-                    </div>
+                    <StickySideNav
+                        data={servicesFastLinks}
+                        widgetTitle="Services"
+                    />
                 </div>
             </div>
         </section>

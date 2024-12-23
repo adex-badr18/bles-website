@@ -3,6 +3,7 @@ import { programsData } from "./data";
 
 import LinkButton from "../../components/LinkButton";
 import Breadcrumb from "../../components/Breadcrumb";
+import StickySideNav from "../../components/StickySideNav";
 import { CheckMarkIcon } from "./components/icons";
 
 import {
@@ -54,7 +55,7 @@ const ProgramDetails = () => {
         <section className="">
             <Breadcrumb obj={programInfo} page="programs" />
 
-            <div className="wrapper py-5 md:py-20">
+            <div className="relative wrapper py-5 md:py-20">
                 <div className="flex flex-col md:flex-row px-5 gap-10 w-full max-w-[1024px] mx-auto">
                     <div className="flex-1">
                         <div className="space-y-5">
@@ -150,39 +151,7 @@ const ProgramDetails = () => {
                         </div>
                     </div>
 
-                    <div className="w-full max-w-[360px]">
-                        <div className="px-5 py-3 md:px-10 bg-vividRed rounded-t-md">
-                            <h3 className="text-white text-lg md:text-2xl font-bold">
-                                Other Programs
-                            </h3>
-                        </div>
-
-                        <div className="flex flex-col gap-4 px-4 md:px-8 py-5 md:py-10 bg-[#F4F9FC]">
-                            {programsData.map((program) => (
-                                <NavLink
-                                    key={program.id}
-                                    to={`/programs/${program.id}`}
-                                    className={({ isActive }) =>
-                                        [
-                                            isActive
-                                                ? "bg-vividRed text-white"
-                                                : "bg-white text-deepBlue",
-                                            "border border-[#dddddd8f] rounded-md p-4 font-rubik hover:bg-vividRed hover:text-white transition duration-300",
-                                        ].join(" ")
-                                    }
-                                >
-                                    <div className="flex gap-2 items-center">
-                                        <BiChevronsRight className="" />
-                                        <span className="font-medium">
-                                            {program.name.length > 23
-                                                ? program.shortName
-                                                : program.name}
-                                        </span>
-                                    </div>
-                                </NavLink>
-                            ))}
-                        </div>
-                    </div>
+                    <StickySideNav data={programsData} widgetTitle="Programs" />
                 </div>
             </div>
         </section>

@@ -366,30 +366,25 @@ export const servicesData = [
 ];
 
 export const servicesFastLinks = [
-    { id: 1, name: "Anxiety Disorder", to: "/services/6" },
+    { id: 6, name: "Anxiety Disorder" },
     {
-        id: 2,
         name: "Substance Use Disorder",
-        to: "/services/1",
+        id: 1,
     },
     {
-        id: 3,
         name: "ADHD",
-        to: "/services/8",
+        id: 8,
     },
     {
-        id: 4,
         name: "Depression",
-        to: "/services/3",
+        id: 3,
     },
     {
-        id: 5,
         name: "PTSD",
-        to: "/services/12",
+        i: 12,
     },
     {
-        id: 6,
         name: "Bipolar",
-        to: "/services/2",
+        id: 2,
     },
 ];
