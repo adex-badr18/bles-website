@@ -51,7 +51,7 @@ const Testimonials = () => {
             <div className="container">
                 <SectionHeader
                     bgTitle="Feedback"
-                    primaryTitle="What Our Patients Say About Our Caring"
+                    primaryTitle="What Patients Say About Our Services"
                     secondaryTitle="Our Testimonials"
                     titleAlignment="center"
                 />
