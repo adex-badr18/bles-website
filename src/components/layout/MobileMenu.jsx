@@ -35,7 +35,7 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
         <div
             className={`bg-darkBlue fixed inset-0 z-50 ${
                 isOpen ? "translate-x-0" : "translate-x-full"
-            } transition-transform duration-300 ease-in-out overflow-y-auto overflow-x-hidden`}
+            } transition-transform duration-300 ease-in-out overflow-y-auto overflow-x-hidden w-screen`}
         >
             <div className="p-12 flex justify-between gap-5">
                 <Logo textColor="white" />
