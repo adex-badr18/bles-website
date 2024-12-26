@@ -15,6 +15,8 @@ import { GiLaurelCrown } from "react-icons/gi";
 import { LiaUsersSolid, LiaUserNurseSolid } from "react-icons/lia";
 import { RiSendPlaneLine } from "react-icons/ri";
 import { TbSend } from "react-icons/tb";
+import { MdOutlineScheduleSend } from "react-icons/md";
+import LinkButton from "../../../components/LinkButton";
 
 const statsData = [
     {
@@ -107,15 +109,41 @@ const StatsAppointment = () => {
                             ))}
                         </div>
 
-                        <div className="font-poppins bg-lightGreen text-white p-[30px] lg:px-[50px] w-full blg:w-[470px] relative">
+                        <div className="font-poppins bg-white text-deepGrey p-6 lg:px-[50px] w-full blg:w-[470px] relative">
                             <h2 className="text-3xl font-semibold mb-5">
-                                <span className="text-lg block">Make an</span>
+                                <span className="text-lg block text-vividRed">
+                                    Make an
+                                </span>
                                 <span className="">Appointment</span>
                             </h2>
                             <LiaUserNurseSolid className="absolute right-0 bottom-0 md:-right-14 md:-bottom-10 text-[200px] md:text-[300px] text-lightGrey opacity-20" />
 
-                            <form className="py-4 flex flex-col gap-6 md:gap-8 relative">
-                                <div className="">
+                            <div className="py-4 flex flex-col gap-6 md:gap-8 relative">
+                                <h3 className="text-xl md:text-2xl font-medium">
+                                    Schedule your appointment with{" "}
+                                    <span className="font-bol text-vividRed">
+                                        BrightLife Enhacement Services
+                                    </span>{" "}
+                                    today.
+                                </h3>
+                                <p className="md:text-lg font-medium text-justify">
+                                    "Every day is a new opportunity for change.
+                                    Together, we can build a{" "}
+                                    <span className="text-vividRed">
+                                        brighter
+                                    </span>{" "}
+                                    future filled with hope and resilience."
+                                </p>
+                                <LinkButton
+                                    name="Schedule Now"
+                                    to="/appointment"
+                                    icon={
+                                        <MdOutlineScheduleSend className="" />
+                                    }
+                                    classAttrs="justify-center"
+                                    bgColor="red"
+                                />
+                                {/* <div className="">
                                     <select
                                         name="service"
                                         id=""
@@ -218,8 +246,7 @@ const StatsAppointment = () => {
                                         placeholder="Compose message..."
                                         ></textarea>
                                     </div> */}
-
-                                <div className="pt-2">
+                                {/* <div className="pt-2">
                                     <button
                                         className={`ml-auto rounded-full bg-transparent hover:bg-white border-2 border-white px-[35px] py-2 flex items-center gap-2 divide-x-2 divide-white hover:divide-lightGreen text-white hover:text-lightGreen font-poppins font-semibold text-nowrap transition duration-500 hover:`}
                                     >
@@ -228,8 +255,8 @@ const StatsAppointment = () => {
                                         </span>
                                         <TbSend className="text-2xl pl-2" />
                                     </button>
-                                </div>
-                            </form>
+                                </div> */}
+                            </div>
                         </div>
                     </div>
                 </div>
