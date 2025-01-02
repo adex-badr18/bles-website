@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    font-family: "Poppins", serif;
+}
+
 .wrapper {
     @apply w-full max-w-[1320px] mx-auto;
 }
@@ -14,4 +18,12 @@
 
 .pagination-wrapper span.pagination-bullet-active {
     @apply bg-lightGreen shadow transform scale-150 transition-all mx-1 duration-300
+}
+
+.react-datepicker-wrapper {
+    @apply w-full
+}
+
+.input {
+    @apply w-full border border-[#DCDEE0] rounded-md text-darkBlue outline-none py-2 px-3
 }

@@ -29,16 +29,18 @@ const Breadcrumb = ({ obj, page }) => {
                     : "bg-deepBlue"
             } bg-no-repeat bg-cover bg-center`}
         >
-            <h1 className="text-white text-center text-[40px] font-bold">
+            <h1 data-aos="fade-up" className="text-white text-center text-[40px] font-bold">
                 {obj.name}
             </h1>
 
             <div className="flex items-center justify-center flex-wrap gap-3 divide-x-2 divide-white">
-                {breadcrumbList.map((item) => {
+                {breadcrumbList.map((item, index) => {
                     return (
                         <Link
                             key={item.id}
                             to={item.link}
+                            data-aos="fade-up"
+                            data-aos-delay={index * 300}
                             className={`pl-4 text-lg font-semibold ${
                                 item.link ? "text-white" : "text-lightGreen"
                             }`}

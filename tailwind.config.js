@@ -10,6 +10,7 @@ export default {
                 vividRed: "#E12454",
                 lightGreen: "#8FB569",
                 lightGray: "#F0F1F2",
+                lightBlue: "#f4f9fc",
                 deepGrey: "#2b3944",
                 lightGrey: "#959ca2",
                 grey: "#647589",

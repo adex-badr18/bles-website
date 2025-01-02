@@ -109,7 +109,7 @@ const StatsAppointment = () => {
                             ))}
                         </div>
 
-                        <div className="font-poppins bg-white text-deepGrey p-6 lg:px-[50px] w-full blg:w-[470px] relative">
+                        <div className="font-poppins bg-white text-deepGrey p-6 lg:px-[50px] blg:-mt-10 w-full blg:w-[470px] relative">
                             <h2 className="text-3xl font-semibold mb-5">
                                 <span className="text-lg block text-vividRed">
                                     Make an
@@ -127,135 +127,24 @@ const StatsAppointment = () => {
                                     today.
                                 </h3>
                                 <p className="md:text-lg font-medium text-justify">
-                                    "Every day is a new opportunity for change.
-                                    Together, we can build a{" "}
-                                    <span className="text-vividRed">
-                                        brighter
-                                    </span>{" "}
-                                    future filled with hope and resilience."
+                                    <em className="">
+                                        "Every day is a new opportunity for
+                                        change. Together, we can build a{" "}
+                                        <span className="text-vividRed">
+                                            brighter
+                                        </span>{" "}
+                                        future filled with hope and resilience."
+                                    </em>
                                 </p>
                                 <LinkButton
                                     name="Schedule Now"
                                     to="/appointment"
                                     icon={
-                                        <MdOutlineScheduleSend className="" />
+                                        <MdOutlineScheduleSend />
                                     }
-                                    classAttrs="justify-center"
+                                    classAttrs=""
                                     bgColor="red"
                                 />
-                                {/* <div className="">
-                                    <select
-                                        name="service"
-                                        id=""
-                                        className="text-lg bg-transparent border-b border-white outline-none w-full"
-                                    >
-                                        <option
-                                            value=""
-                                            className="text-darkBlue text-base"
-                                        >
-                                            Choose a Service
-                                        </option>
-                                        <option
-                                            value="anxiety"
-                                            className="text-darkBlue text-base"
-                                        >
-                                            Anxiety
-                                        </option>
-                                        <option
-                                            value="psychotic disorder"
-                                            className="text-darkBlue text-base"
-                                        >
-                                            Psychotic Disorder
-                                        </option>
-                                        <option
-                                            value="depression"
-                                            className="text-darkBlue text-base"
-                                        >
-                                            Depression
-                                        </option>
-                                        <option
-                                            value="other"
-                                            className="text-darkBlue text-base"
-                                        >
-                                            Other
-                                        </option>
-                                    </select>
-                                </div>
-
-                                <div className="">
-                                    <select
-                                        name="program"
-                                        id=""
-                                        className="text-lg bg-transparent border-b border-white outline-none w-full"
-                                    >
-                                        <option
-                                            value=""
-                                            className="text-darkBlue text-base"
-                                        >
-                                            Choose a Program
-                                        </option>
-                                        <option
-                                            value="Outpatient"
-                                            className="text-darkBlue text-base"
-                                        >
-                                            Outpatient
-                                        </option>
-                                        <option
-                                            value="Intensive Outpatient"
-                                            className="text-darkBlue text-base"
-                                        >
-                                            Intensive Outpatient
-                                        </option>
-                                        <option
-                                            value="Partial Hospitalization"
-                                            className="text-darkBlue text-base"
-                                        >
-                                            Partial Hospitalization
-                                        </option>
-                                        <option
-                                            value="Residential Program"
-                                            className="text-darkBlue text-base"
-                                        >
-                                            Residential Program
-                                        </option>
-                                    </select>
-                                </div>
-
-                                <div className="flex flex-col gap-1">
-                                    <label htmlFor="" className="md:text-lg">
-                                        Date and Time
-                                    </label>
-                                    <DatePicker
-                                        selected={selectedDate}
-                                        onChange={handleDateChange}
-                                        showTimeSelect
-                                        dateFormat={`MMMM d, yyyy h:mm aa`}
-                                        className="bg-transparent border px-2 py-1 rounded w-full md:text-lg"
-                                    />
-                                </div>
-
-                                {/* <div className="flex flex-col gap-1">
-                                    <label htmlFor="" className="md:text-lg">
-                                    Message
-                                    </label>
-                                    
-                                    <textarea
-                                        name="message"
-                                        id="message"
-                                        className="md:text-lg outline-none bg-transparent border border-white rounded px-3 py-2 placeholder:text-[#FFFFFFA6]"
-                                        placeholder="Compose message..."
-                                        ></textarea>
-                                    </div> */}
-                                {/* <div className="pt-2">
-                                    <button
-                                        className={`ml-auto rounded-full bg-transparent hover:bg-white border-2 border-white px-[35px] py-2 flex items-center gap-2 divide-x-2 divide-white hover:divide-lightGreen text-white hover:text-lightGreen font-poppins font-semibold text-nowrap transition duration-500 hover:`}
-                                    >
-                                        <span className="uppercase text-sm">
-                                            Submit Now
-                                        </span>
-                                        <TbSend className="text-2xl pl-2" />
-                                    </button>
-                                </div> */}
                             </div>
                         </div>
                     </div>

@@ -142,7 +142,7 @@ const ProgramDetails = () => {
                         <div className="justify-self-start mt-6">
                             <LinkButton
                                 name="Schedule an Appointment Now"
-                                to="/appointment"
+                                to="/contact#appointment"
                                 icon={
                                     <MdOutlineScheduleSend className="text-lg" />
                                 }

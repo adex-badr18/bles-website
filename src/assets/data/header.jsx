@@ -88,7 +88,7 @@ export const navMenu = [
             },
         ],
     },
-    { id: 5, name: "Specialists", to: "/specialists" },
+    // { id: 5, name: "Specialists", to: "/specialists" },
     { id: 6, name: "Forms", to: "/forms" },
     { id: 7, name: "FAQ", to: "/faq" },
     { id: 8, name: "Contact", to: "/contact" },
