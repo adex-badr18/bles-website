@@ -10,39 +10,55 @@ import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 
 import SectionHeader from "../../../components/SectionHeader";
 import ExpertCard from "./ExpertCard";
-import doc1 from "../../../assets/doc1.webp";
-import doc2 from "../../../assets/doc2.webp";
-import doc3 from "../../../assets/doc3.webp";
-import doc4 from "../../../assets/doc4.webp";
+import islammiyyah from "../../../assets/specialists/islammiyyah-al-ameen.jpeg";
+import jennifer from "../../../assets/specialists/jennifer-pierce.jpeg";
+import isoken from "../../../assets/specialists/isoken-e.png";
+import opanin from "../../../assets/specialists/placeholder-male.png";
+import irene from "../../../assets/specialists/female-placeholder.png";
+import bukola from "../../../assets/specialists/female-placeholder.png";
 
 const expertsData = [
     {
         id: 1,
-        image: doc1,
-        name: "John A. Smith",
+        image: islammiyyah,
+        name: "Islammiyyah Al-Ameen",
         link: "/experts/1",
-        specialization: "Medicine Specialist",
+        specialization: "Provider",
     },
     {
         id: 2,
-        image: doc2,
-        name: "Samantha Bradwell",
+        image: jennifer,
+        name: "Jennifer Pierce",
         link: "/experts/2",
-        specialization: "Psychologist",
+        specialization: "Lead Counselor",
     },
     {
         id: 3,
-        image: doc3,
-        name: "Michael Rodriguez",
+        image: isoken,
+        name: "Isoken E.",
         link: "/experts/3",
-        specialization: "Psychiatrist",
+        specialization: "PRP Coordinator",
     },
     {
         id: 4,
-        image: doc4,
-        name: "Jessica Taylor",
+        image: opanin,
+        name: "Opanin Ba Fosu",
         link: "/experts/4",
-        specialization: "Care Specialist",
+        specialization: "Medical Director",
+    },
+    {
+        id: 5,
+        image: irene,
+        name: "Irene Nabalamba",
+        link: "/experts/4",
+        specialization: "Lead Therapist",
+    },
+    {
+        id: 6,
+        image: bukola,
+        name: "Bukola Almaroof",
+        link: "/experts/4",
+        specialization: "Rehab Specialist",
     },
 ];
 
