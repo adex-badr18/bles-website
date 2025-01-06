@@ -1,10 +1,10 @@
-import medicare from "../../assets/medicare-logo.jpg";
-import medicaid from "../../assets/medicaid-logo.webp";
-import carefirst from "../../assets/carefirst.jpg";
-import optum from "../../assets/optum.png";
-import optum2 from "../../assets/optum2.png";
-import maryland from "../../assets/maryland.png";
-import amerigroup from "../../assets/amerigroup.webp";
+import medicare from "../../assets/insurance/medicare-logo.jpg";
+import medicaid from "../../assets/insurance/medicaid-logo.webp";
+import carefirst from "../../assets/insurance/carefirst.jpg";
+import optum from "../../assets/insurance/optum.png";
+import optum2 from "../../assets/insurance/optum2.png";
+import maryland from "../../assets/insurance/maryland.png";
+import amerigroup from "../../assets/insurance/amerigroup.webp";
 
 export const appointmentTypes = [
     { id: 1, text: "In-person", value: "in-person" },

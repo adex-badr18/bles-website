@@ -7,12 +7,14 @@ import GetInTouch from "./components/GetInTouch";
 import Blog from "./components/Blog";
 import StatsAppointment from "./components/StatsAppointment";
 import Experts from "./components/Experts";
+import AcceptedInsurance from "./components/AcceptedInsurance";
 
 const Home = () => {
     return (
         <section className="">
             <Hero />
             <About />
+            <AcceptedInsurance />
             <Services />
             <Programs />
             <Experts />
