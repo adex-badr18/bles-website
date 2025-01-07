@@ -11,30 +11,31 @@ import { RiPsychotherapyLine } from "react-icons/ri";
 import { MdOutlineHealthAndSafety } from "react-icons/md";
 import { PiStethoscope } from "react-icons/pi";
 
-
 const servicesData = [
     {
         id: 1,
-        text: "Medicine & Health care",
+        text: "Group/Individual Therapy",
         icon: (
-            <LiaCapsulesSolid className="text-vividRed text-6xl md:text-[80px]" />
+            <PiStethoscope className="text-vividRed text-6xl md:text-[80px]" />
         ),
     },
     {
         id: 2,
-        text: "Doctor & Nurse Service",
-        icon: <PiStethoscope className="text-vividRed text-6xl md:text-[80px]" />,
-    },
-    {
-        id: 3,
-        text: "Behavioral Care Service",
+        text: "Psychiatric Rehabilitation",
         icon: (
             <RiPsychotherapyLine className="text-vividRed text-6xl md:text-[80px]" />
         ),
     },
     {
+        id: 3,
+        text: "Medicine Management",
+        icon: (
+            <LiaCapsulesSolid className="text-vividRed text-6xl md:text-[80px]" />
+        ),
+    },
+    {
         id: 4,
-        text: "Health Care Facility",
+        text: "Case Management",
         icon: (
             <MdOutlineHealthAndSafety className="text-vividRed text-6xl md:text-[80px]" />
         ),
