@@ -26,7 +26,7 @@ export const headerSocialData = [
 
 export const navMenu = [
     { id: 1, name: "Home", to: "/" },
-    { id: 2, name: "About Us", to: "/about" },
+    { id: 2, name: "About", to: "/about" },
     {
         id: 3,
         name: "Services",
@@ -88,7 +88,7 @@ export const navMenu = [
             },
         ],
     },
-    // { id: 5, name: "Specialists", to: "/specialists" },
+    { id: 5, name: "Review", to: "/review" },
     { id: 6, name: "Forms", to: "/forms" },
     { id: 7, name: "FAQ", to: "/faq" },
     { id: 8, name: "Contact", to: "/contact" },

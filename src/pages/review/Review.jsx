@@ -35,7 +35,7 @@ const Review = () => {
                 <SectionHeader
                     bgTitle="Review"
                     primaryTitle="We Value your Feedback"
-                    secondaryTitle="Rate Our Service"
+                    secondaryTitle="Rate Your Experience"
                 />
             </div>
 
