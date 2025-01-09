@@ -9,7 +9,7 @@ body {
 }
 
 .wrapper {
-    @apply w-full max-w-[1320px] mx-auto;
+    @apply w-full max-w-[1320px] mx-auto px-5 2xl:px-0;
 }
 
 .pagination-wrapper span {
