@@ -7,6 +7,8 @@ import ProgramDetails, { programLoader } from "./pages/programs/ProgramDetails";
 import About from "./pages/landing/components/About";
 import Contact from "./pages/contact/Contact";
 import Appointment from "./pages/appointment/Appointment";
+import PatientForms from "./pages/patientForms/PatientForms";
+import Review from "./pages/review/Review";
 
 const router = createBrowserRouter([
     {
@@ -45,7 +47,15 @@ const router = createBrowserRouter([
                 element: <Appointment />,
                 // loader: programLoader,
             },
-            { path: "*", element: <div>Error!</div> },
+            {
+                path: "/forms",
+                element: <PatientForms />,
+            },
+            {
+                path: "/review",
+                element: <Review />,
+            },
+            { path: "*", element: <div>Coming Soon!</div> },
         ],
     },
 ]);
