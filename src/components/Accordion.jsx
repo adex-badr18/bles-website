@@ -19,7 +19,7 @@ const Accordion = ({ data, isGridLayout }) => {
             }`}
         >
             {data.map((datum) => (
-                <div className="w-full border">
+                <div key={datum.id} className="w-full border">
                     <h2 className="font-medium text-darkBlue text-lg border-b">
                         <button
                             onClick={() => toggleAccordionItem(datum.id)}

@@ -12,6 +12,10 @@ const Breadcrumb = ({ obj, page }) => {
             return { id: index + 1, name: obj.shortName, link: "" };
         }
 
+        if (path.includes("-")) {
+            return {id: index + 1, name: obj.title, link: ""}
+        }
+
         return {
             id: index + 1,
             name: `${path.slice(0, 1).toUpperCase()}${path.slice(1)}`,
