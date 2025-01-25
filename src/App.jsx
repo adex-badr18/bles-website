@@ -9,6 +9,9 @@ import Contact from "./pages/contact/Contact";
 import Appointment from "./pages/appointment/Appointment";
 import PatientForms from "./pages/patientForms/PatientForms";
 import Review from "./pages/review/Review";
+import PatientForm, {
+    patientFormLoader,
+} from "./pages/patientForms/PatientForm";
 
 const router = createBrowserRouter([
     {
@@ -50,6 +53,11 @@ const router = createBrowserRouter([
             {
                 path: "/forms",
                 element: <PatientForms />,
+            },
+            {
+                path: "/forms/:slug",
+                element: <PatientForm />,
+                loader: patientFormLoader,
             },
             {
                 path: "/review",

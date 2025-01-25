@@ -142,7 +142,7 @@ const Review = () => {
 
                             <div className="space-y-1">
                                 <label
-                                    htmlFor="review"
+                                    htmlFor="reviewMessage"
                                     className="text-deepGrey font-medium"
                                 >
                                     Review Message

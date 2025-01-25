@@ -1,10 +1,6 @@
 import SectionHeader from "../../components/SectionHeader";
 import Accordion from "../../components/Accordion";
-import {
-    dataCollectionAndSignatureForms,
-    dataCollectionForms,
-    signatureForms,
-} from "./data";
+import { signatureForms, dataCollectionForms } from "./data";
 
 const PatientForms = () => {
     return (
@@ -28,13 +24,10 @@ const PatientForms = () => {
                         </div>
 
                         <div className="space-y-4">
-                            <h3 className="text-xl font-bold">Agreement/Consent Forms</h3>
-                            <Accordion
-                                data={[
-                                    ...signatureForms,
-                                    ...dataCollectionAndSignatureForms,
-                                ]}
-                            />
+                            <h3 className="text-xl font-bold">
+                                Agreement/Consent Forms
+                            </h3>
+                            <Accordion data={signatureForms} />
                         </div>
                     </div>
                 </div>

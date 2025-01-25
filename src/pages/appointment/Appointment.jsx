@@ -54,7 +54,7 @@ const Appointment = () => {
             formData.insurance.paymentMethod.toLowerCase() ===
                 "insurance card" &&
             (!formData.insurance.insuranceName ||
-                !formData.insurance.insuranceName)
+                !formData.insurance.insuranceNumber)
         ) {
             setCompletedSteps((prev) => prev.filter((step) => step !== 3));
         }
@@ -119,7 +119,7 @@ const Appointment = () => {
         }
     };
 
-    const gotToPreviousStep = () => {
+    const goToPreviousStep = () => {
         setCurrentStep((prev) => Math.max(prev - 1, 0));
     };
 
@@ -198,7 +198,7 @@ const Appointment = () => {
                         <div className="flex justify-between items-center gap-5">
                             {currentStep !== 0 && (
                                 <button
-                                    onClick={gotToPreviousStep}
+                                    onClick={goToPreviousStep}
                                     className="w-full py-2 px-4 font-medium text-center border border-lightGreen rounded-lg text-white hover:bg-lightGreen transition duration-300"
                                 >
                                     Previous
