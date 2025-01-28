@@ -139,7 +139,15 @@ const MultiStepForm = ({
             <div className="w-full bg-white rounded-lg shadow-lg p-6">
                 {stepForms.map((form) => {
                     if (currentStep === form.id) {
-                        return form.component;
+                        return (
+                            <div key={form.id} className="space-y-5">
+                                <h1 className="lg:hidden text-darkBlue text-2xl text-center font-semibold">
+                                    <span className="mr-2">{`${currentStep}.`}</span>
+                                    {form.name}
+                                </h1>
+                                <div className="">{form.component}</div>
+                            </div>
+                        );
                     }
                 })}
             </div>

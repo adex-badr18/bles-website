@@ -87,7 +87,7 @@ const IntakeForm = () => {
         },
     });
 
-    console.log(formData)
+    console.log(formData);
 
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
@@ -138,6 +138,7 @@ const IntakeForm = () => {
         forms: [
             {
                 id: 1,
+                name: "Verification",
                 component: (
                     <VerificationStep
                         key={1}
@@ -148,6 +149,7 @@ const IntakeForm = () => {
             },
             {
                 id: 2,
+                name: "Intro",
                 component: (
                     <IntroForm
                         key={2}
@@ -158,6 +160,7 @@ const IntakeForm = () => {
             },
             {
                 id: 3,
+                name: "Psychiatric History",
                 component: (
                     <PsychHistory
                         key={3}
@@ -168,6 +171,7 @@ const IntakeForm = () => {
             },
             {
                 id: 4,
+                name: "Drugs & Alcohol",
                 component: (
                     <AlcoholHistory
                         key={4}
@@ -178,6 +182,7 @@ const IntakeForm = () => {
             },
             {
                 id: 5,
+                name: "Psychosocial",
                 component: (
                     <PsychoSocial
                         key={5}
@@ -188,6 +193,7 @@ const IntakeForm = () => {
             },
             {
                 id: 6,
+                name: "Other History",
                 component: (
                     <OtherHistory
                         key={6}
@@ -198,6 +204,7 @@ const IntakeForm = () => {
             },
             {
                 id: 7,
+                name: "Preview",
                 component: (
                     <PdfPreview key={7} Doc={<PdfDoc data={formData} />} />
                 ),

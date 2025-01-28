@@ -1,16 +1,11 @@
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 
-const StepIndicator = ({
-    steps,
-    currentStep,
-    goToStep,
-    completedSteps,
-}) => {
+const StepIndicator = ({ steps, currentStep, goToStep, completedSteps }) => {
     return (
-        <div className="flex items-center rounded bg-lightGray border divide-x">
+        <div className="flex items-center gap-4 lg:gap-0 rounded divide-x">
             {steps.map((step, index) => {
                 const isCompleted = completedSteps.includes(index + 1);
-                const isCurrent =  index + 1 === currentStep
+                const isCurrent = index + 1 === currentStep;
 
                 return (
                     <button
@@ -24,9 +19,9 @@ const StepIndicator = ({
                         } ${index + 1 === steps.length ? "rounded-e" : ""}`}
                         onClick={() => goToStep(index + 1)}
                     >
-                        {step}
+                        <span className="hidden lg:block">{step}</span>
                         {isCompleted && (
-                            <IoCheckmarkDoneSharp className="hidden md:block md:text-sm" />
+                            <IoCheckmarkDoneSharp className="hidden lg:block lg:text-sm" />
                         )}
                     </button>
                 );

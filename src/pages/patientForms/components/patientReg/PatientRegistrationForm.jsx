@@ -183,6 +183,7 @@ const PatientRegistrationForm = () => {
         forms: [
             {
                 id: 1,
+                name: "Personal",
                 component: (
                     <PersonalStep
                         key={1}
@@ -193,6 +194,7 @@ const PatientRegistrationForm = () => {
             },
             {
                 id: 2,
+                name: "Other Contacts",
                 component: (
                     <OtherContactsForm
                         key={2}
@@ -203,6 +205,7 @@ const PatientRegistrationForm = () => {
             },
             {
                 id: 3,
+                name: "Insurance",
                 component: (
                     <InsuranceForm
                         key={3}
@@ -213,6 +216,7 @@ const PatientRegistrationForm = () => {
             },
             {
                 id: 4,
+                name: "Consent",
                 component: (
                     <ConsentForm
                         key={4}
@@ -225,6 +229,7 @@ const PatientRegistrationForm = () => {
             },
             {
                 id: 5,
+                name: "Preview",
                 component: (
                     <PdfPreview key={5} Doc={<PdfDoc data={regForm} />} />
                 ),
