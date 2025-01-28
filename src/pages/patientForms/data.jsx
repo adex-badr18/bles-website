@@ -10,7 +10,7 @@ import MoodDisorderForm from "../patientForms/components/MoodDisorderForm";
 import NoticeOfPrivacy from "../patientForms/components/NoticeOfPrivacy";
 import PatientInfoConsent from "../patientForms/components/PatientInfoConsent";
 import ReleaseReceive from "../patientForms/components/ReleaseReceive";
-import ScreeningForm from "../patientForms/components/ScreeningForm";
+import ScreeningForm from "./components/screening/ScreeningForm";
 import SelfPayAgreement from "../patientForms/components/SelfPayAgreement";
 import TerminationPolicy from "../patientForms/components/TerminationPolicy";
 import TreatmentConsentForm from "../patientForms/components/TreatmentConsentForm";
@@ -214,6 +214,18 @@ export const frequencyOptions = [
     { id: 2, text: "Rarely", value: "Rarely" },
     { id: 3, text: "Sometimes", value: "Sometimes" },
     { id: 4, text: "Often", value: "Often" },
+];
+
+export const referralSourceOptions = [
+    { id: 1, text: "Insurance", value: "Insurance" },
+    { id: 2, text: "Internet", value: "Internet" },
+    { id: 3, text: "Friend", value: "Friend" },
+    { id: 4, text: "Other", value: "Other" },
+];
+
+export const referralTherapistOptions = [
+    { id: 1, text: "Mental Health Therapist/MD", value: "Mental Health Therapist/MD" },
+    { id: 2, text: "Facility", value: "Facility" },
 ];
 
 export const consentOptions = [
