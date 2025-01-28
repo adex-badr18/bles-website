@@ -18,12 +18,12 @@ import {
 
 const PersonalStep = ({ formData, handleInputChange }) => {
     return (
-        <form className="space-y-5">
-            <div className="space-y-2">
+        <form className="">
+            <div className="space-y-4 md:space-y-8">
                 <h3 className="font-bold text-xl text-darkBlue">
                     Getting to know you
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                     <TextField
                         type="text"
                         label="First Name"

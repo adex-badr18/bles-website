@@ -5,11 +5,11 @@ export const Checkbox = ({
     value,
     checked,
     onChange,
-    checkedClass,
-    unCheckedClass,
+    checkedClass="border-2 border-darkBlue",
+    unCheckedClass="border-lightGrey",
 }) => {
     return (
-        <label className="text-darkBlue font-medium flex gap-4 cursor-pointer">
+        <label className="text-darkBlue flex gap-4 cursor-pointer">
             <input
                 type="checkbox"
                 value={value}

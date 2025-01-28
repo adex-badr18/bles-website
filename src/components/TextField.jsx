@@ -8,10 +8,12 @@ const TextField = ({
     field,
     value,
     handleInputChange,
-    type
+    type,
+    classAttr,
+    ...rest
 }) => {
     return (
-        <div className="space-y-1">
+        <div className={`space-y-1 ${classAttr}`}>
             <label htmlFor={name} className="block text-grey">
                 {label}
             </label>
@@ -19,12 +21,13 @@ const TextField = ({
                 type={type}
                 id={name}
                 name={name}
-                className="input"
+                className={`input`}
                 placeholder={placeholder}
                 value={value}
                 onChange={(e) =>
                     handleInputChange(section, field, e.target.value)
                 }
+                {...rest}
             />
         </div>
     );

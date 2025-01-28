@@ -11,7 +11,7 @@ const TextAreaField = ({
 }) => {
     return (
         <div className="space-y-1">
-            <label htmlFor={name} className="text-deepGrey font-medium">
+            <label htmlFor={name} className="text-grey ">
                 {label}
             </label>
             <textarea

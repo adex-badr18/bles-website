@@ -179,7 +179,7 @@ const PatientRegistrationForm = () => {
     // console.log(consents);
 
     const formSteps = {
-        steps: ["personal", "Other Contacts", "Insurance", "consent", "review"],
+        steps: ["Personal", "Other Contacts", "Insurance", "Consent", "Review"],
         forms: [
             {
                 id: 1,

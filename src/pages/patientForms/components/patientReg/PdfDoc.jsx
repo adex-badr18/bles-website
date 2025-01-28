@@ -5,13 +5,12 @@ import {
     View,
     StyleSheet,
     Image,
-    Svg,
 } from "@react-pdf/renderer";
 import { consentOptions } from "../../data";
 
 import checkbox from "../../../../assets/checkbox.jpg";
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     page: { fontSize: 12, padding: 10 },
     letterhead: {
         display: "flex",

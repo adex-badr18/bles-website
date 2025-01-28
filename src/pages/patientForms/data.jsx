@@ -4,7 +4,7 @@ import AnxietyDisorderForm from "../patientForms/components/AnxietyDisorderForm"
 import ControlledSubstanceForm from "../patientForms/components/ControlledSubstanceForm";
 import DepressionAssessmentForm from "../patientForms/components/DepressionAssessmentForm";
 import InitialEvaluationForm from "../patientForms/components/InitialEvaluationForm";
-import IntakeForm from "../patientForms/components/IntakeForm";
+import IntakeForm from "./components/intake/IntakeForm";
 import MedicationConsentForm from "../patientForms/components/MedicationConsentForm";
 import MoodDisorderForm from "../patientForms/components/MoodDisorderForm";
 import NoticeOfPrivacy from "../patientForms/components/NoticeOfPrivacy";
@@ -201,6 +201,19 @@ export const relationshipOptions = [
 export const booleanOptions = [
     { id: 1, text: "Yes", value: "yes" },
     { id: 2, text: "No", value: "no" },
+];
+
+export const sexPreferenceOptions = [
+    { id: 1, text: "Heterosexual", value: "Heterosexual" },
+    { id: 2, text: "Bisexual", value: "Bisexual" },
+    { id: 3, text: "Homosexual", value: "Homosexual" },
+];
+
+export const frequencyOptions = [
+    { id: 1, text: "None", value: "None" },
+    { id: 2, text: "Rarely", value: "Rarely" },
+    { id: 3, text: "Sometimes", value: "Sometimes" },
+    { id: 4, text: "Often", value: "Often" },
 ];
 
 export const consentOptions = [
@@ -442,8 +455,8 @@ const intakeForm = {
         ],
         childrenCount: 0,
         sexualPreference: "",
-        onProbation: false,
-        inLawsuit: false,
+        onProbation: "",
+        inLawsuit: "",
     },
     psychHistory: {
         pastProviders: [{ provider: "", appointmentDate: new Date() }],
@@ -455,8 +468,8 @@ const intakeForm = {
                 prescription: "",
             },
         ],
-        hasAttemptedSuicide: false,
-        isPsychHospitalized: false,
+        hasAttemptedSuicide: "",
+        isPsychHospitalized: "",
         pastMedications: [
             {
                 medication: "",
@@ -488,11 +501,11 @@ const intakeForm = {
                 facility: "",
                 date: new Date(),
                 type: "",
-                isTreatmentCompleted: false,
+                isTreatmentCompleted: "",
             },
         ],
-        isPastStepRecoveryParticipant: false,
-        isCurrentStepRecoveryParticipant: false,
+        isPastStepRecoveryParticipant: "",
+        isCurrentStepRecoveryParticipant: "",
     },
     psychosocialHistory: {
         birthPlace: "",
@@ -500,12 +513,12 @@ const intakeForm = {
         raisedBy: "",
         siblingsCount: 0,
         childhoodInfo: "",
-        wasPhysicallyAbused: false,
-        wasEmotionallyAbused: false,
-        wasSexuallyAbused: false,
+        wasPhysicallyAbused: "",
+        wasEmotionallyAbused: "",
+        wasSexuallyAbused: "",
     },
     otherHistory: {
-        hasMedicalDisability: false,
+        hasMedicalDisability: "",
         pastMedicalHistory: ["description", "description", "..."],
         pastSurgicalHistory: ["description", "description", "..."],
         allergies: ["allergy", "allergy", "..."],

@@ -48,8 +48,8 @@ const PatientForm = () => {
             <Breadcrumb obj={formData} page="forms" />
 
             <div className="wrapper py-5 md:py-16">
-                <div className="space-y-5">
-                    <h1 className="text-center">{formData.title}</h1>
+                <div className="space-y-10">
+                    <h1 className="text-center text-2xl md:text-3xl font-bold text-darkBlue">{formData.title}</h1>
                     {formData.component}
                 </div>
             </div>
