@@ -156,9 +156,9 @@ const DynamicObjectField = ({
 
                         <button
                             onClick={(e) => removeInstance(e, index)}
-                            className="absolute top-1 right-1 flex items-center justify-center p-1 rounded border border-vividRed text-vividRed hover:bg-vividRed hover:text-white"
+                            className="absolute top-1 right-1 flex items-center justify-center p-1 rounded border border-transparent hover:border-vividRed text-vividRed hover:bg-vividRed hover:text-white transition duration-300"
                         >
-                            <MdClose />
+                            <MdClose className="text-xl" />
                         </button>
                     </div>
                 ))}

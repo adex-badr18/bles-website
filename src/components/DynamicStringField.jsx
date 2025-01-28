@@ -83,9 +83,9 @@ const DynamicStringField = ({
 
                     <button
                         onClick={(e) => removeFieldHandler(e, index)}
-                        className="flex items-center justify-center p-1 rounded border border-vividRed text-vividRed"
+                        className="flex items-center justify-center p-1 rounded border border-transparent hover:border-vividRed text-vividRed hover:bg-vividRed hover:text-white transition duration-300"
                     >
-                        <MdClose />
+                        <MdClose className="text-xl" />
                     </button>
                 </div>
             ))}
