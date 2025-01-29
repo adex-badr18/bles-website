@@ -131,7 +131,7 @@ const ScreeningStep = ({ formData, onChange }) => {
                             section="screening"
                             field="intent"
                             value={formData.screening.intent}
-                            handleInputChange={onChange}
+                            handleFormElementChange={onChange}
                         />
                     )}
                 </div>

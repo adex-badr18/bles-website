@@ -43,6 +43,8 @@ const ScreeningForm = () => {
         },
     });
 
+    console.log(formData)
+
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
         setFormData((prev) => {
