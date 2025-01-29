@@ -99,9 +99,9 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                 </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-4 md:space-y-8">
                 <h3 className="font-bold text-xl text-darkBlue">Contact</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                     <TextField
                         type="text"
                         label="Home Phone"
@@ -209,9 +209,9 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                 </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-4 md:space-y-8">
                 <h3 className="font-bold text-xl text-darkBlue">Address</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                     <TextField
                         type="text"
                         label="Address (Street)"
@@ -255,9 +255,9 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                 </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-4 md:space-y-8">
                 <h3 className="font-bold text-xl text-darkBlue">Employment</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                     <SelectField
                         label="Highest Level of Education"
                         name="highestEduLevel"
@@ -302,11 +302,11 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                 </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-4 md:space-y-8">
                 <h3 className="font-bold text-xl text-darkBlue">
                     Religion & Cultural Identity
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                     <SelectField
                         label="Religion"
                         name="religion"

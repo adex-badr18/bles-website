@@ -3,7 +3,7 @@ import AdhdForm from "../patientForms/components/AdhdForm";
 import AnxietyDisorderForm from "../patientForms/components/AnxietyDisorderForm";
 import ControlledSubstanceForm from "../patientForms/components/ControlledSubstanceForm";
 import DepressionAssessmentForm from "../patientForms/components/DepressionAssessmentForm";
-import InitialEvaluationForm from "../patientForms/components/InitialEvaluationForm";
+import InitialEvaluationForm from "./components/initialEvaluation/InitialEvaluationForm";
 import IntakeForm from "./components/intake/IntakeForm";
 import MedicationConsentForm from "../patientForms/components/MedicationConsentForm";
 import MoodDisorderForm from "../patientForms/components/MoodDisorderForm";
@@ -95,6 +95,89 @@ export const dataCollectionForms = [
             "A self-assessment tool to evaluate ADHD symptoms and guide diagnostic and treatment steps.",
         link: "/forms/adhd-form",
         component: <AdhdForm />,
+    },
+];
+
+export const signatureForms = [
+    {
+        id: 1,
+        slug: "medication-consent-form",
+        title: "Medication Consent Form",
+        shortName: "Medication Consent",
+        description:
+            "This ensures you understand and agree to the prescribed medications, fostering safe and informed care.",
+        link: "/forms/medication-consent-form",
+        component: <MedicationConsentForm />,
+    },
+    {
+        id: 2,
+        slug: "controlled-substance-form",
+        title: "Controlled Substance Form",
+        shortName: "Controlled Substance",
+        description:
+            "Required for regulated medications, this form emphasizes accountability and proper usage in your treatment.",
+        link: "/forms/controlled-substance-form",
+        component: <ControlledSubstanceForm />,
+    },
+    {
+        id: 3,
+        slug: "notice-of-privacy-practices",
+        title: "Notice of Privacy Practices",
+        shortName: "Notice of Privacy",
+        description:
+            "Acknowledges your understanding of how your health information is used and protected in compliance with regulations.",
+        link: "/forms/notice-of-privacy-practices",
+        component: <NoticeOfPrivacy />,
+    },
+    {
+        id: 4,
+        slug: "patient-information-consent-and-financial-policy",
+        title: "Patient Information Consent and Financial Policy",
+        shortName: "Information Consent",
+        description:
+            "This form outlines consent for information use and agreement to clinic policies for seamless service delivery.",
+        link: "/forms/patient-information-consent-and-financial-policy",
+        component: <PatientInfoConsent />,
+    },
+    {
+        id: 5,
+        slug: "self-pay-agreement",
+        title: "Self-Pay Agreement",
+        shortName: "Self-Pay Agreement",
+        description:
+            "Ensures transparency about payment terms for self-funded care, fostering a smooth financial process.",
+        link: "/forms/self-pay-agreement",
+        component: <SelfPayAgreement />,
+    },
+    {
+        id: 6,
+        slug: "release-receive",
+        title: "Release Receive",
+        shortName: "Release Receive",
+        description:
+            "Authorizes the sharing of relevant medical information with specified individuals or organizations for coordinated care.",
+        link: "/forms/release-receive",
+        component: <ReleaseReceive />,
+    },
+    {
+        id: 7,
+        slug: "termination-policy",
+        title: "Termination Policy",
+        shortName: "Termination Policy",
+        description:
+            "Defines the terms and conditions for discontinuing care to ensure a clear and professional transition.",
+        link: "/forms/termination-policy",
+        component: <TerminationPolicy />,
+    },
+    {
+        id: 8,
+        slug: "telehealth-in-person-treatment-and-medication-education-consent-form",
+        title: "Telehealth, In-Person Treatment, and Medication/Education Consent Form",
+        shortName: "Treatment Consent",
+        description:
+            "Combines essential consent for telehealth sessions, in-person care, and treatment education, prioritizing flexibility and transparency.",
+        link: "/forms/telehealth-in-person-treatment-and-medication-education-consent-form",
+        component: <TreatmentConsentForm />,
     },
 ];
 
@@ -256,89 +339,6 @@ export const consentOptions = [
         name: "infoRelease",
         label: "I grant permission for Brightlife Enhancement Services to share necessary medical and insurance information with my health insurance provider for claims processing. I understand that this ensures efficient handling of my claims while safeguarding my privacy in accordance with HIPAA regulations. No information will be released beyond what is required for claim purposes.",
         value: false,
-    },
-];
-
-export const signatureForms = [
-    {
-        id: 1,
-        slug: "medication-consent-form",
-        title: "Medication Consent Form",
-        shortName: "Medication Consent",
-        description:
-            "This ensures you understand and agree to the prescribed medications, fostering safe and informed care.",
-        link: "/forms/medication-consent-form",
-        component: <MedicationConsentForm />,
-    },
-    {
-        id: 2,
-        slug: "controlled-substance-form",
-        title: "Controlled Substance Form",
-        shortName: "Controlled Substance",
-        description:
-            "Required for regulated medications, this form emphasizes accountability and proper usage in your treatment.",
-        link: "/forms/controlled-substance-form",
-        component: <ControlledSubstanceForm />,
-    },
-    {
-        id: 3,
-        slug: "notice-of-privacy-practices",
-        title: "Notice of Privacy Practices",
-        shortName: "Notice of Privacy",
-        description:
-            "Acknowledges your understanding of how your health information is used and protected in compliance with regulations.",
-        link: "/forms/notice-of-privacy-practices",
-        component: <NoticeOfPrivacy />,
-    },
-    {
-        id: 4,
-        slug: "patient-information-consent-and-financial-policy",
-        title: "Patient Information Consent and Financial Policy",
-        shortName: "Information Consent",
-        description:
-            "This form outlines consent for information use and agreement to clinic policies for seamless service delivery.",
-        link: "/forms/patient-information-consent-and-financial-policy",
-        component: <PatientInfoConsent />,
-    },
-    {
-        id: 5,
-        slug: "self-pay-agreement",
-        title: "Self-Pay Agreement",
-        shortName: "Self-Pay Agreement",
-        description:
-            "Ensures transparency about payment terms for self-funded care, fostering a smooth financial process.",
-        link: "/forms/self-pay-agreement",
-        component: <SelfPayAgreement />,
-    },
-    {
-        id: 6,
-        slug: "release-receive",
-        title: "Release Receive",
-        shortName: "Release Receive",
-        description:
-            "Authorizes the sharing of relevant medical information with specified individuals or organizations for coordinated care.",
-        link: "/forms/release-receive",
-        component: <ReleaseReceive />,
-    },
-    {
-        id: 7,
-        slug: "termination-policy",
-        title: "Termination Policy",
-        shortName: "Termination Policy",
-        description:
-            "Defines the terms and conditions for discontinuing care to ensure a clear and professional transition.",
-        link: "/forms/termination-policy",
-        component: <TerminationPolicy />,
-    },
-    {
-        id: 8,
-        slug: "telehealth-in-person-treatment-and-medication-education-consent-form",
-        title: "Telehealth, In-Person Treatment, and Medication/Education Consent Form",
-        shortName: "Treatment Consent",
-        description:
-            "Combines essential consent for telehealth sessions, in-person care, and treatment education, prioritizing flexibility and transparency.",
-        link: "/forms/telehealth-in-person-treatment-and-medication-education-consent-form",
-        component: <TreatmentConsentForm />,
     },
 ];
 

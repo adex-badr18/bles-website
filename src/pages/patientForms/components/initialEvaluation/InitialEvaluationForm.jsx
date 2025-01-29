@@ -1,46 +1,41 @@
 import { useState } from "react";
-import MultiStepForm from "../../../../components/MultiStepForm";
+import Pharmacy from "./Pharmacy";
+import Agreements from "./Agreements";
 import VerificationStep from "../../../../components/VerificationStep";
-import ScreeningStep from "./ScreeningStep";
-import Referral from "./Referral";
-import PdfDoc from "./PdfDoc";
+import MultiStepForm from "../../../../components/MultiStepForm";
 import PdfPreview from "../../../../components/PdfPreview";
+import PdfDoc from "./PdfDoc";
 
-const ScreeningForm = () => {
+const InitialEvaluationForm = () => {
+    const [consents, setConsents] = useState({
+        finResponsibility: false,
+        treatmentConsent: false,
+        pcpAuth: false,
+        infoToRelease: false,
+    });
     const [formData, setFormData] = useState({
         verification: {
             id: "",
-            date: new Date(),
             firstName: "",
             middleName: "",
             lastName: "",
             email: "",
             phone: "",
         },
-        screening: {
-            mhBhPhone: "",
-            helpNeeds: "",
-            inCrisis: "",
-            currentlyOnPsychMed: "",
-            stableOnMed: "",
-            isPsychiatristConsult: "",
-            isTherapistConsult: "",
-            anyMentalHealthTreatment: "",
-            suicideAttemptHistory: "",
-            harmToSelfOrOthers: "",
-            intent: "",
-            healthSymptoms: "",
-            healthSymptomsFrequency: "",
-        },
-        referral: {
-            source: "",
-            therapist: "",
-            firstName: "",
-            middleName: "",
-            lastName: "",
+        pharmacy: {
+            name: "",
             phone: "",
             address: { streetName: "", city: "", state: "", zipCode: "" },
         },
+        primaryCarePhysician: {
+            havePcp: "",
+            name: "",
+            phone: "",
+            fax: "",
+            address: { streetName: "", city: "", state: "", zipCode: "" },
+            infoToRelease: "",
+        },
+        consent: {signature: "", date: new Date()}
     });
 
     // Handle form element change
@@ -80,7 +75,7 @@ const ScreeningForm = () => {
     };
 
     const formSteps = {
-        steps: ["Verification", "Screening", "Referral", "Preview"],
+        steps: ["Verification", "Pharmacy", "Agreements", "Preview"],
         forms: [
             {
                 id: 1,
@@ -94,9 +89,9 @@ const ScreeningForm = () => {
             },
             {
                 id: 2,
-                name: "Screening",
+                name: "Pharmacy Info.",
                 component: (
-                    <ScreeningStep
+                    <Pharmacy
                         formData={formData}
                         onChange={handleFormElementChange}
                     />
@@ -104,11 +99,13 @@ const ScreeningForm = () => {
             },
             {
                 id: 3,
-                name: "Referral",
+                name: "Agreements",
                 component: (
-                    <Referral
+                    <Agreements
                         formData={formData}
                         onChange={handleFormElementChange}
+                        consents={consents}
+                        setConsents={setConsents}
                     />
                 ),
             },
@@ -136,4 +133,4 @@ const ScreeningForm = () => {
     );
 };
 
-export default ScreeningForm;
+export default InitialEvaluationForm;

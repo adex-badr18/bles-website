@@ -13,7 +13,9 @@ const SignaturePad = ({ handleInputChange, section, fieldPath }) => {
     };
 
     // Clear signature
-    const clearSignature = () => {
+    const clearSignature = (e) => {
+        e.preventDefault();
+
         sigCanvasRef.current.clear();
     };
 
@@ -29,7 +31,7 @@ const SignaturePad = ({ handleInputChange, section, fieldPath }) => {
             />
             <button
                 onClick={clearSignature}
-                className="absolute top-2 right-4 bg-vividRed text-white text-sm font-medium px-2 py-1 rounded-md"
+                className="absolute top-2 right-4 bg-vividRed hover:bg-red-500 text-white text-sm font-medium px-2 py-1 rounded-md"
             >
                 Clear
             </button>

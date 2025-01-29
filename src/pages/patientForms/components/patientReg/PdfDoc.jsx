@@ -567,7 +567,7 @@ const PdfDoc = ({ data }) => {
                                 >
                                     <Text style={styles.key}>Date:</Text>
                                     <Text style={styles.value}>
-                                        {consent.date.value}
+                                        {consent.date.value || new Date()}
                                     </Text>
                                 </View>
                             </View>
