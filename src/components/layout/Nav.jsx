@@ -3,13 +3,13 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 
 import LinkButton from "../LinkButton";
 import MobileMenu from "./MobileMenu";
-import Logo from "./Logo";
 
 import { navMenu } from "../../assets/data/header";
 
 import { SlMenu } from "react-icons/sl";
 import { MdOutlineContactPage } from "react-icons/md";
-import logo from "../../assets/logo-default.webp";
+import primaryLogo from "../../assets/bles-logo-primary.png";
+import secondaryLogo from "../../assets/bles-logo-secondary.png";
 
 const Nav = () => {
     const { pathname } = useLocation();
@@ -70,7 +70,7 @@ const Nav = () => {
             <div className="wrapper">
                 <div className="flex items-center justify-between gap-4">
                     <Link to="/" className="">
-                        <Logo />
+                        <img src={secondaryLogo} alt="" className="w-36 md:w-44" />
                     </Link>
 
                     <div className="hidden lg:flex items-center justify-center flex-wrap">
