@@ -71,6 +71,7 @@ const Nav = () => {
                 <div className="flex items-center justify-between gap-4">
                     <Link to="/" className="">
                         <img src={secondaryLogo} alt="" className="w-36 md:w-44" />
+                        {/* <img src={primaryLogo} alt="" className="w-36 md:w-32" /> */}
                     </Link>
 
                     <div className="hidden lg:flex items-center justify-center flex-wrap">

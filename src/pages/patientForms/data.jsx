@@ -12,7 +12,7 @@ import PatientInfoConsent from "./components/infoConsent/PatientInfoConsent";
 import ReleaseReceive from "../patientForms/components/ReleaseReceive";
 import ScreeningForm from "./components/screening/ScreeningForm";
 import SelfPayAgreement from "../patientForms/components/SelfPayAgreement";
-import TerminationPolicy from "../patientForms/components/TerminationPolicy";
+import TerminationPolicy from "./components/terminationPolicy/TerminationPolicy";
 import TreatmentConsentForm from "../patientForms/components/TreatmentConsentForm";
 
 export const dataCollectionForms = [
