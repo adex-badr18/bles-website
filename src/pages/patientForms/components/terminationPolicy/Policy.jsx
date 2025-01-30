@@ -77,7 +77,7 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                     <div className="space-y-1">
-                        <label htmlFor="lastName" className="block text-grey">
+                        <label className="block text-grey">
                             Patient Signature
                         </label>
                         <SignaturePad
@@ -87,7 +87,7 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                         />
                     </div>
                     <div className="space-y-1">
-                        <label htmlFor="lastName" className="block text-grey">
+                        <label className="block text-grey">
                             Witness Signature
                         </label>
                         <SignaturePad

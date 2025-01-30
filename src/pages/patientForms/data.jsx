@@ -7,7 +7,7 @@ import InitialEvaluationForm from "./components/initialEvaluation/InitialEvaluat
 import IntakeForm from "./components/intake/IntakeForm";
 import MedicationConsentForm from "../patientForms/components/MedicationConsentForm";
 import MoodDisorderForm from "../patientForms/components/MoodDisorderForm";
-import NoticeOfPrivacy from "../patientForms/components/NoticeOfPrivacy";
+import NoticeOfPrivacy from "./components/privacyPolicy/NoticeOfPrivacy";
 import PatientInfoConsent from "./components/infoConsent/PatientInfoConsent";
 import ReleaseReceive from "../patientForms/components/ReleaseReceive";
 import ScreeningForm from "./components/screening/ScreeningForm";
