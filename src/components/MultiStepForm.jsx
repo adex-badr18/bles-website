@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StepIndicator from "./StepIndicator";
 import Modal from "./Modal";
 
@@ -15,15 +15,21 @@ const MultiStepForm = ({
     const [currentStep, setCurrentStep] = useState(1);
     const [completedSteps, setCompletedSteps] = useState([]);
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+
     let formSizeClass;
 
     if (formSize.toLowerCase() === "sm") {
         formSizeClass = "w-full max-w-xl mx-auto";
     } else if (formSize.toLowerCase() === "md") {
         formSizeClass = "w-full max-w-3xl mx-auto";
-    } else if (formSize.toLowerCase() === "md") {
+    } else if (formSize.toLowerCase() === "lg") {
         formSizeClass = "w-full max-w-5xl mx-auto";
     }
+
+    // Scroll to top when step changes
+    useEffect(() => {
+        window.scrollTo({ top: 130, behavior: "smooth" });
+    }, [currentStep]);
 
     const goToNextStep = () => {
         if (isStepValid()) {
