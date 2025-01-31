@@ -2,11 +2,11 @@ import { useState } from "react";
 import MultiStepForm from "../../../../components/MultiStepForm";
 import VerificationStep from "../../../../components/VerificationStep";
 import PdfDoc from "./PdfDoc";
+import Agreement from "./Agreement";
 import PdfPreview from "../../../../components/PdfPreview";
-import PrivacyPolicy from "./PrivacyPolicy";
 
-const NoticeOfPrivacy = () => {
-    const [policyConsent, setPolicyConsent] = useState(false);
+const SelfPayAgreement = () => {
+    const [selfPayConsent, setSelfPayConsent] = useState(false);
     const [formData, setFormData] = useState({
         verification: {
             id: "",
@@ -18,7 +18,6 @@ const NoticeOfPrivacy = () => {
         },
         consent: {
             patientSignature: "",
-            noticeEffectDate: "",
             date: new Date(),
         },
     });
@@ -60,7 +59,7 @@ const NoticeOfPrivacy = () => {
     };
 
     const formSteps = {
-        steps: ["Verification", "Privacy Practices", "Preview"],
+        steps: ["Verification", "Agreement Terms", "Preview"],
         forms: [
             {
                 id: 1,
@@ -74,13 +73,13 @@ const NoticeOfPrivacy = () => {
             },
             {
                 id: 2,
-                name: "Privacy Practices",
+                name: "Agreement Terms",
                 component: (
-                    <PrivacyPolicy
+                    <Agreement
                         formData={formData}
                         onChange={handleFormElementChange}
-                        consent={policyConsent}
-                        setConsent={setPolicyConsent}
+                        consents={selfPayConsent}
+                        setConsents={setSelfPayConsent}
                     />
                 ),
             },
@@ -108,4 +107,4 @@ const NoticeOfPrivacy = () => {
     );
 };
 
-export default NoticeOfPrivacy;
+export default SelfPayAgreement;
