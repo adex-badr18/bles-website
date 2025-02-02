@@ -11,7 +11,7 @@ export const quickLinks = [
 export const contact = [
     {
         id: 1,
-        text: "5, Public Square, Suite 428, Hagerstown, MD 21740.",
+        text: "226 N Potomac Street, Hagerstown MD 21740.",
         icon: <MdLocationPin className="text-lightGreen flex-shrink-0" />,
     },
     {

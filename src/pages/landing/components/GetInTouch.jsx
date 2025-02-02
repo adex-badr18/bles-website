@@ -44,10 +44,10 @@ const GetInTouch = () => {
                         data-aos-delay="1500"
                     />
                     <LinkButton
-                        name="Specialists"
+                        name="Services"
                         icon={<MdOutlineGroups3 className="" />}
                         bgColor=""
-                        to="/specialists"
+                        to="/services"
                         classAttrs=""
                         data-aos="fade-left"
                         data-aos-delay="1500"

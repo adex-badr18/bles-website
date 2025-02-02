@@ -28,8 +28,8 @@ const Contact = () => {
                     <ContactCard
                         icon={<SlLocationPin />}
                         title={`Address`}
-                        value1={`5, Public Square, Suite 428,`}
-                        value2={`Hagerstown, MD 21740.`}
+                        value1={`226 N Potomac Street,`}
+                        value2={`Hagerstown MD 21740.`}
                     />
                     <ContactCard
                         icon={<MdOutlineEmail />}
