@@ -9,7 +9,7 @@ import MedicationConsentForm from "../patientForms/components/MedicationConsentF
 import MoodDisorderForm from "../patientForms/components/MoodDisorderForm";
 import NoticeOfPrivacy from "./components/privacyPolicy/NoticeOfPrivacy";
 import PatientInfoConsent from "./components/infoConsent/PatientInfoConsent";
-import ReleaseReceive from "../patientForms/components/ReleaseReceive";
+import ReleaseReceive from "./components/releaseReceive/ReleaseReceive";
 import ScreeningForm from "./components/screening/ScreeningForm";
 import SelfPayAgreement from "./components/selfPay/SelfPayAgreement";
 import TerminationPolicy from "./components/terminationPolicy/TerminationPolicy";

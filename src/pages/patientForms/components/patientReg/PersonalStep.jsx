@@ -18,7 +18,7 @@ import {
 
 const PersonalStep = ({ formData, handleInputChange }) => {
     return (
-        <form className="">
+        <form className="space-y-4 md:space-y-8">
             <div className="space-y-4 md:space-y-8">
                 <h3 className="font-bold text-xl text-darkBlue">
                     Getting to know you

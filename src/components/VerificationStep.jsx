@@ -11,7 +11,7 @@ const VerificationStep = ({ formData, onChange }) => {
         msg: "",
         data: {},
     });
-    const [patientId, setPatientId] = useState("");
+    const [patientId, setPatientId] = useState("PAT000001");
 
     // Fetch patient info by Id
     const verifyId = async (e) => {
@@ -19,11 +19,17 @@ const VerificationStep = ({ formData, onChange }) => {
 
         // TODO: Fetch Patient data by id
 
+        onChange("verification", "id", "PAT000001");
         onChange("verification", "firstName", "Badrudeen");
         onChange("verification", "middleName", "Adewumi");
         onChange("verification", "lastName", "Abdul-hameed");
         onChange("verification", "phone", "+1234567890");
         onChange("verification", "email", "tukstom12@gmail.com");
+        onChange("verification", "dob", new Date("01/10/1990"));
+        onChange("verification", "address.streetName", "23 Hagers Town")
+        onChange("verification", "address.city", "Middlesbrough")
+        onChange("verification", "address.state", "London")
+        onChange("verification", "address.zipCode", "123456")
 
         // Success
         setVerificationResponse({
@@ -35,6 +41,8 @@ const VerificationStep = ({ formData, onChange }) => {
                 lastName: "Abdul-hameed",
                 phone: "+23456879012",
                 email: "tukstom@gmail.com",
+                dob: "01/10/1990",
+                address: { streetName: "Crescent Close", city: "Hagers Town", state: "Sheffield", zipCode: "123456" },
             },
         });
 
@@ -137,6 +145,61 @@ const VerificationStep = ({ formData, onChange }) => {
                                 </label>
                                 <div id="firstName" className="input">
                                     {verificationResponse.data.email}
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <label
+                                    htmlFor="firstName"
+                                    className="block text-grey"
+                                >
+                                    Date of Birth
+                                </label>
+                                <div id="dob" className="input">
+                                    {verificationResponse.data.dob}
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <label
+                                    htmlFor="firstName"
+                                    className="block text-grey"
+                                >
+                                    Street Address
+                                </label>
+                                <div id="streetName" className="input">
+                                    {verificationResponse.data.address.streetName}
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <label
+                                    htmlFor="firstName"
+                                    className="block text-grey"
+                                >
+                                    City
+                                </label>
+                                <div id="city" className="input">
+                                    {verificationResponse.data.address.city}
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <label
+                                    htmlFor="firstName"
+                                    className="block text-grey"
+                                >
+                                    State
+                                </label>
+                                <div id="state" className="input">
+                                    {verificationResponse.data.address.state}
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <label
+                                    htmlFor="firstName"
+                                    className="block text-grey"
+                                >
+                                    Zip Code
+                                </label>
+                                <div id="zipCode" className="input">
+                                    {verificationResponse.data.address.zipCode}
                                 </div>
                             </div>
                         </div>

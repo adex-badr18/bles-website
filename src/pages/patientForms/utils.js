@@ -25,3 +25,20 @@ export const clearObjectValues = (obj) => {
     }
     // return obj;
 };
+
+export const formatCamelCase = (text) => {
+    if (!text) return "";
+
+    // Add space between the words
+    const spacedText = text.replace(/([a-z])([A-Z])/g, "$1 $2");
+
+    // Split text into words
+    const words = spacedText.split(" ");
+
+    // Capitalize each word
+    const capitalizedWords = words.map(
+        (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    );
+
+    return capitalizedWords.join(" ");
+};
