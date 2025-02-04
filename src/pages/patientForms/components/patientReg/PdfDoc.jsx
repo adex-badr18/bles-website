@@ -8,6 +8,8 @@ import {
 } from "@react-pdf/renderer";
 import { consentOptions } from "../../data";
 
+import LetterHead from "../LetterHead";
+
 import checkbox from "../../../../assets/checkbox.jpg";
 
 export const styles = StyleSheet.create({
@@ -92,7 +94,8 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
     },
-    consentLabel: { maxWidth: 450, lineHeight: "1" },
+    consentLabel: { maxWidth: "450", lineHeight: "1" },
+    consentDescr: { maxWidth: "100%", lineHeight: "1" },
     consentTitle: { fontSize: 14, fontWeight: "extrabold" },
 });
 
@@ -326,30 +329,7 @@ const PdfDoc = ({ data }) => {
             {/* Page 1 */}
             <Page style={styles.page}>
                 <View style={styles.wrapper}>
-                    <View style={styles.letterhead}>
-                        <Text style={styles.brand}>
-                            BRIGHTLIFE ENHANCEMENT SERVICES
-                        </Text>
-                        <Text style={styles.tagline}>
-                            Holistic Approach To Healthcare
-                        </Text>
-                        <Text style={styles.address}>
-                            5, Public Square, Suite 428, Hagerstown, MD 21740.
-                        </Text>
-                        <View
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                gap: 10,
-                            }}
-                        >
-                            <Text style={styles.tagline}>
-                                info@blesomhc.com
-                            </Text>
-                            <Text style={styles.address}>(410) 988-2626</Text>
-                        </View>
-                    </View>
+                    <LetterHead />
 
                     <Text style={styles.header}>Patient Registration Form</Text>
 

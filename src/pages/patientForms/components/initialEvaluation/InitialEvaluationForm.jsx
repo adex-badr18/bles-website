@@ -37,6 +37,7 @@ const InitialEvaluationForm = () => {
         },
         consent: {signature: "", date: new Date()}
     });
+    console.log(formData)
 
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {

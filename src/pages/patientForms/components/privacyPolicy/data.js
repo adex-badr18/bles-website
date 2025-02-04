@@ -20,7 +20,7 @@ export const disclosureList = [
 export const phidisclosureList = [
     {
         id: 1,
-        descr: "Most uses and disclosure of psychotherapy notes (these am not part of your medical record under HIPAA);",
+        descr: "Most uses and disclosure of psychotherapy notes (these are not part of your medical record under HIPAA);",
     },
     {
         id: 2,

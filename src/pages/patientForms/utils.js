@@ -42,3 +42,33 @@ export const formatCamelCase = (text) => {
 
     return capitalizedWords.join(" ");
 };
+
+// Handle form element change
+export const handleFormElementChange = (section, fieldPath, value) => {
+    setFormData((prev) => {
+        const keys = fieldPath.split(".");
+
+        const updateNestedField = (obj, keys, value) => {
+            if (keys.length === 1) {
+                return {
+                    ...obj,
+                    [keys[0]]: value,
+                };
+            }
+
+            return {
+                ...obj,
+                [keys[0]]: updateNestedField(
+                    obj[keys[0]],
+                    keys.slice(1),
+                    value
+                ),
+            };
+        };
+
+        return {
+            ...prev,
+            [section]: updateNestedField(prev[section], keys, value),
+        };
+    });
+};

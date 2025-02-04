@@ -1,11 +1,12 @@
 import { useState } from "react";
 import MultiStepForm from "../../../../components/MultiStepForm";
 import VerificationStep from "../../../../components/VerificationStep";
-import Authorizations from "./Authorizations";
-import PdfDoc from "./PdfDoc";
 import PdfPreview from "../../../../components/PdfPreview";
+import PdfDoc from "./PdfDoc";
+import Consents from "./Consents";
+import { handleFormElementChange } from "../../utils";
 
-const ReleaseReceive = () => {
+const MedicationConsentForm = () => {
     const [consent, setConsent] = useState(false);
     const [formData, setFormData] = useState({
         verification: {
@@ -19,7 +20,6 @@ const ReleaseReceive = () => {
             address: { streetName: "", city: "", state: "", zipCode: "" },
         },
         consent: {
-            patientName: "",
             patientSignature: "",
             patientSignDate: "",
             isMinor: "",
@@ -28,12 +28,6 @@ const ReleaseReceive = () => {
             patientGuardianRelationship: "Father",
             guardianSignDate: "",
         },
-        authorization: {
-            parties: [],
-        },
-        authRight: [],
-        disclosurePurpose: [],
-        infoTypeToRelease: [],
     });
 
     // Handle form element change
@@ -73,7 +67,7 @@ const ReleaseReceive = () => {
     };
 
     const formSteps = {
-        steps: ["Verification", "Authorizations", "Preview"],
+        steps: ["Verification", "Consents", "Preview"],
         forms: [
             {
                 id: 1,
@@ -87,12 +81,11 @@ const ReleaseReceive = () => {
             },
             {
                 id: 2,
-                name: "Authorizations",
+                name: "Consents",
                 component: (
-                    <Authorizations
+                    <Consents
                         formData={formData}
                         onChange={handleFormElementChange}
-                        setFormData={setFormData}
                         consent={consent}
                         setConsent={setConsent}
                     />
@@ -120,4 +113,4 @@ const ReleaseReceive = () => {
     );
 };
 
-export default ReleaseReceive;
+export default MedicationConsentForm;

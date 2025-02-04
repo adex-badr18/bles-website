@@ -5,7 +5,7 @@ import ControlledSubstanceForm from "../patientForms/components/ControlledSubsta
 import DepressionAssessmentForm from "../patientForms/components/DepressionAssessmentForm";
 import InitialEvaluationForm from "./components/initialEvaluation/InitialEvaluationForm";
 import IntakeForm from "./components/intake/IntakeForm";
-import MedicationConsentForm from "../patientForms/components/MedicationConsentForm";
+import MedicationConsentForm from "./components/medicationConsent/MedicationConsentForm";
 import MoodDisorderForm from "../patientForms/components/MoodDisorderForm";
 import NoticeOfPrivacy from "./components/privacyPolicy/NoticeOfPrivacy";
 import PatientInfoConsent from "./components/infoConsent/PatientInfoConsent";
@@ -13,7 +13,7 @@ import ReleaseReceive from "./components/releaseReceive/ReleaseReceive";
 import ScreeningForm from "./components/screening/ScreeningForm";
 import SelfPayAgreement from "./components/selfPay/SelfPayAgreement";
 import TerminationPolicy from "./components/terminationPolicy/TerminationPolicy";
-import TreatmentConsentForm from "../patientForms/components/TreatmentConsentForm";
+import TreatmentConsentForm from "./components/treatmentConsent/TreatmentConsentForm";
 
 export const dataCollectionForms = [
     {
