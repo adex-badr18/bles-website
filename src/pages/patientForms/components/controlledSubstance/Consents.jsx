@@ -2,9 +2,8 @@ import DateField from "../../../../components/DateField";
 import SignaturePad from "../../../../components/SignaturePad";
 import { Checkbox } from "../../../../components/CheckboxGroup";
 import SelectField from "../../../../components/SelectField";
+import { consents } from "./data";
 import { booleanOptions } from "../../data";
-
-import { consents, risksAndBenefits } from "./data";
 
 const Consents = ({ formData, onChange, consent, setConsent }) => {
     const patientFullName = `${formData.verification.firstName} ${formData.verification.middleName} ${formData.verification.lastName}`;
@@ -16,49 +15,68 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
         <div className="space-y-6 md:space-y-10">
             <div className="space-y-4">
                 <h3 className="font-bold text-xl md:text-2xl text-darkBlue text-center">
-                    Telehealth, In-Person Treatment, and Medication/Education
-                    Consent Form
+                    Controlled Substance Form
                 </h3>
-
-                <p className="text-vividRed text-center">
-                    This form documents your informed consent to receive
-                    behavioral health services via telehealth and/or in-person
-                    appointments, as well as your consent to receive medications
-                    and related educational information as part of your
-                    treatment plan.
-                </p>
 
                 <p className="text-vividRed text-center">
                     Please read this form carefully and ask any questions you
                     may have before signing.
                 </p>
 
+                <p className="text-deepGrey">
+                    I acknowledge that I have been prescribed controlled
+                    substances as part of my treatment plan at{" "}
+                    <span className="text-lightGreen font-semibold">
+                        BrightLife Enhancement Services.
+                    </span>
+                </p>
+
+                <p className="text-deepGrey">
+                    I understand that controlled substances are medications
+                    regulated by federal and state laws due to their potential
+                    for abuse, dependency, and misuse. This form outlines the
+                    associated risks, patient responsibilities, and guidelines
+                    for the safe use of these medications.
+                </p>
+
                 <div className="space-y-4">
-                    {consents.map((option) => (
+                    {consents.map((consent) => (
                         <div
-                            key={option.id}
+                            key={consent.id}
                             className="p-4 border rounded-lg space-y-4"
                         >
                             <h5 className="font-medium text-darkBlue text-lg md:text-xl">
-                                {option.title}
+                                {consent.title}
                             </h5>
 
-                            <p className="text-grey">{option.consent}</p>
-                            <p className="text-grey">{option.risk}</p>
+                            <p className="text-deepGrey">{consent.consent}</p>
+
+                            {consent.lists && (
+                                <ul className="">
+                                    {consent.lists.map((item) => (
+                                        <li
+                                            key={item.id}
+                                            className="flex items-start gap-4 text-deepGrey"
+                                        >
+                                            <div className="h-2 w-2 rounded-full bg-deepGrey flex-shrink-0 mt-2"></div>
+                                            <span className="">
+                                                {item.title && (
+                                                    <strong>{`${item.title}: `}</strong>
+                                                )}
+                                                {item.descr}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+
+                            {consent.secConsent && (
+                                <p className="text-deepGrey">
+                                    {consent.secConsent}
+                                </p>
+                            )}
                         </div>
                     ))}
-
-                    <ul className="p-4 border rounded-lg space-y-4">
-                        <h5 className="font-medium text-darkBlue text-lg md:text-xl">
-                            Risks & Benefits
-                        </h5>
-                        {risksAndBenefits.map((item) => (
-                            <li key={item.id} className="flex items-start gap-4 text-grey">
-                                <div className="h-2 w-2 rounded-full bg-deepGrey flex-shrink-0 mt-2"></div>
-                                <span className=""><strong>{`${item.title}: `}</strong>{item.descr}</span>
-                            </li>
-                        ))}
-                    </ul>
                 </div>
             </div>
 
@@ -68,8 +86,8 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                 </h4>
 
                 <Checkbox
-                    label={`By signing below, I, ${patientFullName} confirm that I have read and understand the above information, that all of my questions have been answered, and that I voluntarily consent to participate in telehealth services, receive in-person treatment, and accept medication and educational materials as part of my behavioral health care.`}
-                    value={`By signing below, I, ${patientFullName} confirm that I have read and understand the above information, that all of my questions have been answered, and that I voluntarily consent to participate in telehealth services, receive in-person treatment, and accept medication and educational materials as part of my behavioral health care.`}
+                    label={`I, ${patientFullName} have read and understand the above information regarding my prescribed medications. I have had the opportunity to ask questions and receive answers that address my concerns. By signing below, I voluntarily consent to receive treatment as described.`}
+                    value={`I, ${patientFullName} have read and understand the above information regarding my prescribed medications. I have had the opportunity to ask questions and receive answers that address my concerns. By signing below, I voluntarily consent to receive treatment as described.`}
                     checked={consent}
                     onChange={() => setConsent((prev) => !prev)}
                     checkedClass="border-2 border-darkBlue"
@@ -82,7 +100,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                         <div className="space-y-1 col-span-2">
                             <label
                                 htmlFor="patientName"
-                                className="block text-grey"
+                                className="block text-deepGrey"
                             >
                                 Patient's Name
                             </label>
@@ -106,7 +124,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                     </div>
 
                     <div className="space-y-1">
-                        <label className="block text-grey">
+                        <label className="block text-deepGrey">
                             Patient Signature
                         </label>
                         <SignaturePad
@@ -138,7 +156,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                             <div className="space-y-1">
                                 <label
                                     htmlFor="patientName"
-                                    className="block text-grey"
+                                    className="block text-deepGrey"
                                 >
                                     Guardian's Name
                                 </label>
@@ -150,7 +168,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                             <div className="space-y-1">
                                 <label
                                     htmlFor="patientName"
-                                    className="block text-grey"
+                                    className="block text-deepGrey"
                                 >
                                     Relationship to Patient
                                 </label>
@@ -164,7 +182,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                         </div>
 
                         <div className="space-y-1">
-                            <label className="block text-grey">
+                            <label className="block text-deepGrey">
                                 Guardian Signature
                             </label>
                             <SignaturePad

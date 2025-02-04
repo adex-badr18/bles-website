@@ -5,7 +5,7 @@ import PdfPreview from "../../../../components/PdfPreview";
 import PdfDoc from "./PdfDoc";
 import Consents from "./Consents";
 
-const MedicationConsentForm = () => {
+const ControlledSubstanceForm = () => {
     const [consent, setConsent] = useState(false);
     const [formData, setFormData] = useState({
         verification: {
@@ -112,4 +112,4 @@ const MedicationConsentForm = () => {
     );
 };
 
-export default MedicationConsentForm;
+export default ControlledSubstanceForm;
