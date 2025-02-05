@@ -10,28 +10,39 @@ const RadioField = ({
     handleFormElementChange,
     orientation,
 }) => {
-    const orientationClass =
-        orientation === "horizontal"
-            ? "flex-row items-center gap-8"
-            : "flex-col gap-4";
+    let orientationClass;
+
+    if (orientation === "horizontal") {
+        orientationClass = "flex flex-row items-center gap-8";
+    } else if (orientation === "grid") {
+        orientationClass = "grid grid-cols-1 sm:grid-cols-2 gap-4";
+    } else {
+        orientationClass = "flex flex-col gap-4";
+    }
+
+    // const orientationClas =
+    //     orientation === "horizontal"
+    //         ? "flex-row items-center gap-8"
+    //         : "flex-col gap-4";
+    // console.log(name, value);
 
     return (
-        <div className="space-y-1">
-            <p className="text-grey">{label}</p>
-            <div className={`flex ${orientationClass}`}>
-                {data.map((button) => (
+        <div className="space-y-2">
+            <p className="text-deepGrey text-lg font-medium">{label}</p>
+            <div className={`${orientationClass}`}>
+                {data.map((option) => (
                     <label
-                        key={button.id}
-                        htmlFor={button.name}
+                        key={option.id}
+                        htmlFor={`${name}-${option.name}`}
                         className="text-deepGrey flex items-center gap-2 cursor-pointer"
                     >
                         <input
                             type="radio"
                             name={name}
-                            id={button.name}
+                            id={`${name}-${option.name}`}
                             className="hidden peer"
-                            value={button.value}
-                            checked={value === button.value}
+                            value={option.value}
+                            checked={value === option.value}
                             onChange={(e) =>
                                 handleFormElementChange(
                                     section,
@@ -43,7 +54,7 @@ const RadioField = ({
                         <div className="w-5 h-5 rounded-full border-2 border-gray-500 peer-checked:bg-darkBlue flex-shrink-0 flex items-center justify-center">
                             <div className="w-3 h-3 rounded-full bg-transparent"></div>
                         </div>
-                        <span className="">{button.text}</span>
+                        <span className="">{option.text}</span>
                     </label>
                 ))}
             </div>
