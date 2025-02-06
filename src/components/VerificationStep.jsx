@@ -30,6 +30,7 @@ const VerificationStep = ({ formData, onChange }) => {
         onChange("verification", "address.city", "Middlesbrough")
         onChange("verification", "address.state", "London")
         onChange("verification", "address.zipCode", "123456")
+        onChange("verification", "date", new Date().toLocaleDateString())
 
         // Success
         setVerificationResponse({
@@ -43,6 +44,7 @@ const VerificationStep = ({ formData, onChange }) => {
                 email: "tukstom@gmail.com",
                 dob: "01/10/1990",
                 address: { streetName: "Crescent Close", city: "Hagers Town", state: "Sheffield", zipCode: "123456" },
+                date: new Date().toLocaleDateString()
             },
         });
 
@@ -200,6 +202,17 @@ const VerificationStep = ({ formData, onChange }) => {
                                 </label>
                                 <div id="zipCode" className="input">
                                     {verificationResponse.data.address.zipCode}
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <label
+                                    htmlFor="firstName"
+                                    className="block text-grey"
+                                >
+                                    Date
+                                </label>
+                                <div id="zipCode" className="input">
+                                    {verificationResponse.data.date}
                                 </div>
                             </div>
                         </div>
