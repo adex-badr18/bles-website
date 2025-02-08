@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import StepIndicator from "./StepIndicator";
 import Modal from "./Modal";
+import Spinner from "./Spinner";
+import { LuShieldCheck } from "react-icons/lu";
 
 const MultiStepForm = ({
     formData,
@@ -15,6 +18,9 @@ const MultiStepForm = ({
     const [currentStep, setCurrentStep] = useState(1);
     const [completedSteps, setCompletedSteps] = useState([]);
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     let formSizeClass;
 
@@ -130,6 +136,21 @@ const MultiStepForm = ({
         setIsReviewModalOpen(false);
     };
 
+    const handleSubmit = () => {
+        setIsSubmitting(true);
+
+        setTimeout(() => {
+            setIsSubmitModalOpen(true);
+            setIsSubmitting(false)
+        }, 4000);
+        
+    };
+
+    const returnHome = () => {
+        setIsSubmitModalOpen(false);
+        navigate("/");
+    };
+
     return (
         <div className={`flex flex-col gap-6 md:gap-10 ${formSizeClass}`}>
             {/* Step Indicator */}
@@ -180,15 +201,68 @@ const MultiStepForm = ({
                 )}
 
                 {currentStep === steps.length && (
+                    // <button
+                    //     onClick={handleSubmit}
+                    //     className="w-full py-2 px-4 font-semibold text-center border border-lightGreen rounded-lg text-lightGreen hover:text-white hover:bg-lightGreen transition duration-300 disabled:hover:text-lightGreen disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-transparent"
+                    //     // disabled={isFormValid(formData, [])}
+                    // >
+                    //     {
+                    //         isSubmitting ? <Spinner /> : "Submit"
+                    //     }
+                    // </button>
                     <button
-                        onClick={submitHandler}
-                        className="w-full py-2 px-4 font-semibold text-center border border-lightGreen rounded-lg text-lightGreen hover:text-white hover:bg-lightGreen transition duration-300 disabled:hover:text-lightGreen disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-transparent"
-                        disabled={!isFormValid(formData, [])}
+                        className="w-full bg-lightGreen hover:bg-green-600 px-4 py-2 text-white rounded-lg"
+                        onClick={handleSubmit}
                     >
-                        Submit
+                        {isSubmitting ? (
+                            <Spinner secondaryText="Submitting..." />
+                        ) : (
+                            "Submit"
+                        )}
                     </button>
                 )}
             </div>
+
+            {/* Submission Response */}
+            <Modal isOpen={isSubmitModalOpen}>
+                <div className="w-full max-w-xl p-4 rounded-lg bg-white text-deepGrey relative">
+                    <div className="flex flex-col gap-5 justify-center items-center">
+                        <LuShieldCheck className="text-5xl text-lightGreen" />
+
+                        <div className="flex flex-col items-center">
+                            <h3 className="text-lg text-center font-bold mb-5">
+                                Submission Successful!
+                            </h3>
+
+                            <div className="space-y-2 text-center text-deepGrey">
+                                <p className="">
+                                    Thank you for completing the form. Your
+                                    information has been successfully submitted,
+                                    and a confirmation message containing the
+                                    details has been sent to your registered
+                                    email.
+                                </p>
+
+                                <p className="">
+                                    If you do not receive an email within the
+                                    next few minutes, please check your spam or
+                                    junk folder. If you need further assistance,
+                                    feel free to contact us.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col gap-2 mt-1">
+                            <button
+                                className="w-full bg-lightGreen hover:bg-green-600 px-4 py-3 text-white font-medium tracking-widest rounded-lg"
+                                onClick={returnHome}
+                            >
+                                Return to Home
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
 
             {/* Review Modal */}
             {/* <Modal

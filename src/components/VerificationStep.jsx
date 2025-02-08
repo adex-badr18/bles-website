@@ -42,7 +42,7 @@ const VerificationStep = ({ formData, onChange }) => {
                 lastName: "Abdul-hameed",
                 phone: "+23456879012",
                 email: "tukstom@gmail.com",
-                dob: "01/10/1990",
+                dob: new Date("01/10/1990").toLocaleDateString(),
                 address: { streetName: "Crescent Close", city: "Hagers Town", state: "Sheffield", zipCode: "123456" },
                 date: new Date().toLocaleDateString()
             },
