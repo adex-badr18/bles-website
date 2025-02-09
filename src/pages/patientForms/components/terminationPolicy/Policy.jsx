@@ -1,6 +1,7 @@
 import { consents } from "./data";
 import TextField from "../../../../components/TextField";
 import DateField from "../../../../components/DateField";
+import FieldItem from "../../../../components/FieldItem";
 import { Checkbox } from "../../../../components/CheckboxGroup";
 import SignaturePad from "../../../../components/SignaturePad";
 
@@ -32,14 +33,7 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                 </h4>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                    <div className="space-y-1">
-                        <label htmlFor="lastName" className="block text-grey">
-                            Patient's Name
-                        </label>
-                        <div id="lastName" className="input">
-                            {patientFullName}
-                        </div>
-                    </div>
+                    <FieldItem label="Patient's Name" value={patientFullName} />
 
                     <TextField
                         type="text"
@@ -50,19 +44,6 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                         field="witnessName"
                         value={formData.consent.witnessName}
                         handleInputChange={onChange}
-                    />
-
-                    <DateField
-                        label="Date"
-                        name="date"
-                        field="date"
-                        section="consent"
-                        placeholder="MM/DD/YYYY"
-                        handleFormElementChange={onChange}
-                        showMonthDropdown
-                        showYearDropdown
-                        dropdownMode="select"
-                        defaultDate={new Date()}
                     />
                 </div>
 
@@ -76,25 +57,50 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                    <div className="space-y-1">
-                        <label className="block text-grey">
+                    <div className="">
+                        <label className="block text-grey mb-1">
                             Patient Signature
                         </label>
                         <SignaturePad
                             handleInputChange={onChange}
                             section="consent"
                             fieldPath="patientSignature"
+                            dateSection="consent"
+                            dateFieldPath="patientSignDate"
                         />
+                        <div className="mt-8">
+                            {formData.consent.patientSignDate && (
+                                <FieldItem
+                                    label="Patient Signature Date"
+                                    value={new Date(
+                                        formData.consent.patientSignDate
+                                    ).toLocaleDateString()}
+                                />
+                            )}
+                        </div>
                     </div>
-                    <div className="space-y-1">
-                        <label className="block text-grey">
+
+                    <div className="">
+                        <label className="block text-grey mb-1">
                             Witness Signature
                         </label>
                         <SignaturePad
                             handleInputChange={onChange}
                             section="consent"
                             fieldPath="witnessSignature"
+                            dateSection="consent"
+                            dateFieldPath="witnessSignDate"
                         />
+                        <div className="mt-8">
+                            {formData.consent.witnessSignDate && (
+                                <FieldItem
+                                    label="Witness Signature Date"
+                                    value={new Date(
+                                        formData.consent.witnessSignDate
+                                    ).toLocaleDateString()}
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

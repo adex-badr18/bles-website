@@ -21,7 +21,7 @@ const PdfDoc = ({ data }) => {
             },
             date: {
                 title: "Date:",
-                value: data.consent.date.toLocaleDateString(),
+                value: new Date(data.consent.date).toLocaleDateString(),
             },
         },
     };
@@ -160,10 +160,9 @@ const PdfDoc = ({ data }) => {
                                         alignItems: "center",
                                     }}
                                 >
-                                    <Text style={styles.key}>Date:</Text>
+                                    <Text style={styles.key}>Date Signed:</Text>
                                     <Text style={styles.value}>
-                                        {consent.date.value ||
-                                            new Date().toLocaleDateString()}
+                                        {consent.date.value || "N/A"}
                                     </Text>
                                 </View>
                             </View>

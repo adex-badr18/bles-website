@@ -17,7 +17,7 @@ const PdfDoc = ({ data }) => {
             phone: { title: "Phone:", value: data.verification.phone },
             dob: {
                 title: "Date of Birth:",
-                value: data.verification.dob.toLocaleDateString(),
+                value: new Date(data.verification.dob).toLocaleDateString(),
             },
             streetAddress: {
                 title: "Street Address:",
@@ -38,7 +38,9 @@ const PdfDoc = ({ data }) => {
                 },
                 patientSignDate: {
                     title: "Date:",
-                    value: data.consent.patientSignDate.toLocaleDateString(),
+                    value: new Date(
+                        data.consent.patientSignDate
+                    ).toLocaleDateString(),
                 },
             },
             guardian: {
@@ -56,7 +58,9 @@ const PdfDoc = ({ data }) => {
                 },
                 guardianSignDate: {
                     title: "Date:",
-                    value: data.consent.guardianSignDate.toLocaleDateString(),
+                    value: new Date(
+                        data.consent.guardianSignDate
+                    ).toLocaleDateString(),
                 },
             },
         },
@@ -141,8 +145,16 @@ const PdfDoc = ({ data }) => {
                         ))}
                     </View>
 
+                    {/* Agreement Confirmation */}
                     <View style={styles.sectionWrapper}>
-                        <View style={styles.flexRow}>
+                        <Text style={styles.sectionHeader}>
+                            Acknowledgement
+                        </Text>
+
+                        <View style={{
+                                        ...styles.flexRow,
+                                        marginBottom: "16"
+                                    }}>
                             <Image
                                 src={checkbox || ""}
                                 style={{ width: 30, height: 30 }}
@@ -151,13 +163,6 @@ const PdfDoc = ({ data }) => {
                                 {`By signing below, I, ${verification.fullName.value} confirm that I have read and understand the above information, that all of my questions have been answered, and that I voluntarily consent to participate in telehealth services, receive in-person treatment, and accept medication and educational materials as part of my behavioral health care.`}
                             </Text>
                         </View>
-                    </View>
-
-                    {/* Agreement Confirmation */}
-                    <View style={styles.sectionWrapper}>
-                        <Text style={styles.sectionHeader}>
-                            Acknowledgement
-                        </Text>
 
                         <View style={styles.flexCol}>
                             {/* Guardian Info and Signature */}

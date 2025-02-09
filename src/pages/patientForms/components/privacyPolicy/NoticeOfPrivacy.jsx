@@ -19,7 +19,7 @@ const NoticeOfPrivacy = () => {
         consent: {
             patientSignature: "",
             noticeEffectDate: "",
-            date: new Date(),
+            date: "",
         },
     });
 

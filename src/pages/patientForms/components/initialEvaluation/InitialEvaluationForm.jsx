@@ -35,9 +35,10 @@ const InitialEvaluationForm = () => {
             address: { streetName: "", city: "", state: "", zipCode: "" },
             infoToRelease: "",
         },
-        consent: {signature: "", date: new Date()}
+        consent: {signature: "", date: ""}
     });
     console.log(formData)
+    console.log(consents)
 
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {

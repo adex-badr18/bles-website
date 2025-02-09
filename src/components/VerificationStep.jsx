@@ -3,6 +3,7 @@ import TextField from "./TextField";
 import DateField from "./DateField";
 import SelectField from "./SelectField";
 import StaticDivider from "./StaticDivider";
+import FieldItem from "./FieldItem"
 import { MdEmail } from "react-icons/md";
 
 const VerificationStep = ({ formData, onChange }) => {
@@ -21,7 +22,7 @@ const VerificationStep = ({ formData, onChange }) => {
 
         onChange("verification", "id", "PAT000001");
         onChange("verification", "firstName", "Badrudeen");
-        onChange("verification", "middleName", "Adewumi");
+        onChange("verification", "middleName", "");
         onChange("verification", "lastName", "Abdul-hameed");
         onChange("verification", "phone", "+1234567890");
         onChange("verification", "email", "tukstom12@gmail.com");
@@ -94,127 +95,17 @@ const VerificationStep = ({ formData, onChange }) => {
                         <StaticDivider />
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="firstName"
-                                    className="block text-grey"
-                                >
-                                    First Name
-                                </label>
-                                <div id="firstName" className="input">
-                                    {verificationResponse.data.firstName}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="middleName"
-                                    className="block text-grey"
-                                >
-                                    Middle Name
-                                </label>
-                                <div id="middleName" className="input">
-                                    {verificationResponse.data.middleName}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="lastName"
-                                    className="block text-grey"
-                                >
-                                    Last Name
-                                </label>
-                                <div id="lastName" className="input">
-                                    {verificationResponse.data.lastName}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="phone"
-                                    className="block text-grey"
-                                >
-                                    Phone Number
-                                </label>
-                                <div id="phone" className="input">
-                                    {verificationResponse.data.phone}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="firstName"
-                                    className="block text-grey"
-                                >
-                                    Email
-                                </label>
-                                <div id="firstName" className="input">
-                                    {verificationResponse.data.email}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="firstName"
-                                    className="block text-grey"
-                                >
-                                    Date of Birth
-                                </label>
-                                <div id="dob" className="input">
-                                    {verificationResponse.data.dob}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="firstName"
-                                    className="block text-grey"
-                                >
-                                    Street Address
-                                </label>
-                                <div id="streetName" className="input">
-                                    {verificationResponse.data.address.streetName}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="firstName"
-                                    className="block text-grey"
-                                >
-                                    City
-                                </label>
-                                <div id="city" className="input">
-                                    {verificationResponse.data.address.city}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="firstName"
-                                    className="block text-grey"
-                                >
-                                    State
-                                </label>
-                                <div id="state" className="input">
-                                    {verificationResponse.data.address.state}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="firstName"
-                                    className="block text-grey"
-                                >
-                                    Zip Code
-                                </label>
-                                <div id="zipCode" className="input">
-                                    {verificationResponse.data.address.zipCode}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="firstName"
-                                    className="block text-grey"
-                                >
-                                    Date
-                                </label>
-                                <div id="zipCode" className="input">
-                                    {verificationResponse.data.date}
-                                </div>
-                            </div>
+                            <FieldItem label="First Name" value={verificationResponse.data.firstName} />
+                            <FieldItem label="Middle Name" value={verificationResponse.data.middleName} />
+                            <FieldItem label="Last Name" value={verificationResponse.data.lastName} />                            
+                            <FieldItem label="Phone Number" value={verificationResponse.data.phone} />
+                            <FieldItem label="Email" value={verificationResponse.data.email} />                            
+                            <FieldItem label="Date of Birth" value={verificationResponse.data.dob} />
+                            <FieldItem label="Street Address" value={verificationResponse.data.address.streetName} />
+                            <FieldItem label="City" value={verificationResponse.data.address.city} />
+                            <FieldItem label="State" value={verificationResponse.data.address.state} />
+                            <FieldItem label="Zip Code" value={verificationResponse.data.address.zipCode} />
+                            <FieldItem label="Date" value={new Date().toLocaleDateString() || "N/A"} />                        
                         </div>
                     </div>
                 )}

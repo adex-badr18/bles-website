@@ -10,6 +10,7 @@ import {
 } from "./data";
 import SignaturePad from "../../../../components/SignaturePad";
 import DateField from "../../../../components/DateField";
+import FieldItem from "../../../../components/FieldItem";
 import SelectField from "../../../../components/SelectField";
 import DynamicObjectField from "../../../../components/DynamicObjectField";
 import { CheckMarkIcon } from "../../../programs/components/icons";
@@ -248,30 +249,20 @@ const Authorizations = ({
                             Patient Signature
                         </h5>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-                            <div className="space-y-1 col-span-2">
-                                <label
-                                    htmlFor="patientName"
-                                    className="block text-grey"
-                                >
-                                    Patient's Name
-                                </label>
-                                <div id="patientName" className="input">
-                                    {patientFullName}
-                                </div>
-                            </div>
-
-                            <DateField
-                                label="Date"
-                                name="patientSignDate"
-                                field="patientSignDate"
-                                section="consent"
-                                placeholder="MM/DD/YYYY"
-                                handleFormElementChange={onChange}
-                                showMonthDropdown
-                                showYearDropdown
-                                dropdownMode="select"
-                                defaultDate={new Date()}
+                            <FieldItem
+                                label="Patient's Name"
+                                value={patientFullName}
+                                colspanClass="col-span-2"
                             />
+
+                            {formData.consent.patientSignDate && (
+                                <FieldItem
+                                    label="Date"
+                                    value={new Date(
+                                        formData.consent.patientSignDate
+                                    ).toLocaleDateString()}
+                                />
+                            )}
                         </div>
 
                         <div className="space-y-1">
@@ -282,6 +273,8 @@ const Authorizations = ({
                                 handleInputChange={onChange}
                                 section="consent"
                                 fieldPath="patientSignature"
+                                dateSection="consent"
+                                dateFieldPath="patientSignDate"
                             />
                         </div>
                     </div>
@@ -304,29 +297,18 @@ const Authorizations = ({
                                 Legal Guardian/Authorized Representative
                             </h5>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                                <div className="space-y-1">
-                                    <label
-                                        htmlFor="patientName"
-                                        className="block text-grey"
-                                    >
-                                        Guardian's Name
-                                    </label>
-                                    <div id="patientName" className="input">
-                                        {formData.consent.guardianName}
-                                    </div>
-                                </div>
+                                <FieldItem
+                                    label="Guardian's Name"
+                                    value={formData.consent.guardianName}
+                                />
 
-                                <div className="space-y-1">
-                                    <label
-                                        htmlFor="patientName"
-                                        className="block text-grey"
-                                    >
-                                        Relationship to Patient
-                                    </label>
-                                    <div id="patientName" className="input">
-                                        {formData.consent.patientGuardianRelationship}
-                                    </div>
-                                </div>
+                                <FieldItem
+                                    label="Relationship to Patient"
+                                    value={
+                                        formData.consent
+                                            .patientGuardianRelationship
+                                    }
+                                />
                             </div>
 
                             <div className="space-y-1">
@@ -337,21 +319,19 @@ const Authorizations = ({
                                     handleInputChange={onChange}
                                     section="consent"
                                     fieldPath="guardianSignature"
+                                    dateSection="consent"
+                                    dateFieldPath="guardianSignDate"
                                 />
                             </div>
 
-                            <DateField
-                                label="Date"
-                                name="guardianSignDate"
-                                field="guardianSignDate"
-                                section="consent"
-                                placeholder="MM/DD/YYYY"
-                                handleFormElementChange={onChange}
-                                showMonthDropdown
-                                showYearDropdown
-                                dropdownMode="select"
-                                defaultDate={new Date()}
-                            />
+                            {formData.consent.guardianSignDate && (
+                                <FieldItem
+                                    label="Date"
+                                    value={new Date(
+                                        formData.consent.guardianSignDate
+                                    ).toLocaleDateString()}
+                                />
+                            )}
                         </div>
                     )}
                 </div>

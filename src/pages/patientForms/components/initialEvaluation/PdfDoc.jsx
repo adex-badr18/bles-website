@@ -7,69 +7,87 @@ const PdfDoc = ({ data }) => {
     // const consents = consentOptions.map((consent) => consent.label);
     const consents = [
         consentOptions.finRes.label,
-        consentOptions.pcpAuth.label,
-        consentOptions.treatmentConsent.label,
-        `hereby authorize BrightLife Enhancement Services to ${data.primaryCarePhysician.infoToRelease}`,
+        // consentOptions.pcpAuth.label,
+        consentOptions.treatmentConsent.label,        
     ];
 
     const evaluationData = {
         verification: {
-            id: { title: "Patient ID:", value: data.verification.id },
+            id: { title: "Patient ID:", value: data.verification.id || "N/A" },
             fullName: {
                 title: "Patient's Name:",
                 value: `${data.verification.firstName} ${data.verification.middleName} ${data.verification.lastName}`,
             },
-            email: { title: "Email:", value: data.verification.email },
-            phone: { title: "Phone:", value: data.verification.phone },
+            email: { title: "Email:", value: data.verification.email || "N/A" },
+            phone: { title: "Phone:", value: data.verification.phone || "N/A" },
         },
         pharmacy: {
-            name: { title: "Pharmacy Name:", value: data.pharmacy.name },
-            phone: { title: "Phone:", value: data.pharmacy.phone },
+            name: {
+                title: "Pharmacy Name:",
+                value: data.pharmacy.name || "N/A",
+            },
+            phone: { title: "Phone:", value: data.pharmacy.phone || "N/A" },
             streetAddress: {
                 title: "Street Address:",
-                value: data.pharmacy.address.streetName,
+                value: data.pharmacy.address.streetName || "N/A",
             },
-            city: { title: "City:", value: data.pharmacy.address.city },
-            state: { title: "State:", value: data.pharmacy.address.state },
+            city: {
+                title: "City:",
+                value: data.pharmacy.address.city || "N/A",
+            },
+            state: {
+                title: "State:",
+                value: data.pharmacy.address.state || "N/A",
+            },
             zipCode: {
                 title: "Zip Code:",
-                value: data.pharmacy.address.zipCode,
+                value: data.pharmacy.address.zipCode || "N/A",
             },
         },
         primaryCarePhysician: {
             havePcp: {
                 title: "Do you have PCP?:",
-                value: data.primaryCarePhysician.havePcp,
+                value: data.primaryCarePhysician.havePcp || "N/A",
             },
             name: {
                 title: "PCP Name:",
-                value: data.primaryCarePhysician.name,
+                value: data.primaryCarePhysician.name || "N/A",
             },
             phone: {
                 title: "Phone:",
-                value: data.primaryCarePhysician.phone,
+                value: data.primaryCarePhysician.phone || "N/A",
             },
-            fax: { title: "Fax:", value: data.primaryCarePhysician.fax },
+            fax: {
+                title: "Fax:",
+                value: data.primaryCarePhysician.fax || "N/A",
+            },
             streetAddress: {
                 title: "Street Address:",
-                value: data.primaryCarePhysician.address.streetName,
+                value: data.primaryCarePhysician.address.streetName || "N/A",
             },
             city: {
                 title: "City:",
-                value: data.primaryCarePhysician.address.city,
+                value: data.primaryCarePhysician.address.city || "N/A",
             },
             state: {
                 title: "State:",
-                value: data.primaryCarePhysician.address.state,
+                value: data.primaryCarePhysician.address.state || "N/A",
             },
             zipCode: {
                 title: "Zip Code:",
-                value: data.primaryCarePhysician.address.zipCode,
+                value: data.primaryCarePhysician.address.zipCode || "N/A",
             },
         },
         consent: {
-            signature: { title: "Signature:", value: data.consent.signature },
-            date: { title: "Date:", value: data.consent.date },
+            signature: {
+                title: "Signature:",
+                value: data.consent.signature || "N/A",
+            },
+            date: {
+                title: "Date:",
+                value:
+                    new Date(data.consent.date).toLocaleDateString() || "N/A",
+            },
         },
     };
 
@@ -164,7 +182,7 @@ const PdfDoc = ({ data }) => {
                         </View>
                     </View>
 
-                    <View style={styles.sectionWrapper}>
+                    <View style={{...styles.sectionWrapper, marginTop: ""}}>
                         <Text style={styles.sectionHeader}>
                             Agreement and Consents
                         </Text>
@@ -180,6 +198,31 @@ const PdfDoc = ({ data }) => {
                                     </Text>
                                 </View>
                             ))}
+
+                            {data.primaryCarePhysician.havePcp.toLowerCase() ===
+                                "yes" && (
+                                <View style={styles.flexRow}>
+                                    <Image
+                                        src={checkbox || ""}
+                                        style={{ width: 30, height: 30 }}
+                                    />
+                                    <Text style={styles.consentLabel}>
+                                        {`I hereby authorize BrightLife Enhancement Services to ${data.primaryCarePhysician.infoToRelease}`}
+                                    </Text>
+                                </View>
+                            )}
+
+                            {data.primaryCarePhysician.infoToRelease && (
+                                <View style={styles.flexRow}>
+                                    <Image
+                                        src={checkbox || ""}
+                                        style={{ width: 30, height: 30 }}
+                                    />
+                                    <Text style={styles.consentLabel}>
+                                        {`I, ${verification.fullName.value} ${consentOptions.pcpAuth.label}`}
+                                    </Text>
+                                </View>
+                            )}
 
                             {/* Date and Signature */}
                             <View
@@ -212,8 +255,7 @@ const PdfDoc = ({ data }) => {
                                 >
                                     <Text style={styles.key}>Date:</Text>
                                     <Text style={styles.value}>
-                                        {consent.date.value.toLocaleDateString() ||
-                                            new Date().toLocaleDateString()}
+                                        {consent.date.value}
                                     </Text>
                                 </View>
                             </View>

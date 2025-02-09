@@ -8,6 +8,7 @@ import AlcoholHistory from "./AlcoholHistory";
 import PsychoSocial from "./PsychoSocial";
 import OtherHistory from "./OtherHistory";
 import IntroForm from "./IntroForm";
+import Preview from "./Preview";
 
 const IntakeForm = () => {
     const [formData, setFormData] = useState({
@@ -133,7 +134,7 @@ const IntakeForm = () => {
             "Alcohol/Drug",
             "Psychosocial",
             "Others",
-            "Preview",
+            // "Preview",
         ],
         forms: [
             {
@@ -202,13 +203,18 @@ const IntakeForm = () => {
                     />
                 ),
             },
-            {
-                id: 7,
-                name: "Preview",
-                component: (
-                    <PdfPreview key={7} Doc={<PdfDoc data={formData} />} />
-                ),
-            },
+            // {
+            //     id: 7,
+            //     name: "Preview",
+            //     component: <Preview key={7} formData={formData} />,
+            // },
+            // {
+            //     id: 7,
+            //     name: "Preview",
+            //     component: (
+            //         <PdfPreview key={7} Doc={<PdfDoc data={formData} />} />
+            //     ),
+            // },
         ],
     };
 

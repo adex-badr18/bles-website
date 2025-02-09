@@ -2,6 +2,7 @@ import DateField from "../../../../components/DateField";
 import SignaturePad from "../../../../components/SignaturePad";
 import { Checkbox } from "../../../../components/CheckboxGroup";
 import SelectField from "../../../../components/SelectField";
+import FieldItem from "../../../../components/FieldItem";
 import { consents } from "./data";
 import { booleanOptions } from "../../data";
 
@@ -9,7 +10,6 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
     const patientFullName = `${formData.verification.firstName} ${formData.verification.middleName} ${formData.verification.lastName}`;
 
     console.log(formData);
-    console.log(consent);
 
     return (
         <div className="space-y-6 md:space-y-10">
@@ -97,7 +97,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                 <div className="p-4 border rounded space-y-5">
                     <h5 className="tex-lg font-medium">Patient Signature</h5>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-                        <div className="space-y-1 col-span-2">
+                        {/* <div className="space-y-1 col-span-2">
                             <label
                                 htmlFor="patientName"
                                 className="block text-deepGrey"
@@ -120,7 +120,22 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                             showYearDropdown
                             dropdownMode="select"
                             defaultDate={new Date()}
+                        /> */}
+
+                        <FieldItem
+                            label="Patient's Name"
+                            value={patientFullName}
+                            colspanClass="col-span-2"
                         />
+
+                        {formData.consent.patientSignDate && (
+                            <FieldItem
+                                label="Date"
+                                value={new Date(
+                                    formData.consent.patientSignDate
+                                ).toLocaleDateString()}
+                            />
+                        )}
                     </div>
 
                     <div className="space-y-1">
@@ -131,6 +146,8 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                             handleInputChange={onChange}
                             section="consent"
                             fieldPath="patientSignature"
+                            dateSection="consent"
+                            dateFieldPath="patientSignDate"
                         />
                     </div>
                 </div>
@@ -153,32 +170,16 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                             Legal Guardian/Authorized Representative
                         </h5>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="patientName"
-                                    className="block text-deepGrey"
-                                >
-                                    Guardian's Name
-                                </label>
-                                <div id="patientName" className="input">
-                                    {formData.consent.guardianName}
-                                </div>
-                            </div>
-
-                            <div className="space-y-1">
-                                <label
-                                    htmlFor="patientName"
-                                    className="block text-deepGrey"
-                                >
-                                    Relationship to Patient
-                                </label>
-                                <div id="patientName" className="input">
-                                    {
-                                        formData.consent
-                                            .patientGuardianRelationship
-                                    }
-                                </div>
-                            </div>
+                            <FieldItem
+                                label="Guardian's Name"
+                                value={formData.consent.guardianName}
+                            />
+                            <FieldItem
+                                label="Relationship to Patient"
+                                value={
+                                    formData.consent.patientGuardianRelationship
+                                }
+                            />
                         </div>
 
                         <div className="space-y-1">
@@ -189,21 +190,19 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                                 handleInputChange={onChange}
                                 section="consent"
                                 fieldPath="guardianSignature"
+                                dateSection="consent"
+                                dateFieldPath="guardianSignDate"
                             />
                         </div>
 
-                        <DateField
-                            label="Date"
-                            name="guardianSignDate"
-                            field="guardianSignDate"
-                            section="consent"
-                            placeholder="MM/DD/YYYY"
-                            handleFormElementChange={onChange}
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
-                            defaultDate={new Date()}
-                        />
+                        {formData.consent.guardianSignDate && (
+                            <FieldItem
+                                label="Date"
+                                value={new Date(
+                                    formData.consent.guardianSignDate
+                                ).toLocaleDateString()}
+                            />
+                        )}
                     </div>
                 )}
             </div>

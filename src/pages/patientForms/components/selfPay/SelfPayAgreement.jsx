@@ -18,9 +18,11 @@ const SelfPayAgreement = () => {
         },
         consent: {
             patientSignature: "",
-            date: new Date(),
+            date: "",
         },
     });
+
+    console.log(formData)
 
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
@@ -78,8 +80,8 @@ const SelfPayAgreement = () => {
                     <Agreement
                         formData={formData}
                         onChange={handleFormElementChange}
-                        consents={selfPayConsent}
-                        setConsents={setSelfPayConsent}
+                        consent={selfPayConsent}
+                        setConsent={setSelfPayConsent}
                     />
                 ),
             },

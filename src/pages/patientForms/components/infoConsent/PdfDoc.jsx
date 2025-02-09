@@ -16,7 +16,7 @@ const PdfDoc = ({ data }) => {
         },
         consent: {
             signature: { title: "Signature:", value: data.consent.signature },
-            date: { title: "Date:", value: data.consent.date },
+            date: { title: "Date:", value: new Date(data.consent.date) },
         },
     };
 
@@ -84,7 +84,7 @@ const PdfDoc = ({ data }) => {
                                         {consent.title}
                                     </Text>
 
-                                    <View style={styles.flexRow}>
+                                    <View style={{...styles.flexRow, alignItems: "center"}}>
                                         <Image
                                             src={checkbox || ""}
                                             style={{ width: 30, height: 30 }}
@@ -97,7 +97,8 @@ const PdfDoc = ({ data }) => {
                             ))}
                         </View>
                     </View>
-
+                    
+                    <View style={{marginTop: "20"}}></View>
                     {/* Agreement Confirmation */}
                     <View style={styles.sectionWrapper}>
                         <Text style={styles.sectionHeader}>
@@ -144,7 +145,7 @@ const PdfDoc = ({ data }) => {
                                         alignItems: "center",
                                     }}
                                 >
-                                    <Text style={styles.key}>Date:</Text>
+                                    <Text style={styles.key}>Date Signed:</Text>
                                     <Text style={styles.value}>
                                         {consent.date.value.toLocaleDateString() ||
                                             new Date().toLocaleDateString()}

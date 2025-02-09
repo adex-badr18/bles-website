@@ -10,7 +10,7 @@ const ScreeningForm = () => {
     const [formData, setFormData] = useState({
         verification: {
             id: "",
-            date: new Date(),
+            date: "",
             firstName: "",
             middleName: "",
             lastName: "",
@@ -43,7 +43,7 @@ const ScreeningForm = () => {
         },
     });
 
-    console.log(formData)
+    console.log(formData);
 
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
@@ -82,7 +82,12 @@ const ScreeningForm = () => {
     };
 
     const formSteps = {
-        steps: ["Verification", "Screening", "Referral", "Preview"],
+        steps: [
+            "Verification",
+            "Screening",
+            "Referral",
+            // "Preview"
+        ],
         forms: [
             {
                 id: 1,
@@ -114,13 +119,13 @@ const ScreeningForm = () => {
                     />
                 ),
             },
-            {
-                id: 4,
-                name: "Preview",
-                component: (
-                    <PdfPreview key={7} Doc={<PdfDoc data={formData} />} />
-                ),
-            },
+            // {
+            //     id: 4,
+            //     name: "Preview",
+            //     component: (
+            //         <PdfPreview key={7} Doc={<PdfDoc data={formData} />} />
+            //     ),
+            // },
         ],
     };
 

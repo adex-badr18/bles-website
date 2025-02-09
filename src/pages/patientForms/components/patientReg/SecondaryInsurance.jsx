@@ -3,7 +3,8 @@ import SelectField from "../../../../components/SelectField";
 import DateField from "../../../../components/DateField";
 import RadioField from "../../../../components/RadioField";
 
-import { relationshipOptions, booleanOptions } from "../../data";
+import { relationshipOptions } from "../../data";
+import { booleanOptions } from "./data";
 
 const SecondaryInsurance = ({ formData, handleInputChange }) => {
     return (
@@ -82,7 +83,7 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             showMonthDropdown
                             showYearDropdown
                             dropdownMode="select"
-                            defaultDate={new Date()}
+                            // defaultDate={new Date()}
                         />
                         <SelectField
                             label="Relationship to Patient"
@@ -196,6 +197,8 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             field="secondaryInsurance.insuranceProvider.haveCoordinationBenefits"
                             handleFormElementChange={handleInputChange}
                             data={booleanOptions}
+                            orientation="horizontal"
+                            labelClass="text-grey"
                         />                        
                         <TextField
                             type="text"
@@ -220,7 +223,7 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             showMonthDropdown
                             showYearDropdown
                             dropdownMode="select"
-                            defaultDate={new Date()}
+                            // defaultDate={new Date()}
                         />
                         <DateField
                             label="Coverage End Date"
@@ -232,7 +235,7 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             showMonthDropdown
                             showYearDropdown
                             dropdownMode="select"
-                            defaultDate={new Date()}
+                            // defaultDate={new Date()}
                         />
                     </div>
 

@@ -21,7 +21,7 @@ const PatientRegistrationForm = () => {
             middleName: "",
             lastName: "",
             gender: "",
-            dob: new Date(),
+            dob: "",
             maritalStatus: "",
             socialSecurityNumber: "",
             homePhone: "",
@@ -48,7 +48,7 @@ const PatientRegistrationForm = () => {
             firstName: "",
             // middleName: "",
             lastName: "",
-            dob: new Date(),
+            dob: "",
             relationship: "",
             address: { streetName: "", city: "", state: "", zipCode: "" },
             phone: "",
@@ -89,7 +89,7 @@ const PatientRegistrationForm = () => {
                     lastName: "",
                     relationship: "",
                     phone: "",
-                    dob: new Date(),
+                    dob: "",
                 },
                 insuranceProvider: {
                     name: "",
@@ -98,8 +98,8 @@ const PatientRegistrationForm = () => {
                     groupNumber: "",
                     authorizationId: "",
                     coPay: "",
-                    coverageStartDate: new Date(),
-                    coverageEndDate: new Date(),
+                    coverageStartDate: "",
+                    coverageEndDate: "",
                     address: {
                         streetName: "",
                         city: "",
@@ -115,7 +115,7 @@ const PatientRegistrationForm = () => {
                     lastName: "",
                     relationship: "",
                     phone: "",
-                    dob: new Date(),
+                    dob: "",
                 },
                 insuranceProvider: {
                     name: "",
@@ -123,8 +123,8 @@ const PatientRegistrationForm = () => {
                     policyId: "",
                     groupNumber: "",
                     authorizationId: "",
-                    coverageStartDate: new Date(),
-                    coverageEndDate: new Date(),
+                    coverageStartDate: "",
+                    coverageEndDate: "",
                     haveCoordinationBenefits: "",
                     address: {
                         streetName: "",
@@ -136,7 +136,7 @@ const PatientRegistrationForm = () => {
                 },
             },
         },
-        consent: { signature: "", date: new Date() },
+        consent: { signature: "", date: "" },
     });
 
     // Handle form element change
@@ -175,7 +175,7 @@ const PatientRegistrationForm = () => {
         console.log(regForm);
     };
 
-    // console.log(regForm);
+    console.log(regForm);
     // console.log(consents);
 
     const formSteps = {

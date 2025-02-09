@@ -17,7 +17,7 @@ const PdfDoc = ({ data }) => {
             phone: { title: "Phone:", value: data.verification.phone },
             dob: {
                 title: "Date of Birth:",
-                value: data.verification.dob.toLocaleDateString() || "N/A",
+                value: new Date(data.verification.dob).toLocaleDateString() || "N/A",
             },
             streetAddress: {
                 title: "Street Address:",
@@ -39,7 +39,7 @@ const PdfDoc = ({ data }) => {
                 patientSignDate: {
                     title: "Date:",
                     value:
-                        data.consent.patientSignDate?.toLocaleDateString() ||
+                        new Date(data.consent.patientSignDate).toLocaleDateString() ||
                         "N/A",
                 },
             },
@@ -59,7 +59,7 @@ const PdfDoc = ({ data }) => {
                 guardianSignDate: {
                     title: "Date:",
                     value:
-                        data.consent.guardianSignDate?.toLocaleDateString() ||
+                        new Date(data.consent.guardianSignDate).toLocaleDateString() ||
                         "N/A",
                 },
             },

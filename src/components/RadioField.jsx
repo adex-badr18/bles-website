@@ -9,6 +9,7 @@ const RadioField = ({
     field,
     handleFormElementChange,
     orientation,
+    labelClass
 }) => {
     let orientationClass;
 
@@ -28,7 +29,7 @@ const RadioField = ({
 
     return (
         <div className="space-y-2">
-            <p className="text-deepGrey text-lg font-medium">{label}</p>
+            <p className={`${labelClass}`}>{label}</p>
             <div className={`${orientationClass}`}>
                 {data.map((option) => (
                     <label

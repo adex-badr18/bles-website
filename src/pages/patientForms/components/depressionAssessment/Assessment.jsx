@@ -62,6 +62,7 @@ const Assessment = ({ formData, onChange, totalScore }) => {
                                 field={`${key}.answer`}
                                 handleFormElementChange={onChange}
                                 orientation="grid"
+                                labelClass="text-deepGrey text-lg font-medium"
                                 key={index}
                             />
                         );

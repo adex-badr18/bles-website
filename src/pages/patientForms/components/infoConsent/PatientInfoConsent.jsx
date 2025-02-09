@@ -18,7 +18,7 @@ const PatientInfoConsent = () => {
         },
         consent: {
             signature: "",
-            date: new Date(),
+            date: "",
         },
     });
 

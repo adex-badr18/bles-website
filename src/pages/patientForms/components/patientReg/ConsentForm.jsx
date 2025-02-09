@@ -1,10 +1,16 @@
 import { Checkbox } from "../../../../components/CheckboxGroup";
 import SignaturePad from "../../../../components/SignaturePad";
 import DateField from "../../../../components/DateField";
+import FieldItem from "../../../../components/FieldItem";
 
 import { consentOptions } from "../../data";
 
-const ConsentForm = ({ consentData, setConsentData, handleInputChange, formData }) => {
+const ConsentForm = ({
+    consentData,
+    setConsentData,
+    handleInputChange,
+    formData,
+}) => {
     const handleCheckboxChange = (e, name) => {
         const { value } = e.target;
 
@@ -52,22 +58,18 @@ const ConsentForm = ({ consentData, setConsentData, handleInputChange, formData 
                         handleInputChange={handleInputChange}
                         section="consent"
                         fieldPath="signature"
+                        dateSection="consent"
+                        dateFieldPath="date"
                     />
 
-                    <DateField
-                        label="Date"
-                        name="date"
-                        field="date"
-                        section="consent"
-                        placeholder="MM/DD/YYYY"
-                        handleFormElementChange={handleInputChange}
-                        showMonthDropdown
-                        showYearDropdown
-                        dropdownMode="select"
-                        defaultDate={formData.consent.date}
-                    />
-
-                    {/* <img src={formData.consent.signature} alt="" className="w-60 h-36" /> */}
+                    {formData.consent.date && (
+                        <FieldItem
+                            label="Date"
+                            value={new Date(
+                                formData.consent.date
+                            ).toLocaleDateString()}
+                        />
+                    )}
                 </div>
             </div>
         </div>

@@ -70,12 +70,12 @@ export const consents = [
                 descr: "Acknowledge the risks, including dependency and adverse effects, and agree to adhere to the prescribed treatment plan.",
             },
             {
-                id: 1,
+                id: 3,
                 title: "",
                 descr: "Understand that I am responsible for using these medications responsibly and for following all clinic guidelines and legal requirements.",
             },
             {
-                id: 1,
+                id: 4,
                 title: "",
                 descr: "Agree to communicate openly with my provider about any issues or changes in my condition that may affect my treatment.",
             },

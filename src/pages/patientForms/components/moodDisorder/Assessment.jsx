@@ -52,6 +52,7 @@ const Assessment = ({ formData, onChange }) => {
                                     field={`${key}.answer`}
                                     handleFormElementChange={onChange}
                                     orientation="grid"
+                                    labelClass="text-deepGrey text-lg font-medium"
                                     key={index}
                                 />
                             );
@@ -81,6 +82,7 @@ const Assessment = ({ formData, onChange }) => {
                                     field={`${key}.answer`}
                                     handleFormElementChange={onChange}
                                     orientation="grid"
+                                    labelClass="text-deepGrey text-lg font-medium"
                                     key={index}
                                 />
                             );

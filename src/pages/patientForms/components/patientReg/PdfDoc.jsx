@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     },
     sectionHeader: {
         fontWeight: "bold",
-        marginBottom: 16,
+        marginBottom: 12,
         fontSize: 14,
         textTransform: "uppercase",
     },
@@ -103,14 +103,22 @@ const PdfDoc = ({ data }) => {
     const regData = {
         personal: {
             firstName: { title: "First Name:", value: data.personal.firstName },
-            middleName: { title: "Middle Name:", value: data.personal.middleName },
+            middleName: {
+                title: "Middle Name:",
+                value: data.personal.middleName,
+            },
             lastName: { title: "Last Name:", value: data.personal.lastName },
             gender: { title: "Gender:", value: data.personal.gender },
             dob: {
                 title: "Date of Birth:",
-                value: new Date(data.personal.dob).toLocaleDateString(),
+                value: data.personal.dob
+                    ? new Date(data.personal.dob).toLocaleDateString()
+                    : "N/A",
             },
-            maritalStatus: { title: "Marital Status:", value: data.personal.maritalStatus },
+            maritalStatus: {
+                title: "Marital Status:",
+                value: data.personal.maritalStatus,
+            },
             socialSecurityNumber: {
                 title: "Social Security Number:",
                 value: data.personal.socialSecurityNumber,
@@ -118,7 +126,10 @@ const PdfDoc = ({ data }) => {
             homePhone: { title: "Home Phone:", value: data.personal.homePhone },
             cellPhone: { title: "Cell Phone:", value: data.personal.cellPhone },
             workPhone: { title: "Work Phone:", value: data.personal.workPhone },
-            preferredPhone: { title: "Preferred Phone:", value: data.personal.preferredPhone },
+            preferredPhone: {
+                title: "Preferred Phone:",
+                value: data.personal.preferredPhone,
+            },
             appointmentReminderMode: {
                 title: "Appointment Reminder Mode:",
                 value: data.personal.appointmentReminderMode,
@@ -130,7 +141,10 @@ const PdfDoc = ({ data }) => {
             },
             city: { title: "City:", value: data.personal.address.city },
             state: { title: "State:", value: data.personal.address.state },
-            zipCode: { title: "Zip Code:", value: data.personal.address.zipCode },
+            zipCode: {
+                title: "Zip Code:",
+                value: data.personal.address.zipCode,
+            },
             sendMsgToHomePhone: {
                 title: "Leave message on home phone:",
                 value: data.personal.sendMsgToHomePhone,
@@ -157,7 +171,10 @@ const PdfDoc = ({ data }) => {
                 value: data.personal.employmentStatus,
             },
             employer: { title: "Employer:", value: data.personal.employer },
-            occupation: { title: "Occupation:", value: data.personal.occupation },
+            occupation: {
+                title: "Occupation:",
+                value: data.personal.occupation,
+            },
             religion: { title: "Religion:", value: data.personal.religion },
             ethnicity: { title: "Ethnicity:", value: data.personal.ethnicity },
             race: { title: "Race:", value: data.personal.race },
@@ -167,32 +184,50 @@ const PdfDoc = ({ data }) => {
             },
         },
         guarantor: {
-            firstName: { title: "First Name:", value: data.guarantor.firstName },
+            firstName: {
+                title: "First Name:",
+                value: data.guarantor.firstName,
+            },
             // middleName: {title: "Middle Name:", value: ""},
             lastName: { title: "Last Name:", value: data.guarantor.lastName },
             dob: {
                 title: "Date of Birth:",
-                value: new Date(data.guarantor.dob).toLocaleDateString(),
+                value: data.guarantor.dob ? new Date(data.guarantor.dob).toLocaleDateString() : "N/A",
             },
-            relationship: { title: "Relationship:", value: data.guarantor.relationship },
+            relationship: {
+                title: "Relationship:",
+                value: data.guarantor.relationship,
+            },
             streetAddress: {
                 title: "Street Address",
                 value: data.guarantor.address.streetName,
             },
             city: { title: "City:", value: data.guarantor.address.city },
             state: { title: "State:", value: data.guarantor.address.state },
-            zipCode: { title: "Zip Code:", value: data.guarantor.address.zipCode },
+            zipCode: {
+                title: "Zip Code:",
+                value: data.guarantor.address.zipCode,
+            },
             phone: { title: "Phone Number:", value: data.guarantor.phone },
             email: { title: "Email:", value: data.guarantor.email },
-            stateIssuedId: { title: "State Issued ID:", value: data.guarantor.stateIssuedId },
-            insuranceCard: { title: "Insurance Card:", value: data.guarantor.insuranceCard },
+            stateIssuedId: {
+                title: "State Issued ID:",
+                value: data.guarantor.stateIssuedId,
+            },
+            insuranceCard: {
+                title: "Insurance Card:",
+                value: data.guarantor.insuranceCard,
+            },
         },
         parent: {
             firstName: { title: "First Name:", value: data.parent.firstName },
             // middleName: {title: "Middle Name:", value: ""},
             lastName: { title: "Last Name:", value: data.parent.lastName },
             gender: { title: "Gender:", value: data.parent.gender },
-            maritalStatus: { title: "Marital Status:", value: data.parent.maritalStatus },
+            maritalStatus: {
+                title: "Marital Status:",
+                value: data.parent.maritalStatus,
+            },
             phone: { title: "Phone Number:", value: data.parent.phone },
             email: { title: "Email:", value: data.parent.email },
             streetAddress: {
@@ -202,106 +237,244 @@ const PdfDoc = ({ data }) => {
             city: { title: "City:", value: data.parent.address.city },
             state: { title: "State:", value: data.parent.address.state },
             zipCode: { title: "Zip Code:", value: data.parent.address.zipCode },
-            familyRole: { title: "Family Role:", value: data.parent.familyRole },
-            employmentStatus: { title: "Employment Status:", value: data.parent.employmentStatus },
+            familyRole: {
+                title: "Family Role:",
+                value: data.parent.familyRole,
+            },
+            employmentStatus: {
+                title: "Employment Status:",
+                value: data.parent.employmentStatus,
+            },
             employer: { title: "Employer:", value: data.parent.employer },
             occupation: { title: "Occupation", value: data.parent.occupation },
         },
         emergency: {
-            firstName: { title: "First Name:", value: data.emergency.firstName },
+            firstName: {
+                title: "First Name:",
+                value: data.emergency.firstName,
+            },
             // middleName: {title: "Middle Name:", value: ""},
             lastName: { title: "Last Name:", value: data.emergency.lastName },
-            relationship: { title: "Relationship:", value: data.emergency.relationship },
+            relationship: {
+                title: "Relationship:",
+                value: data.emergency.relationship,
+            },
             streetAddress: {
                 title: "Street Address",
                 value: data.emergency.address.streetName,
             },
             city: { title: "City:", value: data.emergency.address.city },
             state: { title: "State:", value: data.emergency.address.state },
-            zipCode: { title: "Zip Code:", value: data.emergency.address.zipCode },
+            zipCode: {
+                title: "Zip Code:",
+                value: data.emergency.address.zipCode,
+            },
             homePhone: { title: "Home Phone", value: data.emergency.homePhone },
-            cellPhone: { title: "Cell Phone:", value: data.emergency.cellPhone },
+            cellPhone: {
+                title: "Cell Phone:",
+                value: data.emergency.cellPhone,
+            },
             email: { title: "Email:", value: data.emergency.email },
         },
         primaryInsurance: {
-            policyHolderFirstName: { title: "First Name:", value: data.insurance.primaryInsurance.policyHolder.firstName },
-            policyHolderMiddleName: { title: "Middle Name:", value: data.insurance.primaryInsurance.policyHolder.middleName },
-            policyHolderLastName: { title: "Last Name:", value: data.insurance.primaryInsurance.policyHolder.lastName },
+            policyHolderFirstName: {
+                title: "First Name:",
+                value: data.insurance.primaryInsurance.policyHolder.firstName,
+            },
+            policyHolderMiddleName: {
+                title: "Middle Name:",
+                value: data.insurance.primaryInsurance.policyHolder.middleName,
+            },
+            policyHolderLastName: {
+                title: "Last Name:",
+                value: data.insurance.primaryInsurance.policyHolder.lastName,
+            },
             policyHolderRelationship: {
                 title: "Relationship to Patient:",
-                value: data.insurance.primaryInsurance.policyHolder.relationship,
+                value: data.insurance.primaryInsurance.policyHolder
+                    .relationship,
             },
-            policyHolderPhone: { title: "Phone:", value: data.insurance.primaryInsurance.policyHolder.phone },
-            policyHolderDob: { title: "Date of Birth:", value: new Date(data.insurance.primaryInsurance.policyHolder.dob).toLocaleDateString() },
+            policyHolderPhone: {
+                title: "Phone:",
+                value: data.insurance.primaryInsurance.policyHolder.phone,
+            },
+            policyHolderDob: {
+                title: "Date of Birth:",
+                value: data.insurance.primaryInsurance.policyHolder.dob
+                    ? new Date(
+                          data.insurance.primaryInsurance.policyHolder.dob
+                      ).toLocaleDateString()
+                    : "N/A",
+            },
             insuranceProviderName: {
                 title: "Provider Name:",
                 value: data.insurance.primaryInsurance.insuranceProvider.name,
             },
-            insuranceProviderPhone: { title: "Phone:", value: data.insurance.primaryInsurance.insuranceProvider.phone },
-            policyId: { title: "Policy ID:", value: data.insurance.primaryInsurance.insuranceProvider.policyId },
-            groupNumber: { title: "Group Number:", value: data.insurance.primaryInsurance.insuranceProvider.groupNumber },
+            insuranceProviderPhone: {
+                title: "Phone:",
+                value: data.insurance.primaryInsurance.insuranceProvider.phone,
+            },
+            policyId: {
+                title: "Policy ID:",
+                value: data.insurance.primaryInsurance.insuranceProvider
+                    .policyId,
+            },
+            groupNumber: {
+                title: "Group Number:",
+                value: data.insurance.primaryInsurance.insuranceProvider
+                    .groupNumber,
+            },
             authorizationId: {
                 title: "Authorization/Pre-Approval Number:",
-                value: data.insurance.primaryInsurance.insuranceProvider.authorizationId,
+                value: data.insurance.primaryInsurance.insuranceProvider
+                    .authorizationId,
             },
-            coPay: { title: "Co-pay:", value: data.insurance.primaryInsurance.insuranceProvider.coPay },
+            coPay: {
+                title: "Co-pay:",
+                value: data.insurance.primaryInsurance.insuranceProvider.coPay,
+            },
             coverageStartDate: {
                 title: "Coverage Start Date:",
-                value: new Date(data.insurance.primaryInsurance.insuranceProvider.coverageStartDate).toLocaleDateString(),
+                value: data.insurance.primaryInsurance.insuranceProvider
+                    .coverageStartDate
+                    ? new Date(
+                          data.insurance.primaryInsurance.insuranceProvider.coverageStartDate
+                      ).toLocaleDateString()
+                    : "N/A",
             },
             coverageEndDate: {
                 title: "Coverage End Date:",
-                value: new Date(data.insurance.primaryInsurance.insuranceProvider.coverageEndDate).toLocaleDateString(),
+                value: data.insurance.primaryInsurance.insuranceProvider
+                    .coverageEndDate
+                    ? new Date(
+                          data.insurance.primaryInsurance.insuranceProvider.coverageEndDate
+                      ).toLocaleDateString()
+                    : "N/A",
             },
             streetAddress: {
                 title: "Street Address",
-                value: data.insurance.primaryInsurance.insuranceProvider.address.streetName,
+                value: data.insurance.primaryInsurance.insuranceProvider.address
+                    .streetName,
             },
-            city: { title: "City:", value: data.insurance.primaryInsurance.insuranceProvider.address.city },
-            state: { title: "State:", value: data.insurance.primaryInsurance.insuranceProvider.address.state },
-            zipCode: { title: "Zip Code:", value: data.insurance.primaryInsurance.insuranceProvider.address.zipCode },
+            city: {
+                title: "City:",
+                value: data.insurance.primaryInsurance.insuranceProvider.address
+                    .city,
+            },
+            state: {
+                title: "State:",
+                value: data.insurance.primaryInsurance.insuranceProvider.address
+                    .state,
+            },
+            zipCode: {
+                title: "Zip Code:",
+                value: data.insurance.primaryInsurance.insuranceProvider.address
+                    .zipCode,
+            },
         },
         secondaryInsurance: {
-            policyHolderFirstName: { title: "First Name:", value: data.insurance.secondaryInsurance.policyHolder.firstName },
-            policyHolderMiddleName: { title: "Middle Name:", value: data.insurance.secondaryInsurance.policyHolder.middleName },
-            policyHolderLastName: { title: "Last Name:", value: data.insurance.secondaryInsurance.policyHolder.lastName },
+            policyHolderFirstName: {
+                title: "First Name:",
+                value: data.insurance.secondaryInsurance.policyHolder.firstName,
+            },
+            policyHolderMiddleName: {
+                title: "Middle Name:",
+                value: data.insurance.secondaryInsurance.policyHolder
+                    .middleName,
+            },
+            policyHolderLastName: {
+                title: "Last Name:",
+                value: data.insurance.secondaryInsurance.policyHolder.lastName,
+            },
             policyHolderRelationship: {
                 title: "Relationship to Patient:",
-                value: data.insurance.secondaryInsurance.policyHolder.relationship,
+                value: data.insurance.secondaryInsurance.policyHolder
+                    .relationship,
             },
-            policyHolderPhone: { title: "Phone:", value: data.insurance.secondaryInsurance.policyHolder.phone },
-            policyHolderDob: { title: "Date of Birth:", value: new Date(data.insurance.secondaryInsurance.policyHolder.dob).toLocaleDateString() },
+            policyHolderPhone: {
+                title: "Phone:",
+                value: data.insurance.secondaryInsurance.policyHolder.phone,
+            },
+            policyHolderDob: {
+                title: "Date of Birth:",
+                value: data.insurance.secondaryInsurance.policyHolder.dob
+                    ? new Date(
+                          data.insurance.secondaryInsurance.policyHolder.dob
+                      ).toLocaleDateString()
+                    : "N/A",
+            },
             insuranceProviderName: {
                 title: "Provider Name:",
                 value: data.insurance.secondaryInsurance.insuranceProvider.name,
             },
-            insuranceProviderPhone: { title: "Phone:", value: data.insurance.secondaryInsurance.insuranceProvider.phone },
-            policyId: { title: "Policy ID:", value: data.insurance.secondaryInsurance.insuranceProvider.policyId },
-            groupNumber: { title: "Group Number:", value: data.insurance.secondaryInsurance.insuranceProvider.groupNumber },
+            insuranceProviderPhone: {
+                title: "Phone:",
+                value: data.insurance.secondaryInsurance.insuranceProvider
+                    .phone,
+            },
+            policyId: {
+                title: "Policy ID:",
+                value: data.insurance.secondaryInsurance.insuranceProvider
+                    .policyId,
+            },
+            groupNumber: {
+                title: "Group Number:",
+                value: data.insurance.secondaryInsurance.insuranceProvider
+                    .groupNumber,
+            },
             authorizationId: {
                 title: "Authorization/Pre-Approval Number:",
-                value: data.insurance.secondaryInsurance.insuranceProvider.authorizationId,
+                value: data.insurance.secondaryInsurance.insuranceProvider
+                    .authorizationId,
             },
-            coPay: { title: "Co-pay:", value: data.insurance.secondaryInsurance.insuranceProvider.coPay },
+            coPay: {
+                title: "Co-pay:",
+                value: data.insurance.secondaryInsurance.insuranceProvider
+                    .coPay,
+            },
             haveCoordinationBenefits: {
                 title: "Do you have coordination of benefits:",
-                value: data.insurance.secondaryInsurance.insuranceProvider.haveCoordinationBenefits,
+                value: data.insurance.secondaryInsurance.insuranceProvider
+                    .haveCoordinationBenefits,
             },
             coverageStartDate: {
                 title: "Coverage Start Date:",
-                value: new Date(data.insurance.secondaryInsurance.insuranceProvider.coverageStartDate).toLocaleDateString(),
+                value: data.insurance.secondaryInsurance.insuranceProvider
+                    .coverageStartDate
+                    ? new Date(
+                          data.insurance.secondaryInsurance.insuranceProvider.coverageStartDate
+                      ).toLocaleDateString()
+                    : "N/A",
             },
             coverageEndDate: {
                 title: "Coverage End Date:",
-                value: new Date(data.insurance.secondaryInsurance.insuranceProvider.coverageEndDate).toLocaleDateString(),
+                value: data.insurance.secondaryInsurance.insuranceProvider
+                    .coverageEndDate
+                    ? new Date(
+                          data.insurance.secondaryInsurance.insuranceProvider.coverageEndDate
+                      ).toLocaleDateString()
+                    : "N/A",
             },
             streetAddress: {
                 title: "Street Address",
-                value: data.insurance.secondaryInsurance.insuranceProvider.address.streetName,
+                value: data.insurance.secondaryInsurance.insuranceProvider
+                    .address.streetName,
             },
-            city: { title: "City:", value: data.insurance.secondaryInsurance.insuranceProvider.address.city },
-            state: { title: "State:", value: data.insurance.secondaryInsurance.insuranceProvider.address.state },
-            zipCode: { title: "Zip Code:", value: data.insurance.secondaryInsurance.insuranceProvider.address.zipCode },
+            city: {
+                title: "City:",
+                value: data.insurance.secondaryInsurance.insuranceProvider
+                    .address.city,
+            },
+            state: {
+                title: "State:",
+                value: data.insurance.secondaryInsurance.insuranceProvider
+                    .address.state,
+            },
+            zipCode: {
+                title: "Zip Code:",
+                value: data.insurance.secondaryInsurance.insuranceProvider
+                    .address.zipCode,
+            },
         },
         consent: {
             signature: { title: "Signature:", value: data.consent.signature },
@@ -322,7 +495,7 @@ const PdfDoc = ({ data }) => {
         consent,
     } = regData;
 
-    console.log(regData)
+    console.log(regData);
 
     return (
         <Document>
@@ -389,7 +562,9 @@ const PdfDoc = ({ data }) => {
                                 </Text>
                                 {guarantor.stateIssuedId?.value ? (
                                     <Image
-                                        src={guarantor.stateIssuedId.value || ""}
+                                        src={
+                                            guarantor.stateIssuedId.value || ""
+                                        }
                                         style={styles.idImg}
                                     />
                                 ) : (
@@ -410,7 +585,9 @@ const PdfDoc = ({ data }) => {
                                 </Text>
                                 {guarantor.insuranceCard?.value ? (
                                     <Image
-                                        src={guarantor.insuranceCard.value || ""}
+                                        src={
+                                            guarantor.insuranceCard.value || ""
+                                        }
                                         style={styles.idImg}
                                     />
                                 ) : (
@@ -529,15 +706,14 @@ const PdfDoc = ({ data }) => {
                                     }}
                                 >
                                     <Text style={styles.key}>Signature:</Text>
-                                    {consent.signature.value ? 
-                                    <Image
-                                        src={consent.signature?.value || ""}
-                                        style={{ width: 200 }}
-                                    /> : 
-                                    <Text style={styles.value}>
-                                        N/A
-                                    </Text>
-                                    }
+                                    {consent.signature.value ? (
+                                        <Image
+                                            src={consent.signature?.value || ""}
+                                            style={{ width: 200 }}
+                                        />
+                                    ) : (
+                                        <Text style={styles.value}>N/A</Text>
+                                    )}
                                 </View>
                                 <View
                                     style={{

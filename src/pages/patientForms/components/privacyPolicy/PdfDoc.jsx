@@ -21,11 +21,13 @@ const PdfDoc = ({ data }) => {
             },
             noticeEffectDate: {
                 title: "Date:",
-                value: data.consent.noticeEffectDate.toLocaleDateString(),
+                value: new Date(
+                    data.consent.noticeEffectDate
+                ).toLocaleDateString(),
             },
             date: {
                 title: "Date:",
-                value: data.consent.date.toLocaleDateString(),
+                value: new Date(data.consent.date).toLocaleDateString(),
             },
         },
     };
@@ -109,14 +111,13 @@ const PdfDoc = ({ data }) => {
                                 may disclose your personal information.
                             </Text>
 
-                            {disclosureList.map((item) => (
-                                <View style={styles.flexCol}>
-                                    <Text>
-                                        We may use and disclose your medical
-                                        records only for the following purposes
-                                        (treatment, payment, and health care
-                                        operation):
-                                    </Text>
+                            <View style={styles.flexCol}>
+                                <Text>
+                                    We may use and disclose your medical records
+                                    only for the following purposes (treatment,
+                                    payment, and health care operation):
+                                </Text>
+                                {disclosureList.map((item) => (
                                     <View key={item.id} style={styles.flexRow}>
                                         <Image
                                             src={checkbox || ""}
@@ -126,8 +127,8 @@ const PdfDoc = ({ data }) => {
                                             {item.descr}
                                         </Text>
                                     </View>
-                                </View>
-                            ))}
+                                ))}
+                            </View>
 
                             <Text style={styles.consentLabel}>
                                 We may also create and distribute de-identified
@@ -146,14 +147,13 @@ const PdfDoc = ({ data }) => {
                                 fundraising communications from us.
                             </Text>
 
-                            {phidisclosureList.map((item) => (
-                                <View style={styles.flexCol}>
-                                    <Text>
-                                        The following use and disclosures of PHI
-                                        will only be made pursuant to us
-                                        receiving a written authorization from
-                                        you:
-                                    </Text>
+                            <View style={styles.flexCol}>
+                                <Text>
+                                    The following use and disclosures of PHI
+                                    will only be made pursuant to us receiving a
+                                    written authorization from you:
+                                </Text>
+                                {phidisclosureList.map((item) => (
                                     <View key={item.id} style={styles.flexRow}>
                                         <Image
                                             src={checkbox || ""}
@@ -163,8 +163,8 @@ const PdfDoc = ({ data }) => {
                                             {item.descr}
                                         </Text>
                                     </View>
-                                </View>
-                            ))}
+                                ))}
+                            </View>
 
                             <Text style={styles.consentLabel}>
                                 You may revoke such authorization in writing,
@@ -174,12 +174,12 @@ const PdfDoc = ({ data }) => {
                                 authorization.
                             </Text>
 
-                            {patientRights.map((item) => (
-                                <View style={styles.flexCol}>
-                                    <Text>
-                                        You may have the following rights with
-                                        respect to your PHI:
-                                    </Text>
+                            <View style={styles.flexCol}>
+                                <Text>
+                                    You may have the following rights with
+                                    respect to your PHI:
+                                </Text>
+                                {patientRights.map((item) => (
                                     <View key={item.id} style={styles.flexRow}>
                                         <Image
                                             src={checkbox || ""}
@@ -189,8 +189,8 @@ const PdfDoc = ({ data }) => {
                                             {item.descr}
                                         </Text>
                                     </View>
-                                </View>
-                            ))}
+                                ))}
+                            </View>
 
                             <Text style={styles.consentLabel}>
                                 If you have paid for services, in full and in

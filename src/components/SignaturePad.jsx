@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import SignatureCanvas from "react-signature-canvas";
 
-const SignaturePad = ({ handleInputChange, section, fieldPath }) => {
+const SignaturePad = ({ handleInputChange, section, fieldPath, dateSection, dateFieldPath }) => {
     const sigCanvasRef = useRef(null);
 
     // Save signature to state after drawing ends
@@ -9,6 +9,7 @@ const SignaturePad = ({ handleInputChange, section, fieldPath }) => {
         if (sigCanvasRef.current) {
             const signatureData = sigCanvasRef.current.toDataURL();
             handleInputChange(section, fieldPath, signatureData);
+            handleInputChange(dateSection, dateFieldPath, new Date().toISOString())
         }
     };
 
@@ -16,6 +17,7 @@ const SignaturePad = ({ handleInputChange, section, fieldPath }) => {
     const clearSignature = (e) => {
         e.preventDefault();
 
+        handleInputChange(section, fieldPath, "");
         sigCanvasRef.current.clear();
     };
 

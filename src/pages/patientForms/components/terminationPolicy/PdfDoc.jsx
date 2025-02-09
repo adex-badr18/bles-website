@@ -27,7 +27,18 @@ const PdfDoc = ({ data }) => {
                 title: " Witness' Signature:",
                 value: data.consent.witnessSignature,
             },
-            date: { title: "Date:", value: data.consent.date },
+            patientSignDate: {
+                title: "Patient Signature Date:",
+                value: new Date(
+                    data.consent.patientSignDate
+                ).toLocaleDateString(),
+            },
+            witnessSignDate: {
+                title: "Witness Signature Date:",
+                value: new Date(
+                    data.consent.witnessSignDate
+                ).toLocaleDateString(),
+            },
         },
     };
 
@@ -108,7 +119,7 @@ const PdfDoc = ({ data }) => {
                     {/* Agreement Confirmation */}
                     <View style={styles.sectionWrapper}>
                         <Text style={styles.sectionHeader}>
-                            Agreement Confirmation
+                            Acknowledgement
                         </Text>
 
                         <View style={styles.flexCol}>
@@ -121,91 +132,122 @@ const PdfDoc = ({ data }) => {
                                     {`I, ${verification.fullName.value} understand and agree to BrightLife Enhancement Services Termination Policy stated above.`}
                                 </Text>
                             </View>
+                        </View>
+                    </View>
 
-                            {/* Witness Name and Signature */}
+                    {/* Witness Name and Signature */}
+                    <View style={styles.sectionWrapper}>
+                        <Text style={styles.sectionHeader}>Witness</Text>
+
+                        <View
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                gap: 5,
+                                flexWrap: "wrap",
+                                marginTop: "-30"
+                            }}
+                        >
                             <View
                                 style={{
-                                    ...styles.flexRowBetween,
-                                    width: "100%",
+                                    ...styles.flexRow,
+                                    alignItems: "center",
+                                    width: "",
                                 }}
                             >
-                                <View
-                                    style={{
-                                        ...styles.flexRow,
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    <Text style={styles.key}>
-                                        Witness Signature:
-                                    </Text>
-                                    {consent.witnessSignature.value ? (
-                                        <Image
-                                            src={
-                                                consent.witnessSignature
-                                                    ?.value || ""
-                                            }
-                                            style={{ width: 100 }}
-                                        />
-                                    ) : (
-                                        <Text style={styles.value}>N/A</Text>
-                                    )}
-                                </View>
-                                <View
-                                    style={{
-                                        ...styles.flexRow,
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    <Text style={styles.key}>
-                                        Witness Name:
-                                    </Text>
-                                    <Text style={styles.value}>
-                                        {consent.witnessName.value || "N/A"}
-                                    </Text>
-                                </View>
+                                <Text style={styles.key}>Witness Name:</Text>
+                                <Text style={styles.value}>
+                                    {consent.witnessName.value || "N/A"}
+                                </Text>
+                            </View>
+                            <View
+                                style={{
+                                    ...styles.flexRow,
+                                    alignItems: "center",
+                                    width: "",
+                                }}
+                            >
+                                <Text style={styles.key}>
+                                    Witness Signature:
+                                </Text>
+                                {consent.witnessSignature.value ? (
+                                    <Image
+                                        src={
+                                            consent.witnessSignature?.value ||
+                                            ""
+                                        }
+                                        style={{ width: 100, }}
+                                    />
+                                ) : (
+                                    <Text style={styles.value}>N/A</Text>
+                                )}
+                            </View>
+                            <View
+                                style={{
+                                    ...styles.flexRow,
+                                    alignItems: "center",
+                                    width: "",
+                                }}
+                            >
+                                <Text style={styles.key}>
+                                    Witness Signature Date:
+                                </Text>
+                                <Text style={styles.value}>
+                                    {consent.witnessSignDate.value || "N/A"}
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    {/* Patient's Date and Signature */}
+                    <View style={styles.sectionWrapper}>
+                        <Text style={styles.sectionHeader}>Patient</Text>
+
+                        <View
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                gap: 5,
+                                flexWrap: "wrap",
+                                marginTop: "-30"
+                            }}
+                        >
+                            <View
+                                style={{
+                                    ...styles.flexRow,
+                                    alignItems: "center",
+                                }}
+                            >
+                                <Text style={styles.key}>
+                                    Patient Signature:
+                                </Text>
+                                {consent.patientSignature.value ? (
+                                    <Image
+                                        src={
+                                            consent.patientSignature?.value ||
+                                            ""
+                                        }
+                                        style={{ width: 100 }}
+                                    />
+                                ) : (
+                                    <Text style={styles.value}>N/A</Text>
+                                )}
                             </View>
 
-                            {/* Patient's Date and Signature */}
                             <View
                                 style={{
-                                    ...styles.flexRowBetween,
-                                    width: "100%",
+                                    ...styles.flexRow,
+                                    alignItems: "center",
                                 }}
                             >
-                                <View
-                                    style={{
-                                        ...styles.flexRow,
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    <Text style={styles.key}>
-                                        Patient Signature:
-                                    </Text>
-                                    {consent.patientSignature.value ? (
-                                        <Image
-                                            src={
-                                                consent.patientSignature
-                                                    ?.value || ""
-                                            }
-                                            style={{ width: 100 }}
-                                        />
-                                    ) : (
-                                        <Text style={styles.value}>N/A</Text>
-                                    )}
-                                </View>
-
-                                <View
-                                    style={{
-                                        ...styles.flexRow,
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    <Text style={styles.key}>Date:</Text>
-                                    <Text style={styles.value}>
-                                        {consent.date.value.toLocaleDateString() ||
-                                            new Date().toLocaleDateString()}
-                                    </Text>
-                                </View>
+                                <Text style={styles.key}>
+                                    Patient Signature Date:
+                                </Text>
+                                <Text style={styles.value}>
+                                    {consent.patientSignDate.value || "N/A"}
+                                </Text>
                             </View>
                         </View>
                     </View>

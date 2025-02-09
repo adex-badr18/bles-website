@@ -139,7 +139,7 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                         showMonthDropdown
                                         showYearDropdown
                                         dropdownMode="select"
-                                        defaultDate={new Date()}
+                                        // defaultDate={new Date()}
                                     />
                                     <SelectField
                                         label="Relationship to Patient"
@@ -268,7 +268,7 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                         showMonthDropdown
                                         showYearDropdown
                                         dropdownMode="select"
-                                        defaultDate={new Date()}
+                                        // defaultDate={new Date()}
                                     />
                                     <DateField
                                         label="Coverage End Date"
@@ -282,7 +282,7 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                         showMonthDropdown
                                         showYearDropdown
                                         dropdownMode="select"
-                                        defaultDate={new Date()}
+                                        // defaultDate={new Date()}
                                     />
                                 </div>
 

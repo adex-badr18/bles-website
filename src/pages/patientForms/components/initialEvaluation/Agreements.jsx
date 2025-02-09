@@ -2,6 +2,7 @@ import DateField from "../../../../components/DateField";
 import TextField from "../../../../components/TextField";
 import RadioField from "../../../../components/RadioField";
 import SignaturePad from "../../../../components/SignaturePad";
+import FieldItem from "../../../../components/FieldItem";
 import { pcpAuthOptions, consentOptions } from "./data";
 import { Checkbox } from "../../../../components/CheckboxGroup";
 import SelectField from "../../../../components/SelectField";
@@ -230,29 +231,20 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                     </h4>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-                        <div className="space-y-1 col-span-2">
-                            <label
-                                htmlFor="lastName"
-                                className="block text-grey"
-                            >
-                                Patient's Name
-                            </label>
-                            <div id="lastName" className="input">
-                                {patientFullName}
-                            </div>
-                        </div>
-                        <DateField
-                            label="Date"
-                            name="date"
-                            field="date"
-                            section="consent"
-                            placeholder="MM/DD/YYYY"
-                            handleFormElementChange={onChange}
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
-                            defaultDate={new Date()}
+                        <FieldItem
+                            label="Patient's Name"
+                            value={patientFullName}
+                            colspanClass="col-span-2"
                         />
+
+                        {formData.consent.date && (
+                            <FieldItem
+                                label="Date"
+                                value={new Date(
+                                    formData.consent.date
+                                ).toLocaleDateString()}
+                            />
+                        )}
                     </div>
 
                     <div className="space-y-1">
@@ -263,6 +255,8 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                             handleInputChange={onChange}
                             section="consent"
                             fieldPath="signature"
+                            dateSection="consent"
+                            dateFieldPath="date"
                         />
                     </div>
                 </div>

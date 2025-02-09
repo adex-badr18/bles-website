@@ -18,9 +18,10 @@ const TerminationPolicy = () => {
         },
         consent: {
             patientSignature: "",
+            patientSignDate: "",
             witnessName: "",
             witnessSignature: "",
-            date: new Date(),
+            witnessSignDate: "",
         },
     });
 
