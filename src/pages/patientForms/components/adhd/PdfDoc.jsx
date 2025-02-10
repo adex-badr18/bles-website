@@ -33,6 +33,7 @@ const PdfDoc = ({ data, totalScore }) => {
                 title: "Zip Code:",
                 value: data.verification.address.zipCode,
             },
+            date: {title: "Date:", value: new Date().toLocaleDateString()}
         },
         partA: data.partA,
         partB: data.partB,

@@ -12,11 +12,13 @@ import Review from "./pages/review/Review";
 import PatientForm, {
     patientFormLoader,
 } from "./pages/patientForms/PatientForm";
+import Error from "./components/Error";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Layout />,
+        errorElement: <Error />,
         children: [
             { index: true, element: <Home /> },
             { path: "/services", element: <Services /> },
