@@ -20,11 +20,13 @@ export default {
                 deepGrey: "#2b3944",
                 lightGrey: "#959ca2",
                 grey: "#647589",
+                offWhite: "#FBFAF7",
             },
             fontFamily: {
                 poppins: ["Poppins", "sans-serif"],
                 rubik: ["Rubik", "sans-serif"],
                 agu: ["Agu Display", "serif"],
+                knewave: ["Knewave", "serif"],
             },
             fontSize: {
                 default: "15px",

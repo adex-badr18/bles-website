@@ -27,15 +27,12 @@ import AppointmentInfo from "./pages/admin/appointments/AppointmentInfo";
 import Settings from "./pages/admin/settings/Settings";
 import Login from "./pages/admin/auth/Login";
 import AdminAuthLayout from "./pages/admin/components/layout/AdminAuthLayout";
+import RootLayout from "./components/layout/RootLayout";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: (
-            <div>
-                <Outlet />
-            </div>
-        ),
+        element: <RootLayout />,
         errorElement: <Error />,
         children: [
             // User Routes
