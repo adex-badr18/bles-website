@@ -6,7 +6,7 @@ import { patients, patientsColumns } from "./data";
 const Patients = () => {
     return (
         <section className="py-8">
-            <PageTitle title="Registered Patients"></PageTitle>
+            <PageTitle title="Registered Patients" />
 
             <Table
                 data={patients}
