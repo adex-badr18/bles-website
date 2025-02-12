@@ -21,7 +21,7 @@ import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Patients from "./pages/admin/patients/Patients";
 import Patient from "./pages/admin/patients/Patient";
 import Reviews from "./pages/admin/reviews/Reviews";
-import ReviewInfo from "./pages/admin/reviews/ReviewInfo";
+import ReviewInfo, { reviewLoader } from "./pages/admin/reviews/ReviewInfo";
 import Appointments from "./pages/admin/appointments/Appointments";
 import AppointmentInfo from "./pages/admin/appointments/AppointmentInfo";
 import Settings from "./pages/admin/settings/Settings";
@@ -111,6 +111,7 @@ const router = createBrowserRouter([
                             {
                                 path: "reviews/:id",
                                 element: <ReviewInfo />,
+                                loader: reviewLoader,
                             },
                             {
                                 path: "appointments",

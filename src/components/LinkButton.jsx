@@ -7,7 +7,7 @@ const LinkButton = ({ name, to, icon, bgColor, classAttrs, ...rest }) => {
             className={`rounded-full px-[35px] py-4 flex items-center justify-center gap-2 divide-x-2 divide-white text-white font-poppins font-semibold text-nowrap transition duration-500 ${
                 bgColor === "red" ? "bg-vividRed" : "bg-lightGreen"
             } hover:${
-                bgColor === "red" ? "bg-lightGreen" : "bg-vividRed"
+                bgColor === "red" ? "bg-lightGreen" : "bg-lighterGreen"
             } ${classAttrs}`}
             {...rest}
         >

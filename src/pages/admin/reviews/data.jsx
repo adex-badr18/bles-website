@@ -31,7 +31,7 @@ export const reviews = [
         email: "username@gmail.com",
         rating: "3",
         status: "Inactive",
-        review: "Exceptional care and support! The team was compassionate, professional, and truly listened to my concerns. I feel heard and valued. Highly recommend!",
+        review: "Exceptional care and support! The team was compassionate, professional, and truly listened to my concerns. I feel heard and valued. Highly recommend! Exceptional care and support! The team was compassionate, professional, and truly listened to my concerns. I feel heard and valued. Highly recommend!",
     },
     {
         id: "5",
@@ -79,7 +79,7 @@ export const reviewsColumns = [
 
             return (
                 <span
-                    className={`p-1 w-16 block text-center rounded text-xs text-offWhite ${
+                    className={`p-1 w-16 block text-center rounded text-xs text-offWhite capitalize ${
                         value.toLowerCase() === "active"
                             ? "bg-lightGreen"
                             : "bg-vividRed"
