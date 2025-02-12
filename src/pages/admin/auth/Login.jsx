@@ -17,19 +17,24 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
 
-        if (
-            formData.email === "admin@gmail.com" &&
-            formData.password === "Pa$$word"
-        ) {
-            login(formData);
-            navigate(from, { replace: true });
-        }
+        setTimeout(() => {
+            if (
+                formData.email === "admin@gmail.com" &&
+                formData.password === "Pa$$word"
+            ) {
+                login(formData);
+                navigate(from, { replace: true });
+            }
+
+            setIsSubmitting(false);
+        }, 4000);
     };
 
     return (
         <div className="h-screen flex">
-            <div className="relative bg-darkBlue flex-1 p-10">
+            <div className="hidden md:block relative bg-darkBlue flex-1 p-10">
                 <Link to="/">
                     <Logo logoSrc={logo} />
                 </Link>
@@ -45,7 +50,10 @@ const Login = () => {
                 <Blob />
             </div>
 
-            <div className="flex-1 p-10 bg-offWhite flex items-center justify-center">
+            <div className="flex-1 p-10 bg-offWhite flex flex-col items-center justify-center gap-10">
+            <Link to="/">
+                <Logo logoSrc={logo} />
+            </Link>
                 <div className="bg-white px-11 py-8 rounded-lg shadow space-y-10 w-full max-w-lg">
                     <h3 className="text-3xl text-emeraldGreen text-center font-montserrat">
                         Log in
@@ -118,6 +126,7 @@ const Login = () => {
                                         loadingText="Logging in..."
                                         submitText="Log in"
                                         onSubmit={handleSubmit}
+                                        isSubmitting={isSubmitting}
                                     />
                                     <Link className="block text-center text-orange font-lato">
                                         Forgot your password?
