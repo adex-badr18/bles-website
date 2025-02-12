@@ -7,8 +7,9 @@ import {
     flexRender,
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
-import { MdFilterListAlt } from "react-icons/md";
 import SearchBox from "./SearchBox";
+import { MdFilterListAlt } from "react-icons/md";
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 const Table = ({
     data,
@@ -43,11 +44,21 @@ const Table = ({
         navigate(`${rootPath}/${id}`);
     };
 
+    const generateMultiplesOf10 = (totalNumber) => {
+        let num = Math.ceil(totalNumber / 10);
+        const multiplesOf10 = [];
+
+        for (let i = 1; i <= num; i++) {
+            multiplesOf10.push(i * 10);
+        }
+        return multiplesOf10;
+    }
+
     return (
         <div className="px-4 py-6 bg-offWhite rounded-lg space-y-6 w-full">
             {/* Title Bar */}
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center">
-                <h2 className="text-lg text-darkBlue font-bold">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                <h2 className="text-lg text-darkBlue font-medium">
                     {tableTitle}
                 </h2>
 
@@ -68,12 +79,12 @@ const Table = ({
             <div className="overflow-x-auto">
                 <table className="w-full border-collapse border-spacing-0 table-auto">
                     <thead>
-                        <tr className="bg-lightGray px-3 text-deepGrey font-bold">
+                        <tr className="bg-lightGray">
                             {table.getHeaderGroups().map((headerGroup) =>
                                 headerGroup.headers.map((header) => (
                                     <th
                                         key={header.id}
-                                        className="p-4 text-left"
+                                        className="p-4 text-left font-semibold"
                                     >
                                         {flexRender(
                                             header.column.columnDef.header,
@@ -124,25 +135,73 @@ const Table = ({
 
             {/* Pagination */}
             {isIncludePagination && (
-                <div className="mt-4 flex justify-between items-center">
-                    <button
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                        className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
-                    >
-                        Previous
-                    </button>
-                    <span>
-                        Page {table.getState().pagination.pageIndex + 1} of{" "}
-                        {table.getPageCount()}
-                    </span>
-                    <button
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                        className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
-                    >
-                        Next
-                    </button>
+                <div className="mt-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="hidden sm:flex items-center gap-4 md:gap-8 text-deepGrey">
+                        <span className="font-medium">
+                            {`Page ${
+                                table.getState().pagination.pageIndex + 1
+                            } of ${table.getPageCount()}`}
+                        </span>
+
+                        <span className="flex items-center gap-1">
+                            Go to page:
+                            <input
+                                type="number"
+                                className="border border-grey p-1 rounded w-10 bg-offWhite"
+                                defaultValue={
+                                    table.getState().pagination.pageIndex + 1
+                                }
+                                onChange={(e) => {
+                                    const page = e.target.value
+                                        ? Number(e.target.value) - 1
+                                        : 0;
+                                    table.setPageIndex(page);
+                                }}
+                                min={1}
+                                max={table.getPageCount()}
+                            />
+                        </span>
+
+                        <select
+                            value={table.getState().pagination.pageSize}
+                            onChange={(e) => {
+                                table.setPageSize(Number(e.target.value));
+                            }}
+                            className="p-1 bg-transparent border border-grey rounded"
+                        >
+                            {generateMultiplesOf10(data.length).map(
+                                (pageSize) => (
+                                    <option key={pageSize} value={pageSize}>
+                                        Show {pageSize}
+                                    </option>
+                                )
+                            )}
+                        </select>
+                    </div>
+
+                    <div className="flex items-center mt-4 gap-x-4 sm:mt-0">
+                        <button
+                            onClick={() => {
+                                table.previousPage();
+                            }}
+                            disabled={!table.getCanPreviousPage()}
+                            className="flex items-center justify-center gap-x-2 w-full px-5 py-2 text-lightGreen hover:text-offWhite bg-transparent hover:bg-lightGreen capitalize transition-colors duration-200 border border-lightGreen rounded disabled:opacity-30 disabled:cursor-not-allowed"
+                        >
+                            <FaArrowLeftLong size={18} className="hidden sm:block flex-shrink-0" />
+                            <span>previous</span>
+                        </button>
+
+                        <button
+                            onClick={() => {
+                                table.nextPage();
+                            }}
+                            disabled={!table.getCanNextPage()}
+                            className="flex items-center justify-center gap-x-2 w-full px-5 py-2 text-offWhite bg-lightGreen capitalize transition-colors duration-200 border border-lightGreen hover:border-lighterGreen rounded hover:bg-lighterGreen disabled:opacity-30 disabled:cursor-not-allowed"
+                        >
+                            <span>Next</span>
+                            <FaArrowRightLong size={18} className="hidden sm:block flex-shrink-0" />
+                        </button>
+                    </div>
                 </div>
             )}
         </div>
