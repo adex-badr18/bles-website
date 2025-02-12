@@ -3,21 +3,21 @@ import PageTitle from "../components/PageTitle";
 import { appointments, appointmentsColumns } from "./data";
 
 const Appointments = () => {
-  return (
-    <section className="py-8">
-        <PageTitle title="Scheduled Appointments" />
+    return (
+        <section className="py-8">
+            <PageTitle title="Scheduled Appointments" />
 
-        <Table
-            data={appointments}
-            columns={appointmentsColumns}
-            entity="appointments"
-            isIncludePagination={true}
-            isIncludeSearchBox={true}
-            tableTitle="Appointments"
-            columnFilters={[]}
-        />
-    </section>
-);
-}
+            <Table
+                data={appointments}
+                columns={appointmentsColumns}
+                entity="appointments"
+                isIncludePagination={true}
+                isIncludeSearchBox={true}
+                tableTitle="Appointments"
+                columnFilters={[]}
+            />
+        </section>
+    );
+};
 
-export default Appointments
+export default Appointments;
