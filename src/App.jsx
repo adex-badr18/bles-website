@@ -23,7 +23,7 @@ import Patient from "./pages/admin/patients/Patient";
 import Reviews from "./pages/admin/reviews/Reviews";
 import ReviewInfo, { reviewLoader } from "./pages/admin/reviews/ReviewInfo";
 import Appointments from "./pages/admin/appointments/Appointments";
-import AppointmentInfo from "./pages/admin/appointments/AppointmentInfo";
+import AppointmentInfo, { appointmentLoader } from "./pages/admin/appointments/AppointmentInfo";
 import Settings from "./pages/admin/settings/Settings";
 import Login from "./pages/admin/auth/Login";
 import AdminAuthLayout from "./pages/admin/components/layout/AdminAuthLayout";
@@ -120,6 +120,7 @@ const router = createBrowserRouter([
                             {
                                 path: "appointments/:id",
                                 element: <AppointmentInfo />,
+                                loader: appointmentLoader
                             },
                             { path: "settings", element: <Settings /> },
                             { path: "*", element: <div>Coming Soon!</div> },
