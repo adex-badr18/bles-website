@@ -1,3 +1,5 @@
+import { convertToUSDateTime } from "../utils";
+
 export const appointments = [
     {
         id: "1",
@@ -5,7 +7,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Rodriguez",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -17,7 +19,7 @@ export const appointments = [
         dateTime: new Date().toISOString(),
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "2",
@@ -25,7 +27,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Smith",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -34,10 +36,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "3",
@@ -45,7 +47,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Almarouf",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -54,10 +56,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "4",
@@ -65,7 +67,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Ajayi",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -74,10 +76,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "5",
@@ -85,7 +87,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Evans",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -94,10 +96,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "6",
@@ -105,7 +107,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Almarouf",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -114,10 +116,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "7",
@@ -125,7 +127,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Ajayi",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -134,10 +136,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "8",
@@ -145,7 +147,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Evans",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -154,10 +156,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "9",
@@ -165,7 +167,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Almarouf",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -174,10 +176,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "10",
@@ -185,7 +187,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Ajayi",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -194,10 +196,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "11",
@@ -205,7 +207,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Evans",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -214,10 +216,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "12",
@@ -225,7 +227,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Almarouf",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -234,10 +236,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "13",
@@ -245,7 +247,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Ajayi",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -254,10 +256,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     {
         id: "14",
@@ -265,7 +267,7 @@ export const appointments = [
         middleName: "Joy",
         lastName: "Evans",
         phone: "+4104567891",
-        dob: new Date("03/21/1974").toLocaleDateString(),
+        dob: "2025-02-13",
         gender: "Female",
         email: "username@gmail.com",
         streetAddress: "1 Example Street",
@@ -274,10 +276,10 @@ export const appointments = [
         zipCode: "123456",
         appointmentType: "In-person",
         service: "Medical Rehab0",
-        dateTime: new Date().toISOString(),
+        dateTime: "2025-02-13T14:30:00Z",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
-        insuranceNumber: "123456789"
+        insuranceNumber: "123456789",
     },
     // Add more data here
 ];
@@ -292,17 +294,14 @@ export const appointmentsColumns = [
         header: "Last Name",
     },
     {
-        accessorKey: "dob",
-        header: "Date of Birth",
+        accessorKey: "dateTime",
+        header: "Appointment Date",
+        cell: (prop) => `${convertToUSDateTime(prop.getValue(), true)} ET`,
     },
     {
-        accessorKey: "gender",
-        header: "Gender",
+        accessorKey: "phone",
+        header: "Phone",
     },
-        {
-            accessorKey: "phone",
-            header: "Phone",
-        },
     {
         accessorKey: "email",
         header: "Email",

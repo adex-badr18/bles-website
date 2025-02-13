@@ -5,6 +5,7 @@ import LinkButton from "../../../components/LinkButton";
 import FieldItem from "../../../components/FieldItem";
 import { appointments } from "./data";
 import { MdOutlineHome } from "react-icons/md";
+import { convertToUSDateTime } from "../utils";
 
 export const appointmentLoader = async ({ params }) => {
     const id = params.id;
@@ -72,9 +73,7 @@ const AppointmentInfo = () => {
                         <FieldItem label="Gender" value={appointment.gender} />
                         <FieldItem
                             label="Date of Birth"
-                            value={new Date(
-                                appointment.dob
-                            ).toLocaleDateString()}
+                            value={convertToUSDateTime(appointment.dob)}
                         />
                         <FieldItem label="Email" value={appointment.email} />
                         <FieldItem label="Phone" value={appointment.phone} />
@@ -108,9 +107,7 @@ const AppointmentInfo = () => {
                             />
                             <FieldItem
                                 label="Appointment Date"
-                                value={new Date(
-                                    appointment.date
-                                ).toLocaleDateString()}
+                                value={`${convertToUSDateTime(appointment.dateTime, true)} ET`}
                             />
                         </div>
                     </div>
