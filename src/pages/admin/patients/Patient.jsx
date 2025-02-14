@@ -10,6 +10,8 @@ import { convertToUSDateTime } from "../utils";
 import FormsTab from "./components/FormsTab";
 import AppointmentsTab from "./components/AppointmentsTab";
 
+import { MdOutlineEdit } from "react-icons/md";
+
 export const patientLoader = async ({ params }) => {
     const id = params.id;
 
@@ -65,7 +67,14 @@ const Patient = () => {
         <section>
             <PageTitle
                 title={`${patient.personal.firstName} ${patient.personal.middleName} ${patient.personal.lastName}`}
-            ></PageTitle>
+            >
+                <LinkButton
+                    name="Update Patient Details"
+                    to={`/admin/patients/${patient.id}/update`}
+                    bgColor="green"
+                    icon={<MdOutlineEdit className="text-xl" />}
+                />
+            </PageTitle>
 
             <div className="flex items-center justify-between gap-4 mb-4 md:mb-8">
                 <div className="flex items-center gap-6">

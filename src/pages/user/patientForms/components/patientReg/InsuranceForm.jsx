@@ -139,7 +139,11 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                         showMonthDropdown
                                         showYearDropdown
                                         dropdownMode="select"
-                                        // defaultDate={new Date()}
+                                        defaultDate={
+                                            new Date(
+                                                formData.insurance.primaryInsurance.policyHolder.dob
+                                            )
+                                        }
                                     />
                                     <SelectField
                                         label="Relationship to Patient"
@@ -268,7 +272,11 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                         showMonthDropdown
                                         showYearDropdown
                                         dropdownMode="select"
-                                        // defaultDate={new Date()}
+                                        defaultDate={
+                                            new Date(
+                                                formData.insurance.primaryInsurance.policyHolder.coverageStartDate
+                                            )
+                                        }
                                     />
                                     <DateField
                                         label="Coverage End Date"
@@ -282,7 +290,11 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                         showMonthDropdown
                                         showYearDropdown
                                         dropdownMode="select"
-                                        // defaultDate={new Date()}
+                                        defaultDate={
+                                            new Date(
+                                                formData.insurance.primaryInsurance.policyHolder.coverageEndDate
+                                            )
+                                        }
                                     />
                                 </div>
 

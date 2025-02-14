@@ -83,7 +83,11 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             showMonthDropdown
                             showYearDropdown
                             dropdownMode="select"
-                            // defaultDate={new Date()}
+                            defaultDate={
+                                new Date(
+                                    formData.insurance.secondaryInsurance.policyHolder.dob
+                                )
+                            }
                         />
                         <SelectField
                             label="Relationship to Patient"
@@ -190,8 +194,8 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             label="Do you have Coordination of Benefits"
                             name="haveCoordinationBenefits"
                             value={
-                                formData.insurance.secondaryInsurance.insuranceProvider
-                                    .haveCoordinationBenefits
+                                formData.insurance.secondaryInsurance
+                                    .insuranceProvider.haveCoordinationBenefits
                             }
                             section="insurance"
                             field="secondaryInsurance.insuranceProvider.haveCoordinationBenefits"
@@ -199,7 +203,7 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             data={booleanOptions}
                             orientation="horizontal"
                             labelClass="text-grey"
-                        />                        
+                        />
                         <TextField
                             type="text"
                             label="Co-pay Amount"
@@ -223,7 +227,11 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             showMonthDropdown
                             showYearDropdown
                             dropdownMode="select"
-                            // defaultDate={new Date()}
+                            defaultDate={
+                                new Date(
+                                    formData.insurance.secondaryInsurance.policyHolder.coverageStartDate
+                                )
+                            }
                         />
                         <DateField
                             label="Coverage End Date"
@@ -235,7 +243,11 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             showMonthDropdown
                             showYearDropdown
                             dropdownMode="select"
-                            // defaultDate={new Date()}
+                            defaultDate={
+                                new Date(
+                                    formData.insurance.secondaryInsurance.policyHolder.coverageEndDate
+                                )
+                            }
                         />
                     </div>
 

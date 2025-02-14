@@ -235,7 +235,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         showMonthDropdown
                         showYearDropdown
                         dropdownMode="select"
-                        // defaultDate={new Date()}
+                        defaultDate={new Date(formData.guarantor.dob)}
                     />
                     <TextField
                         type="text"

@@ -28,6 +28,7 @@ import Settings from "./pages/admin/settings/Settings";
 import Login from "./pages/admin/auth/Login";
 import AdminAuthLayout from "./pages/admin/components/layout/AdminAuthLayout";
 import RootLayout from "./components/layout/RootLayout";
+import UpdateForm from "./pages/admin/patients/UpdateForm";
 
 const router = createBrowserRouter([
     {
@@ -106,6 +107,11 @@ const router = createBrowserRouter([
                             {
                                 path: "patients/:id",
                                 element: <Patient />,
+                                loader: patientLoader
+                            },
+                            {
+                                path: "patients/:id/update",
+                                element: <UpdateForm />,
                                 loader: patientLoader
                             },
                             { path: "reviews", element: <Reviews /> },

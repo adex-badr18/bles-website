@@ -84,7 +84,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         showMonthDropdown
                         showYearDropdown
                         dropdownMode="select"
-                        // defaultDate={new Date()}
+                        defaultDate={new Date(formData.personal.dob)}
                     />
                     <TextField
                         type="text"

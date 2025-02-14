@@ -182,12 +182,12 @@ export const signatureForms = [
 ];
 
 export const genderOptions = [
-    { id: 1, text: "Male", value: "male" },
-    { id: 2, text: "Female", value: "female" },
-    { id: 3, text: "Transgender", value: "transgender" },
-    { id: 4, text: "Declined", value: "declined" },
+    { id: 1, text: "Male", value: "Male" },
+    { id: 2, text: "Female", value: "Female" },
+    { id: 3, text: "Transgender", value: "Transgender" },
+    { id: 4, text: "Declined", value: "Declined" },
     { id: 5, text: "Non-Binary", value: "Non-Binary" },
-    { id: 6, text: "Prefer Not to Say", value: "prefer not to say" },
+    { id: 6, text: "Prefer Not to Say", value: "Prefer Not to Say" },
 ];
 
 export const employmentOptions = [
@@ -211,22 +211,22 @@ export const educationOptions = [
 ];
 
 export const raceOptions = [
-    { id: 1, text: "White", value: "white" },
-    { id: 2, text: "Black or African American", value: "black or african american" },
-    { id: 3, text: "Asian", value: "asian" },
-    { id: 4, text: "Native American or Alaska Native", value: "native american or alaska native" },
-    { id: 5, text: "Multiracial", value: "multiracial" },
-    { id: 6, text: "Prefer Not to Say", value: "prefer not to say" },
+    { id: 1, text: "White", value: "White" },
+    { id: 2, text: "Black or African American", value: "Black or African American" },
+    { id: 3, text: "Asian", value: "Asian" },
+    { id: 4, text: "Native American or Alaska Native", value: "Native American or Alaska Native" },
+    { id: 5, text: "Multiracial", value: "Multiracial" },
+    { id: 6, text: "Prefer Not to Say", value: "Prefer Not to Say" },
 ];
 
 export const maritalStatusOptions = [
-    { id: 1, text: "Single", value: "single" },
-    { id: 2, text: "Married", value: "married" },
-    { id: 3, text: "Divorced", value: "divorced" },
-    { id: 4, text: "Widowed", value: "widowed" },
-    { id: 5, text: "Separated", value: "separated" },
-    { id: 6, text: "Domestic Partnership", value: "domestic partnership" },
-    { id: 7, text: "Prefer Not to Say", value: "prefer not to say" },
+    { id: 1, text: "Single", value: "Single" },
+    { id: 2, text: "Married", value: "Married" },
+    { id: 3, text: "Divorced", value: "Divorced" },
+    { id: 4, text: "Widowed", value: "Widowed" },
+    { id: 5, text: "Separated", value: "Separated" },
+    { id: 6, text: "Domestic Partnership", value: "Domestic Partnership" },
+    { id: 7, text: "Prefer Not to Say", value: "Prefer Not to Say" },
 ];
 
 export const religionOptions = [
@@ -259,9 +259,9 @@ export const langOptions = [
 ];
 
 export const ethnicityOptions = [
-    { id: 1, text: "Hispanic or Latino", value: "hispanic or latino" },
-    { id: 2, text: "Not Hispanic or Latino", value: "not hispanic or latino" },
-    { id: 3, text: "Prefer Not to Say", value: "prefer not to say" },
+    { id: 1, text: "Hispanic or Latino", value: "Hispanic or Latino" },
+    { id: 2, text: "Not Hispanic or Latino", value: "Not Hispanic or Latino" },
+    { id: 3, text: "Prefer Not to Say", value: "Prefer Not to Say" },
 ];
 
 export const familyRoleOptions = [
@@ -282,8 +282,8 @@ export const relationshipOptions = [
 ];
 
 export const booleanOptions = [
-    { id: 1, text: "Yes", value: "yes" },
-    { id: 2, text: "No", value: "no" },
+    { id: 1, text: "Yes", value: "Yes" },
+    { id: 2, text: "No", value: "No" },
 ];
 
 export const sexPreferenceOptions = [
