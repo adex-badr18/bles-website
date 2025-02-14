@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const SideNavLink = ({ icon, text, to }) => {
+const SideNavLink = ({ icon, text, to, toggleSideNav }) => {
     return (
         <NavLink
             to={to}
@@ -12,6 +12,7 @@ const SideNavLink = ({ icon, text, to }) => {
                         : "bg-transparent text-offWhite",
                 ].join(" ")
             }
+            onClick={toggleSideNav}
         >
             <i className="text-2xl">{icon}</i>
             <span className="">{text}</span>

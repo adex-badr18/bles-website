@@ -36,6 +36,7 @@ const SideNav = ({ isSideNavOpen, toggleSideNav }) => {
                                 text={link.text}
                                 to={link.to}
                                 icon={link.icon}
+                                toggleSideNav={toggleSideNav}
                             />
                         </div>
                     );

@@ -22,7 +22,7 @@ const AdminAuthLayout = () => {
         <div className="flex min-h-screen">
             {/* Side Navigation */}
             <aside
-                className={`fixed z-40 bg-deepBlue text-white w-full md:w-64 lg:w-[300px] py-8 px-6 h-full transform ${
+                className={`fixed z-40 bg-deepBlue text-white w-full md:w-64 lg:w-[280px] py-8 px-6 h-full transform ${
                     isSideNavOpen ? "translate-x-0" : "-translate-x-full"
                 } lg:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto`}
             >
@@ -33,12 +33,12 @@ const AdminAuthLayout = () => {
             </aside>
 
             {/* Main Content */}
-            <div className="flex-1 lg:ml-[300px] bg-gray-100 w-full">
+            <div className="flex-1 lg:ml-[280px] bg-gray-100 w-full">
                 <TopNav
                     toggleSideNav={toggleSideNav}
                     isSideNavOpen={isSideNavOpen}
                 />
-                <main className="p-5 text-gray-600">
+                <main className="p-5 text-gray-600 min-h-screen">
                     <Outlet />
                 </main>
             </div>
