@@ -28,7 +28,7 @@ const DocsSideNav = ({
                     <li
                         key={doc.id}
                         className={`border border-[#dddddd8f] rounded-md p-4 font-rubik hover:bg-vividRed hover:text-white transition duration-300 hover:cursor-pointer ${
-                            selectedDoc.url === doc.url
+                            selectedDoc?.url === doc.url
                                 ? "bg-vividRed text-white"
                                 : "bg-white text-deepBlue"
                         }`}
