@@ -15,10 +15,20 @@ const Appointment = () => {
     const [completedSteps, setCompletedSteps] = useState([]);
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
     const [formData, setFormData] = useState({
-        personal: { name: "", dob: "", phone: "", email: "" },
+        personal: {
+            isNew: "",
+            id: "",
+            verificationStatus: "",
+            firstName: "",
+            middleName: "",
+            lastName: "",
+            gender: "",
+            dob: "",
+            phone: "",
+            email: "",
+        },
         address: {
-            address1: "",
-            address2: "",
+            street: "",
             city: "",
             state: "",
             zipCode: "",
@@ -35,11 +45,11 @@ const Appointment = () => {
         },
     });
 
-    // console.log(formData);
+    console.log(formData);
 
     // Scroll to top when the step value changes
     useEffect(() => {
-        window.scrollTo({ top: 260, behavior: "smooth" });
+        window.scrollTo({ top: 200, behavior: "smooth" });
 
         isStepValid();
     }, [currentStep]);
@@ -62,7 +72,7 @@ const Appointment = () => {
         isStepValid();
     }, [formData.insurance.paymentMethod]);
 
-    const steps = ["Personal", "Address", "Appointment", "Insurance"];
+    const steps = ["Personal", "Appointment", "Insurance"];
 
     // Handle form element change
     const handleFormElementChange = (section, field, value) => {
@@ -82,7 +92,7 @@ const Appointment = () => {
     // Step Validation logic
     const isStepValid = (step = currentStep) => {
         const dataObj = formData[formatToCamelCase(steps[step])];
-        const nonRequiredProps = ["dob", "address2"];
+        const nonRequiredProps = ["id", "verificationStatus", "middleName"];
         const optionalInsuranceFields = ["insuranceName", "insuranceNumber"];
 
         for (const key in dataObj) {
@@ -117,6 +127,10 @@ const Appointment = () => {
 
             setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
         }
+
+        // setCompletedSteps((prev) => [...prev, currentStep]);
+
+        // setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
     };
 
     const goToPreviousStep = () => {
@@ -157,7 +171,7 @@ const Appointment = () => {
             />
             <div className="bg-darkBlue py-8">
                 <div className="wrapper px-4 2xl:px-0 space-y-8 md:space-y-12">
-                    <div className="flex flex-col gap-5 w-full max-w-xl mx-auto">
+                    <div className="flex flex-col gap-5 w-full max-w-2xl mx-auto">
                         {/* Step Indicator */}
                         <StepIndicator
                             steps={steps}
@@ -175,19 +189,19 @@ const Appointment = () => {
                                     handleInputChange={handleFormElementChange}
                                 />
                             )}
-                            {currentStep === 1 && (
+                            {/* {currentStep === 1 && (
                                 <AddressForm
                                     formData={formData}
                                     handleInputChange={handleFormElementChange}
                                 />
-                            )}
-                            {currentStep === 2 && (
+                            )} */}
+                            {currentStep === 1 && (
                                 <AppointmentForm
                                     formData={formData}
                                     handleInputChange={handleFormElementChange}
                                 />
                             )}
-                            {currentStep === 3 && (
+                            {currentStep === 2 && (
                                 <InsuranceForm
                                     formData={formData}
                                     handleInputChange={handleFormElementChange}
