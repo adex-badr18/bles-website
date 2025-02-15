@@ -16,7 +16,9 @@ const DateField = ({
     const [selectedDate, setSelectedDate] = useState(defaultDate || null);
 
     useEffect(() => {
-        handleFormElementChange(section, field, selectedDate);
+        if (selectedDate) {
+            handleFormElementChange(section, field, selectedDate);
+        }
     }, [selectedDate]);
 
     const handleDateChange = (date) => {

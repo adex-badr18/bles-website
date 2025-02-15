@@ -126,8 +126,9 @@ const UpdateForm = () => {
                         patientData.insurance.primaryInsurance.policyHolder
                             .phone || "",
                     dob:
-                        patientData.insurance.primaryInsurance.policyHolder
-                            .dob || "",
+                        new Date(
+                            patientData.insurance.primaryInsurance.policyHolder.dob
+                        ).toLocaleDateString() || "",
                 },
                 insuranceProvider: {
                     name:
@@ -151,11 +152,11 @@ const UpdateForm = () => {
                     coverageStartDate:
                         new Date(
                             patientData.insurance.primaryInsurance.insuranceProvider.coverageStartDate
-                        ) || "",
+                        ).toLocaleDateString() || "",
                     coverageEndDate:
                         new Date(
                             patientData.insurance.primaryInsurance.insuranceProvider.coverageEndDate
-                        ) || "",
+                        ).toLocaleDateString() || "",
                     address: {
                         streetName:
                             patientData.insurance.primaryInsurance
@@ -190,8 +191,9 @@ const UpdateForm = () => {
                         patientData.insurance.secondaryInsurance.policyHolder
                             .phone || "",
                     dob:
-                        patientData.insurance.secondaryInsurance.policyHolder
-                            .dob || "",
+                        new Date(
+                            patientData.insurance.secondaryInsurance.policyHolder.dob
+                        ).toLocaleDateString() || "",
                 },
                 insuranceProvider: {
                     name:
@@ -212,11 +214,11 @@ const UpdateForm = () => {
                     coverageStartDate:
                         new Date(
                             patientData.insurance.secondaryInsurance.insuranceProvider.coverageStartDate
-                        ) || "",
+                        ).toLocaleDateString() || "",
                     coverageEndDate:
                         new Date(
                             patientData.insurance.secondaryInsurance.insuranceProvider.coverageEndDate
-                        ) || "",
+                        ).toLocaleDateString() || "",
                     haveCoordinationBenefits:
                         patientData.insurance.secondaryInsurance
                             .insuranceProvider.haveCoordinationBenefits || "",
@@ -282,11 +284,17 @@ const UpdateForm = () => {
         console.log(formData);
     };
 
-    console.log(formData);
+    // console.log(formData);
     // console.log(consents);
 
     const formSteps = {
-        steps: ["Personal", "Other Contacts", "Insurance", "Consent", "Preview"],
+        steps: [
+            "Personal",
+            "Other Contacts",
+            "Insurance",
+            "Consent",
+            "Preview",
+        ],
         forms: [
             {
                 id: 1,

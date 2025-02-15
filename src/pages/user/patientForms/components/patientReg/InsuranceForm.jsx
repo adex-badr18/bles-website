@@ -24,7 +24,7 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
         setShowSecondaryInsurance(!showSecondaryInsurance);
     };
 
-    console.log(formData.insurance);
+    // console.log(formData.insurance);
 
     return (
         <form className="space-y-5">
@@ -263,7 +263,7 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                     <DateField
                                         label="Coverage Start Date"
                                         name="coverageStartDate"
-                                        field="primaryInsurance.policyHolder.coverageStartDate"
+                                        field="primaryInsurance.insuranceProvider.coverageStartDate"
                                         section="insurance"
                                         placeholder="MM/DD/YYYY"
                                         handleFormElementChange={
@@ -274,14 +274,14 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                         dropdownMode="select"
                                         defaultDate={
                                             new Date(
-                                                formData.insurance.primaryInsurance.policyHolder.coverageStartDate
+                                                formData.insurance.primaryInsurance.insuranceProvider.coverageStartDate
                                             )
                                         }
                                     />
                                     <DateField
                                         label="Coverage End Date"
                                         name="coverageEndDate"
-                                        field="primaryInsurance.policyHolder.coverageEndDate"
+                                        field="primaryInsurance.insuranceProvider.coverageEndDate"
                                         section="insurance"
                                         placeholder="MM/DD/YYYY"
                                         handleFormElementChange={
@@ -292,7 +292,7 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                         dropdownMode="select"
                                         defaultDate={
                                             new Date(
-                                                formData.insurance.primaryInsurance.policyHolder.coverageEndDate
+                                                formData.insurance.primaryInsurance.insuranceProvider.coverageEndDate
                                             )
                                         }
                                     />
