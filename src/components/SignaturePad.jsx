@@ -18,6 +18,7 @@ const SignaturePad = ({ handleInputChange, section, fieldPath, dateSection, date
         e.preventDefault();
 
         handleInputChange(section, fieldPath, "");
+        handleInputChange(dateSection, dateFieldPath, "");
         sigCanvasRef.current.clear();
     };
 
