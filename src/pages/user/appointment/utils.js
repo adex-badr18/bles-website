@@ -3,14 +3,14 @@ export const isFormValid = (data) => {
 
     // Check for Personal
     for (const key in personal) {
-        if (key !== "dob" && !personal[key]) {
+        if (key !== "id" && key !== "verificationStatus" && key !== "middleName" && !personal[key]) {
             return false;
         }
     }
 
     // Check for address
     for (const key in address) {
-        if (key !== "address2" && !address[key]) {
+        if (!address[key]) {
             return false;
         }
     }

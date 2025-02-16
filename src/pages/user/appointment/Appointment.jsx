@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import SectionHeader from "../../../components/SectionHeader";
 import StepIndicator from "./components/StepIndicator";
 import PersonalInfoForm from "./components/PersonalInfoForm";
@@ -10,7 +12,12 @@ import Modal from "../../../components/Modal";
 import ReviewForm from "./components/ReviewForm";
 import { isFormValid } from "./utils";
 
+import { LuShieldCheck } from "react-icons/lu";
+
 const Appointment = () => {
+    const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
     const [completedSteps, setCompletedSteps] = useState([]);
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -137,7 +144,14 @@ const Appointment = () => {
         setCurrentStep((prev) => Math.max(prev - 1, 0));
     };
 
-    const submitHandler = () => {
+    const submitHandler = async () => {
+        setIsSubmitting(true);
+
+        setTimeout(() => {
+            setIsReviewModalOpen(false);
+            setIsSubmitModalOpen(true);
+            setIsSubmitting(false);
+        }, 4000);
         console.log("Submitted", formData);
     };
 
@@ -158,6 +172,11 @@ const Appointment = () => {
 
     const editHandler = () => {
         setIsReviewModalOpen(false);
+    };
+
+    const returnHome = () => {
+        setIsSubmitModalOpen(false);
+        navigate("/");
     };
 
     return (
@@ -242,6 +261,8 @@ const Appointment = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Review Modal */}
             <Modal
                 isOpen={isReviewModalOpen}
                 onClose={closeReview}
@@ -253,7 +274,47 @@ const Appointment = () => {
                     onSubmit={submitHandler}
                     onClose={closeReview}
                     onEdit={editHandler}
+                    isSubmitting={isSubmitting}
                 />
+            </Modal>
+
+            {/* Submission Response */}
+            <Modal isOpen={isSubmitModalOpen}>
+                <div className="w-full max-w-xl p-4 rounded-lg bg-white text-deepGrey relative">
+                    <div className="flex flex-col gap-5 justify-center items-center">
+                        <LuShieldCheck className="text-5xl text-lightGreen" />
+
+                        <div className="flex flex-col items-center">
+                            <h3 className="text-lg text-center font-bold mb-5">
+                                Appointment Confirmed!
+                            </h3>
+
+                            <div className="space-y-2 text-center text-deepGrey">
+                                <p className="">
+                                    Your appointment has been successfully
+                                    booked. A confirmation email with the
+                                    details has been sent to your registered
+                                    email.
+                                </p>
+
+                                <p className="">
+                                    If you have any questions or need to
+                                    reschedule, please contact our office. We
+                                    look forward to seeing you!
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col gap-2 mt-1">
+                            <button
+                                className="w-full bg-lightGreen hover:bg-green-600 px-4 py-3 text-white font-medium tracking-widest rounded-lg"
+                                onClick={returnHome}
+                            >
+                                Return to Home
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </Modal>
         </section>
     );
