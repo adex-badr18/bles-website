@@ -51,9 +51,10 @@ const Login = () => {
             </div>
 
             <div className="flex-1 p-10 bg-offWhite flex flex-col items-center justify-center gap-10">
-            <Link to="/">
-                <Logo logoSrc={logo} />
-            </Link>
+                <Link to="/" className="md:hidden">
+                    <Logo logoSrc={logo} />
+                </Link>
+
                 <div className="bg-white px-11 py-8 rounded-lg shadow space-y-10 w-full max-w-lg">
                     <h3 className="text-3xl text-emeraldGreen text-center font-montserrat">
                         Log in
