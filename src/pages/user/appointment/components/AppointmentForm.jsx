@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import Dropdown from "../../../../components/Dropdown";
+import TextAreaField from "../../../../components/TextAreaField";
 import { appointmentTypes, services } from "../data";
 import {
     fetchAdminUnavailablePeriods,
@@ -134,7 +135,7 @@ const AppointmentForm = ({ formData, handleInputChange }) => {
                             htmlFor="appointmentType"
                             className="block text-grey"
                         >
-                            Purpose:
+                            Service Needed:
                         </label>
                         <Dropdown
                             id="service"
@@ -152,6 +153,16 @@ const AppointmentForm = ({ formData, handleInputChange }) => {
                             }
                         />
                     </div>
+
+                    <TextAreaField
+                        label="Purpose of Visit"
+                        name="purpose"
+                        placeholder="Write detailed description here"
+                        section="appointment"
+                        field="purpose"
+                        value={formData.appointment.purpose}
+                        handleFormElementChange={handleInputChange}
+                    />
 
                     <div className="space-y-1">
                         <label

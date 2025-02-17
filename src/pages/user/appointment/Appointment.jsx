@@ -44,6 +44,7 @@ const Appointment = () => {
             appointmentType: "",
             service: "",
             appointmentDateTime: "",
+            purpose: ""
         },
         insurance: {
             paymentMethod: "",
