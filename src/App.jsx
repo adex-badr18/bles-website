@@ -24,7 +24,7 @@ import Reviews from "./pages/admin/reviews/Reviews";
 import ReviewInfo, { reviewLoader } from "./pages/admin/reviews/ReviewInfo";
 import Appointments from "./pages/admin/appointments/Appointments";
 import AppointmentInfo, { appointmentLoader } from "./pages/admin/appointments/AppointmentInfo";
-import Settings from "./pages/admin/settings/Settings";
+import Settings, { settingsLoader } from "./pages/admin/settings/Settings";
 import Login from "./pages/admin/auth/Login";
 import AdminAuthLayout from "./pages/admin/components/layout/AdminAuthLayout";
 import RootLayout from "./components/layout/RootLayout";
@@ -129,7 +129,7 @@ const router = createBrowserRouter([
                                 element: <AppointmentInfo />,
                                 loader: appointmentLoader
                             },
-                            { path: "settings", element: <Settings /> },
+                            { path: "settings", element: <Settings />, loader: settingsLoader },
                             { path: "*", element: <div>Coming Soon!</div> },
                         ],
                     },
