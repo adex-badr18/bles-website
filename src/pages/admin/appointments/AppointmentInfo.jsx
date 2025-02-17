@@ -107,7 +107,18 @@ const AppointmentInfo = () => {
                             />
                             <FieldItem
                                 label="Appointment Date"
-                                value={`${convertToUSDateTime(appointment.dateTime, true)} ET`}
+                                value={`${convertToUSDateTime(
+                                    appointment.dateTime,
+                                    true
+                                )} ET`}
+                            />
+                            <FieldItem
+                                label="Status"
+                                value={appointment.status}
+                            />
+                            <FieldItem
+                                label="Purpose"
+                                value={appointment.purpose}
                             />
                         </div>
                     </div>

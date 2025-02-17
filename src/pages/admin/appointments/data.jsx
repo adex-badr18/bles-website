@@ -17,6 +17,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: new Date().toISOString(),
+        status: "Attended",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -37,6 +39,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Missed",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -57,6 +61,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Upcoming",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -77,6 +83,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Attended",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -97,6 +105,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Missed",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -117,6 +127,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Upcoming",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -137,6 +149,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Attended",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -157,6 +171,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Missed",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -177,6 +193,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Upcoming",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -197,6 +215,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Attended",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -217,6 +237,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Missed",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -237,6 +259,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Upcoming",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -257,6 +281,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Attended",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -277,6 +303,8 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab0",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Upcoming",
+        purpose: "To resolve bipolar disorder and lack of concntration",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -305,5 +333,28 @@ export const appointmentsColumns = [
     {
         accessorKey: "email",
         header: "Email",
+    },
+    {
+        accessorKey: "status",
+        header: "Status",
+        cell: (prop) => {
+            const value = prop.getValue();
+
+            return (
+                <span
+                    className={`p-1 w-20 block text-center rounded text-xs text-offWhite capitalize ${
+                        value.toLowerCase() === "attended"
+                            ? "bg-lightGreen"
+                            : value.toLowerCase() === "upcoming"
+                            ? "bg-yellow-700"
+                            : value.toLowerCase() === "missed"
+                            ? "bg-vividRed"
+                            : ""
+                    }`}
+                >
+                    {value}
+                </span>
+            );
+        },
     },
 ];

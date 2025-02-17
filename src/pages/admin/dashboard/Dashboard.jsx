@@ -49,7 +49,7 @@ const Dashboard = () => {
                 <Table
                     data={recentAppointments}
                     columns={recentAppointmentsColumns}
-                    tableTitle="Recent Appointments"
+                    tableTitle="Upcoming Appointments"
                     columnFilters={[]}
                     entity="appointments"
                 />

@@ -2401,6 +2401,7 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab",
         dateTime: new Date().toISOString(),
+        status: "Attended",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -2421,6 +2422,7 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Upcoming",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -2441,6 +2443,7 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Missed",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -2461,6 +2464,7 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Attended",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -2481,6 +2485,7 @@ export const appointments = [
         appointmentType: "In-person",
         service: "Medical Rehab",
         dateTime: "2025-02-13T14:30:00Z",
+        status: "Upcoming",
         paymentMethod: "Insurance Card",
         insuranceName: "Medicare",
         insuranceNumber: "123456789",
@@ -2494,10 +2499,6 @@ export const appointmentsColumns = [
         header: "Appointment Type",
     },
     {
-        accessorKey: "service",
-        header: "Service",
-    },
-    {
         accessorKey: "dateTime",
         header: "Appointment Date",
         cell: (prop) => `${convertToUSDateTime(prop.getValue(), true)} ET`,
@@ -2509,6 +2510,29 @@ export const appointmentsColumns = [
     {
         accessorKey: "email",
         header: "Email",
+    },
+    {
+        accessorKey: "status",
+        header: "Status",
+        cell: (prop) => {
+            const value = prop.getValue();
+
+            return (
+                <span
+                    className={`p-1 w-20 block text-center rounded text-xs text-offWhite capitalize ${
+                        value.toLowerCase() === "attended"
+                            ? "bg-lightGreen"
+                            : value.toLowerCase() === "upcoming"
+                            ? "bg-yellow-700"
+                            : value.toLowerCase() === "missed"
+                            ? "bg-vividRed"
+                            : ""
+                    }`}
+                >
+                    {value}
+                </span>
+            );
+        },
     },
 ];
 
