@@ -1,13 +1,12 @@
-import { adminSideNavLinks } from "../data";
 import SideNavLink from "./SideNavLink";
 import logo from "../../../../assets/bles-logo-secondary.png";
 import Logo from "../../../../components/layout/Logo";
+
 import { MdClose, MdLogout } from "react-icons/md";
-import { useAuth } from "../auth/AuthProvider";
 
-const SideNav = ({ isSideNavOpen, toggleSideNav }) => {
-    const { logout } = useAuth();
+import { adminSideNavLinks } from "../data";
 
+const SideNav = ({ isSideNavOpen, toggleSideNav, setIsConfirmModalOpen }) => {
     return (
         <div className="flex flex-col gap-6 relative h-full">
             {/* Logo */}
@@ -44,11 +43,11 @@ const SideNav = ({ isSideNavOpen, toggleSideNav }) => {
 
                 {/* Logout button */}
                 <button
-                    onClick={logout}
+                    onClick={() => setIsConfirmModalOpen(true)}
                     className={`flex items-center gap-4 text-base text-offWhite px-2 py-4 rounded-lg hover:bg-red-600 hover:font-medium w-full`}
                 >
                     <i className="text-2xl">{<MdLogout />}</i>
-                    <span className="">Logout</span>
+                    <span className="">Log out</span>
                 </button>
             </nav>
         </div>
