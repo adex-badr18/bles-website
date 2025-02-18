@@ -29,6 +29,7 @@ import Login from "./pages/admin/auth/Login";
 import AdminAuthLayout from "./pages/admin/components/layout/AdminAuthLayout";
 import RootLayout from "./components/layout/RootLayout";
 import UpdateForm from "./pages/admin/patients/UpdateForm";
+import Faq from "./pages/user/faq/Faq";
 
 const router = createBrowserRouter([
     {
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
                     {
                         path: "/forms",
                         element: <PatientForms />,
+                    },
+                    {
+                        path: "/faq",
+                        element: <Faq />,
                     },
                     {
                         path: "/forms/:slug",
