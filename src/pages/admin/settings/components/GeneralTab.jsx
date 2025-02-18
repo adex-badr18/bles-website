@@ -38,7 +38,7 @@ const GeneralTab = ({ formData, onChange }) => {
     const handleProfileEdit = (e) => {
         e.preventDefault();
 
-        setIsProfileEditable(true);
+        setIsProfileEditable(!isProfileEditable);
     };
 
     const confirmHandler = (e) => {
@@ -58,7 +58,7 @@ const GeneralTab = ({ formData, onChange }) => {
 
                         <button
                             onClick={handleProfileEdit}
-                            className={`bg-lightGreen hover:bg-lighterGreen rounded-lg px-4 md:px-6 py-3 flex items-center justify-center gap-2 divide-x-2 divide-white text-white font-poppins font-semibold text-nowrap transition duration-500`}
+                            className={`${isProfileEditable ? "bg-vividRed hover:bg-red-700" : "bg-lightGreen hover:bg-lighterGreen"} rounded-lg px-4 md:px-6 py-3 flex items-center justify-center gap-2 divide-x-2 divide-white text-white font-poppins font-semibold text-nowrap transition duration-500`}
                         >
                             <span className="">
                                 {isProfileEditable ? "Cancel" : "Edit Profile"}

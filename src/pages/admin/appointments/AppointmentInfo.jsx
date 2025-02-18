@@ -501,7 +501,7 @@ const AppointmentInfo = () => {
                                         `${convertToUSDateTime(
                                             appointment.dateTime,
                                             true
-                                        )} ET` || "N/A"
+                                        )}` || "N/A"
                                     }
                                 />
                                 <FieldItem

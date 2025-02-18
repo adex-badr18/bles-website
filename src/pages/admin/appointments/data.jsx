@@ -338,7 +338,7 @@ export const appointmentsColumns = [
     {
         accessorKey: "dateTime",
         header: "Appointment Date",
-        cell: (prop) => `${convertToUSDateTime(prop.getValue(), true)} ET`,
+        cell: (prop) => `${convertToUSDateTime(prop.getValue(), true)}`,
     },
     {
         accessorKey: "phone",
