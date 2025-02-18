@@ -8,7 +8,7 @@ import Modal from "../../../../components/Modal";
 
 import { LuShieldCheck } from "react-icons/lu";
 import { BsFillQuestionDiamondFill } from "react-icons/bs";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdClose } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
 
 const GeneralTab = ({ formData, onChange }) => {
@@ -60,8 +60,14 @@ const GeneralTab = ({ formData, onChange }) => {
                             onClick={handleProfileEdit}
                             className={`bg-lightGreen hover:bg-lighterGreen rounded-lg px-4 md:px-6 py-3 flex items-center justify-center gap-2 divide-x-2 divide-white text-white font-poppins font-semibold text-nowrap transition duration-500`}
                         >
-                            <span className="">Edit Profile</span>
-                            <MdEdit className="pl-2 text-3xl" />
+                            <span className="">
+                                {isProfileEditable ? "Cancel" : "Edit Profile"}
+                            </span>
+                            {isProfileEditable ? (
+                                <MdClose className="pl-2 text-3xl" />
+                            ) : (
+                                <MdEdit className="pl-2 text-3xl" />
+                            )}
                         </button>
                     </div>
 
