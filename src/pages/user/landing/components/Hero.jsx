@@ -19,26 +19,27 @@ import HeroSlide from "./HeroSlide";
 
 import homeSlider1 from "../../../../assets/home-slider-1.webp";
 import homeSlider2 from "../../../../assets/home-slider-2.webp";
+import miaSlider from "../../../../assets/mia.jpeg"
 
 const slidesData = [
     {
         id: 1,
         bgImage: homeSlider1,
-        bgTitle: "Medical",
+        bgTitle: "Mental Health",
         topSmallText: "Welcome to BrightLife Enhancement Services",
-        bottomSmallText: "We've 25 years of experience in Behavioral Health.",
-        primaryText: "Behavioral & Health Care Solutions.",
+        bottomSmallText: "We've 15 years of experience in Behavioral Health.",
+        primaryText: "Behavioral/Mental Health & Recovery Solutions.",
         ctaText: "Our Services",
         ctaLink: "/services",
         ctaIcon: <MdOutlineMedicalServices size="16" />,
     },
     {
         id: 2,
-        bgTitle: "HealthCare",
+        bgTitle: "Recovery",
         bgImage: homeSlider2,
         topSmallText: "Welcome to BrightLife Enhancement Services",
-        bottomSmallText: "We've 25 years of experience in Health Care.",
-        primaryText: "Behavioral & Health Care Solutions.",
+        bottomSmallText: "We've 15 years of experience in Health Care.",
+        primaryText: "Behavioral/Mental Health & Recovery Solutions.",
         ctaText: "About Us",
         ctaLink: "/about",
         ctaIcon: <MdOutlineMedicalInformation size="16" />,

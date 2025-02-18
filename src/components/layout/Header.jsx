@@ -23,7 +23,7 @@ const Header = () => {
                                 />
                             }
                             title="Working Hour"
-                            text="9:00am - 6:00pm"
+                            text="9:00am - 5:00pm"
                             classAttrs="md:pr-3"
                         />
                         <FlexItem

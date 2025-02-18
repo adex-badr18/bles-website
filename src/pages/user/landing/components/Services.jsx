@@ -1,22 +1,29 @@
 import { Link } from "react-router-dom";
-import moreImg from "../../../../assets/behavioral-disorder2.jpg";
 import SectionHeader from "../../../../components/SectionHeader";
+
+import moreImg from "../../../../assets/behavioral-disorder2.jpg";
+import substanceImg from "../../../../assets/substance-use.webp";
+import bipolarImg from "../../../../assets/bipolar.webp";
 
 import { CgChevronDoubleRight } from "react-icons/cg";
 
 import { servicesData } from "../../services/data";
 
 const data = [
-    servicesData[0],
-    servicesData[1],
-    servicesData[5],
     {
-        id: 99,
-        name: "More Services",
-        advertText: "Discover more ways we can support your well-being.",
-        imgClass: "bg-more-services-image",
+        id: 1,
+        name: "Medication Management",
+        image: substanceImg,
+    },
+    {
+        id: 2,
+        name: "Family/Group Therapy/Counselling",
         image: moreImg,
-        link: "/services",
+    },
+    {
+        id: 3,
+        name: "Psychiatric Rehabilitation Program",
+        image: bipolarImg,
     },
 ];
 
@@ -38,7 +45,7 @@ const Services = () => {
                             className="relative w-full max-w-sm"
                             data-aos="zoom-in"
                         >
-                            <Link
+                            {/* <Link
                                 to={service.link || `/services/${service.id}`}
                                 className=""
                             >
@@ -47,10 +54,16 @@ const Services = () => {
                                     alt=""
                                     className="w-full h-full object-cover"
                                 />
-                            </Link>
+                            </Link> */}
 
-                            <div className="group font-rubik w-10/12 absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-white py-5 px-6 space-y-2 text-center shadow-xl z-10">
-                                <Link
+                            <img
+                                src={service.image}
+                                alt=""
+                                className="w-full h-full object-cover"
+                            />
+
+                            <div className="group font-rubik w-10/12 h-24 absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-white py-5 px-6 space-y-2 flex items-center justify-center text-center shadow-xl z-10">
+                                {/* <Link
                                     to={
                                         service.link ||
                                         `/services/${service.id}`
@@ -58,11 +71,14 @@ const Services = () => {
                                     className="md:text-[22px] text-darkBlue hover:text-vividRed font-semibold"
                                 >
                                     {service.name}
-                                </Link>
-                                <p className="text-sm md:text-base text-grey">
+                                </Link> */}
+                                <h4 className="md:text-lg text-darkBlue font-semibold">
+                                    {service.name}
+                                </h4>
+                                {/* <p className="text-sm md:text-base text-grey">
                                     {service.advertText}
-                                </p>
-                                <Link
+                                </p> */}
+                                {/* <Link
                                     to={
                                         service.link ||
                                         `/services/${service.id}`
@@ -71,10 +87,18 @@ const Services = () => {
                                 >
                                     <span className="">Read More</span>
                                     <CgChevronDoubleRight className="" />
-                                </Link>
+                                </Link> */}
                             </div>
                         </div>
                     ))}
+
+                    <Link
+                        to={`/services`}
+                        className="flex items-center gap-1 text-vividRed font-poppins font-semibold text-base animate-bounce duration-500"
+                    >
+                        <span className="">More Services</span>
+                        <CgChevronDoubleRight className="text-lg" />
+                    </Link>
                 </div>
             </div>
         </section>

@@ -112,6 +112,9 @@ const Footer = () => {
                             Contact Us
                         </h3>
 
+                        <h5 className="text-white text-base md:text-lg font-medium">
+                            Main Office
+                        </h5>
                         <div className="space-y-4">
                             {contact.map((item) => (
                                 <FlexContactInfo

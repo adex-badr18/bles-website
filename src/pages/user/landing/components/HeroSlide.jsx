@@ -40,7 +40,7 @@ const HeroSlide = ({
                 <div
                     className={`${
                         isActiveSlide ? "animate-fade-up" : "opacity-0"
-                    } absolute top-0 md:-top-0 text-[70px] md:text-[120px] lg:text-[160px] text-transparent font-bold capitalize -z-10 bg-clip-text bg-gradient-to-b from-white from-10% to-70% select-none`}
+                    } absolute top-0 md:-top-0 text-[70px] md:text-[100px] lg:text-[120px] text-transparent font-bold capitalize -z-10 bg-clip-text bg-gradient-to-b from-white from-10% to-70% select-none`}
                 >
                     {bgTitle}
                 </div>
@@ -57,7 +57,7 @@ const HeroSlide = ({
                             {topSmallText}
                         </h4>
                         <h1
-                            className={`text-2xl sm:text-3xl md:text-7xl text-darkBlue font-semibold md:font-bold capitalize ${
+                            className={`text-2xl sm:text-3xl md:text-5xl text-darkBlue font-semibold md:font-bold capitalize ${
                                 visibleTextIndex > 1
                                     ? "animate-fade-up"
                                     : "opacity-0"

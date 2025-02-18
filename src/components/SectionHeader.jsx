@@ -42,7 +42,7 @@ const SectionHeader = ({
                     <h2
                         data-aos="fade-up"
                         data-aos-delay="800"
-                        className="text-darkBlue text-3xl md:text-5xl font-bold capitalize"
+                        className="text-darkBlue text-3xl md:text-4xl font-bold capitalize"
                     >
                         {primaryTitle}
                     </h2>

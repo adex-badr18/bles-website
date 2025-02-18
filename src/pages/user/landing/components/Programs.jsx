@@ -21,15 +21,15 @@ const Programs = () => {
                 />
 
                 <div
-                    className={`space-y-8 md:space-y-20 md:bg-service-center-image bg-center bg-no-repeat`}
+                    className={`space-y-8 md:space-y-32 md:bg-service-center-image bg-center bg-no-repeat`}
                 >
                     <div className="px-5 md:px-10 lg:px-28 xl:px-40 flex flex-col sm:flex-row sm:justify-between gap-8">
                         <ServiceCard
                             icon={
                                 <MdOutlineHealthAndSafety className="text-vividRed text-5xl md:text-7xl" />
                             }
-                            title="Outpatient Health"
-                            descr="Flexible, expert care that fits smoothly into your daily routine."
+                            title="OMHC, Medication Management & Therapy & Counselling Services"
+                            descr=""
                             link="/programs/1"
                             data-aos="fade-down-right"
                             data-aos-delay=""
@@ -38,8 +38,8 @@ const Programs = () => {
                             icon={
                                 <PiHeartbeat className="text-vividRed text-5xl md:text-7xl" />
                             }
-                            title="Intensive Outpatient"
-                            descr="Structured support designed to help you recover while managing everyday life."
+                            title="Low Intensity Residential Housing 3.1"
+                            descr=""
                             link="/programs/2"
                             data-aos="fade-down-left"
                             data-aos-delay=""
@@ -51,8 +51,8 @@ const Programs = () => {
                             icon={
                                 <MdOutlineScheduleSend className="text-vividRed text-5xl md:text-7xl" />
                             }
-                            title="Partial Hospitalization"
-                            descr="Comprehensive, day-long care for meaningful and lasting progress."
+                            title="Psychiatric Rehabilitation Program (PRP)"
+                            descr=""
                             link="/programs/3"
                             data-aos="fade-up-right"
                             data-aos-delay=""
@@ -61,8 +61,8 @@ const Programs = () => {
                             icon={
                                 <MdOutlineBedroomParent className="text-vividRed text-5xl md:text-7xl" />
                             }
-                            title="Residential Program"
-                            descr="Round-the-clock care in a safe and supportive environment for total healing."
+                            title="Coming Soon: IOP, PHP"
+                            descr=""
                             link="/programs/4"
                             data-aos="fade-up-left"
                             data-aos-delay=""

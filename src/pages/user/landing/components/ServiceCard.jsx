@@ -11,19 +11,19 @@ const ServiceCard = ({ icon, title, descr, link, ...rest }) => {
             {icon}
 
             <div className="flex flex-col gap-4">
-                <h3 className="font-poppins text-darkBlue text-[21px] font-semibold">
+                <h3 className="font-poppins text-darkBlue text-lg font-semibold">
                     {title}
                 </h3>
 
-                <p className="font-rubik text-grey leading-7">{descr}</p>
+                {/* <p className="font-rubik text-grey leading-7">{descr}</p> */}
 
-                <Link
+                {/* <Link
                     to={link}
                     className="flex items-center gap-1 text-vividRed font-poppins font-semibold text-base"
                 >
                     <span className="">Read More</span>
                     <CgChevronDoubleRight className="text-lg" />
-                </Link>
+                </Link> */}
             </div>
         </div>
     );

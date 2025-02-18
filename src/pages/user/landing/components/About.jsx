@@ -14,28 +14,28 @@ import { PiStethoscope } from "react-icons/pi";
 const servicesData = [
     {
         id: 1,
-        text: "Group/Individual Therapy",
-        icon: (
-            <PiStethoscope className="text-vividRed text-6xl md:text-[80px]" />
-        ),
-    },
-    {
-        id: 2,
-        text: "Psychiatric Rehabilitation",
-        icon: (
-            <RiPsychotherapyLine className="text-vividRed text-6xl md:text-[80px]" />
-        ),
-    },
-    {
-        id: 3,
         text: "Medicine Management",
         icon: (
             <LiaCapsulesSolid className="text-vividRed text-6xl md:text-[80px]" />
         ),
     },
     {
+        id: 2,
+        text: "Group/Individual Therapy",
+        icon: (
+            <PiStethoscope className="text-vividRed text-6xl md:text-[80px]" />
+        ),
+    },
+    {
+        id: 3,
+        text: "Psychiatric Rehabilitation",
+        icon: (
+            <RiPsychotherapyLine className="text-vividRed text-6xl md:text-[80px]" />
+        ),
+    },
+    {
         id: 4,
-        text: "Case Management",
+        text: "SUD Program",
         icon: (
             <MdOutlineHealthAndSafety className="text-vividRed text-6xl md:text-[80px]" />
         ),
@@ -53,8 +53,8 @@ const About = () => {
                 <div className="">
                     <SectionHeader
                         bgTitle="About"
-                        primaryTitle="Read About BrightLife Enhancement Services"
-                        secondaryTitle="About BrightLife"
+                        primaryTitle="Read About BrightLife Enhancement Services (BLES)"
+                        secondaryTitle="About Us"
                         titleAlignment="left"
                     />
 
@@ -86,7 +86,7 @@ const About = () => {
                                 <div className="flex items-center gap-5">
                                     <FiPhoneCall className="text-vividRed text-[40px]" />
                                     <span className="text-darkBlue text-[20px] font-medium font-rubik">
-                                        +012 (345) 6789
+                                        +1(410)-988-2655
                                     </span>
                                 </div>
                             </div>
