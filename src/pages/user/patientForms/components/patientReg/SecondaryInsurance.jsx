@@ -84,9 +84,8 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             showYearDropdown
                             dropdownMode="select"
                             defaultDate={
-                                new Date(
-                                    formData.insurance.secondaryInsurance.policyHolder.dob
-                                )
+                                formData.insurance.secondaryInsurance
+                                    .policyHolder.dob
                             }
                         />
                         <SelectField
@@ -228,9 +227,8 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             showYearDropdown
                             dropdownMode="select"
                             defaultDate={
-                                new Date(
-                                    formData.insurance.secondaryInsurance.policyHolder.coverageStartDate
-                                )
+                                formData.insurance.secondaryInsurance
+                                    .policyHolder.coverageStartDate
                             }
                         />
                         <DateField
@@ -244,9 +242,8 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             showYearDropdown
                             dropdownMode="select"
                             defaultDate={
-                                new Date(
-                                    formData.insurance.secondaryInsurance.policyHolder.coverageEndDate
-                                )
+                                formData.insurance.secondaryInsurance
+                                    .policyHolder.coverageEndDate
                             }
                         />
                     </div>

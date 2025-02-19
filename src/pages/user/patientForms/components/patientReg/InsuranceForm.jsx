@@ -140,9 +140,8 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                         showYearDropdown
                                         dropdownMode="select"
                                         defaultDate={
-                                            new Date(
-                                                formData.insurance.primaryInsurance.policyHolder.dob
-                                            )
+                                            formData.insurance.primaryInsurance
+                                                .policyHolder.dob
                                         }
                                     />
                                     <SelectField
@@ -273,9 +272,9 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                         showYearDropdown
                                         dropdownMode="select"
                                         defaultDate={
-                                            new Date(
-                                                formData.insurance.primaryInsurance.insuranceProvider.coverageStartDate
-                                            )
+                                            formData.insurance.primaryInsurance
+                                                .insuranceProvider
+                                                .coverageStartDate
                                         }
                                     />
                                     <DateField
@@ -291,9 +290,9 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                         showYearDropdown
                                         dropdownMode="select"
                                         defaultDate={
-                                            new Date(
-                                                formData.insurance.primaryInsurance.insuranceProvider.coverageEndDate
-                                            )
+                                            formData.insurance.primaryInsurance
+                                                .insuranceProvider
+                                                .coverageEndDate
                                         }
                                     />
                                 </div>

@@ -11,6 +11,7 @@ import {
 import FileUpload from "../../../../../components/FileUpload";
 
 const OtherContactsForm = ({ formData, handleInputChange }) => {
+    console.log(formData)
     return (
         <form className="space-y-5">
             <div className="space-y-2">
@@ -235,7 +236,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         showMonthDropdown
                         showYearDropdown
                         dropdownMode="select"
-                        defaultDate={new Date(formData.guarantor.dob)}
+                        defaultDate={formData.guarantor.dob}
                     />
                     <TextField
                         type="text"

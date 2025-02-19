@@ -24,7 +24,9 @@ const UpdateForm = () => {
             middleName: patientData.personal.middleName || "",
             lastName: patientData.personal.lastName || "",
             gender: patientData.personal.gender || "",
-            dob: new Date(patientData.personal.dob) || "",
+            dob: patientData.personal.dob
+                ? new Date(patientData.personal.dob)
+                : null,
             maritalStatus: patientData.personal.maritalStatus || "",
             socialSecurityNumber:
                 patientData.personal.socialSecurityNumber || "",
@@ -58,7 +60,9 @@ const UpdateForm = () => {
             firstName: patientData.guarantor.firstName || "",
             // middleName: patientData.guarantor.firstName || "",
             lastName: patientData.guarantor.lastName || "",
-            dob: new Date(patientData.guarantor.dob) || "",
+            dob: patientData.guarantor.dob
+                ? new Date(patientData.guarantor.dob)
+                : null,
             relationship: patientData.guarantor.relationship || "",
             address: {
                 streetName:
@@ -125,10 +129,11 @@ const UpdateForm = () => {
                     phone:
                         patientData.insurance.primaryInsurance.policyHolder
                             .phone || "",
-                    dob:
-                        new Date(
-                            patientData.insurance.primaryInsurance.policyHolder.dob
-                        ).toLocaleDateString() || "",
+                    dob: patientData.insurance.primaryInsurance.policyHolder.dob
+                        ? new Date(
+                              patientData.insurance.primaryInsurance.policyHolder.dob
+                          )
+                        : null,
                 },
                 insuranceProvider: {
                     name:
@@ -149,14 +154,18 @@ const UpdateForm = () => {
                     coPay:
                         patientData.insurance.primaryInsurance.insuranceProvider
                             .coPay || "",
-                    coverageStartDate:
-                        new Date(
-                            patientData.insurance.primaryInsurance.insuranceProvider.coverageStartDate
-                        ).toLocaleDateString() || "",
-                    coverageEndDate:
-                        new Date(
-                            patientData.insurance.primaryInsurance.insuranceProvider.coverageEndDate
-                        ).toLocaleDateString() || "",
+                    coverageStartDate: patientData.insurance.primaryInsurance
+                        .insuranceProvider.coverageStartDate
+                        ? new Date(
+                              patientData.insurance.primaryInsurance.insuranceProvider.coverageStartDate
+                          )
+                        : null,
+                    coverageEndDate: patientData.insurance.primaryInsurance
+                        .insuranceProvider.coverageEndDate
+                        ? new Date(
+                              patientData.insurance.primaryInsurance.insuranceProvider.coverageEndDate
+                          ).toLocaleDateString()
+                        : null,
                     address: {
                         streetName:
                             patientData.insurance.primaryInsurance
@@ -190,10 +199,12 @@ const UpdateForm = () => {
                     phone:
                         patientData.insurance.secondaryInsurance.policyHolder
                             .phone || "",
-                    dob:
-                        new Date(
-                            patientData.insurance.secondaryInsurance.policyHolder.dob
-                        ).toLocaleDateString() || "",
+                    dob: patientData.insurance.secondaryInsurance.policyHolder
+                        .dob
+                        ? new Date(
+                              patientData.insurance.secondaryInsurance.policyHolder.dob
+                          ).toLocaleDateString()
+                        : null,
                 },
                 insuranceProvider: {
                     name:
@@ -211,14 +222,18 @@ const UpdateForm = () => {
                     authorizationId:
                         patientData.insurance.secondaryInsurance
                             .insuranceProvider.authorizationId || "",
-                    coverageStartDate:
-                        new Date(
-                            patientData.insurance.secondaryInsurance.insuranceProvider.coverageStartDate
-                        ).toLocaleDateString() || "",
-                    coverageEndDate:
-                        new Date(
-                            patientData.insurance.secondaryInsurance.insuranceProvider.coverageEndDate
-                        ).toLocaleDateString() || "",
+                    coverageStartDate: patientData.insurance.secondaryInsurance
+                        .insuranceProvider.coverageStartDate
+                        ? new Date(
+                              patientData.insurance.secondaryInsurance.insuranceProvider.coverageStartDate
+                          )
+                        : null,
+                    coverageEndDate: patientData.insurance.secondaryInsurance
+                        .insuranceProvider.coverageEndDate
+                        ? new Date(
+                              patientData.insurance.secondaryInsurance.insuranceProvider.coverageEndDate
+                          ).toLocaleDateString()
+                        : null,
                     haveCoordinationBenefits:
                         patientData.insurance.secondaryInsurance
                             .insuranceProvider.haveCoordinationBenefits || "",
@@ -247,6 +262,8 @@ const UpdateForm = () => {
             date: "",
         },
     });
+
+    console.log(patientData.guarantor);
 
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
