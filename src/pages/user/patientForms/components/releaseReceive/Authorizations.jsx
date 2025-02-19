@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import CheckboxGroup, { Checkbox } from "../../../../../components/CheckboxGroup";
+import CheckboxGroup, {
+    Checkbox,
+} from "../../../../../components/CheckboxGroup";
 import {
     authorizationOptions,
     disclosurePurposeOptions,
@@ -279,19 +281,21 @@ const Authorizations = ({
                         </div>
                     </div>
 
-                    <SelectField
-                        label="Is Patient a Minor?"
-                        name="isMinor"
-                        title="-- Select an option --"
-                        data={booleanOptions}
-                        value={formData.consent.isMinor}
-                        section="consent"
-                        field="isMinor"
-                        handleSelectChange={onChange}
-                    />
+                    {!formData.consent.guardianSignDate && (
+                        <SelectField
+                            label="Is Patient a Minor?"
+                            name="isMinor"
+                            title="-- Select an option --"
+                            data={booleanOptions}
+                            value={formData.consent.isMinor}
+                            section="consent"
+                            field="isMinor"
+                            handleSelectChange={onChange}
+                        />
+                    )}
 
                     {/* Guardian Signature if patient is aMinor */}
-                    {formData.consent.isMinor === "yes" && (
+                    {formData.consent.isMinor.toLowerCase() === "yes" && (
                         <div className="p-4 border rounded space-y-5">
                             <h5 className="tex-lg font-medium">
                                 Legal Guardian/Authorized Representative

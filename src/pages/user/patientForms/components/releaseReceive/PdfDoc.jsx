@@ -38,7 +38,9 @@ const PdfDoc = ({ data }) => {
                 },
                 patientSignDate: {
                     title: "Date:",
-                    value: new Date(data.consent.patientSignDate).toLocaleDateString(),
+                    value: new Date(
+                        data.consent.patientSignDate
+                    ).toLocaleDateString(),
                 },
             },
             guardian: {
@@ -56,7 +58,9 @@ const PdfDoc = ({ data }) => {
                 },
                 guardianSignDate: {
                     title: "Date:",
-                    value: new Date(data.consent.guardianSignDate).toLocaleDateString(),
+                    value: new Date(
+                        data.consent.guardianSignDate
+                    ).toLocaleDateString(),
                 },
             },
         },
@@ -136,7 +140,7 @@ const PdfDoc = ({ data }) => {
                         <Text style={styles.sectionHeader}>
                             Authorization for Exchange of Information
                         </Text>
-                        <View style={styles.flexCol}>
+                        <View style={{ ...styles.flexCol, gap: 6 }}>
                             <Text>{`I, ${verification.fullName.value} hereby authorize BrightLife Enhancement Services to:`}</Text>
                             {authRight.map((item, index) => (
                                 <View
@@ -166,6 +170,7 @@ const PdfDoc = ({ data }) => {
                         <View
                             style={{
                                 ...styles.flexCol,
+                                gap: 6,
                             }}
                         >
                             {parties.map((party, index) => (
@@ -201,7 +206,7 @@ const PdfDoc = ({ data }) => {
                         <Text style={styles.sectionHeader}>
                             Purpose of Disclosure
                         </Text>
-                        <View style={styles.flexCol}>
+                        <View style={{ ...styles.flexCol, gap: 6 }}>
                             <Text>{`I, ${verification.fullName.value} hereby authorize BrightLife Enhancement Services to disclose my information for the following purposes ONLY:`}</Text>
                             {disclosurePurpose.map((purpose, index) => (
                                 <View
@@ -228,7 +233,7 @@ const PdfDoc = ({ data }) => {
                         <Text style={styles.sectionHeader}>
                             Type of Information to Disclose
                         </Text>
-                        <View style={styles.flexCol}>
+                        <View style={{ ...styles.flexCol, gap: 6 }}>
                             <Text>{`I, ${verification.fullName.value} hereby authorize BrightLife Enhancement Services to disclose the following type of information:`}</Text>
                             {infoTypeToRelease.map((type, index) => (
                                 <View
@@ -301,7 +306,11 @@ const PdfDoc = ({ data }) => {
                             ))}
                         </View>
                     </View>
+                </View>
+            </Page>
 
+            <Page style={styles.page}>
+                <View style={styles.wrapper}>
                     {/* Agreement Confirmation */}
                     <View style={styles.sectionWrapper}>
                         <Text style={styles.sectionHeader}>
