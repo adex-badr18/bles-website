@@ -8,7 +8,8 @@ import ServiceDetails, {
 import ProgramDetails, {
     programLoader,
 } from "./pages/user/programs/ProgramDetails";
-import About from "./pages/user/landing/components/About";
+// import About from "./pages/user/landing/components/About";
+import About from "./pages/user/about/About";
 import Contact from "./pages/user/contact/Contact";
 import Appointment from "./pages/user/appointment/Appointment";
 import PatientForms from "./pages/user/patientForms/PatientForms";
