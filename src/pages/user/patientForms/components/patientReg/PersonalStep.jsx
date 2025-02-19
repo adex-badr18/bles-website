@@ -13,7 +13,7 @@ import {
     religionOptions,
     educationOptions,
     langOptions,
-    preferredPhoneOptions
+    preferredPhoneOptions,
 } from "../../data";
 
 const PersonalStep = ({ formData, handleInputChange }) => {
@@ -84,7 +84,11 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         showMonthDropdown
                         showYearDropdown
                         dropdownMode="select"
-                        defaultDate={new Date(formData.personal.dob)}
+                        defaultDate={
+                            formData.personal.dob
+                                ? new Date(formData.personal.dob)
+                                : null
+                        }
                     />
                     <TextField
                         type="text"
