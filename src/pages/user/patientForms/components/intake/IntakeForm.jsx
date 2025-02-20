@@ -14,12 +14,18 @@ const IntakeForm = () => {
     const [formData, setFormData] = useState({
         verification: {
             id: "",
-            date: new Date(),
+            verificationStatus: "",
             firstName: "",
             middleName: "",
             lastName: "",
-            email: "",
+            gender: "",
+            dob: "",
             phone: "",
+            email: "",
+            street: "",
+            city: "",
+            state: "",
+            zipCode: "",
         },
         intro: {
             doYouShareHome: "",
@@ -88,7 +94,7 @@ const IntakeForm = () => {
         },
     });
 
-    console.log(formData);
+    // console.log(formData);
 
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {

@@ -10,13 +10,18 @@ const ControlledSubstanceForm = () => {
     const [formData, setFormData] = useState({
         verification: {
             id: "",
+            verificationStatus: "",
             firstName: "",
             middleName: "",
             lastName: "",
-            email: "",
-            phone: "",
+            gender: "",
             dob: "",
-            address: { streetName: "", city: "", state: "", zipCode: "" },
+            phone: "",
+            email: "",
+            street: "",
+            city: "",
+            state: "",
+            zipCode: "",
         },
         consent: {
             patientSignature: "",

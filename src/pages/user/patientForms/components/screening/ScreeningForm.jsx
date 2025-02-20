@@ -10,12 +10,18 @@ const ScreeningForm = () => {
     const [formData, setFormData] = useState({
         verification: {
             id: "",
-            date: "",
+            verificationStatus: "",
             firstName: "",
             middleName: "",
             lastName: "",
-            email: "",
+            gender: "",
+            dob: "",
             phone: "",
+            email: "",
+            street: "",
+            city: "",
+            state: "",
+            zipCode: "",
         },
         screening: {
             mhBhPhone: "",

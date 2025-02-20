@@ -16,11 +16,18 @@ const InitialEvaluationForm = () => {
     const [formData, setFormData] = useState({
         verification: {
             id: "",
+            verificationStatus: "",
             firstName: "",
             middleName: "",
             lastName: "",
-            email: "",
+            gender: "",
+            dob: "",
             phone: "",
+            email: "",
+            street: "",
+            city: "",
+            state: "",
+            zipCode: "",
         },
         pharmacy: {
             name: "",

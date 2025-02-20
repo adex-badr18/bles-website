@@ -9,7 +9,18 @@ const AdhdForm = () => {
     const [formData, setFormData] = useState({
         verification: {
             id: "",
-            date: new Date(),
+            verificationStatus: "",
+            firstName: "",
+            middleName: "",
+            lastName: "",
+            gender: "",
+            dob: "",
+            phone: "",
+            email: "",
+            street: "",
+            city: "",
+            state: "",
+            zipCode: "",
         },
         partA: {
             projectCompletionProblem: {

@@ -10,11 +10,18 @@ const SelfPayAgreement = () => {
     const [formData, setFormData] = useState({
         verification: {
             id: "",
+            verificationStatus: "",
             firstName: "",
             middleName: "",
             lastName: "",
-            email: "",
+            gender: "",
+            dob: "",
             phone: "",
+            email: "",
+            street: "",
+            city: "",
+            state: "",
+            zipCode: "",
         },
         consent: {
             patientSignature: "",
