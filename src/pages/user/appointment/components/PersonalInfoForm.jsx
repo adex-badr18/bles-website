@@ -59,16 +59,19 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
             </div>
 
             <div className="space-y-4 md:space-y-8">
-                <SelectField
-                    label="Are you a new patient?"
-                    name="isNew"
-                    title="-- Select an option --"
-                    data={booleanOptions}
-                    value={formData.personal.isNew}
-                    section="personal"
-                    field="isNew"
-                    handleSelectChange={handleInputChange}
-                />
+                {formData.personal.verificationStatus.toLowerCase() !==
+                    "success" && (
+                    <SelectField
+                        label="Are you a new patient?"
+                        name="isNew"
+                        title="-- Select an option --"
+                        data={booleanOptions}
+                        value={formData.personal.isNew}
+                        section="personal"
+                        field="isNew"
+                        handleSelectChange={handleInputChange}
+                    />
+                )}
 
                 {formData.personal.isNew.toLowerCase() === "no" && (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
