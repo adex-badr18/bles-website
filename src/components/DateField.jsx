@@ -27,11 +27,11 @@ const DateField = ({
 
     return (
         <div className="space-y-1">
-            <label htmlFor={name} className="block text-grey">
+            <label htmlFor={`${section}-${name}`} className="block text-deepGrey">
                 {label}
             </label>
             <DatePicker
-                id={name}
+                id={`${section}-${name}`}
                 name={name}
                 selected={selectedDate}
                 onChange={handleDateChange}

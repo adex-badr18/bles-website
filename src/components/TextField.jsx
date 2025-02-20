@@ -14,12 +14,12 @@ const TextField = ({
 }) => {
     return (
         <div className={`space-y-1 ${classAttr}`}>
-            <label htmlFor={name} className="block text-grey">
+            <label htmlFor={`${section}-${name}`} className="block text-deepGrey">
                 {label}
             </label>
             <input
                 type={type}
-                id={name}
+                id={`${section}-${name}`}
                 name={name}
                 className={`input`}
                 placeholder={placeholder}

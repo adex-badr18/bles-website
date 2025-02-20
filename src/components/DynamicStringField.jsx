@@ -48,14 +48,14 @@ const DynamicStringField = ({
 
     return (
         <div className="space-y-1">
-            <label htmlFor={name} className="block text-grey capitalize">
+            <label htmlFor={`${section}-${name}`} className="block text-deepGrey capitalize">
                 {label}
             </label>
 
             {fields.map((field, index) => (
                 <div
                     key={index}
-                    id={name}
+                    id={`${section}-${name}`}
                     className="flex items-center justify-between gap-2"
                 >
                     {type === "text" && (

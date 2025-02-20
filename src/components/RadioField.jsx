@@ -29,7 +29,7 @@ const RadioField = ({
 
     return (
         <div className="space-y-2">
-            <p className={`${labelClass}`}>{label}</p>
+            <p className={`${labelClass} text-deepGrey`}>{label}</p>
             <div className={`${orientationClass}`}>
                 {data.map((option) => (
                     <label

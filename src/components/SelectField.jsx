@@ -15,12 +15,12 @@ const SelectField = ({
 }) => {
     return (
         <div className="space-y-1">
-            <label htmlFor={name} className="block text-grey">
+            <label htmlFor={`${section}-${name}`} className="block text-deepGrey">
                 {label}
             </label>
             <div className="w-full border border-[#DCDEE0] rounded-md pr-3">
                 <select
-                    id={name}
+                    id={`${section}-${name}`}
                     className={`py-2 pl-3 text-darkBlue outline-none bg-transparent w-full ${selectClass}`}
                     value={value}
                     name={name}

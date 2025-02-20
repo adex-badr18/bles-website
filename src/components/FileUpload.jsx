@@ -30,8 +30,8 @@ const FileUpload = ({
     return (
         <div className="space-y-1">
             <label
-                htmlFor={name}
-                className="block text-grey"
+                htmlFor={`${section}-${name}`}
+                className="block text-deepGrey"
             >
                 {label}{" "}
                 {isRequired && <small className="text-red-800">*</small>}
@@ -39,7 +39,7 @@ const FileUpload = ({
             <input
                 type="file"
                 name={name}
-                id={name}
+                id={`${section}-${name}`}
                 onChange={onFileChange}
                 placeholder={placeholder}
                 className="input"

@@ -56,7 +56,7 @@ const DynamicObjectField = ({
                 return (
                     <input
                         type="text"
-                        id={name}
+                        id={`${section}-${name}`}
                         name={name}
                         placeholder={placeholder}
                         value={instances[index][name] || ""}
@@ -69,7 +69,7 @@ const DynamicObjectField = ({
             case "textarea":
                 return (
                     <textarea
-                        id={name}
+                        id={`${section}-${name}`}
                         name={name}
                         placeholder={placeholder}
                         value={instances[index][name] || ""}
@@ -82,7 +82,7 @@ const DynamicObjectField = ({
             case "date":
                 return (
                     <DatePicker
-                        id={name}
+                        id={`${section}-${name}`}
                         name={name}
                         selected={instances[index][name]}
                         onChange={(date) =>
@@ -94,14 +94,14 @@ const DynamicObjectField = ({
                         showMonthDropdown
                         showYearDropdown
                         dropdownMode="select"
-                        defaultDate={new Date()}
+                        defaultDate={null}
                     />
                 );
             case "select":
                 return (
                     <div className="w-full border border-[#DCDEE0] rounded-md pr-3">
                         <select
-                            id={name}
+                            id={`${section}-${name}`}
                             className={`py-2 pl-3 text-darkBlue outline-none bg-transparent w-full`}
                             value={instances[index][name] || ""}
                             name={name}
@@ -145,8 +145,8 @@ const DynamicObjectField = ({
                         {objStructure.map((field, i) => (
                             <div key={i} className="space-y-1">
                                 <label
-                                    htmlFor={field.name}
-                                    className="block text-grey"
+                                    htmlFor={`${section}-${field.name}`}
+                                    className="block text-deepGrey"
                                 >
                                     {field.label}
                                 </label>

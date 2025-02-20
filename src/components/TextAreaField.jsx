@@ -11,12 +11,12 @@ const TextAreaField = ({
 }) => {
     return (
         <div className="space-y-1">
-            <label htmlFor={name} className="text-grey ">
+            <label htmlFor={`${section}-${name}`} className="text-deepGrey">
                 {label}
             </label>
             <textarea
                 name={name}
-                id={name}
+                id={`${section}-${name}`}
                 className="input"
                 placeholder={placeholder}
                 value={value}
