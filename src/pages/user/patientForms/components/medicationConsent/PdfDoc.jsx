@@ -6,12 +6,15 @@ import LetterHead from "../LetterHead";
 import { consents } from "./data";
 
 const PdfDoc = ({ data }) => {
+    console.log(data)
+
+    
     const medicationConsentData = {
         verification: {
             id: { title: "Patient ID:", value: data.verification.id },
             fullName: {
                 title: "Patient's Name:",
-                value: `${data.verification.firstName} ${data.verification.middleName} ${data.verification.lastName}`,
+                value: data.verification.firstName || data.verification.lastName ? `${data.verification.firstName} ${data.verification.middleName} ${data.verification.lastName}` : "N/A",
             },
             email: { title: "Email:", value: data.verification.email },
             phone: { title: "Phone:", value: data.verification.phone },
@@ -21,13 +24,13 @@ const PdfDoc = ({ data }) => {
             },
             streetAddress: {
                 title: "Street Address:",
-                value: data.verification.address.streetName,
+                value: data.verification.street,
             },
-            city: { title: "City:", value: data.verification.address.city },
-            state: { title: "State:", value: data.verification.address.state },
+            city: { title: "City:", value: data.verification.city },
+            state: { title: "State:", value: data.verification.state },
             zipCode: {
                 title: "Zip Code:",
-                value: data.verification.address.zipCode,
+                value: data.verification.zipCode,
             },
         },
         consent: {

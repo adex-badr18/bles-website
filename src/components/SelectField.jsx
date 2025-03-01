@@ -11,12 +11,17 @@ const SelectField = ({
     handleSelectChange,
     selectClass,
     optionClass,
+    isRequired,
     ...rest
 }) => {
     return (
         <div className="space-y-1">
-            <label htmlFor={`${section}-${name}`} className="block text-deepGrey">
-                {label}
+            <label
+                htmlFor={`${section}-${name}`}
+                className="block text-deepGrey"
+            >
+                {label}{" "}
+                {isRequired && <small className="text-red-800">*</small>}
             </label>
             <div className="w-full border border-[#DCDEE0] rounded-md pr-3">
                 <select

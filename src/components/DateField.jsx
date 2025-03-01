@@ -11,6 +11,7 @@ const DateField = ({
     placeholder,
     defaultDate,
     handleFormElementChange,
+    isRequired,
     ...rest
 }) => {
     const [selectedDate, setSelectedDate] = useState(defaultDate || null);
@@ -27,8 +28,12 @@ const DateField = ({
 
     return (
         <div className="space-y-1">
-            <label htmlFor={`${section}-${name}`} className="block text-deepGrey">
-                {label}
+            <label
+                htmlFor={`${section}-${name}`}
+                className="block text-deepGrey"
+            >
+                {label}{" "}
+                {isRequired && <small className="text-vividRed">*</small>}
             </label>
             <DatePicker
                 id={`${section}-${name}`}

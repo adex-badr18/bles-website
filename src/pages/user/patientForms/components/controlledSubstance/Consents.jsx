@@ -1,4 +1,5 @@
 import DateField from "../../../../../components/DateField";
+import TextField from "../../../../../components/TextField";
 import SignaturePad from "../../../../../components/SignaturePad";
 import { Checkbox } from "../../../../../components/CheckboxGroup";
 import SelectField from "../../../../../components/SelectField";
@@ -140,7 +141,8 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
 
                     <div className="space-y-1">
                         <label className="block text-deepGrey">
-                            Patient Signature
+                            Patient Signature{" "}
+                            <small className="text-vividRed text-lg">*</small>
                         </label>
                         <SignaturePad
                             handleInputChange={onChange}
@@ -172,21 +174,57 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                             Legal Guardian/Authorized Representative
                         </h5>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                            <FieldItem
-                                label="Guardian's Name"
-                                value={formData.consent.guardianName}
-                            />
-                            <FieldItem
-                                label="Relationship to Patient"
-                                value={
-                                    formData.consent.patientGuardianRelationship
-                                }
-                            />
+                            {formData.consent.guardianName ? (
+                                <FieldItem
+                                    label="Guardian's Name"
+                                    value={formData.consent.guardianName}
+                                />
+                            ) : (
+                                <TextField
+                                    type="text"
+                                    label="Guaardian's Name"
+                                    name="guardianName"
+                                    placeholder="Guaardian's Name"
+                                    section="consent"
+                                    field="guardianName"
+                                    value={formData.consent.guardianName}
+                                    handleInputChange={onChange}
+                                    isRequired={true}
+                                />
+                            )}
+
+                            {formData.consent.patientGuardianRelationship ? (
+                                <FieldItem
+                                    label="Relationship to Patient"
+                                    value={
+                                        formData.consent
+                                            .patientGuardianRelationship
+                                    }
+                                />
+                            ) : (
+                                <TextField
+                                    type="text"
+                                    label="Relationship to Patient"
+                                    name="patientGuardianRelationship"
+                                    placeholder="Relationship to Patient"
+                                    section="consent"
+                                    field="patientGuardianRelationship"
+                                    value={formData.consent.patientGuardianRelationship}
+                                    handleInputChange={onChange}
+                                    isRequired={true}
+                                />
+                            )}
                         </div>
 
                         <div className="space-y-1">
                             <label className="block text-deepGrey">
-                                Guardian Signature
+                                Guardian Signature{" "}
+                                {formData.consent.isMinor.toLowerCase() ===
+                                    "yes" && (
+                                    <small className="text-vividRed text-lg">
+                                        *
+                                    </small>
+                                )}
                             </label>
                             <SignaturePad
                                 handleInputChange={onChange}

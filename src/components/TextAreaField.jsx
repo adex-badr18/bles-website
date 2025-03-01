@@ -8,11 +8,13 @@ const TextAreaField = ({
     section,
     field,
     handleFormElementChange,
+    isRequired,
 }) => {
     return (
         <div className="space-y-1">
             <label htmlFor={`${section}-${name}`} className="text-deepGrey">
-                {label}
+                {label}{" "}
+                {isRequired && <small className="text-red-800">*</small>}
             </label>
             <textarea
                 name={name}

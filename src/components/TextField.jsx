@@ -10,12 +10,17 @@ const TextField = ({
     handleInputChange,
     type,
     classAttr,
+    isRequired,
     ...rest
 }) => {
     return (
         <div className={`space-y-1 ${classAttr}`}>
-            <label htmlFor={`${section}-${name}`} className="block text-deepGrey">
-                {label}
+            <label
+                htmlFor={`${section}-${name}`}
+                className="block text-deepGrey"
+            >
+                {label}{" "}
+                {isRequired && <small className="text-vividRed text-lg">*</small>}
             </label>
             <input
                 type={type}
