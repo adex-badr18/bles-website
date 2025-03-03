@@ -48,13 +48,20 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
 
     return (
         <div className="space-y-6">
-            <div className="space-y-1 text-center">
+            <div className="space-y-2 text-center">
                 <h3 className="text-xl md:text-2xl font-bold text-darkBlue">
                     Welcome to BrightLife
                 </h3>
                 <p className=" text-deepGrey">
                     Let us help you take the first step toward healing and
                     renewed purpose.
+                </p>
+
+                <p
+                    aria-label="All fields marked asterik (*) are required"
+                    className="text-sm text-vividRed font-bold text-center"
+                >
+                    All fields marked (*) are required.
                 </p>
             </div>
 
@@ -70,6 +77,7 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                         section="personal"
                         field="isNew"
                         handleSelectChange={handleInputChange}
+                        isRequired={true}
                     />
                 )}
 
@@ -85,12 +93,17 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                                 section="personal"
                                 value={formData.personal.id}
                                 handleInputChange={handleInputChange}
+                                isRequired={true}
                             />
                         </div>
 
                         <button
                             onClick={verifyId}
-                            className="place-self-end bg-lightGreen hover:bg-emerald-500 text-white font-semibold py-2 px-3 rounded-md w-full transition-colors duration-300"
+                            className="place-self-end bg-lightGreen hover:bg-emerald-500 text-white font-semibold py-2 px-3 rounded-md w-full transition-colors duration-300 disabled:opacity-45 disabled:cursor-not-allowed"
+                            disabled={
+                                formData.personal.verificationStatus.toLowerCase() ===
+                                    "success" || !formData.personal.id
+                            }
                         >
                             {isSubmitting ? (
                                 <Spinner secondaryText="Verifying..." />
@@ -179,6 +192,7 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                             field="firstName"
                             value={formData.personal.firstName}
                             handleInputChange={handleInputChange}
+                            isRequired={true}
                         />
                         <TextField
                             type="text"
@@ -199,6 +213,7 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                             section="personal"
                             value={formData.personal.lastName}
                             handleInputChange={handleInputChange}
+                            isRequired={true}
                         />
 
                         <SelectField
@@ -210,6 +225,7 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                             section="personal"
                             field="gender"
                             handleSelectChange={handleInputChange}
+                            isRequired={true}
                         />
                         <DateField
                             label="Date of Birth"
@@ -222,6 +238,7 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                             showYearDropdown
                             dropdownMode="select"
                             defaultDate={``}
+                            isRequired={true}
                         />
                     </div>
 
@@ -241,6 +258,7 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                                 section="personal"
                                 value={formData.personal.phone}
                                 handleInputChange={handleInputChange}
+                                isRequired={true}
                             />
                             <TextField
                                 type="email"
@@ -251,6 +269,7 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                                 section="personal"
                                 value={formData.personal.email}
                                 handleInputChange={handleInputChange}
+                                isRequired={true}
                             />
 
                             <TextField

@@ -126,6 +126,22 @@ const Appointment = () => {
             }
         }
 
+        for (const key in formData.address) {
+            const value = formData.address[key]
+
+            if (!value) {
+                return false
+            }
+        }
+
+        // for (const key in formData.appointment) {
+        //     const value = formData.appointment[key]
+
+        //     if (!value) {
+        //         return false
+        //     }
+        // }
+
         return true;
     };
 
@@ -166,9 +182,14 @@ const Appointment = () => {
     };
 
     const goToStep = (step) => {
-        if (!isStepValid(step)) return;
-
-        setCurrentStep(step);
+        
+        if (isStepValid(step)) {
+            setCompletedSteps((prev) => [...prev, step]);
+            setCurrentStep(step);
+            
+        }
+        
+        // if (!isStepValid(step)) return;
     };
 
     const editHandler = () => {

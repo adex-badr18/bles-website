@@ -11,9 +11,10 @@ import {
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import SelectField from "../../../../components/SelectField";
 
 const AppointmentForm = ({ formData, handleInputChange }) => {
-    const [selectedDateTime, setSelectedDateTime] = useState(null);
+    const [selectedDateTime, setSelectedDateTime] = useState(formData.appointment.appointmentDateTime || null);
     const [holidays, setHolidays] = useState([]);
     const [excludedTimes, setExcludedTimes] = useState({});
 
@@ -102,57 +103,42 @@ const AppointmentForm = ({ formData, handleInputChange }) => {
         <div className="space-y-6">
             <form className="space-y-8 divide-y-2 divide-lightGray">
                 <div className="flex flex-col gap-4">
-                    <h3 className="text-lg md:text-xl font-medium text-deepGrey">
-                        What are your appointment requirements?
-                    </h3>
+                    <div className="space-y-2">
+                        <h3 className="text-lg md:text-xl font-medium text-deepGrey text-center">
+                            What are your appointment requirements?
+                        </h3>
 
-                    <div className="space-y-1">
-                        <label
-                            htmlFor="appointmentType"
-                            className="block text-grey"
+                        <p
+                            aria-label="All fields marked asterik (*) are required"
+                            className="text-sm text-vividRed font-bold text-center"
                         >
-                            Appointment Type:
-                        </label>
-                        <Dropdown
-                            id="appointmentType"
-                            name="appointmentType"
-                            selectClass=""
-                            title="-- Select an option --"
-                            data={appointmentTypes}
-                            value={formData.appointment.appointmentType}
-                            onChange={(e) =>
-                                handleInputChange(
-                                    "appointment",
-                                    "appointmentType",
-                                    e.target.value
-                                )
-                            }
-                        />
+                            All fields marked (*) are required.
+                        </p>
                     </div>
 
-                    <div className="space-y-1">
-                        <label
-                            htmlFor="appointmentType"
-                            className="block text-grey"
-                        >
-                            Service Needed:
-                        </label>
-                        <Dropdown
-                            id="service"
-                            name="service"
-                            selectClass=""
-                            title="-- Select an option --"
-                            data={services}
-                            value={formData.appointment.service}
-                            onChange={(e) =>
-                                handleInputChange(
-                                    "appointment",
-                                    "service",
-                                    e.target.value
-                                )
-                            }
-                        />
-                    </div>
+                    <SelectField
+                        label="Appointment Type"
+                        name="appointmentType"
+                        title="-- Select an option --"
+                        data={appointmentTypes}
+                        value={formData.appointment.appointmentType}
+                        section="appointment"
+                        field="appointmentType"
+                        handleSelectChange={handleInputChange}
+                        isRequired={true}
+                    />
+
+                    <SelectField
+                        label="Service Needed"
+                        name="service"
+                        title="-- Select an option --"
+                        data={services}
+                        value={formData.appointment.service}
+                        section="appointment"
+                        field="service"
+                        handleSelectChange={handleInputChange}
+                        isRequired={true}
+                    />
 
                     <TextAreaField
                         label="Purpose of Visit"
@@ -162,14 +148,16 @@ const AppointmentForm = ({ formData, handleInputChange }) => {
                         field="purpose"
                         value={formData.appointment.purpose}
                         handleFormElementChange={handleInputChange}
+                        isRequired={true}
                     />
 
                     <div className="space-y-1">
                         <label
                             htmlFor="appointmentDateTime"
-                            className="block text-grey"
+                            className="block text-deepGrey"
                         >
-                            Select appointment date & time
+                            Select appointment date & time{" "}
+                            <small className="text-vividRed text-lg">*</small>
                         </label>
                         <DatePicker
                             id="appointmentDateTime"
