@@ -5,8 +5,9 @@ export const Checkbox = ({
     value,
     checked,
     onChange,
-    checkedClass="border-2 border-darkBlue",
-    unCheckedClass="border-lightGrey",
+    checkedClass = "border-2 border-darkBlue",
+    unCheckedClass = "border-lightGrey",
+    isRequired,
 }) => {
     return (
         <label className="text-darkBlue flex gap-4 cursor-pointer">
@@ -25,7 +26,12 @@ export const Checkbox = ({
             >
                 {checked && <MdOutlineCheck className="text-vividRed" />}
             </div>
-            <span className="">{label}</span>
+            <span className="">
+                {label}{" "}
+                {isRequired && (
+                    <small className="text-vividRed text-lg">*</small>
+                )}
+            </span>
         </label>
     );
 };
@@ -64,10 +70,7 @@ const CheckboxGroup = ({
 
     return (
         <div className="space-y-4">
-            <label
-                htmlFor={name}
-                className=" font-medium text-grey"
-            >
+            <label htmlFor={name} className=" font-medium text-deepGrey">
                 <span>
                     {label}
                     {isRequired && (
@@ -76,7 +79,9 @@ const CheckboxGroup = ({
                         </small>
                     )}
                     {smallLabel && (
-                        <small className="text-sm font-normal block">{smallLabel}</small>
+                        <small className="text-sm font-normal block">
+                            {smallLabel}
+                        </small>
                     )}
                 </span>
             </label>

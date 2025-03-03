@@ -14,7 +14,7 @@ const TextAreaField = ({
         <div className="space-y-1">
             <label htmlFor={`${section}-${name}`} className="text-deepGrey">
                 {label}{" "}
-                {isRequired && <small className="text-red-800">*</small>}
+                {isRequired && <small className="text-vividRed text-lg">*</small>}
             </label>
             <textarea
                 name={name}

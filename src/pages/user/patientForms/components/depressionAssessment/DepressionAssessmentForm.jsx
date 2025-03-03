@@ -111,6 +111,62 @@ const DepressionAssessmentForm = () => {
         console.log(formData);
     };
 
+    const isStepValid = (step) => {
+        const requiredFields = [
+            "firstName",
+            "lastName",
+            "gender",
+            "dob",
+            "maritalStatus",
+            "cellPhone",
+            "email",
+            "address",
+        ];
+
+        if (step === 1) {
+            const dataObj = formData.verification;
+
+            for (const key in dataObj) {
+                const value = dataObj[key];
+
+                if (!requiredFields.includes(key)) {
+                    continue;
+                }
+
+                if (value !== null && typeof value === "object") {
+                    for (const key in value) {
+                        const nestedValue = value[key];
+                        if (nestedValue === "" || nestedValue === null) {
+                            return false;
+                        }
+                    }
+                }
+
+                if (value === "" || value === null || value === undefined) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (step === 2) {
+            const dataObj = {
+                ...formData.assessment,
+            };
+
+            for (const key in dataObj) {
+                const value = dataObj[key].answer;
+
+                if (value === "" || value === null || value === undefined) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    };
+
     const formSteps = {
         steps: ["Verification", "Assessment", "Preview"],
         forms: [
@@ -139,7 +195,10 @@ const DepressionAssessmentForm = () => {
                 id: 3,
                 name: "Preview",
                 component: (
-                    <PdfPreview key={7} Doc={<PdfDoc data={formData} totalScore={totalScore} />} />
+                    <PdfPreview
+                        key={7}
+                        Doc={<PdfDoc data={formData} totalScore={totalScore} />}
+                    />
                 ),
             },
         ],
@@ -154,6 +213,7 @@ const DepressionAssessmentForm = () => {
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
+                isStepValid={isStepValid}
             />
         </div>
     );

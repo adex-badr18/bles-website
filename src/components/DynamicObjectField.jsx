@@ -12,6 +12,7 @@ const DynamicObjectField = ({
     objStructure,
     onChange,
     moreText = "more",
+    isRequired,
 }) => {
     const [instances, setInstances] = useState([
         objStructure.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {}),
@@ -133,7 +134,10 @@ const DynamicObjectField = ({
     return (
         <div className="space-y-4">
             <h4 className="text-lg text-darkBlue font-medium capitalize">
-                {title}
+                {title}{" "}
+                {isRequired && (
+                    <small className="text-vividRed text-lg">*</small>
+                )}
             </h4>
 
             <div className="space-y-4 md:space-y-6">

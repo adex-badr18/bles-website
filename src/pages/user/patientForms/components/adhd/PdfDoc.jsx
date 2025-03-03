@@ -25,13 +25,13 @@ const PdfDoc = ({ data, totalScore }) => {
             },
             streetAddress: {
                 title: "Street Address:",
-                value: data.verification.address.streetName,
+                value: data.verification.street,
             },
-            city: { title: "City:", value: data.verification.address.city },
-            state: { title: "State:", value: data.verification.address.state },
+            city: { title: "City:", value: data.verification.city },
+            state: { title: "State:", value: data.verification.state },
             zipCode: {
                 title: "Zip Code:",
-                value: data.verification.address.zipCode,
+                value: data.verification.zipCode,
             },
             date: {title: "Date:", value: new Date().toLocaleDateString()}
         },

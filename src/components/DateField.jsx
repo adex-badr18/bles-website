@@ -33,7 +33,7 @@ const DateField = ({
                 className="block text-deepGrey"
             >
                 {label}{" "}
-                {isRequired && <small className="text-vividRed">*</small>}
+                {isRequired && <small className="text-vividRed text-lg">*</small>}
             </label>
             <DatePicker
                 id={`${section}-${name}`}

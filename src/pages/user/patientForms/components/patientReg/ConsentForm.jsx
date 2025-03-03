@@ -42,6 +42,7 @@ const ConsentForm = ({
                                 }
                                 checkedClass="border-2 border-darkBlue"
                                 unCheckedClass="border-lightGrey"
+                                isRequired={true}
                             />
                         </div>
                     ))}
@@ -50,7 +51,8 @@ const ConsentForm = ({
 
             <div className="space-y-4">
                 <h3 className="font-bold text-xl md:text-2xl text-darkBlue">
-                    Signature and Date
+                    Signature{" "}
+                    <small className="text-vividRed text-lg">*</small>
                 </h3>
 
                 <div className="flex flex-col gap-5">
@@ -68,6 +70,7 @@ const ConsentForm = ({
                             value={new Date(
                                 formData.consent.date
                             ).toLocaleDateString()}
+                            isRequired={true}
                         />
                     )}
                 </div>

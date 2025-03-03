@@ -7,11 +7,13 @@ const SubmitButton = ({
     onSubmit,
     xtraClass,
     isSubmitting,
+    isDisabled,
 }) => {
     return (
         <button
-            className={`w-full bg-lightGreen hover:bg-lighterGreen px-4 py-2 text-white font-medium rounded-lg transition-colors duration-300 ${xtraClass}`}
+            className={`w-full bg-lightGreen hover:bg-lighterGreen px-4 py-2 text-white font-medium rounded-lg transition-colors duration-300 disabled:opacity-40 disabled:cursor-not-allowed ${xtraClass}`}
             onClick={onSubmit}
+            disabled={isDisabled}
         >
             {isSubmitting ? (
                 <Spinner secondaryText={loadingText} />

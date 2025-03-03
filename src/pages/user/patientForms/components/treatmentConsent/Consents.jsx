@@ -3,6 +3,7 @@ import SignaturePad from "../../../../../components/SignaturePad";
 import { Checkbox } from "../../../../../components/CheckboxGroup";
 import SelectField from "../../../../../components/SelectField";
 import FieldItem from "../../../../../components/FieldItem";
+import TextField from "../../../../../components/TextField";
 import { booleanOptions } from "../../data";
 
 import { consents, risksAndBenefits } from "./data";
@@ -32,6 +33,10 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                 <p className="text-vividRed text-center">
                     Please read this form carefully and ask any questions you
                     may have before signing.
+                </p>
+
+                <p className="text-sm text-vividRed font-bold text-center">
+                    All fields marked (*) are required.
                 </p>
 
                 <div className="space-y-4">
@@ -81,6 +86,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                     onChange={() => setConsent((prev) => !prev)}
                     checkedClass="border-2 border-darkBlue"
                     unCheckedClass="border-lightGrey"
+                    isRequired={true}
                 />
 
                 <div className="p-4 border rounded space-y-5">
@@ -90,6 +96,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                             label="Patient's Name"
                             value={patientFullName}
                             colspanClass="col-span-2"
+                            isRequired={true}
                         />
 
                         {formData.consent.patientSignDate && (
@@ -98,13 +105,15 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                                 value={new Date(
                                     formData.consent.patientSignDate
                                 ).toLocaleDateString()}
+                                isRequired={true}
                             />
                         )}
                     </div>
 
                     <div className="space-y-1">
                         <label className="block text-grey">
-                            Patient Signature
+                            Patient Signature{" "}
+                            <small className="text-vividRed text-lg">*</small>
                         </label>
                         <SignaturePad
                             handleInputChange={onChange}
@@ -126,6 +135,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                         section="consent"
                         field="isMinor"
                         handleSelectChange={onChange}
+                        isRequired={true}
                     />
                 )}
 
@@ -136,7 +146,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                             Legal Guardian/Authorized Representative
                         </h5>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                            <FieldItem
+                            {/* <FieldItem
                                 label="Guardian's Name"
                                 value={formData.consent.guardianName}
                             />
@@ -146,12 +156,41 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                                 value={
                                     formData.consent.patientGuardianRelationship
                                 }
+                            /> */}
+
+                            <TextField
+                                type="text"
+                                label="Guardian's Name"
+                                name="guardianName"
+                                placeholder="Guardian's Name"
+                                section="consent"
+                                field="guardianName"
+                                value={formData.consent.guardianName}
+                                handleInputChange={onChange}
+                                isRequired={true}
+                            />
+
+                            <TextField
+                                type="text"
+                                label="Relationship to Patient"
+                                name="patientGuardianRelationship"
+                                placeholder="Relationship to Patient"
+                                section="consent"
+                                field="patientGuardianRelationship"
+                                value={
+                                    formData.consent.patientGuardianRelationship
+                                }
+                                handleInputChange={onChange}
+                                isRequired={true}
                             />
                         </div>
 
                         <div className="space-y-1">
                             <label className="block text-grey">
-                                Guardian Signature
+                                Guardian Signature{" "}
+                                <small className="text-vividRed text-lg">
+                                    *
+                                </small>
                             </label>
                             <SignaturePad
                                 handleInputChange={onChange}
@@ -168,6 +207,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                                 value={new Date(
                                     formData.consent.guardianSignDate
                                 ).toLocaleDateString()}
+                                isRequired={true}
                             />
                         )}
                     </div>

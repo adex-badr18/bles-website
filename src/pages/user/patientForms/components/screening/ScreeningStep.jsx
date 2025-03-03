@@ -7,9 +7,18 @@ const ScreeningStep = ({ formData, onChange }) => {
     return (
         <form className="">
             <div className="space-y-4 md:space-y-8">
-                <h3 className="font-semibold text-xl md:text-2xl text-darkBlue">
-                    Screening
-                </h3>
+                <div className="space-y-2">
+                    <h3 className="font-semibold text-xl md:text-2xl text-darkBlue text-center">
+                        Screening
+                    </h3>
+
+                    <p
+                        aria-label="All fields marked asterik (*) are required"
+                        className="text-sm text-vividRed font-bold text-center"
+                    >
+                        All fields marked (*) are required.
+                    </p>
+                </div>
 
                 <TextAreaField
                     label="How may we help you today?"
@@ -19,6 +28,7 @@ const ScreeningStep = ({ formData, onChange }) => {
                     field="helpNeeds"
                     value={formData.screening.helpNeeds}
                     handleFormElementChange={onChange}
+                    isRequired={true}
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
@@ -32,7 +42,7 @@ const ScreeningStep = ({ formData, onChange }) => {
                         value={formData.screening.mhBhPhone}
                         handleInputChange={onChange}
                     />
-                    
+
                     <SelectField
                         label="Are you in Crisis?"
                         name="inCrisis"

@@ -13,9 +13,19 @@ const Assessment = ({ formData, onChange }) => {
     return (
         <div className="space-y-6 md:space-y-10">
             <div className="space-y-4">
-                <h3 className="font-bold text-xl md:text-2xl text-darkBlue">
-                    Adult ADHD Self-Report Scale (ASRS-v1.1) Symptom Checklist
-                </h3>
+                <div className="space-y-2">
+                    <h3 className="font-bold text-xl md:text-2xl text-darkBlue text-center">
+                        Adult ADHD Self-Report Scale (ASRS-v1.1) Symptom
+                        Checklist
+                    </h3>
+
+                    <p
+                        aria-label="All fields marked asterik (*) are required"
+                        className="text-sm text-vividRed font-bold text-center"
+                    >
+                        All fields marked (*) are required.
+                    </p>
+                </div>
 
                 <p className="text-deepGrey">
                     <strong>Description:</strong> The Symptom Checklist is an
@@ -104,6 +114,7 @@ const Assessment = ({ formData, onChange }) => {
                                     orientation="grid"
                                     labelClass="text-deepGrey text-lg font-medium"
                                     key={index}
+                                    isRequired={true}
                                 />
                             );
                         }
@@ -130,6 +141,7 @@ const Assessment = ({ formData, onChange }) => {
                                     orientation="grid"
                                     labelClass="text-deepGrey text-lg font-medium"
                                     key={index}
+                                    isRequired={true}
                                 />
                             );
                         }

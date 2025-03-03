@@ -17,6 +17,7 @@ import SelectField from "../../../../../components/SelectField";
 import DynamicObjectField from "../../../../../components/DynamicObjectField";
 import { CheckMarkIcon } from "../../../programs/components/icons";
 import { booleanOptions } from "../../data";
+import TextField from "../../../../../components/TextField";
 
 const Authorizations = ({
     formData,
@@ -70,11 +71,19 @@ const Authorizations = ({
                         purpose for releasing/receiving your health data. Sign
                         and date the form to confirm your authorization.
                     </p>
+
+                    <p
+                        aria-label="All fields marked asterik (*) are required"
+                        className="text-sm text-vividRed font-bold text-center"
+                    >
+                        All fields marked (*) are required.
+                    </p>
                 </div>
 
                 <div className="p-4 border rounded space-y-5">
                     <h4 className="text-lg text-darkBlue font-medium">
-                        Authorization for Exchange of Information
+                        Authorization for Exchange of Information{" "}
+                        <small className="text-vividRed text-lg">*</small>
                     </h4>
 
                     <CheckboxGroup
@@ -98,12 +107,14 @@ const Authorizations = ({
                         objStructure={partiesObjStructure}
                         title="Receiving/Sending Party Information"
                         moreText="individual/Organization"
+                        isRequired={true}
                     />
                 </div>
 
                 <div className="p-4 border rounded space-y-5">
                     <h4 className="text-lg text-darkBlue font-medium">
-                        Purpose of Disclosure
+                        Purpose of Disclosure{" "}
+                        <small className="text-vividRed text-lg">*</small>
                     </h4>
 
                     <CheckboxGroup
@@ -149,7 +160,8 @@ const Authorizations = ({
 
                 <div className="p-4 border rounded space-y-5">
                     <h4 className="text-lg text-darkBlue font-medium">
-                        Type of Information to be Disclosed
+                        Type of Information to be Disclosed{" "}
+                        <small className="text-vividRed text-lg">*</small>
                     </h4>
 
                     <CheckboxGroup
@@ -244,17 +256,20 @@ const Authorizations = ({
                         onChange={() => setConsent((prev) => !prev)}
                         checkedClass="border-2 border-darkBlue"
                         unCheckedClass="border-lightGrey"
+                        isRequired={true}
                     />
 
                     <div className="p-4 border rounded space-y-5">
                         <h5 className="tex-lg font-medium">
-                            Patient Signature
+                            Patient Signature{" "}
+                            <small className="text-vividRed text-lg">*</small>
                         </h5>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
                             <FieldItem
                                 label="Patient's Name"
                                 value={patientFullName}
                                 colspanClass="col-span-2"
+                                isRequired={true}
                             />
 
                             {formData.consent.patientSignDate && (
@@ -263,13 +278,17 @@ const Authorizations = ({
                                     value={new Date(
                                         formData.consent.patientSignDate
                                     ).toLocaleDateString()}
+                                    isRequired={true}
                                 />
                             )}
                         </div>
 
                         <div className="space-y-1">
-                            <label className="block text-grey">
-                                Patient Signature
+                            <label className="block text-deepGrey">
+                                Patient Signature{" "}
+                                <small className="text-vividRed text-lg">
+                                    *
+                                </small>
                             </label>
                             <SignaturePad
                                 handleInputChange={onChange}
@@ -291,6 +310,7 @@ const Authorizations = ({
                             section="consent"
                             field="isMinor"
                             handleSelectChange={onChange}
+                            isRequired={true}
                         />
                     )}
 
@@ -301,23 +321,40 @@ const Authorizations = ({
                                 Legal Guardian/Authorized Representative
                             </h5>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                                <FieldItem
+                                <TextField
+                                    type="text"
                                     label="Guardian's Name"
+                                    name="guardianName"
+                                    placeholder="Guardian's Name"
+                                    section="consent"
+                                    field="guardianName"
                                     value={formData.consent.guardianName}
+                                    handleInputChange={onChange}
+                                    isRequired={true}
                                 />
 
-                                <FieldItem
+                                <TextField
+                                    type="text"
                                     label="Relationship to Patient"
+                                    name="patientGuardianRelationship"
+                                    placeholder="Relationship to Patient"
+                                    section="consent"
+                                    field="patientGuardianRelationship"
                                     value={
                                         formData.consent
                                             .patientGuardianRelationship
                                     }
+                                    handleInputChange={onChange}
+                                    isRequired={true}
                                 />
                             </div>
 
                             <div className="space-y-1">
-                                <label className="block text-grey">
-                                    Guardian Signature
+                                <label className="block text-deepGrey">
+                                    Guardian Signature{" "}
+                                    <small className="text-vividRed text-lg">
+                                        *
+                                    </small>
                                 </label>
                                 <SignaturePad
                                     handleInputChange={onChange}
@@ -334,6 +371,7 @@ const Authorizations = ({
                                     value={new Date(
                                         formData.consent.guardianSignDate
                                     ).toLocaleDateString()}
+                                    isRequired={true}
                                 />
                             )}
                         </div>

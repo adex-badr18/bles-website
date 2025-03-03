@@ -5,6 +5,7 @@ import RadioField from "../../../../../components/RadioField";
 
 import { relationshipOptions } from "../../data";
 import { booleanOptions } from "./data";
+import { insuranceNames } from "../../../appointment/data";
 
 const SecondaryInsurance = ({ formData, handleInputChange }) => {
     return (
@@ -20,7 +21,7 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                         Policy Holder
                     </h4>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                         <TextField
                             type="text"
                             label="First Name"
@@ -110,32 +111,19 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                         Insurance Provider
                     </h4>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-                        <TextField
-                            type="text"
-                            label="Name"
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                        <SelectField
+                            label="Provider Name"
                             name="name"
-                            field="secondaryInsurance.insuranceProvider.name"
-                            placeholder="Name"
-                            section="insurance"
+                            title="-- Select insurance provider --"
+                            data={insuranceNames}
                             value={
                                 formData.insurance.secondaryInsurance
                                     .insuranceProvider.name
                             }
-                            handleInputChange={handleInputChange}
-                        />
-                        <TextField
-                            type="text"
-                            label="Name"
-                            name="name"
-                            field="secondaryInsurance.insuranceProvider.name"
-                            placeholder="Name"
                             section="insurance"
-                            value={
-                                formData.insurance.secondaryInsurance
-                                    .insuranceProvider.name
-                            }
-                            handleInputChange={handleInputChange}
+                            field="secondaryInsurance.insuranceProvider.name"
+                            handleSelectChange={handleInputChange}
                         />
                         <TextField
                             type="text"
@@ -248,12 +236,12 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                         />
                     </div>
 
-                    <div className="">
+                    <div className="space-y-2">
                         <h4 className="text-sm md:text-base font-semibold text-darkBlue">
                             Address
                         </h4>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                             <TextField
                                 type="text"
                                 label="Street Name"

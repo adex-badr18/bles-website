@@ -73,6 +73,6 @@ export const consents = [
         id: 13,
         title: "Assignment of Benefits",
         description:
-            "I hereby authorize my insurance benefits to be paid directly to Dr. Islamiyyah Al-Ameed – BrightLife Enhancement Services and understand that I am financially responsible for non-covered services. I also authorize You BrightLife Enhancement Services to release any information to my insurance company required to process claims.",
+            "I hereby authorize my insurance benefits to be paid directly to Dr. Islamiyyah Al-Ameen – BrightLife Enhancement Services and understand that I am financially responsible for non-covered services. I also authorize BrightLife Enhancement Services to release any information to my insurance company required to process claims.",
     },
 ];

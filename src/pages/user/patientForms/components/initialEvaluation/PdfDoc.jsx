@@ -2,6 +2,7 @@ import { Document, Page, Text, View, Image } from "@react-pdf/renderer";
 import { styles } from "../patientReg/PdfDoc";
 import { consentOptions } from "./data";
 import checkbox from "../../../../../assets/checkbox.jpg";
+import LetterHead from "../LetterHead";
 
 const PdfDoc = ({ data }) => {
     // const consents = consentOptions.map((consent) => consent.label);
@@ -20,6 +21,22 @@ const PdfDoc = ({ data }) => {
             },
             email: { title: "Email:", value: data.verification.email || "N/A" },
             phone: { title: "Phone:", value: data.verification.phone || "N/A" },
+            dob: {
+                title: "Date of Birth:",
+                value:
+                    new Date(data.verification.dob).toLocaleDateString() ||
+                    "N/A",
+            },
+            streetAddress: {
+                title: "Street Address:",
+                value: data.verification.street,
+            },
+            city: { title: "City:", value: data.verification.city },
+            state: { title: "State:", value: data.verification.state },
+            zipCode: {
+                title: "Zip Code:",
+                value: data.verification.zipCode,
+            },
         },
         pharmacy: {
             name: {
@@ -99,30 +116,7 @@ const PdfDoc = ({ data }) => {
             <Page style={styles.page}>
                 <View style={styles.wrapper}>
                     {/* Letterhead */}
-                    <View style={styles.letterhead}>
-                        <Text style={styles.brand}>
-                            BRIGHTLIFE ENHANCEMENT SERVICES
-                        </Text>
-                        <Text style={styles.tagline}>
-                            Holistic Approach To Healthcare
-                        </Text>
-                        <Text style={styles.address}>
-                            5, Public Square, Suite 428, Hagerstown, MD 21740.
-                        </Text>
-                        <View
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                gap: 10,
-                            }}
-                        >
-                            <Text style={styles.tagline}>
-                                info@blesomhc.com
-                            </Text>
-                            <Text style={styles.address}>(410) 988-2626</Text>
-                        </View>
-                    </View>
+                    <LetterHead />
 
                     {/* Form Title */}
                     <Text style={styles.header}>Initial Evaluation Form</Text>

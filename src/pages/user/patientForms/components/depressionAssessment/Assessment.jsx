@@ -7,9 +7,18 @@ const Assessment = ({ formData, onChange, totalScore }) => {
     return (
         <div className="space-y-6 md:space-y-10">
             <div className="space-y-4">
-                <h3 className="font-bold text-xl md:text-2xl text-darkBlue">
-                    PHQ-9 Depression Assessment Form
-                </h3>
+                <div className="space-y-2">
+                    <h3 className="font-bold text-xl md:text-2xl text-darkBlue text-center">
+                        PHQ-9 Depression Assessment Form
+                    </h3>
+
+                    <p
+                        aria-label="All fields marked asterik (*) are required"
+                        className="text-sm text-vividRed font-bold text-center"
+                    >
+                        All fields marked (*) are required.
+                    </p>
+                </div>
 
                 <p className="text-deepGrey">
                     The PHQ-9 is a validated tool used to identify the presence
@@ -64,6 +73,7 @@ const Assessment = ({ formData, onChange, totalScore }) => {
                                 orientation="grid"
                                 labelClass="text-deepGrey text-lg font-medium"
                                 key={index}
+                                isRequired={true}
                             />
                         );
                     }

@@ -11,9 +11,16 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
     return (
         <div className="space-y-6 md:space-y-10">
             <div className="space-y-4">
-                <h3 className="font-bold text-xl md:text-2xl text-darkBlue">
+                <h3 className="font-bold text-xl md:text-2xl text-darkBlue text-center">
                     Termination Policy
                 </h3>
+
+                <p
+                    aria-label="All fields marked asterik (*) are required"
+                    className="text-sm text-vividRed font-bold text-center"
+                >
+                    All fields marked (*) are required.
+                </p>
 
                 <div className="space-y-4">
                     {consents.map((option) => (
@@ -21,7 +28,7 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                             key={option.id}
                             className="p-4 border rounded-lg space-y-4"
                         >
-                            <p className="text-grey">{option.description}</p>
+                            <p className="text-deepGrey">{option.description}</p>
                         </div>
                     ))}
                 </div>
@@ -33,7 +40,11 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                 </h4>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                    <FieldItem label="Patient's Name" value={patientFullName} />
+                    <FieldItem
+                        label="Patient's Name"
+                        value={patientFullName}
+                        isRequired={true}
+                    />
 
                     <TextField
                         type="text"
@@ -44,6 +55,7 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                         field="witnessName"
                         value={formData.consent.witnessName}
                         handleInputChange={onChange}
+                        isRequired={true}
                     />
                 </div>
 
@@ -54,12 +66,14 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                     onChange={() => setConsent((prev) => !prev)}
                     checkedClass="border-2 border-darkBlue"
                     unCheckedClass="border-lightGrey"
+                    isRequired={true}
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                     <div className="">
-                        <label className="block text-grey mb-1">
-                            Patient Signature
+                        <label className="block text-deepGrey mb-1">
+                            Patient Signature{" "}
+                            <small className="text-vividRed text-lg">*</small>
                         </label>
                         <SignaturePad
                             handleInputChange={onChange}
@@ -75,14 +89,16 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                                     value={new Date(
                                         formData.consent.patientSignDate
                                     ).toLocaleDateString()}
+                                    isRequired={true}
                                 />
                             )}
                         </div>
                     </div>
 
                     <div className="">
-                        <label className="block text-grey mb-1">
-                            Witness Signature
+                        <label className="block text-deepGrey mb-1">
+                            Witness Signature{" "}
+                            <small className="text-vividRed text-lg">*</small>
                         </label>
                         <SignaturePad
                             handleInputChange={onChange}
@@ -98,6 +114,7 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                                     value={new Date(
                                         formData.consent.witnessSignDate
                                     ).toLocaleDateString()}
+                                    isRequired={true}
                                 />
                             )}
                         </div>

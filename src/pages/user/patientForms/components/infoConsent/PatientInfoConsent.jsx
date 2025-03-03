@@ -65,6 +65,70 @@ const PatientInfoConsent = () => {
         console.log(formData);
     };
 
+    const isStepValid = (step) => {
+        const requiredFields = [
+            "firstName",
+            "lastName",
+            "gender",
+            "dob",
+            "maritalStatus",
+            "phone",
+            "email",
+            "address",
+            "signature",
+            "date",
+        ];
+
+        if (step === 1) {
+            const dataObj = formData.verification;
+
+            for (const key in dataObj) {
+                const value = dataObj[key];
+
+                if (!requiredFields.includes(key)) {
+                    continue;
+                }
+
+                if (value !== null && typeof value === "object") {
+                    for (const key in value) {
+                        const nestedValue = value[key];
+                        if (nestedValue === "" || nestedValue === null) {
+                            return false;
+                        }
+                    }
+                }
+
+                if (value === "" || value === null || value === undefined) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (step === 2) {
+            const dataObj = formData.consent;
+
+            for (const key in dataObj) {
+                const value = dataObj[key];
+
+                if (!requiredFields.includes(key)) {
+                    continue;
+                }
+
+                if (value === "" || value === null || value === undefined) {
+                    return false;
+                }
+            }
+
+            if (!infoConsent) {
+                return false;
+            }
+
+            return true;
+        }
+    };
+
     const formSteps = {
         steps: ["Verification", "Consents", "Preview"],
         forms: [
@@ -109,6 +173,7 @@ const PatientInfoConsent = () => {
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
+                isStepValid={isStepValid}
             />
         </div>
     );

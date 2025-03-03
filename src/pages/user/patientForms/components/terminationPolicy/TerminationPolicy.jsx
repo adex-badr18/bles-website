@@ -32,8 +32,8 @@ const TerminationPolicy = () => {
         },
     });
 
-    console.log(formData)
-    
+    console.log(formData);
+
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
         setFormData((prev) => {
@@ -68,6 +68,59 @@ const TerminationPolicy = () => {
         e.preventDefault();
 
         console.log(formData);
+    };
+
+    const isStepValid = (step) => {
+        const requiredFields = [
+            "firstName",
+            "lastName",
+            "gender",
+            "dob",
+            "maritalStatus",
+            "phone",
+            "email",
+            "address",
+        ];
+
+        if (step === 1) {
+            const dataObj = formData.verification;
+
+            for (const key in dataObj) {
+                const value = dataObj[key];
+
+                if (!requiredFields.includes(key)) {
+                    continue;
+                }
+
+                if (value !== null && typeof value === "object") {
+                    for (const key in value) {
+                        const nestedValue = value[key];
+                        if (nestedValue === "" || nestedValue === null) {
+                            return false;
+                        }
+                    }
+                }
+
+                if (value === "" || value === null || value === undefined) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (step === 2) {
+            if (
+                !formData.consent.patientSignature ||
+                !policyConsent ||
+                !formData.consent.witnessName ||
+                !formData.consent.witnessSignature
+            ) {
+                return false;
+            }
+
+            return true;
+        }
     };
 
     const formSteps = {
@@ -114,6 +167,7 @@ const TerminationPolicy = () => {
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
+                isStepValid={isStepValid}
             />
         </div>
     );

@@ -11,9 +11,18 @@ const PrivacyPolicy = ({ formData, onChange, consent, setConsent }) => {
     return (
         <div className="space-y-6 md:space-y-10">
             <div className="space-y-4 md:space-y-8">
-                <h3 className="font-bold text-xl md:text-2xl text-darkBlue">
-                    Notice of Privacy Practices
-                </h3>
+                <div className="space-y-2">
+                    <h3 className="font-bold text-xl md:text-2xl text-darkBlue text-center">
+                        Notice of Privacy Practices
+                    </h3>
+
+                    <p
+                        aria-label="All fields marked asterik (*) are required"
+                        className="text-sm text-vividRed font-bold text-center"
+                    >
+                        All fields marked (*) are required.
+                    </p>
+                </div>
 
                 <div className="p-4 border rounded-lg space-y-4 md:space-y-8 text-deepGrey">
                     <p className="text-vividRed font-medium text-center">
@@ -174,7 +183,8 @@ const PrivacyPolicy = ({ formData, onChange, consent, setConsent }) => {
                     showMonthDropdown
                     showYearDropdown
                     dropdownMode="select"
-                    defaultDate={``}
+                    defaultDate={formData.consent.noticeEffectDate || ""}
+                    isRequired={true}
                 />
 
                 {formData.consent.noticeEffectDate && (
@@ -185,6 +195,7 @@ const PrivacyPolicy = ({ formData, onChange, consent, setConsent }) => {
                         onChange={() => setConsent((prev) => !prev)}
                         checkedClass="border-2 border-darkBlue"
                         unCheckedClass="border-lightGrey"
+                        isRequired={true}
                     />
                 )}
 
@@ -193,6 +204,7 @@ const PrivacyPolicy = ({ formData, onChange, consent, setConsent }) => {
                         label="Patient's Name"
                         value={patientFullName}
                         colspanClass="col-span-2"
+                        isRequired={true}
                     />
 
                     {formData.consent.date && (
@@ -201,12 +213,16 @@ const PrivacyPolicy = ({ formData, onChange, consent, setConsent }) => {
                             value={new Date(
                                 formData.consent.date
                             ).toLocaleDateString()}
+                            isRequired={true}
                         />
                     )}
                 </div>
 
                 <div className="space-y-1">
-                    <label className="block text-grey">Patient Signature</label>
+                    <label className="block text-grey">
+                        Patient Signature{" "}
+                        <small className="text-vividRed text-lg">*</small>
+                    </label>
                     <SignaturePad
                         handleInputChange={onChange}
                         section="consent"

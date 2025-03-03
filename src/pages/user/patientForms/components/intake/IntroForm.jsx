@@ -23,6 +23,7 @@ const IntroForm = ({ formData, onChange }) => {
                     field="complaints"
                     value={formData.intro.complaints}
                     handleFormElementChange={onChange}
+                    isRequired={true}
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">

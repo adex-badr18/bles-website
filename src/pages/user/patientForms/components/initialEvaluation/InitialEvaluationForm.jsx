@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Pharmacy from "./Pharmacy";
 import Agreements from "./Agreements";
 import VerificationStep from "../../../../../components/VerificationStep";
@@ -42,10 +42,38 @@ const InitialEvaluationForm = () => {
             address: { streetName: "", city: "", state: "", zipCode: "" },
             infoToRelease: "",
         },
-        consent: {signature: "", date: ""}
+        consent: { signature: "", date: "" },
     });
-    console.log(formData)
-    console.log(consents)
+    console.log(formData);
+    console.log(consents);
+
+    useEffect(() => {
+        if (formData.primaryCarePhysician.havePcp.toLowerCase() === "no") {
+            setConsents((prev) => ({
+                ...prev,
+                pcpAuth: false,
+                infoToRelease: false,
+            }));
+
+            setFormData((prev) => ({
+                ...prev,
+                primaryCarePhysician: {
+                    ...prev.primaryCarePhysician,
+                    name: "",
+                    phone: "",
+                    fax: "",
+                    infoToRelease: "",
+                    address: {
+                        ...prev.primaryCarePhysician.address,
+                        streetName: "",
+                        city: "",
+                        state: "",
+                        zipCode: "",
+                    },
+                },
+            }));
+        }
+    }, [formData.primaryCarePhysician.havePcp]);
 
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
@@ -81,6 +109,115 @@ const InitialEvaluationForm = () => {
         e.preventDefault();
 
         console.log(formData);
+    };
+
+    const isStepValid = (step) => {
+        const requiredFields = [
+            "firstName",
+            "lastName",
+            "gender",
+            "dob",
+            "maritalStatus",
+            "phone",
+            "email",
+            "address",
+            "havePcp",
+        ];
+
+        if (step === 1) {
+            const dataObj = formData.verification;
+
+            for (const key in dataObj) {
+                const value = dataObj[key];
+
+                if (!requiredFields.includes(key)) {
+                    continue;
+                }
+
+                if (value !== null && typeof value === "object") {
+                    for (const key in value) {
+                        const nestedValue = value[key];
+                        if (nestedValue === "" || nestedValue === null) {
+                            return false;
+                        }
+                    }
+                }
+
+                if (value === "" || value === null || value === undefined) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (step === 2) {
+            return true;
+        }
+
+        if (step === 3) {
+            if (!formData.primaryCarePhysician.havePcp) {
+                return false;
+            }
+
+            for (const key in consents) {
+                const value = consents[key];
+                if (
+                    (key === "finResponsibility" ||
+                        key === "treatmentConsent") &&
+                    !value
+                ) {
+                    return false;
+                }
+            }
+
+            if (formData.primaryCarePhysician.havePcp.toLowerCase() === "yes") {
+                const dataObj = formData.primaryCarePhysician;
+                const pcpRequiredFields = [
+                    "name",
+                    "phone",
+                    "address",
+                    "infoToRelease",
+                ];
+
+                for (const key in dataObj) {
+                    const value = dataObj[key];
+
+                    if (!pcpRequiredFields.includes(key)) {
+                        continue;
+                    }
+
+                    if (value !== null && typeof value === "object") {
+                        for (const key in value) {
+                            const nestedValue = value[key];
+                            if (nestedValue === "" || nestedValue === null) {
+                                return false;
+                            }
+                        }
+                    }
+
+                    if (value === "" || value === null || value === undefined) {
+                        return false;
+                    }
+                }
+
+                for (const key in consents) {
+                    const value = consents[key];
+                    if (
+                        (key === "pcpAuth" || key === "infoToRelease") &&
+                        !value
+                    ) {
+                        return false;
+                    }
+                }
+            }
+
+            if (!formData.consent.signature) {
+                return false;
+            }
+
+            return true;
+        }
     };
 
     const formSteps = {
@@ -137,6 +274,7 @@ const InitialEvaluationForm = () => {
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
+                isStepValid={isStepValid}
             />
         </div>
     );

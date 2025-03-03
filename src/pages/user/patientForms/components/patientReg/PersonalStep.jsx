@@ -20,9 +20,18 @@ const PersonalStep = ({ formData, handleInputChange }) => {
     return (
         <form className="space-y-4 md:space-y-8">
             <div className="space-y-4 md:space-y-8">
-                <h3 className="font-bold text-xl text-darkBlue">
-                    Getting to know you
-                </h3>
+                <div className="space-y-2">
+                    <h3 className="font-bold text-xl text-darkBlue text-center">
+                        Getting to know you
+                    </h3>
+
+                    <p
+                        aria-label="All fields marked asterik (*) are required"
+                        className="text-sm text-vividRed font-bold text-center"
+                    >
+                        All fields marked (*) are required.
+                    </p>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                     <TextField
                         type="text"
@@ -33,6 +42,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         field="firstName"
                         value={formData.personal.firstName}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                     <TextField
                         type="text"
@@ -53,6 +63,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         section="personal"
                         value={formData.personal.lastName}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                     <SelectField
                         label="Gender"
@@ -63,6 +74,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         section="personal"
                         field="gender"
                         handleSelectChange={handleInputChange}
+                        isRequired={true}
                     />
                     <SelectField
                         label="Marital Status"
@@ -73,6 +85,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         section="personal"
                         field="maritalStatus"
                         handleSelectChange={handleInputChange}
+                        isRequired={true}
                     />
                     <DateField
                         label="Date of Birth"
@@ -89,6 +102,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                                 ? new Date(formData.personal.dob)
                                 : null
                         }
+                        isRequired={true}
                     />
                     <TextField
                         type="text"
@@ -108,6 +122,28 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                     <TextField
                         type="text"
+                        label="Cell Phone"
+                        name="cellPhone"
+                        field="cellPhone"
+                        placeholder="Cell Phone"
+                        section="personal"
+                        value={formData.personal.cellPhone}
+                        handleInputChange={handleInputChange}
+                        isRequired={true}
+                    />
+                    <TextField
+                        type="email"
+                        label="Email Address"
+                        name="email"
+                        field="email"
+                        placeholder="Email Address"
+                        section="personal"
+                        value={formData.personal.email}
+                        handleInputChange={handleInputChange}
+                        isRequired={true}
+                    />
+                    <TextField
+                        type="text"
                         label="Home Phone"
                         name="homePhone"
                         field="homePhone"
@@ -118,32 +154,12 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                     />
                     <TextField
                         type="text"
-                        label="Cell Phone"
-                        name="cellPhone"
-                        field="cellPhone"
-                        placeholder="Cell Phone"
-                        section="personal"
-                        value={formData.personal.cellPhone}
-                        handleInputChange={handleInputChange}
-                    />
-                    <TextField
-                        type="text"
                         label="Work Phone"
                         name="workPhone"
                         field="workPhone"
                         placeholder="Work Phone"
                         section="personal"
                         value={formData.personal.workPhone}
-                        handleInputChange={handleInputChange}
-                    />
-                    <TextField
-                        type="email"
-                        label="Email Address"
-                        name="email"
-                        field="email"
-                        placeholder="Email Address"
-                        section="personal"
-                        value={formData.personal.email}
                         handleInputChange={handleInputChange}
                     />
                     <SelectField
@@ -225,6 +241,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         section="personal"
                         value={formData.personal.address.streetName}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                     <TextField
                         type="text"
@@ -235,6 +252,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         section="personal"
                         value={formData.personal.address.city}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                     <TextField
                         type="text"
@@ -245,6 +263,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         section="personal"
                         value={formData.personal.address.state}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                     <TextField
                         type="text"
@@ -255,6 +274,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         section="personal"
                         value={formData.personal.address.zipCode}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                 </div>
             </div>

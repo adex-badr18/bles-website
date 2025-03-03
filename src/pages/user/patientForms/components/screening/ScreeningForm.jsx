@@ -50,6 +50,7 @@ const ScreeningForm = () => {
     });
 
     console.log(formData);
+    console.log(Boolean(formData.screening.helpNeeds));
 
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
@@ -87,13 +88,62 @@ const ScreeningForm = () => {
         console.log(formData);
     };
 
+    const isStepValid = (step) => {
+        const requiredFields = [
+            "firstName",
+            "lastName",
+            "gender",
+            "dob",
+            "maritalStatus",
+            "phone",
+            "email",
+            "address",
+            "helpNeeds",
+        ];
+
+        if (step === 1) {
+            const dataObj = formData.verification;
+
+            for (const key in dataObj) {
+                const value = dataObj[key];
+
+                if (!requiredFields.includes(key)) {
+                    continue;
+                }
+
+                if (value !== null && typeof value === "object") {
+                    for (const key in value) {
+                        const nestedValue = value[key];
+                        if (nestedValue === "" || nestedValue === null) {
+                            return false;
+                        }
+                    }
+                }
+
+                if (value === "" || value === null || value === undefined) {
+                    return false;
+                }
+
+                return true;
+            }
+
+        }
+        
+        if (step === 2) {
+            const value = formData.screening.helpNeeds;
+
+            if (!formData.screening.helpNeeds) {
+                return false;
+            }
+
+            return true;
+        }
+
+        // return true;
+    };
+
     const formSteps = {
-        steps: [
-            "Verification",
-            "Screening",
-            "Referral",
-            // "Preview"
-        ],
+        steps: ["Verification", "Screening", "Referral"],
         forms: [
             {
                 id: 1,
@@ -144,6 +194,7 @@ const ScreeningForm = () => {
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
+                isStepValid={isStepValid}
             />
         </div>
     );

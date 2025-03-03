@@ -2,14 +2,23 @@ import { anxietyOptions, anxietySummaryOptions } from "./data";
 import RadioField from "../../../../../components/RadioField";
 
 const Assessment = ({ formData, onChange, totalScore }) => {
-    console.log(formData);
+    // console.log(formData);
 
     return (
         <div className="space-y-6 md:space-y-10">
             <div className="space-y-4">
-                <h3 className="font-bold text-xl md:text-2xl text-darkBlue">
-                    Generalized Anxiety Disorder 7-item (GAD-7) Scale
-                </h3>
+                <div className="space-y-2">
+                    <h3 className="font-bold text-xl md:text-2xl text-darkBlue text-center">
+                        Generalized Anxiety Disorder 7-item (GAD-7) Scale
+                    </h3>
+
+                    <p
+                        aria-label="All fields marked asterik (*) are required"
+                        className="text-sm text-vividRed font-bold text-center"
+                    >
+                        All fields marked (*) are required.
+                    </p>
+                </div>
 
                 <p className="text-deepGrey">
                     The GAD-7 is a screening tool that measures the severity of
@@ -63,6 +72,7 @@ const Assessment = ({ formData, onChange, totalScore }) => {
                                 orientation="grid"
                                 labelClass="text-deepGrey text-lg font-medium"
                                 key={index}
+                                isRequired={true}
                             />
                         );
                     }
@@ -78,6 +88,7 @@ const Assessment = ({ formData, onChange, totalScore }) => {
                 field={`answer`}
                 handleFormElementChange={onChange}
                 orientation="grid"
+                isRequired={true}
             />
 
             <div className="space-y-4">

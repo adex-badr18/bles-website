@@ -15,6 +15,9 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
         setConsents((prev) => ({ ...prev, [name]: !prev[name] }));
     };
 
+    // console.log(formData)
+    // console.log(consents)
+
     return (
         <form className="">
             <div className="space-y-4 md:space-y-8">
@@ -24,11 +27,18 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                         Services
                     </h3>
 
-                    <p className="text-vividRed">
+                    <p className="text-darkBlue font-medium">
                         The sections below contain several agreements.
                         <span className="block">
                             Please read the agreements carefully and sign.
                         </span>
+                    </p>
+
+                    <p
+                        aria-label="All fields marked asterik (*) are required"
+                        className="text-sm text-vividRed font-bold text-center"
+                    >
+                        All fields marked (*) are required.
                     </p>
                 </div>
 
@@ -41,6 +51,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                     section="primaryCarePhysician"
                     field="havePcp"
                     handleSelectChange={onChange}
+                    isRequired={true}
                 />
 
                 {formData.primaryCarePhysician.havePcp.toLowerCase() ===
@@ -60,6 +71,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                                 field="name"
                                 value={formData.primaryCarePhysician.name}
                                 handleInputChange={onChange}
+                                isRequired={true}
                             />
 
                             <TextField
@@ -71,6 +83,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                                 field="phone"
                                 value={formData.primaryCarePhysician.phone}
                                 handleInputChange={onChange}
+                                isRequired={true}
                             />
 
                             <TextField
@@ -96,6 +109,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                                         .streetName
                                 }
                                 handleInputChange={onChange}
+                                isRequired={true}
                             />
 
                             <TextField
@@ -109,6 +123,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                                     formData.primaryCarePhysician.address.city
                                 }
                                 handleInputChange={onChange}
+                                isRequired={true}
                             />
 
                             <TextField
@@ -122,6 +137,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                                     formData.primaryCarePhysician.address.state
                                 }
                                 handleInputChange={onChange}
+                                isRequired={true}
                             />
 
                             <TextField
@@ -136,6 +152,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                                         .zipCode
                                 }
                                 handleInputChange={onChange}
+                                isRequired={true}
                             />
                         </div>
 
@@ -148,6 +165,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                             value={formData.primaryCarePhysician.infoToRelease}
                             handleFormElementChange={onChange}
                             orientation="vertical"
+                            isRequired={true}
                         />
                     </div>
                 )}
@@ -167,6 +185,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                             }
                             checkedClass="border-2 border-darkBlue"
                             unCheckedClass="border-lightGrey"
+                            isRequired={true}
                         />
 
                         {formData.primaryCarePhysician.havePcp.toLowerCase() ===
@@ -187,6 +206,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                                         }
                                         checkedClass="border-2 border-darkBlue"
                                         unCheckedClass="border-lightGrey"
+                                        isRequired={true}
                                     />
 
                                     <Checkbox
@@ -204,6 +224,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                                         }
                                         checkedClass="border-2 border-darkBlue"
                                         unCheckedClass="border-lightGrey"
+                                        isRequired={true}
                                     />
                                 </>
                             )}
@@ -221,6 +242,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                             }
                             checkedClass="border-2 border-darkBlue"
                             unCheckedClass="border-lightGrey"
+                            isRequired={true}
                         />
                     </div>
                 </div>
@@ -235,6 +257,7 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                             label="Patient's Name"
                             value={patientFullName}
                             colspanClass="col-span-2"
+                            isRequired={true}
                         />
 
                         {formData.consent.date && (
@@ -243,13 +266,18 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                                 value={new Date(
                                     formData.consent.date
                                 ).toLocaleDateString()}
+                                isRequired={true}
                             />
                         )}
                     </div>
 
                     <div className="space-y-1">
-                        <label htmlFor="lastName" className="block text-grey">
-                            Signature
+                        <label
+                            htmlFor="lastName"
+                            className="block text-deepGrey"
+                        >
+                            Signature{" "}
+                            <small className="text-vividRed text-lg">*</small>
                         </label>
                         <SignaturePad
                             handleInputChange={onChange}

@@ -7,7 +7,7 @@ import { LuShieldCheck } from "react-icons/lu";
 
 const MultiStepForm = ({
     formData,
-    // isStepValid,
+    isStepValid,
     // isFormValid,
     steps,
     stepForms,
@@ -38,11 +38,13 @@ const MultiStepForm = ({
     }, [currentStep]);
 
     const goToNextStep = () => {
-        if (isStepValid()) {
-            setCompletedSteps((prev) => [...prev, currentStep]);
-
-            setCurrentStep((prev) => Math.min(prev + 1, steps.length));
+        if (!isStepValid(currentStep)) {
+            return;
         }
+
+        setCompletedSteps((prev) => [...prev, currentStep]);
+
+        setCurrentStep((prev) => Math.min(prev + 1, steps.length));
     };
 
     const goToPreviousStep = () => {
@@ -57,35 +59,35 @@ const MultiStepForm = ({
     };
 
     // Step Validation logic
-    const isStepValid = (step = currentStep) => {
-        // const dataObj = formData[formatToCamelCase(steps[step])];
-        // // const optionalInsuranceFields = ["insuranceName", "insuranceNumber"];
+    // const isStepValid = (step = currentStep) => {
+    //     // const dataObj = formData[formatToCamelCase(steps[step])];
+    //     // // const optionalInsuranceFields = ["insuranceName", "insuranceNumber"];
 
-        // for (const key in dataObj) {
-        //     const value = dataObj[key];
+    //     // for (const key in dataObj) {
+    //     //     const value = dataObj[key];
 
-        //     if (optionalFields.includes(key)) {
-        //         continue;
-        //     }
+    //     //     if (optionalFields.includes(key)) {
+    //     //         continue;
+    //     //     }
 
-        //     // if (optionalInsuranceFields.includes(key)) {
-        //     //     if (dataObj["paymentMethod"].toLowerCase() === "self pay") {
-        //     //         continue;
-        //     //     }
-        //     // }
+    //     //     // if (optionalInsuranceFields.includes(key)) {
+    //     //     //     if (dataObj["paymentMethod"].toLowerCase() === "self pay") {
+    //     //     //         continue;
+    //     //     //     }
+    //     //     // }
 
-        //     if (
-        //         value === null ||
-        //         value === undefined ||
-        //         (typeof value === "string" && value.trim() === "") ||
-        //         (Array.isArray(value) && value.length === 0)
-        //     ) {
-        //         return false;
-        //     }
-        // }
+    //     //     if (
+    //     //         value === null ||
+    //     //         value === undefined ||
+    //     //         (typeof value === "string" && value.trim() === "") ||
+    //     //         (Array.isArray(value) && value.length === 0)
+    //     //     ) {
+    //     //         return false;
+    //     //     }
+    //     // }
 
-        return true;
-    };
+    //     return true;
+    // };
 
     // Form validity logic
     const isFormValid = (obj, optionalFields = []) => {
@@ -120,10 +122,17 @@ const MultiStepForm = ({
     };
 
     // console.log(isFormValid(formData.personal, ["middleName"]));
+    // console.log(isStepValid(currentStep));
 
     const goToStep = (step) => {
-        if (!isStepValid(step)) return;
+        if (currentStep > step) {
+            setCurrentStep(step);
+            return;
+        }
 
+        if (!isStepValid(currentStep)) return;
+
+        setCompletedSteps((prev) => [...prev, currentStep]);
         setCurrentStep(step);
     };
 
@@ -141,9 +150,8 @@ const MultiStepForm = ({
 
         setTimeout(() => {
             setIsSubmitModalOpen(true);
-            setIsSubmitting(false)
+            setIsSubmitting(false);
         }, 4000);
-        
     };
 
     const returnHome = () => {
@@ -171,6 +179,7 @@ const MultiStepForm = ({
                                 <h1 className="lg:hidden text-darkBlue text-2xl text-center font-semibold">
                                     <span className="mr-2">{`${currentStep}.`}</span>
                                     {form.name}
+                                    <span className="text-sm text-vividRed bold block mt-2"> All fields marked (*) are required.</span>
                                 </h1>
                                 <div className="">{form.component}</div>
                             </div>
@@ -193,8 +202,8 @@ const MultiStepForm = ({
                 {currentStep !== steps.length && (
                     <button
                         onClick={goToNextStep}
-                        className={`w-full py-2 px-4 font-semibold text-center border border-lightGreen rounded-lg text-lightGreen hover:text-white hover:bg-lightGreen transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-transparent`}
-                        disabled={!isFormValid()}
+                        className={`w-full py-2 px-4 font-semibold text-center border border-lightGreen rounded-lg text-lightGreen hover:text-white hover:bg-lightGreen transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-transparent disabled:hover:text-lightGreen`}
+                        disabled={!isStepValid(currentStep)}
                     >
                         Next
                     </button>

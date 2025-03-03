@@ -15,11 +15,20 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
     return (
         <div className="space-y-6 md:space-y-10">
             <div className="space-y-4">
-                <h3 className="font-bold text-xl md:text-2xl text-darkBlue text-center">
-                    Controlled Substance Form
-                </h3>
+                <div className="space-y-2">
+                    <h3 className="font-bold text-xl md:text-2xl text-darkBlue text-center">
+                        Controlled Substance Form
+                    </h3>
 
-                <p className="text-vividRed text-center">
+                    <p
+                        aria-label="All fields marked asterik (*) are required"
+                        className="text-sm text-vividRed font-bold text-center"
+                    >
+                        All fields marked (*) are required.
+                    </p>
+                </div>
+
+                <p className="text-deepGrey text-center">
                     Please read this form carefully and ask any questions you
                     may have before signing.
                 </p>
@@ -93,40 +102,17 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                     onChange={() => setConsent((prev) => !prev)}
                     checkedClass="border-2 border-darkBlue"
                     unCheckedClass="border-lightGrey"
+                    isRequired={true}
                 />
 
                 <div className="p-4 border rounded space-y-5">
                     <h5 className="tex-lg font-medium">Patient Signature</h5>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-                        {/* <div className="space-y-1 col-span-2">
-                            <label
-                                htmlFor="patientName"
-                                className="block text-deepGrey"
-                            >
-                                Patient's Name
-                            </label>
-                            <div id="patientName" className="input">
-                                {patientFullName}
-                            </div>
-                        </div>
-
-                        <DateField
-                            label="Date"
-                            name="patientSignDate"
-                            field="patientSignDate"
-                            section="consent"
-                            placeholder="MM/DD/YYYY"
-                            handleFormElementChange={onChange}
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
-                            defaultDate={new Date()}
-                        /> */}
-
                         <FieldItem
                             label="Patient's Name"
                             value={patientFullName}
                             colspanClass="col-span-2"
+                            isRequired={true}
                         />
 
                         {formData.consent.patientSignDate && (
@@ -135,6 +121,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                                 value={new Date(
                                     formData.consent.patientSignDate
                                 ).toLocaleDateString()}
+                                isRequired={true}
                             />
                         )}
                     </div>
@@ -164,6 +151,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                         section="consent"
                         field="isMinor"
                         handleSelectChange={onChange}
+                        isRequired={true}
                     />
                 )}
 
@@ -174,57 +162,39 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                             Legal Guardian/Authorized Representative
                         </h5>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                            {formData.consent.guardianName ? (
-                                <FieldItem
-                                    label="Guardian's Name"
-                                    value={formData.consent.guardianName}
-                                />
-                            ) : (
-                                <TextField
-                                    type="text"
-                                    label="Guaardian's Name"
-                                    name="guardianName"
-                                    placeholder="Guaardian's Name"
-                                    section="consent"
-                                    field="guardianName"
-                                    value={formData.consent.guardianName}
-                                    handleInputChange={onChange}
-                                    isRequired={true}
-                                />
-                            )}
+                            <TextField
+                                type="text"
+                                label="Guaardian's Name"
+                                name="guardianName"
+                                placeholder="Guaardian's Name"
+                                section="consent"
+                                field="guardianName"
+                                value={formData.consent.guardianName}
+                                handleInputChange={onChange}
+                                isRequired={true}
+                            />
 
-                            {formData.consent.patientGuardianRelationship ? (
-                                <FieldItem
-                                    label="Relationship to Patient"
-                                    value={
-                                        formData.consent
-                                            .patientGuardianRelationship
-                                    }
-                                />
-                            ) : (
-                                <TextField
-                                    type="text"
-                                    label="Relationship to Patient"
-                                    name="patientGuardianRelationship"
-                                    placeholder="Relationship to Patient"
-                                    section="consent"
-                                    field="patientGuardianRelationship"
-                                    value={formData.consent.patientGuardianRelationship}
-                                    handleInputChange={onChange}
-                                    isRequired={true}
-                                />
-                            )}
+                            <TextField
+                                type="text"
+                                label="Relationship to Patient"
+                                name="patientGuardianRelationship"
+                                placeholder="Relationship to Patient"
+                                section="consent"
+                                field="patientGuardianRelationship"
+                                value={
+                                    formData.consent.patientGuardianRelationship
+                                }
+                                handleInputChange={onChange}
+                                isRequired={true}
+                            />
                         </div>
 
                         <div className="space-y-1">
                             <label className="block text-deepGrey">
                                 Guardian Signature{" "}
-                                {formData.consent.isMinor.toLowerCase() ===
-                                    "yes" && (
-                                    <small className="text-vividRed text-lg">
-                                        *
-                                    </small>
-                                )}
+                                <small className="text-vividRed text-lg">
+                                    *
+                                </small>
                             </label>
                             <SignaturePad
                                 handleInputChange={onChange}
@@ -241,6 +211,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                                 value={new Date(
                                     formData.consent.guardianSignDate
                                 ).toLocaleDateString()}
+                                isRequired={true}
                             />
                         )}
                     </div>

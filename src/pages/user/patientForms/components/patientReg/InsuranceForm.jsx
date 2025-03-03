@@ -67,14 +67,14 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                             Primary Insurance
                         </h3>
 
-                        <div className="space-y-3">
+                        <div className="space-y-6">
                             {/* Policy Holder */}
                             <div className="space-y-2 p-4 border rounded-lg">
                                 <h4 className="text-base md:text-lg font-semibold text-darkBlue">
                                     Policy Holder
                                 </h4>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                                     <TextField
                                         type="text"
                                         label="First Name"
@@ -161,38 +161,25 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                             </div>
 
                             {/* Insurance Provider */}
-                            <div className="space-y-2 p-4 border rounded-lg">
+                            <div className="space-y-6 p-4 border rounded-lg">
                                 <h4 className="text-base md:text-lg font-semibold text-darkBlue">
                                     Insurance Provider
                                 </h4>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-                                    <TextField
-                                        type="text"
-                                        label="Name"
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                                    <SelectField
+                                        label="Provider Name"
                                         name="name"
-                                        field="primaryInsurance.insuranceProvider.name"
-                                        placeholder="Name"
-                                        section="insurance"
+                                        title="-- Select insurance provider --"
+                                        data={insuranceNames}
                                         value={
                                             formData.insurance.primaryInsurance
                                                 .insuranceProvider.name
                                         }
-                                        handleInputChange={handleInputChange}
-                                    />
-                                    <TextField
-                                        type="text"
-                                        label="Name"
-                                        name="name"
-                                        field="primaryInsurance.insuranceProvider.name"
-                                        placeholder="Name"
                                         section="insurance"
-                                        value={
-                                            formData.insurance.primaryInsurance
-                                                .insuranceProvider.name
-                                        }
-                                        handleInputChange={handleInputChange}
-                                    />
+                                        field="primaryInsurance.insuranceProvider.name"
+                                        handleSelectChange={handleInputChange}
+                                    />                                
                                     <TextField
                                         type="text"
                                         label="Contact Phone"
@@ -297,12 +284,12 @@ const InsuranceForm = ({ formData, handleInputChange }) => {
                                     />
                                 </div>
 
-                                <div className="">
+                                <div className="space-y-2">
                                     <h4 className="text-sm md:text-base font-semibold text-darkBlue">
                                         Address
                                     </h4>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                                         <TextField
                                             type="text"
                                             label="Street Name"

@@ -14,9 +14,18 @@ const Consents = ({ formData, onChange, infoConsent, setInfoConsent }) => {
     return (
         <div className="space-y-6 md:space-y-10">
             <div className="space-y-4">
-                <h3 className="font-bold text-xl md:text-2xl text-darkBlue">
-                    Agreement Terms and Consent
-                </h3>
+                <div className="space-y-2">
+                    <h3 className="font-bold text-xl md:text-2xl text-darkBlue text-center">
+                        Agreement Terms and Consent
+                    </h3>
+
+                    <p
+                        aria-label="All fields marked asterik (*) are required"
+                        className="text-sm text-vividRed font-bold text-center"
+                    >
+                        All fields marked (*) are required.
+                    </p>
+                </div>
 
                 <div className="space-y-4">
                     {consents.map((option) => (
@@ -34,7 +43,7 @@ const Consents = ({ formData, onChange, infoConsent, setInfoConsent }) => {
                 </div>
             </div>
 
-            <div className="p-4 border rounded space-y-5">
+            <div className="p-4 border rounded space-y-4 md:space-y-6">
                 <h4 className="text-xl text-darkBlue font-medium">
                     Agreement Confirmation
                 </h4>
@@ -44,6 +53,7 @@ const Consents = ({ formData, onChange, infoConsent, setInfoConsent }) => {
                         label="Patient's Name"
                         value={patientFullName}
                         colspanClass="col-span-2"
+                        isRequired={true}
                     />
 
                     {formData.consent.date && (
@@ -52,6 +62,7 @@ const Consents = ({ formData, onChange, infoConsent, setInfoConsent }) => {
                             value={new Date(
                                 formData.consent.date
                             ).toLocaleDateString()}
+                            isRequired={true}
                         />
                     )}
                 </div>
@@ -63,11 +74,13 @@ const Consents = ({ formData, onChange, infoConsent, setInfoConsent }) => {
                     onChange={() => setInfoConsent((prev) => !prev)}
                     checkedClass="border-2 border-darkBlue"
                     unCheckedClass="border-lightGrey"
+                    isRequired={true}
                 />
 
                 <div className="space-y-1">
-                    <label htmlFor="lastName" className="block text-grey">
-                        Signature
+                    <label htmlFor="lastName" className="block text-deepGrey">
+                        Signature{" "}
+                        <small className="text-vividRed text-lg">*</small>
                     </label>
                     <SignaturePad
                         handleInputChange={onChange}

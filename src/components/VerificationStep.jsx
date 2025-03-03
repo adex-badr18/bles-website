@@ -58,10 +58,11 @@ const VerificationStep = ({ formData, onChange }) => {
                             label="Patient ID"
                             name="id"
                             field="id"
-                            placeholder="Patient ID"
+                            placeholder="Patient ID e.g. PAT000001"
                             section="verification"
                             value={formData.verification.id}
                             handleInputChange={onChange}
+                            isRequired={true}
                         />
                     </div>
 
@@ -71,6 +72,10 @@ const VerificationStep = ({ formData, onChange }) => {
                         onSubmit={verifyId}
                         submitText="Verify ID"
                         xtraClass="place-self-end"
+                        isDisabled={
+                            formData.verification.verificationStatus.toLowerCase() ===
+                            "success" || !formData.verification.id
+                        }
                     />
 
                     {/* <button

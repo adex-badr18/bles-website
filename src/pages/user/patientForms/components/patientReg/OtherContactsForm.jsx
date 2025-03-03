@@ -13,12 +13,12 @@ import FileUpload from "../../../../../components/FileUpload";
 const OtherContactsForm = ({ formData, handleInputChange }) => {
     console.log(formData)
     return (
-        <form className="space-y-5">
+        <form className="space-y-4 md:space-y-8">
             <div className="space-y-2">
                 <h3 className="font-bold text-xl text-darkBlue">
                     Parent/Guardian
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <TextField
                         type="text"
                         label="First Name"
@@ -175,7 +175,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
 
             <div className="space-y-2">
                 <h3 className="font-bold text-xl text-darkBlue">Guarantor</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <TextField
                         type="text"
                         label="First Name"
@@ -303,7 +303,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                 <h3 className="font-bold text-xl text-darkBlue">
                     Emergency Contact
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <TextField
                         type="text"
                         label="First Name"

@@ -1,6 +1,12 @@
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 
-const StepIndicator = ({ steps, currentStep, goToStep, completedSteps }) => {
+const StepIndicator = ({
+    steps,
+    currentStep,
+    goToStep,
+    completedSteps,
+    isStepValid,
+}) => {
     return (
         <div className="flex items-center gap-4 lg:gap-0 rounded divide-x">
             {steps.map((step, index) => {
@@ -16,8 +22,11 @@ const StepIndicator = ({ steps, currentStep, goToStep, completedSteps }) => {
                                 : "bg-lightGray text-grey"
                         } ${isCurrent && "font-bold"} ${
                             index + 1 === 1 ? "rounded-s" : "rounded-none"
-                        } ${index + 1 === steps.length ? "rounded-e" : ""}`}
+                        } ${
+                            index + 1 === steps.length ? "rounded-e" : ""
+                        } disabled:cursor-not-allowed`}
                         onClick={() => goToStep(index + 1)}
+                        // disabled={!isStepValid(currentStep)}
                     >
                         <span className="hidden lg:block">{step}</span>
                         {isCompleted && (

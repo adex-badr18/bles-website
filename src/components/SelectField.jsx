@@ -21,7 +21,7 @@ const SelectField = ({
                 className="block text-deepGrey"
             >
                 {label}{" "}
-                {isRequired && <small className="text-red-800">*</small>}
+                {isRequired && <small className="text-vividRed text-lg">*</small>}
             </label>
             <div className="w-full border border-[#DCDEE0] rounded-md pr-3">
                 <select

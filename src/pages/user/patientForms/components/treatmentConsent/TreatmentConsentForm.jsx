@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PdfDoc from "./PdfDoc";
 import PdfPreview from "../../../../../components/PdfPreview";
 import VerificationStep from "../../../../../components/VerificationStep";
@@ -35,6 +35,21 @@ const TreatmentConsentForm = () => {
         },
     });
 
+    useEffect(() => {
+        if (formData.consent.isMinor.toLowerCase() === "no") {
+            setFormData((prev) => ({
+                ...prev,
+                consent: {
+                    ...prev.consent,
+                    guardianName: "",
+                    guardianSignature: "",
+                    patientGuardianRelationship: "",
+                    guardianSignDate: "",
+                },
+            }));
+        }
+    }, [formData.consent.isMinor]);
+
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
         setFormData((prev) => {
@@ -69,6 +84,80 @@ const TreatmentConsentForm = () => {
         e.preventDefault();
 
         console.log(formData);
+    };
+
+    const isStepValid = (step) => {
+        const requiredFields = [
+            "firstName",
+            "lastName",
+            "gender",
+            "dob",
+            "maritalStatus",
+            "phone",
+            "email",
+            "address",
+            "patientSignature",
+        ];
+
+        if (step === 1) {
+            const dataObj = formData.verification;
+
+            for (const key in dataObj) {
+                const value = dataObj[key];
+
+                if (!requiredFields.includes(key)) {
+                    continue;
+                }
+
+                if (value !== null && typeof value === "object") {
+                    for (const key in value) {
+                        const nestedValue = value[key];
+                        if (nestedValue === "" || nestedValue === null) {
+                            return false;
+                        }
+                    }
+                }
+
+                if (value === "" || value === null || value === undefined) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (step === 2) {
+            const dataObj = formData.consent;
+            const isMinorRequiredFields = [
+                "guardianName",
+                "guardianSignature",
+                "patientGuardianRelationship",
+            ];
+
+            if (!formData.consent.isMinor) {
+                return false;
+            }
+
+            if (formData.consent.isMinor.toLowerCase() === "yes") {
+                for (const key in dataObj) {
+                    const value = dataObj[key];
+
+                    if (!isMinorRequiredFields.includes(key)) {
+                        continue;
+                    }
+
+                    if (value === "" || value === null || value === undefined) {
+                        return false;
+                    }
+                }
+            }
+
+            if (!formData.consent.patientSignature || !consent) {
+                return false;
+            }
+
+            return true;
+        }
     };
 
     const formSteps = {
@@ -114,6 +203,7 @@ const TreatmentConsentForm = () => {
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
+                isStepValid={isStepValid}
             />
         </div>
     );

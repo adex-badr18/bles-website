@@ -178,8 +178,80 @@ const PatientRegistrationForm = () => {
     console.log(regForm);
     // console.log(consents);
 
+    const isStepValid = (step) => {
+        const requiredFields = [
+            "firstName",
+            "lastName",
+            "gender",
+            "dob",
+            "maritalStatus",
+            "cellPhone",
+            "email",
+            "address",
+        ];
+
+        if (step === 1) {
+            const dataObj = regForm.personal;
+
+            for (const key in dataObj) {
+                const value = dataObj[key];
+
+                if (!requiredFields.includes(key)) {
+                    continue;
+                }
+
+                if (value !== null && typeof value === "object") {
+                    for (const key in value) {
+                        const nestedValue = value[key];
+                        if (nestedValue === "" || nestedValue === null) {
+                            return false;
+                        }
+                    }
+                }
+
+                if (value === "" || value === null || value === undefined) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // if (step === 2) {
+        //     return true;
+        // }
+
+        // if (step === 3) {
+        //     return true;
+        // }
+
+        if (step === 4) {
+            for (const key in consents) {
+                const value = consents[key];
+
+                if (!value) {
+                    return false;
+                }
+            }
+
+            if (!regForm.consent.signature) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return true;
+    };
+
     const formSteps = {
-        steps: ["Personal", "Other Contacts", "Insurance", "Consent", "Review"],
+        steps: [
+            "Personal",
+            "Other Contacts",
+            "Insurance",
+            "Consent",
+            "Preview",
+        ],
         forms: [
             {
                 id: 1,
@@ -243,6 +315,7 @@ const PatientRegistrationForm = () => {
                 formData={regForm}
                 formSize="md"
                 optionalFields={[]}
+                isStepValid={isStepValid}
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
