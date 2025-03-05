@@ -6,7 +6,7 @@ export const reviews = [
         name: "James",
         email: "username@gmail.com",
         rating: "5",
-        status: "active",
+        status: "Published",
         review: "Exceptional care and support! The team was compassionate, professional, and truly listened to my concerns. I feel heard and valued. Highly recommend!",
     },
     {
@@ -14,7 +14,7 @@ export const reviews = [
         name: "Adam",
         email: "username@gmail.com",
         rating: "5",
-        status: "Inactive",
+        status: "Draft",
         review: "Exceptional care and support! The team was compassionate, professional, and truly listened to my concerns. I feel heard and valued. Highly recommend!",
     },
     {
@@ -22,7 +22,7 @@ export const reviews = [
         name: "Bukola",
         email: "username@gmail.com",
         rating: "4",
-        status: "Inactive",
+        status: "Draft",
         review: "Exceptional care and support! The team was compassionate, professional, and truly listened to my concerns. I feel heard and valued. Highly recommend!",
     },
     {
@@ -30,7 +30,7 @@ export const reviews = [
         name: "Mushrif",
         email: "username@gmail.com",
         rating: "3",
-        status: "Inactive",
+        status: "Draft",
         review: "Exceptional care and support! The team was compassionate, professional, and truly listened to my concerns. I feel heard and valued. Highly recommend! Exceptional care and support! The team was compassionate, professional, and truly listened to my concerns. I feel heard and valued. Highly recommend!",
     },
     {
@@ -38,11 +38,24 @@ export const reviews = [
         name: "Isabella",
         email: "username@gmail.com",
         rating: "5",
-        status: "active",
+        status: "Published",
         review: "Exceptional care and support! The team was compassionate, professional, and truly listened to my concerns. I feel heard and valued. Highly recommend!",
     },
     // Add more data here
 ];
+
+export const ratingOptions = [
+    {id: 1, text: "1 Star", value: "1"},
+    {id: 2, text: "2 Stars", value: "2"},
+    {id: 3, text: "3 Stars", value: "3"},
+    {id: 4, text: "4 Stars", value: "4"},
+    {id: 5, text: "5 Stars", value: "5"},
+]
+
+export const statusOptions = [
+    {id: 1, text: "Published", value: "Published"},
+    {id: 2, text: "Draft", value: "Draft"},
+]
 
 export const reviewsColumns = [
     {
@@ -79,8 +92,8 @@ export const reviewsColumns = [
 
             return (
                 <span
-                    className={`p-1 w-16 block text-center rounded text-xs text-offWhite capitalize ${
-                        value.toLowerCase() === "active"
+                    className={`p-1 w-[65px] block text-center rounded text-xs text-offWhite capitalize ${
+                        value.toLowerCase() === "published"
                             ? "bg-lightGreen"
                             : "bg-vividRed"
                     }`}

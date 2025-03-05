@@ -6,10 +6,12 @@ import {
     getPaginationRowModel,
     flexRender,
 } from "@tanstack/react-table";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchBox from "./SearchBox";
-import { MdFilterListAlt } from "react-icons/md";
+import Modal from "../../../components/Modal";
+import { MdFilterListAlt, MdClose } from "react-icons/md";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import { FilterIcon } from "./icons";
 
 const Table = ({
     data,
@@ -19,6 +21,8 @@ const Table = ({
     isIncludePagination,
     entity,
     isIncludeSearchBox,
+    isSnapshot,
+    setIsSearchModalOpen,
 }) => {
     const [globalFilter, setGlobalFilter] = useState("");
     const [rowSelection, setRowSelection] = useState({});
@@ -52,7 +56,7 @@ const Table = ({
             multiplesOf10.push(i * 10);
         }
         return multiplesOf10;
-    }
+    };
 
     return (
         <div className="px-4 py-6 bg-offWhite rounded-lg space-y-6 w-full">
@@ -64,6 +68,13 @@ const Table = ({
 
                 {isIncludeSearchBox && (
                     <div className="flex items-center gap-3">
+                        <button
+                            className="bg-lightGray p-2 rounded-md border hover:bg-gray-300 transition-colors duration-300"
+                            onClick={() => setIsSearchModalOpen(true)}
+                        >
+                            <FilterIcon className="w-6" />
+                        </button>
+
                         {/* Global Filter */}
                         <SearchBox
                             inputName="globalFilter"
@@ -72,6 +83,15 @@ const Table = ({
                             placeholderText={`Search...`}
                         />
                     </div>
+                )}
+
+                {isSnapshot && (
+                    <Link
+                        to={`/admin/${entity}`}
+                        className="text-lightGreen hover:underline"
+                    >
+                        View all
+                    </Link>
                 )}
             </div>
 
@@ -187,7 +207,10 @@ const Table = ({
                             disabled={!table.getCanPreviousPage()}
                             className="flex items-center justify-center gap-x-2 w-full px-5 py-2 text-lightGreen hover:text-offWhite bg-transparent hover:bg-lightGreen capitalize transition-colors duration-200 border border-lightGreen rounded disabled:opacity-30 disabled:cursor-not-allowed"
                         >
-                            <FaArrowLeftLong size={18} className="hidden sm:block flex-shrink-0" />
+                            <FaArrowLeftLong
+                                size={18}
+                                className="hidden sm:block flex-shrink-0"
+                            />
                             <span>previous</span>
                         </button>
 
@@ -199,7 +222,10 @@ const Table = ({
                             className="flex items-center justify-center gap-x-2 w-full px-5 py-2 text-offWhite bg-lightGreen capitalize transition-colors duration-200 border border-lightGreen hover:border-lighterGreen rounded hover:bg-lighterGreen disabled:opacity-30 disabled:cursor-not-allowed"
                         >
                             <span>Next</span>
-                            <FaArrowRightLong size={18} className="hidden sm:block flex-shrink-0" />
+                            <FaArrowRightLong
+                                size={18}
+                                className="hidden sm:block flex-shrink-0"
+                            />
                         </button>
                     </div>
                 </div>

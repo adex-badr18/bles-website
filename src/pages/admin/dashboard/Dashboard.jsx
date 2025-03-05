@@ -43,6 +43,7 @@ const Dashboard = () => {
                 tableTitle="Recent Patients"
                 columnFilters={[]}
                 entity="patients"
+                isSnapshot={true}
             />
 
             <div className="flex flex-col md:flex-row gap-4 md:gap-8">
@@ -52,6 +53,7 @@ const Dashboard = () => {
                     tableTitle="Upcoming Appointments"
                     columnFilters={[]}
                     entity="appointments"
+                    isSnapshot={true}
                 />
 
                 <Table
@@ -60,6 +62,7 @@ const Dashboard = () => {
                     tableTitle="Recent Reviews"
                     columnFilters={[]}
                     entity="reviews"
+                    isSnapshot={true}
                 />
             </div>
         </section>
