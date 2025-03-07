@@ -1,8 +1,15 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import SignatureCanvas from "react-signature-canvas";
 
-const SignaturePad = ({ handleInputChange, section, fieldPath, dateSection, dateFieldPath }) => {
+const SignaturePad = ({ handleInputChange, section, fieldPath, dateSection, dateFieldPath, signature }) => {
     const sigCanvasRef = useRef(null);
+
+    useEffect(() => {
+      if (signature && sigCanvasRef.current) {
+        sigCanvasRef.current.fromDataURL(signature)
+      }
+    }, [signature])
+    
 
     // Save signature to state after drawing ends
     const handleDrawingEnded = () => {

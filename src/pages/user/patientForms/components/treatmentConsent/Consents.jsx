@@ -121,6 +121,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                             fieldPath="patientSignature"
                             dateSection="consent"
                             dateFieldPath="patientSignDate"
+                            signature={formData.consent.patientSignature}
                         />
                     </div>
                 </div>
@@ -198,6 +199,7 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                                 fieldPath="guardianSignature"
                                 dateSection="consent"
                                 dateFieldPath="guardianSignDate"
+                                signature={formData.consent.guardianSignature}
                             />
                         </div>
 

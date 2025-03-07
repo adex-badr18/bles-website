@@ -81,6 +81,7 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                             fieldPath="patientSignature"
                             dateSection="consent"
                             dateFieldPath="patientSignDate"
+                            signature={formData.consent.patientSignature}
                         />
                         <div className="mt-8">
                             {formData.consent.patientSignDate && (
@@ -106,6 +107,7 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                             fieldPath="witnessSignature"
                             dateSection="consent"
                             dateFieldPath="witnessSignDate"
+                            signature={formData.consent.witnessSignature}
                         />
                         <div className="mt-8">
                             {formData.consent.witnessSignDate && (

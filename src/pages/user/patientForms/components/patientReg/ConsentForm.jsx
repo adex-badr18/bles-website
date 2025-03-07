@@ -62,6 +62,7 @@ const ConsentForm = ({
                         fieldPath="signature"
                         dateSection="consent"
                         dateFieldPath="date"
+                        signature={formData.consent.signature}
                     />
 
                     {formData.consent.date && (

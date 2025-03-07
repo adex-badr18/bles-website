@@ -246,11 +246,12 @@ const PdfDoc = ({ data }) => {
                                         width: "100%",
                                     }}
                                 >
-                                    {Object.values(consent.patient).map((obj) =>
+                                    {Object.values(consent.patient).map((obj, index) =>
                                         obj.title
                                             .toLocaleLowerCase()
                                             .includes("signature") ? (
                                             <View
+                                            key={index}
                                                 style={{
                                                     ...styles.flexRow,
                                                     alignItems: "center",

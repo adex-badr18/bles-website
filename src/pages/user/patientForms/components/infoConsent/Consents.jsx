@@ -88,6 +88,7 @@ const Consents = ({ formData, onChange, infoConsent, setInfoConsent }) => {
                         fieldPath="signature"
                         dateSection="consent"
                         dateFieldPath="date"
+                        signature={formData.consent.signature}
                     />
                 </div>
             </div>

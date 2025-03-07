@@ -296,6 +296,7 @@ const Authorizations = ({
                                 fieldPath="patientSignature"
                                 dateSection="consent"
                                 dateFieldPath="patientSignDate"
+                                signature={formData.consent.patientSignature}
                             />
                         </div>
                     </div>
@@ -362,6 +363,7 @@ const Authorizations = ({
                                     fieldPath="guardianSignature"
                                     dateSection="consent"
                                     dateFieldPath="guardianSignDate"
+                                    signature={formData.consent.guardianSignature}
                                 />
                             </div>
 

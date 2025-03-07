@@ -229,6 +229,7 @@ const PrivacyPolicy = ({ formData, onChange, consent, setConsent }) => {
                         fieldPath="patientSignature"
                         dateSection="consent"
                         dateFieldPath="date"
+                        signature={formData.consent.patientSignature}
                     />
                 </div>
             </div>
