@@ -4,7 +4,7 @@ import Table from "../components/Table";
 import Modal from "../../../components/Modal";
 import SearchComponent from "./components/SearchComponent";
 import { MdClose } from "react-icons/md";
-import { patients, patientsColumns } from "./data";
+import { patients, patientsColumns, patientsList } from "./data";
 import GlobalPagination from "../components/GlobalPagination";
 
 const Patients = () => {
@@ -110,7 +110,7 @@ const Patients = () => {
             </PageTitle>
 
             <Table
-                data={patients}
+                data={patientsList}
                 columns={patientsColumns}
                 entity="patients"
                 isIncludePagination={true}

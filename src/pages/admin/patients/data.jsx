@@ -161,27 +161,27 @@ export const patientsColumns = [
         header: "Patient ID",
     },
     {
-        accessorKey: "firstName",
+        accessorKey: "personal.firstName",
         header: "First Name",
     },
     {
-        accessorKey: "lastName",
+        accessorKey: "personal.lastName",
         header: "Last Name",
     },
     {
-        accessorKey: "dob",
+        accessorKey: "personal.dob",
         header: "Date of Birth",
     },
     {
-        accessorKey: "gender",
+        accessorKey: "personal.gender",
         header: "Gender",
     },
     {
-        accessorKey: "phone",
+        accessorKey: "personal.phone",
         header: "Phone",
     },
     {
-        accessorKey: "email",
+        accessorKey: "personal.email",
         header: "Email",
     },
 ];

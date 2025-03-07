@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useLocation } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
 import LinkButton from "../../../components/LinkButton";
 import FieldItem from "../../../components/FieldItem";
@@ -28,9 +28,11 @@ export const patientLoader = async ({ params }) => {
 
 const Patient = () => {
     const patient = useLoaderData();
+    const location = useLocation()
     const [tabIndex, setTabIndex] = useState(1);
 
     // console.log(patient);
+    console.log(location?.state?.data);
 
     const changeTabHandler = (tabIndex) => {
         setTabIndex(tabIndex);

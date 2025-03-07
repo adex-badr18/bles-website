@@ -27,7 +27,7 @@ const Table = ({
     const [globalFilter, setGlobalFilter] = useState("");
     const [rowSelection, setRowSelection] = useState({});
     const navigate = useNavigate();
-    const rootPath = `/admin/${entity}`;
+    const entityUrl = `/admin/${entity}`;
 
     // Define the table instance
     const table = useReactTable({
@@ -45,7 +45,8 @@ const Table = ({
     });
 
     const handleRowClick = (id) => {
-        navigate(`${rootPath}/${id}`);
+        const entityData = data.filter((entity) => entity.id === id)[0];
+        navigate(`${entityUrl}/${id}`, { state: { data: entityData } });
     };
 
     const generateMultiplesOf10 = (totalNumber) => {
