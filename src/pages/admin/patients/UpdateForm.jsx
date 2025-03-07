@@ -10,6 +10,8 @@ import PdfPreview from "../../../components/PdfPreview";
 import PdfDoc from "../../user/patientForms/components/patientReg/PdfDoc";
 import PageTitle from "../components/PageTitle";
 
+import { pdf } from "@react-pdf/renderer";
+
 const UpdateForm = () => {
     const patientData = useLoaderData();
     const [consents, setConsents] = useState({
@@ -295,14 +297,88 @@ const UpdateForm = () => {
         });
     };
 
-    const submitHandler = (e) => {
-        e.preventDefault();
+    const submitHandler = async () => {
+        // e.preventDefault();
 
-        console.log(formData);
+        const pdfFile = await pdf(<PdfDoc data={formData} />).toBlob()
+
+        setFormData(prev => ({
+            ...prev,
+            file: pdfFile
+        }))
+
+        console.log(pdfFile);
+        console.log(formData)
     };
 
-    // console.log(formData);
+    console.log(formData);
     // console.log(consents);
+
+    const isStepValid = (step) => {
+        const requiredFields = [
+            "firstName",
+            "lastName",
+            "gender",
+            "dob",
+            "maritalStatus",
+            "cellPhone",
+            "email",
+            "address",
+        ];
+
+        if (step === 1) {
+            const dataObj = formData.personal;
+
+            for (const key in dataObj) {
+                const value = dataObj[key];
+
+                if (!requiredFields.includes(key)) {
+                    continue;
+                }
+
+                if (value !== null && typeof value === "object") {
+                    for (const key in value) {
+                        const nestedValue = value[key];
+                        if (nestedValue === "" || nestedValue === null) {
+                            return false;
+                        }
+                    }
+                }
+
+                if (value === "" || value === null || value === undefined) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // if (step === 2) {
+        //     return true;
+        // }
+
+        // if (step === 3) {
+        //     return true;
+        // }
+
+        if (step === 4) {
+            for (const key in consents) {
+                const value = consents[key];
+
+                if (!value) {
+                    return false;
+                }
+            }
+
+            if (!formData.consent.signature) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return true;
+    };
 
     const formSteps = {
         steps: [
@@ -379,6 +455,7 @@ const UpdateForm = () => {
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
+                isStepValid={isStepValid}
             />
         </section>
     );

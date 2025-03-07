@@ -2501,16 +2501,16 @@ export const appointmentsColumns = [
     {
         accessorKey: "dateTime",
         header: "Appointment Date",
-        cell: (prop) => `${convertToUSDateTime(prop.getValue(), true)} ET`,
+        cell: (prop) => `${convertToUSDateTime(prop.getValue(), true)}`,
     },
-    {
-        accessorKey: "phone",
-        header: "Phone",
-    },
-    {
-        accessorKey: "email",
-        header: "Email",
-    },
+    // {
+    //     accessorKey: "phone",
+    //     header: "Phone",
+    // },
+    // {
+    //     accessorKey: "email",
+    //     header: "Email",
+    // },
     {
         accessorKey: "status",
         header: "Status",
@@ -2537,6 +2537,6 @@ export const appointmentsColumns = [
 ];
 
 export const formDocs = [
-    { id: 1, title: "Registration Form", url: "https://www.dallashipandknee.com/pdfs/patient-registration-form.pdf" },
-    { id: 2, title: "Notice of Privacy Practices", url: "https://www.med.upenn.edu/mfc/assets/user-content/documents/HIPAA%20Acknowledgement.pdf" },
+    { id: 1, title: "Registration Form", url: "https://www.pleasantcarebhc.com/wp-content/themes/pleasantcareol/pdf/Patient_Information.pdf" },
+    { id: 2, title: "Notice of Privacy Practices", url: "https://www.pleasantcarebhc.com/wp-content/themes/pleasantcareol/pdf/policy.pdf" },
 ];

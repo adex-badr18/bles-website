@@ -149,6 +149,7 @@ const MultiStepForm = ({
         setIsSubmitting(true);
 
         setTimeout(() => {
+            submitHandler();
             setIsSubmitModalOpen(true);
             setIsSubmitting(false);
         }, 4000);
@@ -179,7 +180,7 @@ const MultiStepForm = ({
                                 <h1 className="lg:hidden text-darkBlue text-2xl text-center font-semibold">
                                     <span className="mr-2">{`${currentStep}.`}</span>
                                     {form.name}
-                                    <span className="text-sm text-vividRed bold block mt-2"> All fields marked (*) are required.</span>
+                                    {/* <span className="text-sm text-vividRed bold block mt-2"> All fields marked (*) are required.</span> */}
                                 </h1>
                                 <div className="">{form.component}</div>
                             </div>
