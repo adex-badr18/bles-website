@@ -12,7 +12,7 @@ import DateField from "../../../components/DateField";
 import TextAreaField from "../../../components/TextAreaField";
 
 import { appointmentStatusOptions, appointments } from "./data";
-import { appointmentTypes, services } from "../../user/appointment/data";
+import { appointmentTypes, insuranceNames, paymentMethods, services } from "../../user/appointment/data";
 import {
     fetchAdminUnavailablePeriods,
     fetchBookedAppointmentsPeriods,
@@ -522,27 +522,27 @@ const AppointmentInfo = () => {
                         </h4>
 
                         {isAppointmentEditable ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                                <TextField
-                                    type="text"
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">                                
+                                <SelectField
                                     label="Payment Method"
                                     name="paymentMethod"
-                                    placeholder="Payment Method"
+                                    title="-- Select an option --"
+                                    data={paymentMethods}
+                                    value={formData.insurance.paymentMethod}
                                     section="insurance"
                                     field="paymentMethod"
-                                    value={formData.insurance.paymentMethod}
-                                    handleInputChange={handleFormElementChange}
+                                    handleSelectChange={handleFormElementChange}
                                 />
 
-                                <TextField
-                                    type="text"
+                                <SelectField
                                     label="Insurance Name"
                                     name="insuranceName"
-                                    placeholder="Insurance Name"
+                                    title="-- Select an option --"
+                                    data={insuranceNames}
+                                    value={formData.insurance.insuranceName}
                                     section="insurance"
                                     field="insuranceName"
-                                    value={formData.insurance.insuranceName}
-                                    handleInputChange={handleFormElementChange}
+                                    handleSelectChange={handleFormElementChange}
                                 />
 
                                 <TextField
