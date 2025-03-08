@@ -4,9 +4,11 @@ import VerificationStep from "../../../../../components/VerificationStep";
 import PdfDoc from "./PdfDoc";
 import PdfPreview from "../../../../../components/PdfPreview";
 import PrivacyPolicy from "./PrivacyPolicy";
+import { useToast } from "../../../../../components/ToastContext";
 
 const NoticeOfPrivacy = () => {
     const [policyConsent, setPolicyConsent] = useState(false);
+    const { showToast, toasts } = useToast();
     const [formData, setFormData] = useState({
         verification: {
             id: "",
@@ -29,6 +31,8 @@ const NoticeOfPrivacy = () => {
             date: "",
         },
     });
+
+    // console.log("Toasts", toasts)
 
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
@@ -60,8 +64,12 @@ const NoticeOfPrivacy = () => {
         });
     };
 
-    const submitHandler = (e) => {
-        e.preventDefault();
+    const submitHandler = async () => {
+        showToast({
+            message: "An error occurred. Please try again.",
+            type: "success",
+            duration: 5000,
+        });
 
         console.log(formData);
     };
@@ -77,7 +85,7 @@ const NoticeOfPrivacy = () => {
             "email",
             "address",
             "patientSignature",
-            "noticeEffectDate"
+            "noticeEffectDate",
         ];
 
         if (step === 1) {

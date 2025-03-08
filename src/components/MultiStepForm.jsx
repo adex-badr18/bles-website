@@ -5,6 +5,8 @@ import Modal from "./Modal";
 import Spinner from "./Spinner";
 import { LuShieldCheck } from "react-icons/lu";
 
+import { useToast } from "./ToastContext";
+
 const MultiStepForm = ({
     formData,
     isStepValid,
@@ -21,6 +23,8 @@ const MultiStepForm = ({
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
     const navigate = useNavigate();
+
+    const { showToast } = useToast();
 
     let formSizeClass;
 
@@ -149,10 +153,19 @@ const MultiStepForm = ({
         setIsSubmitting(true);
 
         setTimeout(() => {
-            submitHandler();
-            setIsSubmitModalOpen(true);
+            // setIsSubmitModalOpen(true);
+
+            // () =>
+            //     showToast({
+            //         message: "An error occurred. Please try again.",
+            //         type: "error",
+            //         duration: 50000,
+            //     });
+
             setIsSubmitting(false);
         }, 4000);
+        
+        submitHandler();
     };
 
     const returnHome = () => {
