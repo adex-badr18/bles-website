@@ -7,94 +7,100 @@ import { MdClose } from "react-icons/md";
 import { patients, patientsColumns, patientsList } from "./data";
 import GlobalPagination from "../components/GlobalPagination";
 
+import { usePatients, useSearchPatient } from "../../../hooks/usePatients";
+import { useToast } from "../../../components/ToastContext";
+import Spinner from "../../../components/Spinner";
+import Error from "../../../components/Error";
+
 const Patients = () => {
+    const [page, setPage] = useState(1);
+    const [searchParams, setSearchParams] = useState({});
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isPaginationLoading, setIsPaginationLoading] = useState(false);
-    const [paginationData, setPaginationData] = useState({
-        pageRange: "1-50",
-        totalData: "3,000",
-        canNext: false,
-        canPrevious: false,
-    });
-    const [searchFormData, setSearchFormData] = useState({
-        data: {
-            id: "",
-            firstName: "",
-            lastName: "",
-            middleName: "",
-            dob: "",
-            phone: "",
-            email: "",
-            gender: "",
-            maritalStatus: "",
-            city: "",
-            state: "",
-            paymentMode: "",
-        },
-    });
+    const { data, isLoading, isFetching, isError, error } = usePatients(
+        page,
+        searchParams
+    );
+    const { showToast } = useToast();
 
-    const onSearchFormChange = (e) => {
-        setSearchFormData((prev) => {
-            const keys = fieldPath.split(".");
+    // const [isSubmitting, setIsSubmitting] = useState(false);
+    // const [isPaginationLoading, setIsPaginationLoading] = useState(false);
+    // const [paginationData, setPaginationData] = useState({
+    //     pageRange: "1-50",
+    //     totalData: "3,000",
+    //     canNext: false,
+    //     canPrevious: false,
+    // });
+    // const [searchFormData, setSearchFormData] = useState({
+    //     data: {
+    //         id: "",
+    //         firstName: "",
+    //         lastName: "",
+    //         middleName: "",
+    //         dob: "",
+    //         phone: "",
+    //         email: "",
+    //         gender: "",
+    //         maritalStatus: "",
+    //         city: "",
+    //         state: "",
+    //         paymentMode: "",
+    //     },
+    // });
 
-            const updateNestedField = (obj, keys, value) => {
-                if (keys.length === 1) {
-                    return {
-                        ...obj,
-                        [keys[0]]: value,
-                    };
-                }
+    // const searchHandler = async (e) => {
+    //     e.preventDefault();
 
-                return {
-                    ...obj,
-                    [keys[0]]: updateNestedField(
-                        obj[keys[0]],
-                        keys.slice(1),
-                        value
-                    ),
-                };
-            };
+    //     setIsSubmitting(true);
 
-            return {
-                ...prev,
-                [section]: updateNestedField(prev[section], keys, value),
-            };
-        });
-    };
+    //     setTimeout(() => {
+    //         setIsSubmitting(false);
+    //         setIsSearchModalOpen(false);
+    //     }, 4000);
 
-    const searchHandler = async (e) => {
-        e.preventDefault();
-
-        setIsSubmitting(true);
-
-        setTimeout(() => {
-            setIsSubmitting(false);
-            setIsSearchModalOpen(false);
-        }, 4000);
-
-        console.log("Submitted", searchFormData);
-    };
+    //     console.log("Submitted", searchFormData);
+    // };
 
     const onNextPage = async () => {
-        setIsPaginationLoading(true);
-
-        setTimeout(() => {
-            setIsPaginationLoading(false);
-        }, 4000);
+        const hasMore = data?.currentPage < data?.totalPages;
+        setPage((prev) => (hasMore ? prev + 1 : prev));
     };
 
     const onPreviousPage = async () => {
-        setIsPaginationLoading(true);
-
-        setTimeout(() => {
-            setIsPaginationLoading(false);
-        }, 4000);
+        setPage((prev) => Math.max(prev - 1, 1));
     };
+
+    if (isError) {
+        console.error(error);
+
+        showToast({
+            message:
+                error.message || "Error loading patients. Please try again.",
+            type: "error",
+            duration: 5000,
+        });
+
+        // return (
+        //     <Error
+        //         message={
+        //             error.message || "Error loading patients. Please try again"
+        //         }
+        //     />
+        // );
+    }
+
+    if (isLoading) {
+        return (
+            <Spinner
+                secondaryText="Loading patients..."
+                spinnerSize="w-10 h-10"
+                textClass="text-lg text-darkBlue font-semibold"
+            />
+        );
+    }
 
     return (
         <section className="py-8 relative">
-            {isPaginationLoading && (
+            {isFetching && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 z-50 rounded shadow-lg px-3 py-1 bg-borderColor text-offWhite">
                     Loading...
                 </div>
@@ -102,8 +108,10 @@ const Patients = () => {
 
             <PageTitle title="Registered Patients">
                 <GlobalPagination
-                    pageRange={paginationData.pageRange}
-                    totalData={paginationData.totalData}
+                    metaData={{
+                        currentPage: data?.currentPage,
+                        totalPages: data?.totalPages,
+                    }}
                     onNext={onNextPage}
                     onPrevious={onPreviousPage}
                 />
@@ -124,10 +132,8 @@ const Patients = () => {
                 <div className="w-full max-w-xl h-[90vh] overflow-y-auto bg-white relative p-6 rounded-md shadow-lg">
                     {
                         <SearchComponent
-                            searchFormData={searchFormData}
-                            onChange={onSearchFormChange}
-                            onSearch={searchHandler}
-                            isSubmitting={isSubmitting}
+                            setIsSearchModalOpen={setIsSearchModalOpen}
+                            onSearch={setSearchParams}
                         />
                     }
                     <button
