@@ -17,8 +17,8 @@ const ContactCard = ({ icon, title, value1, value2 }) => {
     return (
         <div className="p-5 md:p-10 bg-lightBlue flex gap-8 md:gap-10 shadow-md">
             <div className="relative w-16">
-                <div className="w-16 h-16 absolute top-3 left-0 bg-vividRed"></div>
-                <div className="w-16 h-16 absolute top-0 -right-3 flex items-center justify-center bg-white text-4xl text-vividRed">
+                <div className="w-16 h-16 absolute top-3 left-0 bg-lightGreen"></div>
+                <div className="w-16 h-16 absolute top-0 -right-3 flex items-center justify-center bg-white text-4xl text-lightGreen">
                     {icon}
                 </div>
             </div>

@@ -34,10 +34,25 @@ const Contact = () => {
                     <ContactCard
                         icon={<MdOutlineEmail />}
                         title={`Email`}
-                        value1={`brightlife0602@gmail.com`}
+                        value1={``}
                         value2={`info@blesomhc.com`}
                     />
                 </div>
+
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3072.2027228604643!2d-77.72012792494687!3d39.64515197157402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xaf672f9fd1cf54cd%3A0x4658bb5c4df1f497!2sBrightLife%20Enhancement%20Services%20LLC!5e0!3m2!1sen!2sng!4v1742393927157!5m2!1sen!2sng"
+                    // width="800"
+                    // height="600"
+                    className="w-full h-96 border-8 border-lightGreen rounded-lg"
+                    // style={{border: "none"}}
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+
+                {/* <div className="">
+                    <img src="" alt="" className="" />
+                </div> */}
 
                 {/* Appointment Schedule Call to Action */}
                 <div className="bg-lightBlue text-darkBlue py-5 md:py-10 px-8 md:px-16 rounded-xl shadow-xl">
