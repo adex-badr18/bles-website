@@ -19,7 +19,7 @@ const GetInTouch = () => {
                             data-aos="fade-up"
                             data-aos-delay="500"
                         >
-                            Best Behavioral & Health Care Near Your City
+                            Best Behavioral/Mental Care Near Your City
                         </span>
                     </h2>
 
@@ -28,7 +28,7 @@ const GetInTouch = () => {
                         data-aos="fade-up"
                         data-aos-delay="1000"
                     >
-                        We've 25 years of experience in Behavioral Health
+                        We've 15 years of experience in Behavioral Health
                         services.
                     </p>
                 </div>
