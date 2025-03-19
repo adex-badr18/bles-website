@@ -80,8 +80,8 @@ const Nav = () => {
                                 <div
                                     key={menuItem.id}
                                     to={menuItem.to}
-                                    className={`relative px-default py-7 font-rubik text-[17px] font-medium text-darkBlue transition duration-300 hover:text-vividRed ${
-                                        isServicesActive ? "text-vividRed" : ""
+                                    className={`relative px-default py-7 font-rubik text-[17px] font-medium text-darkBlue transition duration-300 hover:text-lightGreen ${
+                                        isServicesActive ? "text-lightGreen" : ""
                                     } cursor-pointer`}
                                     onMouseEnter={() =>
                                         handleMouseHover(menuItem)
@@ -117,8 +117,8 @@ const Nav = () => {
                                 <div
                                     key={menuItem.id}
                                     to={menuItem.to}
-                                    className={`relative px-default py-7 font-rubik text-[17px] font-medium text-darkBlue transition duration-300 hover:text-vividRed ${
-                                        isProgramsActive ? "text-vividRed" : ""
+                                    className={`relative px-default py-7 font-rubik text-[17px] font-medium text-darkBlue transition duration-300 hover:text-lightGreen ${
+                                        isProgramsActive ? "text-lightGreen" : ""
                                     } cursor-pointer`}
                                     onMouseEnter={() =>
                                         handleMouseHover(menuItem)
@@ -156,8 +156,8 @@ const Nav = () => {
                                     to={menuItem.to}
                                     className={({ isActive }) =>
                                         [
-                                            isActive ? "text-vividRed" : "",
-                                            "relative px-default py-7 font-rubik text-[17px] font-medium text-darkBlue transition duration-300 hover:text-vividRed",
+                                            isActive ? "text-lightGreen" : "",
+                                            "relative px-default py-7 font-rubik text-[17px] font-medium text-darkBlue transition duration-300 hover:text-lightGreen",
                                         ].join(" ")
                                     }
                                 >
