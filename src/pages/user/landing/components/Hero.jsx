@@ -17,8 +17,10 @@ import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 
 import HeroSlide from "./HeroSlide";
 
-import homeSlider1 from "../../../../assets/home-slider-1.webp";
-import homeSlider2 from "../../../../assets/home-slider-2.webp";
+import homeSlider1 from "../../../../assets/mia-hero-bg-3.png";
+import homeSlider2 from "../../../../assets/mia-hero-bg.png";
+// import homeSlider1 from "../../../../assets/home-slider-1.webp";
+// import homeSlider2 from "../../../../assets/home-slider-2.webp";
 import miaSlider from "../../../../assets/mia.jpeg"
 
 const slidesData = [

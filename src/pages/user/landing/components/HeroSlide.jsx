@@ -33,10 +33,10 @@ const HeroSlide = ({
 
     return (
         <div
-            className="relative h-full bg-cover bg-no-repeat bg-center"
+            className="relative h-full bg-cover bg-no-repeat bg-center flex items-center"
             style={{ backgroundImage: `url("${bgImage}")` }}
         >
-            <div className="relative z-10 mx-1 md:mx-14 px-3 py-10 flex flex-col  w-full max-w-[1320px] lg:mx-auto h-full md:h-auto justify-center gap-3 md:gap-5 font-poppins">
+            <div className="relative z-10 mx-1 md:mx-14 px-3 py-10 flex flex-col justify-center w-full max-w-[1320px] lg:mx-auto h-full md:h-auto gap-3 md:gap-5 font-poppins">
                 <div
                     className={`${
                         isActiveSlide ? "animate-fade-up" : "opacity-0"
@@ -46,7 +46,7 @@ const HeroSlide = ({
                 </div>
 
                 <div className="flex flex-col items-start gap-6 mt-6 pl-[10px] md:mt-24">
-                    <div className="space-y-3 md:space-y-5 w-2/3 md:w-[512px]">
+                    <div className="space-y-3 md:space-y-5 w-2/3 md:w-[678px]">
                         <h4
                             className={`text-sm md:text-base text-[#66737D] font-medium ${
                                 visibleTextIndex > 0
