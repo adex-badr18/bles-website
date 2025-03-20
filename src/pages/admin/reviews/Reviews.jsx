@@ -26,7 +26,7 @@ const Reviews = () => {
         },
     });
 
-    const onSearchFormChange = (e) => {
+    const onSearchFormChange = () => {
         setSearchFormData((prev) => {
             const keys = fieldPath.split(".");
 
@@ -55,8 +55,8 @@ const Reviews = () => {
         });
     };
 
-    const searchHandler = async (e) => {
-        e.preventDefault();
+    const searchHandler = async () => {
+        // e.preventDefault();
 
         setIsSubmitting(true);
 

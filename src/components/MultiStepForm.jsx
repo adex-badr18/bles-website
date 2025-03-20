@@ -15,12 +15,14 @@ const MultiStepForm = ({
     stepForms,
     formSize,
     submitHandler,
-    optionalFields,
+    isSuccessModalOpen,
+    isSubmitting,
+    successModalData,
 }) => {
     const [currentStep, setCurrentStep] = useState(1);
     const [completedSteps, setCompletedSteps] = useState([]);
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    // const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -149,24 +151,24 @@ const MultiStepForm = ({
         setIsReviewModalOpen(false);
     };
 
-    const handleSubmit = () => {
-        setIsSubmitting(true);
+    // const handleSubmit = () => {
+    //     setIsSubmitting(true);
 
-        setTimeout(() => {
-            // setIsSubmitModalOpen(true);
+    //     setTimeout(() => {
+    //         // setIsSubmitModalOpen(true);
 
-            // () =>
-            //     showToast({
-            //         message: "An error occurred. Please try again.",
-            //         type: "error",
-            //         duration: 50000,
-            //     });
+    //         // () =>
+    //         //     showToast({
+    //         //         message: "An error occurred. Please try again.",
+    //         //         type: "error",
+    //         //         duration: 50000,
+    //         //     });
 
-            setIsSubmitting(false);
-        }, 4000);
-        
-        submitHandler();
-    };
+    //         setIsSubmitting(false);
+    //     }, 4000);
+
+    //     submitHandler();
+    // };
 
     const returnHome = () => {
         setIsSubmitModalOpen(false);
@@ -235,7 +237,7 @@ const MultiStepForm = ({
                     // </button>
                     <button
                         className="w-full bg-lightGreen hover:bg-green-600 px-4 py-2 text-white rounded-lg"
-                        onClick={handleSubmit}
+                        onClick={submitHandler}
                     >
                         {isSubmitting ? (
                             <Spinner secondaryText="Submitting..." />
@@ -247,7 +249,7 @@ const MultiStepForm = ({
             </div>
 
             {/* Submission Response */}
-            <Modal isOpen={isSubmitModalOpen}>
+            <Modal isOpen={isSuccessModalOpen}>
                 <div className="w-full max-w-xl p-4 rounded-lg bg-white text-deepGrey relative">
                     <div className="flex flex-col gap-5 justify-center items-center">
                         <LuShieldCheck className="text-5xl text-lightGreen" />
@@ -265,6 +267,15 @@ const MultiStepForm = ({
                                     details has been sent to your registered
                                     email.
                                 </p>
+
+                                {successModalData && (
+                                    <div className="">
+                                        Patient ID:{" "}
+                                        <span className="font-bold">
+                                            {successModalData.patientId}
+                                        </span>
+                                    </div>
+                                )}
 
                                 <p className="">
                                     If you do not receive an email within the

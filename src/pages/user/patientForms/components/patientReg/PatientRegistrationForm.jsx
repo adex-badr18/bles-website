@@ -8,7 +8,16 @@ import ConsentForm from "./ConsentForm";
 import PdfPreview from "../../../../../components/PdfPreview";
 import PdfDoc from "./PdfDoc";
 
+import { useToast } from "../../../../../components/ToastContext";
+import { useCreatePatient } from "../../../../../hooks/usePatients";
+import { objectToFormData, convertToBoolean } from "../../../../utils";
+import { pdf } from "@react-pdf/renderer";
+
 const PatientRegistrationForm = () => {
+    const { showToast } = useToast();
+    const {mutate, isPending, error, data} = useCreatePatient({ openModal: openSuccessModal, showToast });
+    const [successModalData, setSuccessModalData] = useState({});
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [consents, setConsents] = useState({
         dataAccuracy: false,
         insuranceAuth: false,
@@ -139,6 +148,12 @@ const PatientRegistrationForm = () => {
         consent: { signature: "", date: "" },
     });
 
+    // Function to open modal
+    const openSuccessModal = (data) => {
+        setSuccessModalData(data);
+        setIsSuccessModalOpen(true);
+    };
+
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
         setRegForm((prev) => {
@@ -169,13 +184,89 @@ const PatientRegistrationForm = () => {
         });
     };
 
-    const submitHandler = (e) => {
-        e.preventDefault();
+    const submitHandler = async () => {
+        const pdfBlob = await pdf(<PdfDoc data={regForm} />).toBlob();
+        const data = {
+            id: null,
+            patientId: "",
+            personalInfo: {
+                ...regForm.personal,
+                sendMsgToHomePhone: convertToBoolean(
+                    regForm.personal.sendMsgToHomePhone
+                ),
+                sendMsgToRelative: convertToBoolean(
+                    regForm.personal.sendMsgToRelative
+                ),
+                sendMsgToWork: convertToBoolean(regForm.personal.sendMsgToWork),
+                sendMsgToCellPhone: convertToBoolean(
+                    regForm.personal.sendMsgToCellPhone
+                ),
+                address: { ...regForm.personal.address, id: null },
+            },
+            guarantor: {
+                ...regForm.guarantor,
+                id: null,
+                address: { ...regForm.guarantor.address, id: null },
+            },
+            parentGuardian: {
+                ...regForm.parent,
+                id: null,
+                address: { ...regForm.parent.address, id: null },
+            },
+            emergency: {
+                ...regForm.emergency,
+                id: null,
+                address: { ...regForm.emergency.address, id: null },
+            },
+            paymentStructure: {
+                paymentMode: regForm.insurance.paymentMode,
+                insurances: [
+                    {
+                        ...regForm.insurance.primaryInsurance,
+                        id: null,
+                        primary: true,
+                        insuranceProvider: {
+                            ...regForm.insurance.primaryInsurance
+                                .insuranceProvider,
+                            address: {
+                                id: null,
+                                ...regForm.insurance.primaryInsurance
+                                    .insuranceProvider.address,
+                            },
+                        },
+                    },
+                    {
+                        ...regForm.insurance.secondaryInsurance,
+                        id: null,
+                        primary: false,
+                        insuranceProvider: {
+                            ...regForm.insurance.secondaryInsurance
+                                .insuranceProvider,
+                            address: {
+                                id: null,
+                                ...regForm.insurance.secondaryInsurance
+                                    .insuranceProvider.address,
+                            },
+                        },
+                    },
+                ],
+            },
+            date: regForm.consent.date,
+            patientRegForm: "",
+            file: pdfBlob,
+        };
 
-        console.log(regForm);
+        const formData = objectToFormData(data);
+
+        for (const pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
+
+        // TODO: Create patient
+        mutate(formData)
     };
 
-    console.log(regForm);
+    // console.log(regForm);
     // console.log(consents);
 
     const isStepValid = (step) => {
@@ -319,6 +410,9 @@ const PatientRegistrationForm = () => {
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
+                isSuccessModalOpen={isSuccessModalOpen}
+                successModalData={successModalData}
+                isSubmitting={isPending}
             />
         </div>
     );

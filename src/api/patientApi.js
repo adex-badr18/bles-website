@@ -3,7 +3,7 @@ import api from "./axiosInstance";
 // Fetch a list of patients (Paginated)
 export const fetchPatients = async (page = 1, searchParams) => {
     const response = await api.get(`/patients?page=${page}`, {
-        params: searchParams
+        params: searchParams,
     });
     return response.data;
 };
@@ -18,14 +18,16 @@ export const searchPatients = async (searchParams) => {
 };
 
 // Fetch a patient by ID
-export const fetchPatientById = async (id) => {
-    const response = await api.get(`/patients/${id}`);
+export const fetchPatientById = async (patientId) => {
+    const response = await api.get(`/patients/${patientId}`);
     return response.data;
 };
 
-// Craete a new patient
+// Create a new patient
 export const createPatient = async (patientData) => {
-    const response = await api.post("/patients", patientData);
+    const response = await api.post("/patients/forms/register", patientData, {
+        requiresAuth: false,
+    });
     return response.data;
 };
 

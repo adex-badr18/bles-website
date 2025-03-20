@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
+import {
+    useQuery,
+    useMutation,
+    useQueryClient,
+    keepPreviousData,
+} from "@tanstack/react-query";
 import {
     fetchPatients,
     fetchPatientById,
@@ -13,6 +18,8 @@ export const usePatients = (page = 1, searchParams) => {
         queryKey: ["patients", page, searchParams],
         queryFn: () => fetchPatients(page, searchParams),
         placeholderData: keepPreviousData,
+        staleTime: 5 * 1000 * 60, // Cache data for 5 minutes
+        retry: 2, // retry failed request twice
         enabled: Object.keys(searchParams).length > 0, // // Runs query only when searchTerm exists
     });
 };
@@ -36,16 +43,23 @@ export const usePatient = (id) => {
 };
 
 // Create a new patient (Optimistic UI Update)
-export const useCreatePatient = () => {
+export const useCreatePatient = ({ openModal, showToast }) => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: createPatient,
         onSuccess: (newPatient) => {
+            openModal(newPatient);
             queryClient.invalidateQueries(["patients"]);
         },
         onError: (error) => {
             console.error("Error creating patient", error);
+            showToast({
+                message:
+                    error?.message || "An error occurred. Please try again.",
+                type: "error",
+                duration: 5000,
+            });
         },
     });
 };
