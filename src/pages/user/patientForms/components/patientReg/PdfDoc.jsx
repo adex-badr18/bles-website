@@ -432,11 +432,11 @@ const PdfDoc = ({ data }) => {
                 value: data.insurance.secondaryInsurance.insuranceProvider
                     .coPay,
             },
-            haveCoordinationBenefits: {
-                title: "Do you have coordination of benefits:",
-                value: data.insurance.secondaryInsurance.insuranceProvider
-                    .haveCoordinationBenefits,
-            },
+            // haveCoordinationBenefits: {
+            //     title: "Do you have coordination of benefits:",
+            //     value: data.insurance.secondaryInsurance.insuranceProvider
+            //         .haveCoordinationBenefits,
+            // },
             coverageStartDate: {
                 title: "Coverage Start Date:",
                 value: data.insurance.secondaryInsurance.insuranceProvider

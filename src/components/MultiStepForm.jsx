@@ -16,6 +16,7 @@ const MultiStepForm = ({
     formSize,
     submitHandler,
     isSuccessModalOpen,
+    setIsSuccessModalOpen,
     isSubmitting,
     successModalData,
 }) => {
@@ -171,7 +172,7 @@ const MultiStepForm = ({
     // };
 
     const returnHome = () => {
-        setIsSubmitModalOpen(false);
+        setIsSuccessModalOpen(false);
         navigate("/");
     };
 
@@ -238,6 +239,7 @@ const MultiStepForm = ({
                     <button
                         className="w-full bg-lightGreen hover:bg-green-600 px-4 py-2 text-white rounded-lg"
                         onClick={submitHandler}
+                        disabled={isSubmitting}
                     >
                         {isSubmitting ? (
                             <Spinner secondaryText="Submitting..." />
@@ -288,10 +290,10 @@ const MultiStepForm = ({
 
                         <div className="flex flex-col gap-2 mt-1">
                             <button
-                                className="w-full bg-lightGreen hover:bg-green-600 px-4 py-3 text-white font-medium tracking-widest rounded-lg"
+                                className="w-full bg-lightGreen hover:bg-green-600 px-4 py-3 text-white font-medium tracking-widest rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                                 onClick={returnHome}
                             >
-                                Return to Home
+                                Return Home
                             </button>
                         </div>
                     </div>

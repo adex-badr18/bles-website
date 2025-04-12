@@ -13,7 +13,7 @@ import {
 } from "../api/patientApi";
 
 // Fetch list of patients
-export const usePatients = (page = 1, searchParams) => {
+export const useFetchPatients = (page = 1, searchParams) => {
     return useQuery({
         queryKey: ["patients", page, searchParams],
         queryFn: () => fetchPatients(page, searchParams),
@@ -34,7 +34,7 @@ export const useSearchPatients = (searchParams) => {
 };
 
 // Fetch a patient by ID
-export const usePatient = (id) => {
+export const useFetchPatient = (id) => {
     return useQuery({
         queryKey: ["patient", id],
         queryFn: () => fetchPatientById(id),
@@ -53,10 +53,12 @@ export const useCreatePatient = ({ openModal, showToast }) => {
             queryClient.invalidateQueries(["patients"]);
         },
         onError: (error) => {
-            console.error("Error creating patient", error);
+            // console.error("Error creating patient", error);
             showToast({
                 message:
-                    error?.message || "An error occurred. Please try again.",
+                    error?.message ||
+                    error ||
+                    "An error occurred. Please try again.",
                 type: "error",
                 duration: 5000,
             });
@@ -65,7 +67,7 @@ export const useCreatePatient = ({ openModal, showToast }) => {
 };
 
 // Update a patient
-export const useUpdatepatient = () => {
+export const useUpdatePatient = () => {
     const queryClient = useQueryClient();
 
     return useMutation({

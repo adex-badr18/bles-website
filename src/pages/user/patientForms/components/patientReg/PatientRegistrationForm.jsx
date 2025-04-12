@@ -15,7 +15,10 @@ import { pdf } from "@react-pdf/renderer";
 
 const PatientRegistrationForm = () => {
     const { showToast } = useToast();
-    const {mutate, isPending, error, data} = useCreatePatient({ openModal: openSuccessModal, showToast });
+    const { mutate, isPending, error, data } = useCreatePatient({
+        openModal: openSuccessModal,
+        showToast,
+    });
     const [successModalData, setSuccessModalData] = useState({});
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [consents, setConsents] = useState({
@@ -134,7 +137,7 @@ const PatientRegistrationForm = () => {
                     authorizationId: "",
                     coverageStartDate: "",
                     coverageEndDate: "",
-                    haveCoordinationBenefits: "",
+                    // haveCoordinationBenefits: "",
                     address: {
                         streetName: "",
                         city: "",
@@ -149,10 +152,10 @@ const PatientRegistrationForm = () => {
     });
 
     // Function to open modal
-    const openSuccessModal = (data) => {
+    function openSuccessModal(data) {
         setSuccessModalData(data);
         setIsSuccessModalOpen(true);
-    };
+    }
 
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
@@ -183,6 +186,8 @@ const PatientRegistrationForm = () => {
             };
         });
     };
+
+    // console.log(isPending)
 
     const submitHandler = async () => {
         const pdfBlob = await pdf(<PdfDoc data={regForm} />).toBlob();
@@ -253,17 +258,29 @@ const PatientRegistrationForm = () => {
             },
             date: regForm.consent.date,
             patientRegForm: "",
-            file: pdfBlob,
         };
 
-        const formData = objectToFormData(data);
+        const pdfFile = new File([pdfBlob], "registration-form.pdf", {
+            type: "application/pdf",
+        });
 
-        for (const pair of formData.entries()) {
-            console.log(`${pair[0]}: ${pair[1]}`);
+        const payload = {
+            payload: data,
+            formFile: pdfFile,
+            stateIssuedIdFile: "",
+            insuranceCardFile: "",
+        };
+
+        console.log("Payload", payload);
+
+        const formData = objectToFormData(payload);
+
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
         }
 
         // TODO: Create patient
-        mutate(formData)
+        mutate(formData);
     };
 
     // console.log(regForm);
@@ -411,6 +428,7 @@ const PatientRegistrationForm = () => {
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
                 isSuccessModalOpen={isSuccessModalOpen}
+                setIsSuccessModalOpen={setIsSuccessModalOpen}
                 successModalData={successModalData}
                 isSubmitting={isPending}
             />

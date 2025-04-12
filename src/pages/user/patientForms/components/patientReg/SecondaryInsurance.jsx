@@ -177,7 +177,7 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             }
                             handleInputChange={handleInputChange}
                         />
-                        <RadioField
+                        {/* <RadioField
                             label="Do you have Coordination of Benefits"
                             name="haveCoordinationBenefits"
                             value={
@@ -190,7 +190,7 @@ const SecondaryInsurance = ({ formData, handleInputChange }) => {
                             data={booleanOptions}
                             orientation="horizontal"
                             labelClass="text-grey"
-                        />
+                        /> */}
                         <TextField
                             type="text"
                             label="Co-pay Amount"

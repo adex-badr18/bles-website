@@ -1,15 +1,33 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import SectionHeader from "../../../components/SectionHeader";
 import StarsRating from "./components/StarsRating";
 
+import { useToast } from "../../../components/ToastContext";
+import { useCreateReview } from "../../../hooks/useReviews";
+import { objectToFormData } from "../../utils";
+import Spinner from "../../../components/Spinner";
+import Modal from "../../../components/Modal";
+import { LuShieldCheck } from "react-icons/lu";
+
 const Review = () => {
+    const navigate = useNavigate();
+    const { showToast } = useToast();
+    const { mutate, isPending, error, data } = useCreateReview({
+        openModal: openSuccessModal,
+        showToast,
+    });
+    const [successModalData, setSuccessModalData] = useState({});
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [rating, setRating] = useState(0);
     const [reviewData, setReviewData] = useState({
+        id: null,
         nickname: "",
         email: "",
         referralWish: "",
         rating: 0,
         reviewMessage: "",
+        status: "draft",
     });
 
     useEffect(() => {
@@ -23,10 +41,39 @@ const Review = () => {
         setReviewData((prev) => ({ ...prev, [name]: elementValue }));
     };
 
+    // Function to open modal
+    function openSuccessModal(data) {
+        setSuccessModalData(data);
+        setIsSuccessModalOpen(true);
+    }
+
+    const isFormValid = () => {
+        for (const key in reviewData) {
+            const value = reviewData[key];
+
+            if (key === "id") {
+                continue;
+            }
+
+            if (!value || value === 0 || value === null) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
     const onSubmit = (e) => {
         e.preventDefault();
 
-        console.log(reviewData);
+        const formData = objectToFormData(reviewData);
+
+        mutate(formData);
+    };
+
+    const returnHome = () => {
+        setIsSubmitModalOpen(false);
+        navigate("/");
     };
 
     return (
@@ -42,7 +89,10 @@ const Review = () => {
             <div className="bg-lightGray">
                 <div className="wrapper py-8">
                     <div className="w-full max-w-xl mx-auto border rounded-lg">
-                        <form className="bg-white p-6 rounded-lg space-y-5">
+                        <form
+                            onSubmit={onSubmit}
+                            className="bg-white p-6 rounded-lg space-y-5"
+                        >
                             <div className="space-y-1">
                                 <label
                                     htmlFor="nickname"
@@ -165,15 +215,61 @@ const Review = () => {
                             </p>
 
                             <button
-                                onClick={onSubmit}
-                                className="bg-darkBlue text-white hover:bg-deepBlue hover:font-medium transition duration-300 p-2 text-center w-full rounded"
+                                // onClick={onSubmit}
+                                type="submit"
+                                className="bg-darkBlue text-white hover:bg-deepBlue hover:font-medium transition duration-300 p-2 text-center w-full rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={isPending || !isFormValid()}
                             >
-                                Submit review
+                                {isPending ? (
+                                    <Spinner secondaryText="Submitting..." />
+                                ) : (
+                                    "Submit Review"
+                                )}
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
+
+            {/* Submission Response */}
+            <Modal isOpen={isSuccessModalOpen}>
+                <div className="w-full max-w-xl p-4 rounded-lg bg-white text-deepGrey relative">
+                    <div className="flex flex-col gap-5 justify-center items-center">
+                        <LuShieldCheck className="text-5xl text-lightGreen" />
+
+                        <div className="flex flex-col items-center">
+                            <h3 className="text-lg text-center font-bold mb-5">
+                                Submission Successful!
+                            </h3>
+
+                            <div className="space-y-2 text-center text-deepGrey">
+                                <p className="">
+                                    Thank you for dropping your feedbacck. Your
+                                    review has been successfully submitted.
+                                </p>
+
+                                {successModalData && (
+                                    <div className="">
+                                        Patient ID:{" "}
+                                        <span className="font-bold">
+                                            {successModalData.patientId}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col gap-2 mt-1">
+                            <button
+                                className="w-full bg-lightGreen hover:bg-green-600 px-4 py-3 text-white font-medium tracking-widest rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                                onClick={returnHome}
+                            >
+                                Return Home
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
         </section>
     );
 };

@@ -7,7 +7,7 @@ import { MdClose } from "react-icons/md";
 import { patients, patientsColumns, patientsList } from "./data";
 import GlobalPagination from "../components/GlobalPagination";
 
-import { usePatients, useSearchPatients } from "../../../hooks/usePatients";
+import { useFetchPatients, useSearchPatients } from "../../../hooks/usePatients";
 import { useToast } from "../../../components/ToastContext";
 import Spinner from "../../../components/Spinner";
 import Error from "../../../components/Error";

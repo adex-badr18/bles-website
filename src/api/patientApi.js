@@ -24,10 +24,32 @@ export const fetchPatientById = async (patientId) => {
 };
 
 // Create a new patient
-export const createPatient = async (patientData) => {
-    const response = await api.post("/patients/forms/register", patientData, {
-        requiresAuth: false,
-    });
+export const createPatient = async (patientData, requireAuth) => {
+    let options = {};
+
+    if (requireAuth) {
+        const token = JSON.parse(sessionStorage.getItem("user"));
+        options = {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+    } else {
+        options = {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        };
+    }
+
+    const response = await api.post(
+        "/patients/forms/register",
+        patientData,
+        options
+    );
+
+    console.log(response);
     return response.data;
 };
 
