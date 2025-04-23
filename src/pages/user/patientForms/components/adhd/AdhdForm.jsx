@@ -5,11 +5,30 @@ import Assessment from "./Assessment";
 import PdfDoc from "./PdfDoc";
 import PdfPreview from "../../../../../components/PdfPreview";
 
+import { useToast } from "../../../../../components/ToastContext";
+import { useCreateForm } from "../../../../../hooks/usePatients";
+import { objectToFormData } from "../../../../utils";
+
 const AdhdForm = () => {
+    const { showToast } = useToast();
+    const [successModalData, setSuccessModalData] = useState({});
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const { mutate, isPending, error, data } = useCreateForm({
+        onSuccess: (response) => {
+            setSuccessModalData(response?.data);
+            setIsSuccessModalOpen(true);
+        },
+        onError: (error) => {
+            showToast({
+                message: error?.message || `Failed to submit form!`,
+                type: "error",
+                duration: 5000,
+            });
+        },
+    });
     const [formData, setFormData] = useState({
         verification: {
-            id: "",
-            verificationStatus: "",
+            patientId: "",
             firstName: "",
             middleName: "",
             lastName: "",
@@ -17,60 +36,75 @@ const AdhdForm = () => {
             dob: "",
             phone: "",
             email: "",
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
+            address: {
+                id: null,
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
         },
         partA: {
             projectCompletionProblem: {
-                question: "How often do you have trouble wrapping up the final details of a project, once the challenging parts have been done?",
+                question:
+                    "How often do you have trouble wrapping up the final details of a project, once the challenging parts have been done?",
                 answer: "",
             },
             organizationRate: {
-                question: "How often do you have difficulty getting things in order when you have to do a task that requires organization?",
+                question:
+                    "How often do you have difficulty getting things in order when you have to do a task that requires organization?",
                 answer: "",
             },
             memoryRate: {
-                question: "How often do you have problems remembering appointments or obligations?",
+                question:
+                    "How often do you have problems remembering appointments or obligations?",
                 answer: "",
             },
             attitudeToChallenge: {
-                question: "When you have a task that requires a lot of thought, how often do you avoid or delay getting started?",
+                question:
+                    "When you have a task that requires a lot of thought, how often do you avoid or delay getting started?",
                 answer: "",
             },
-            FidgetRateOnsit: {
-                question: "How often do you fidget or squirm with your hands or feet when you have to sit down for a long time?",
+            fidgetRateOnsit: {
+                question:
+                    "How often do you fidget or squirm with your hands or feet when you have to sit down for a long time?",
                 answer: "",
             },
             activeToWork: {
-                question: "How often do you feel overly active and compelled to do things, like you were driven by a motor?",
+                question:
+                    "How often do you feel overly active and compelled to do things, like you were driven by a motor?",
                 answer: "",
             },
         },
         partB: {
             carelessMistakes: {
-                question: "How often do you make careless mistakes when you have to work on a boring or difficult project?",
+                question:
+                    "How often do you make careless mistakes when you have to work on a boring or difficult project?",
                 answer: "",
             },
-            AttentionToBoringWork: {
-                question: "How often do you have difficulty keeping your attention when you are doing boring or repetitive work?",
+            attentionToBoringWork: {
+                question:
+                    "How often do you have difficulty keeping your attention when you are doing boring or repetitive work?",
                 answer: "",
             },
-            ConcentrationRate: {
-                question: "How often do you have difficulty concentrating on what people say to you, even when they are speaking to you directly?",
+            concentrationRate: {
+                question:
+                    "How often do you have difficulty concentrating on what people say to you, even when they are speaking to you directly?",
                 answer: "",
             },
             misplaceRate: {
-                question: "How often do you misplace or have difficulty finding things at home or at work?",
+                question:
+                    "How often do you misplace or have difficulty finding things at home or at work?",
                 answer: "",
             },
             distractionRate: {
-                question: "How often are you distracted by activity or noise around you?",
+                question:
+                    "How often are you distracted by activity or noise around you?",
                 answer: "",
             },
             excuseRate: {
-                question: "How often do you leave your seat in meetings or other situations in which you are expected to remain seated?",
+                question:
+                    "How often do you leave your seat in meetings or other situations in which you are expected to remain seated?",
                 answer: "",
             },
             restlessRate: {
@@ -78,27 +112,34 @@ const AdhdForm = () => {
                 answer: "",
             },
             troubleRelaxing: {
-                question: "How often do you have difficulty unwinding and relaxing when you have time to yourself?",
+                question:
+                    "How often do you have difficulty unwinding and relaxing when you have time to yourself?",
                 answer: "",
             },
             excessiveTalks: {
-                question: "How often do you find yourself talking too much when you are in social situations?",
+                question:
+                    "How often do you find yourself talking too much when you are in social situations?",
                 answer: "",
             },
-            PeopleSentenceCompletion: {
-                question: "When you’re in a conversation, how often do you find yourself finishing the sentences of the people you are talking to, before they can finish them themselves?",
+            peopleSentenceCompletion: {
+                question:
+                    "When you’re in a conversation, how often do you find yourself finishing the sentences of the people you are talking to, before they can finish them themselves?",
                 answer: "",
             },
             patienceOnQueue: {
-                question: "How often do you have difficulty waiting your turn in situations when turn taking is required?",
+                question:
+                    "How often do you have difficulty waiting your turn in situations when turn taking is required?",
                 answer: "",
             },
             interruptOthers: {
-                question: "How often do you interrupt others when they are busy?",
+                question:
+                    "How often do you interrupt others when they are busy?",
                 answer: "",
             },
         },
     });
+
+    // console.log(formData.verification)
 
     // Compute totalScore
     // const totalScore = Object.values(formData.assessment).reduce(
@@ -138,10 +179,38 @@ const AdhdForm = () => {
         });
     };
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
 
-        console.log(formData);
+        // prepare data
+        const data = {
+            id: null,
+            patientId: formData.verification.patientId,
+            projectCompletionProblem:
+                formData.partA.projectCompletionProblem.answer,
+            organizationRate: formData.partA.organizationRate.answer,
+            memoryRate: formData.partA.memoryRate.answer,
+            attitudeToChallenge: formData.partA.attitudeToChallenge.answer,
+            fidgetRateOnsit: formData.partA.fidgetRateOnsit.answer,
+            activeToWork: formData.partA.activeToWork.answer,
+            carelessMistakes: formData.partB.carelessMistakes.answer,
+            attentionToBoringWork: formData.partB.attentionToBoringWork.answer,
+            concentrationRate: formData.partB.concentrationRate.answer,
+            misplaceRate: formData.partB.misplaceRate.answer,
+            distractionRate: formData.partB.distractionRate.answer,
+            excuseRate: formData.partB.excuseRate.answer,
+            restlessRate: formData.partB.restlessRate.answer,
+            troubleRelaxing: formData.partB.troubleRelaxing.answer,
+            excessiveTalks: formData.partB.excessiveTalks.answer,
+            peopleSentenceCompletion:
+                formData.partB.peopleSentenceCompletion.answer,
+            patienceOnQueue: formData.partB.patienceOnQueue.answer,
+            interruptOthers: formData.partB.interruptOthers.answer,
+        };
+
+        const payload = objectToFormData(data);
+
+        mutate({ payload, endpoint: "/patients/forms/adhd" });
     };
 
     const isStepValid = (step) => {
@@ -149,11 +218,12 @@ const AdhdForm = () => {
             "firstName",
             "lastName",
             "gender",
-            "dob",
+            // "dob",
             "maritalStatus",
             "phone",
             "email",
             "address",
+            "patientId",
         ];
 
         if (step === 1) {
@@ -207,7 +277,7 @@ const AdhdForm = () => {
                 component: (
                     <VerificationStep
                         formData={formData}
-                        onChange={handleFormElementChange}
+                        setFormData={setFormData}
                     />
                 ),
             },
@@ -226,10 +296,7 @@ const AdhdForm = () => {
                 id: 3,
                 name: "Preview",
                 component: (
-                    <PdfPreview
-                        key={7}
-                        Doc={<PdfDoc data={formData} />}
-                    />
+                    <PdfPreview key={7} Doc={<PdfDoc data={formData} />} />
                 ),
             },
         ],
@@ -238,13 +305,15 @@ const AdhdForm = () => {
     return (
         <div>
             <MultiStepForm
-                formData={formData}
                 formSize="md"
-                optionalFields={[]}
+                isStepValid={isStepValid}
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
-                isStepValid={isStepValid}
+                isSuccessModalOpen={isSuccessModalOpen}
+                setIsSuccessModalOpen={setIsSuccessModalOpen}
+                successModalData={successModalData}
+                isSubmitting={isPending}
             />
         </div>
     );

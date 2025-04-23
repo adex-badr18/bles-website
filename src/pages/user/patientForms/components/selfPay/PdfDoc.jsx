@@ -3,11 +3,11 @@ import { styles } from "../patientReg/PdfDoc";
 import checkbox from "../../../../../assets/checkbox.jpg";
 import { selfPayTerms } from "./data";
 import LetterHead from "../LetterHead";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const PdfDoc = ({ data }) => {
     const selfPayData = {
         verification: {
-            id: { title: "Patient ID:", value: data.verification.id },
             fullName: {
                 title: "Patient's Name:",
                 value: `${data.verification.firstName} ${data.verification.middleName} ${data.verification.lastName}`,
@@ -16,17 +16,19 @@ const PdfDoc = ({ data }) => {
             phone: { title: "Phone:", value: data.verification.phone },
             dob: {
                 title: "Date of Birth:",
-                value: new Date(data.verification.dob).toLocaleDateString(),
+                value: data.verification.dob
+                    ? new Date(data.verification.dob).toLocaleDateString()
+                    : "N/A",
             },
             streetAddress: {
                 title: "Street Address:",
-                value: data.verification.street,
+                value: data.verification.address.streetName,
             },
-            city: { title: "City:", value: data.verification.city },
-            state: { title: "State:", value: data.verification.state },
+            city: { title: "City:", value: data.verification.address.city },
+            state: { title: "State:", value: data.verification.address.state },
             zipCode: {
                 title: "Zip Code:",
-                value: data.verification.zipCode,
+                value: data.verification.address.zipCode,
             },
         },
         consent: {
@@ -36,7 +38,7 @@ const PdfDoc = ({ data }) => {
             },
             date: {
                 title: "Date:",
-                value: new Date(data.consent.date).toLocaleDateString(),
+                value: convertIsoDateToReadable(data.consent.date),
             },
         },
     };
@@ -51,15 +53,21 @@ const PdfDoc = ({ data }) => {
                     <LetterHead />
 
                     {/* Form Title */}
-                    <Text style={styles.header}>
-                        Self-Pay Agreement
-                    </Text>
+                    <Text style={styles.header}>Self-Pay Agreement</Text>
 
                     {/* Patient Personal Info */}
                     <View style={styles.sectionWrapper}>
                         <Text style={styles.sectionHeader}>
                             Patient Information
                         </Text>
+
+                        <View style={{ ...styles.fieldItem, marginBottom: 20 }}>
+                            <Text style={styles.key}>Patient ID</Text>
+                            <Text style={styles.value}>
+                                {data?.verification?.patientId || "N/A"}
+                            </Text>
+                        </View>
+
                         <View style={styles.row}>
                             {Object.entries(verification).map(([key, val]) => (
                                 <View key={key} style={styles.fieldItem}>
@@ -104,7 +112,9 @@ const PdfDoc = ({ data }) => {
 
                     {/* Agreement Confirmation */}
                     <View style={styles.sectionWrapper}>
-                        <Text style={styles.sectionHeader}>Acknowledgement</Text>
+                        <Text style={styles.sectionHeader}>
+                            Acknowledgement
+                        </Text>
 
                         <View style={styles.flexCol}>
                             <View style={styles.flexRow}>

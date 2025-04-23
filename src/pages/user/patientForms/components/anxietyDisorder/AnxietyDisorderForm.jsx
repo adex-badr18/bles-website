@@ -4,12 +4,30 @@ import MultiStepForm from "../../../../../components/MultiStepForm";
 import Assessment from "./Assessment";
 import PdfDoc from "./PdfDoc";
 import PdfPreview from "../../../../../components/PdfPreview";
+import { objectToFormData } from "../../../../utils";
+import { useToast } from "../../../../../components/ToastContext";
+import { useCreateForm } from "../../../../../hooks/usePatients";
 
 const AnxietyDisorderForm = () => {
+    const { showToast } = useToast();
+    const [successModalData, setSuccessModalData] = useState({});
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const { mutate, isPending, error, data } = useCreateForm({
+        onSuccess: (response) => {
+            setSuccessModalData(response?.data);
+            setIsSuccessModalOpen(true);
+        },
+        onError: (error) => {
+            showToast({
+                message: error?.message || `Failed to submit form!`,
+                type: "error",
+                duration: 5000,
+            });
+        },
+    });
     const [formData, setFormData] = useState({
         verification: {
-            id: "",
-            verificationStatus: "",
+            patientId: "",
             firstName: "",
             middleName: "",
             lastName: "",
@@ -17,10 +35,13 @@ const AnxietyDisorderForm = () => {
             dob: "",
             phone: "",
             email: "",
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
+            address: {
+                id: null,
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
         },
         assessment: {
             nervousRate: {
@@ -100,7 +121,21 @@ const AnxietyDisorderForm = () => {
     const submitHandler = (e) => {
         e.preventDefault();
 
-        console.log(formData);
+        const data = {
+            id: null,
+            patientId: formData.verification.patientId,
+            nervousRate: formData.assessment.nervousRate.answer,
+            controlOverWorry: formData.assessment.controlOverWorry.answer,
+            excessiveWorry: formData.assessment.excessiveWorry.answer,
+            relaxTrouble: formData.assessment.relaxTrouble.answer,
+            restlessness: formData.assessment.restlessness.answer,
+            annoyanceRate: formData.assessment.annoyanceRate.answer,
+            frightRate: formData.assessment.frightRate.answer,
+            lifeInfluenceSummary: formData.lifeInfluenceSummary.answer,
+        };
+        const payload = objectToFormData(data);
+
+        mutate({ payload, endpoint: "/patients/forms/anxiety-disorder" });
     };
 
     const isStepValid = (step) => {
@@ -108,11 +143,12 @@ const AnxietyDisorderForm = () => {
             "firstName",
             "lastName",
             "gender",
-            "dob",
+            // "dob",
             "maritalStatus",
             "phone",
             "email",
             "address",
+            "patientId"
         ];
 
         if (step === 1) {
@@ -171,7 +207,7 @@ const AnxietyDisorderForm = () => {
                 component: (
                     <VerificationStep
                         formData={formData}
-                        onChange={handleFormElementChange}
+                        setFormData={setFormData}
                     />
                 ),
             },
@@ -202,13 +238,15 @@ const AnxietyDisorderForm = () => {
     return (
         <div>
             <MultiStepForm
-                formData={formData}
                 formSize="md"
-                optionalFields={[]}
+                isStepValid={isStepValid}
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
-                isStepValid={isStepValid}
+                isSuccessModalOpen={isSuccessModalOpen}
+                setIsSuccessModalOpen={setIsSuccessModalOpen}
+                successModalData={successModalData}
+                isSubmitting={isPending}
             />
         </div>
     );

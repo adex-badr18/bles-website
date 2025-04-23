@@ -5,11 +5,30 @@ import Assessment from "./Assessment";
 import PdfDoc from "./PdfDoc";
 import PdfPreview from "../../../../../components/PdfPreview";
 
+import { useToast } from "../../../../../components/ToastContext";
+import { useCreateForm } from "../../../../../hooks/usePatients";
+import { objectToFormData } from "../../../../utils";
+
 const DepressionAssessmentForm = () => {
+    const { showToast } = useToast();
+    const [successModalData, setSuccessModalData] = useState({});
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const { mutate, isPending, error, data } = useCreateForm({
+        onSuccess: (response) => {
+            setSuccessModalData(response?.data);
+            setIsSuccessModalOpen(true);
+        },
+        onError: (error) => {
+            showToast({
+                message: error?.message || `Failed to submit form!`,
+                type: "error",
+                duration: 5000,
+            });
+        },
+    });
     const [formData, setFormData] = useState({
         verification: {
-            id: "",
-            verificationStatus: "",
+            patientId: "",
             firstName: "",
             middleName: "",
             lastName: "",
@@ -17,10 +36,13 @@ const DepressionAssessmentForm = () => {
             dob: "",
             phone: "",
             email: "",
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
+            address: {
+                id: null,
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
         },
         assessment: {
             pleasureInterest: {
@@ -105,10 +127,23 @@ const DepressionAssessmentForm = () => {
         });
     };
 
-    const submitHandler = (e) => {
-        e.preventDefault();
-
-        console.log(formData);
+    const submitHandler = async (e) => {
+        // Prepare data
+        const data = {
+            id: null,
+            patientId: formData.verification.patientId,
+            pleasureInterest: formData.assessment.pleasureInterest.answer,
+            depressionRate: formData.assessment.depressionRate.answer,
+            sleepRate: formData.assessment.sleepRate.answer,
+            fatigueRate: formData.assessment.fatigueRate.answer,
+            appetiteRate: formData.assessment.appetiteRate.answer,
+            failureRate: formData.assessment.failureRate.answer,
+            concentrationRate: formData.assessment.concentrationRate.answer,
+            restlessnessRate: formData.assessment.restlessnessRate.answer,
+            suicideThought: formData.assessment.suicideThought.answer,
+        };
+        const payload = objectToFormData(data);
+        mutate({ payload, endpoint: "/patients/forms/depression-assessment" });
     };
 
     const isStepValid = (step) => {
@@ -116,11 +151,12 @@ const DepressionAssessmentForm = () => {
             "firstName",
             "lastName",
             "gender",
-            "dob",
+            // "dob",
             "maritalStatus",
             "cellPhone",
             "email",
             "address",
+            "patientId"
         ];
 
         if (step === 1) {
@@ -176,7 +212,7 @@ const DepressionAssessmentForm = () => {
                 component: (
                     <VerificationStep
                         formData={formData}
-                        onChange={handleFormElementChange}
+                        setFormData={setFormData}
                     />
                 ),
             },
@@ -207,13 +243,15 @@ const DepressionAssessmentForm = () => {
     return (
         <div>
             <MultiStepForm
-                formData={formData}
                 formSize="md"
-                optionalFields={[]}
+                isStepValid={isStepValid}
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
-                isStepValid={isStepValid}
+                isSuccessModalOpen={isSuccessModalOpen}
+                setIsSuccessModalOpen={setIsSuccessModalOpen}
+                successModalData={successModalData}
+                isSubmitting={isPending}
             />
         </div>
     );

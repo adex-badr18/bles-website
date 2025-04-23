@@ -18,6 +18,7 @@ import DynamicObjectField from "../../../../../components/DynamicObjectField";
 import { CheckMarkIcon } from "../../../programs/components/icons";
 import { booleanOptions } from "../../data";
 import TextField from "../../../../../components/TextField";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const Authorizations = ({
     formData,
@@ -275,9 +276,9 @@ const Authorizations = ({
                             {formData.consent.patientSignDate && (
                                 <FieldItem
                                     label="Date"
-                                    value={new Date(
+                                    value={convertIsoDateToReadable(
                                         formData.consent.patientSignDate
-                                    ).toLocaleDateString()}
+                                    )}
                                     isRequired={true}
                                 />
                             )}
@@ -363,16 +364,18 @@ const Authorizations = ({
                                     fieldPath="guardianSignature"
                                     dateSection="consent"
                                     dateFieldPath="guardianSignDate"
-                                    signature={formData.consent.guardianSignature}
+                                    signature={
+                                        formData.consent.guardianSignature
+                                    }
                                 />
                             </div>
 
                             {formData.consent.guardianSignDate && (
                                 <FieldItem
                                     label="Date"
-                                    value={new Date(
+                                    value={convertIsoDateToReadable(
                                         formData.consent.guardianSignDate
-                                    ).toLocaleDateString()}
+                                    )}
                                     isRequired={true}
                                 />
                             )}

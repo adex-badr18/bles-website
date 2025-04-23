@@ -3,6 +3,7 @@ import DateField from "../../../../../components/DateField";
 import FieldItem from "../../../../../components/FieldItem";
 import { Checkbox } from "../../../../../components/CheckboxGroup";
 import SignaturePad from "../../../../../components/SignaturePad";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const Agreement = ({ formData, onChange, consent, setConsent }) => {
     const patientFullName = `${formData.verification.firstName} ${formData.verification.middleName} ${formData.verification.lastName}`;
@@ -75,9 +76,9 @@ const Agreement = ({ formData, onChange, consent, setConsent }) => {
                     {formData.consent.date && (
                         <FieldItem
                             label="Date"
-                            value={new Date(
+                            value={convertIsoDateToReadable(
                                 formData.consent.date
-                            ).toLocaleDateString()}
+                            )}
                             isRequired={true}
                         />
                     )}

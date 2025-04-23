@@ -192,7 +192,9 @@ const PdfDoc = ({ data }) => {
             lastName: { title: "Last Name:", value: data.guarantor.lastName },
             dob: {
                 title: "Date of Birth:",
-                value: data.guarantor.dob ? new Date(data.guarantor.dob).toLocaleDateString() : "N/A",
+                value: data.guarantor.dob
+                    ? new Date(data.guarantor.dob).toLocaleDateString()
+                    : "N/A",
             },
             relationship: {
                 title: "Relationship:",
@@ -495,7 +497,7 @@ const PdfDoc = ({ data }) => {
         consent,
     } = regData;
 
-    console.log(regData);
+    // console.log(regData);
 
     return (
         <Document>
@@ -510,6 +512,14 @@ const PdfDoc = ({ data }) => {
                         <Text style={styles.sectionHeader}>
                             Patient Information
                         </Text>
+
+                        <View style={{...styles.fieldItem, marginBottom: 16}}>
+                            <Text style={styles.key}>Patient ID:</Text>
+                            <Text style={styles.value}>
+                                {data.personal.patientId || "N/A"}
+                            </Text>
+                        </View>
+
                         <View style={styles.row}>
                             {Object.entries(personal).map(([key, val]) => (
                                 <View key={key} style={styles.fieldItem}>

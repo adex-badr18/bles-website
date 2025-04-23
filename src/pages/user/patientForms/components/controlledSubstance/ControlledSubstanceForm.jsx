@@ -1,16 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MultiStepForm from "../../../../../components/MultiStepForm";
 import VerificationStep from "../../../../../components/VerificationStep";
 import PdfPreview from "../../../../../components/PdfPreview";
 import PdfDoc from "./PdfDoc";
 import Consents from "./Consents";
 
+import { useToast } from "../../../../../components/ToastContext";
+import { useCreateForm, useUploadFile } from "../../../../../hooks/usePatients";
+import { objectToFormData, convertToBoolean } from "../../../../utils";
+import { pdf } from "@react-pdf/renderer";
+
 const ControlledSubstanceForm = () => {
+    const { showToast } = useToast();
+    const [successModalData, setSuccessModalData] = useState({});
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const {
+        mutateAsync: mutateSubmit,
+        isPending: isSubmitting,
+        error,
+        data,
+    } = useCreateForm({
+        onSuccess: (response) => {
+            setSuccessModalData(response?.data);
+            setIsSuccessModalOpen(true);
+        },
+        onError: (error) => {
+            showToast({
+                message: error?.message || `Failed to submit form!`,
+                type: "error",
+                duration: 5000,
+            });
+        },
+    });
+    const { mutateAsync: mutateFile, isPending: isUploading } = useUploadFile({
+        handleFormChange: handleFormElementChange,
+        field: "file",
+        section: "upload",
+        showToast,
+    });
     const [consent, setConsent] = useState(false);
     const [formData, setFormData] = useState({
         verification: {
-            id: "",
-            verificationStatus: "",
+            patientId: "",
             firstName: "",
             middleName: "",
             lastName: "",
@@ -18,10 +49,13 @@ const ControlledSubstanceForm = () => {
             dob: "",
             phone: "",
             email: "",
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
+            address: {
+                id: null,
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
         },
         consent: {
             patientSignature: "",
@@ -32,10 +66,26 @@ const ControlledSubstanceForm = () => {
             patientGuardianRelationship: "Father",
             guardianSignDate: "",
         },
+        upload: { file: "" },
     });
 
+    useEffect(() => {
+        if (formData.consent.isMinor.toLowerCase() === "no") {
+            setFormData((prev) => ({
+                ...prev,
+                consent: {
+                    ...prev.consent,
+                    guardianName: "",
+                    guardianSignature: "",
+                    patientGuardianRelationship: "",
+                    guardianSignDate: "",
+                },
+            }));
+        }
+    }, [formData.consent.isMinor]);
+
     // Handle form element change
-    const handleFormElementChange = (section, fieldPath, value) => {
+    function handleFormElementChange(section, fieldPath, value) {
         setFormData((prev) => {
             const keys = fieldPath.split(".");
 
@@ -62,12 +112,44 @@ const ControlledSubstanceForm = () => {
                 [section]: updateNestedField(prev[section], keys, value),
             };
         });
-    };
+    }
 
-    const submitHandler = (e) => {
-        e.preventDefault();
+    const submitHandler = async (e) => {
+        // prepare pdf file payload
+        const pdfBlob = await pdf(<PdfDoc data={formData} />).toBlob();
+        const pdfFile = new File([pdfBlob], "controlled-substance.pdf", {
+            type: "application/pdf",
+        });
+        const uploadPayload = objectToFormData({
+            fileType: "controlled-substance",
+            owner: `${formData.verification.firstName}-${formData.verification.lastName}`,
+            file: pdfFile,
+        });
 
-        console.log(formData);
+        // TODO: Upload pdf file
+        const uploadResponse = await mutateFile(uploadPayload);
+        const fileUrl = uploadResponse?.data?.fileUrl
+        
+        // Prepare submission payload
+        const data = {
+            id: 0,
+            patientId: formData.verification.patientId,
+            isMinor: convertToBoolean(formData.consent.isMinor),
+            patientSignDate: formData.consent.patientSignDate,
+            guardianName: formData.consent.guardianName,
+            patientGuardianRelationship:
+                formData.consent.patientGuardianRelationship,
+            guardianSignDate: formData.consent.guardianSignDate,
+            file: fileUrl,
+        };
+
+        const payload = objectToFormData(data);
+
+        // TODO: submit form
+        await mutateSubmit({
+            payload,
+            endpoint: "/patients/forms/controlled-substance",
+        });
     };
 
     const isStepValid = (step) => {
@@ -80,8 +162,7 @@ const ControlledSubstanceForm = () => {
             "phone",
             "email",
             "address",
-            "patientSignature",
-            "patientSignDate",
+            "patientId",
         ];
 
         if (step === 1) {
@@ -113,17 +194,32 @@ const ControlledSubstanceForm = () => {
 
         if (step === 2) {
             const dataObj = formData.consent;
+            const isMinorRequiredFields = [
+                "guardianName",
+                "guardianSignature",
+                "patientGuardianRelationship",
+            ];
 
-            for (const key in dataObj) {
-                const value = dataObj[key];
+            if (!formData.consent.isMinor) {
+                return false;
+            }
 
-                if (!requiredFields.includes(key)) {
-                    continue;
+            if (formData.consent.isMinor.toLowerCase() === "yes") {
+                for (const key in dataObj) {
+                    const value = dataObj[key];
+
+                    if (!isMinorRequiredFields.includes(key)) {
+                        continue;
+                    }
+
+                    if (value === "" || value === null || value === undefined) {
+                        return false;
+                    }
                 }
+            }
 
-                if (value === "" || value === null || value === undefined) {
-                    return false;
-                }
+            if (!formData.consent.patientSignature) {
+                return false;
             }
 
             if (!consent) {
@@ -143,7 +239,7 @@ const ControlledSubstanceForm = () => {
                 component: (
                     <VerificationStep
                         formData={formData}
-                        onChange={handleFormElementChange}
+                        setFormData={setFormData}
                     />
                 ),
             },
@@ -170,13 +266,15 @@ const ControlledSubstanceForm = () => {
     return (
         <div>
             <MultiStepForm
-                formData={formData}
                 formSize="md"
-                optionalFields={[]}
+                isStepValid={isStepValid}
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
-                isStepValid={isStepValid}
+                isSuccessModalOpen={isSuccessModalOpen}
+                setIsSuccessModalOpen={setIsSuccessModalOpen}
+                successModalData={successModalData}
+                isSubmitting={isUploading || isSubmitting}
             />
         </div>
     );

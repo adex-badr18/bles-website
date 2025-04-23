@@ -3,11 +3,11 @@ import { styles } from "../patientReg/PdfDoc";
 import checkbox from "../../../../../assets/checkbox.jpg";
 import { consents } from "./data";
 import LetterHead from "../LetterHead";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const PdfDoc = ({ data }) => {
     const infoConsentData = {
         verification: {
-            id: { title: "Patient ID:", value: data.verification.id },
             fullName: {
                 title: "Patient's Name:",
                 value: `${data.verification.firstName} ${data.verification.middleName} ${data.verification.lastName}`,
@@ -16,24 +16,24 @@ const PdfDoc = ({ data }) => {
             phone: { title: "Phone:", value: data.verification.phone },
             dob: {
                 title: "Date of Birth:",
-                value:
-                    new Date(data.verification.dob).toLocaleDateString() ||
+                value: data.verification.dob ?
+                    new Date(data.verification.dob).toLocaleDateString() :
                     "N/A",
             },
             streetAddress: {
                 title: "Street Address:",
-                value: data.verification.street,
+                value: data.verification.address.streetName,
             },
-            city: { title: "City:", value: data.verification.city },
-            state: { title: "State:", value: data.verification.state },
+            city: { title: "City:", value: data.verification.address.city },
+            state: { title: "State:", value: data.verification.address.state },
             zipCode: {
                 title: "Zip Code:",
-                value: data.verification.zipCode,
+                value: data.verification.address.zipCode,
             },
         },
         consent: {
             signature: { title: "Signature:", value: data.consent.signature },
-            date: { title: "Date:", value: new Date(data.consent.date) },
+            date: { title: "Date:", value: convertIsoDateToReadable(data.consent.date) || "N/A" },
         },
     };
 
@@ -54,6 +54,14 @@ const PdfDoc = ({ data }) => {
                         <Text style={styles.sectionHeader}>
                             Patient Information
                         </Text>
+
+                        <View style={{ ...styles.fieldItem, marginBottom: 20 }}>
+                            <Text style={styles.key}>Patient ID</Text>
+                            <Text style={styles.value}>
+                                {data?.verification?.patientId || "N/A"}
+                            </Text>
+                        </View>
+
                         <View style={styles.row}>
                             {Object.entries(verification).map(([key, val]) => (
                                 <View key={key} style={styles.fieldItem}>
@@ -141,8 +149,7 @@ const PdfDoc = ({ data }) => {
                                 >
                                     <Text style={styles.key}>Date Signed:</Text>
                                     <Text style={styles.value}>
-                                        {consent.date.value.toLocaleDateString() ||
-                                            new Date().toLocaleDateString()}
+                                        {consent.date.value}
                                     </Text>
                                 </View>
                             </View>

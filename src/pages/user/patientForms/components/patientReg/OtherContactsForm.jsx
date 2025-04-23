@@ -11,7 +11,7 @@ import {
 import FileUpload from "../../../../../components/FileUpload";
 
 const OtherContactsForm = ({ formData, handleInputChange }) => {
-    console.log(formData)
+    console.log(formData);
     return (
         <form className="space-y-4 md:space-y-8">
             <div className="space-y-2">
@@ -28,6 +28,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         field="firstName"
                         value={formData.parent.firstName}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                     {/* <TextField
                         type="text"
@@ -48,6 +49,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         section="parent"
                         value={formData.parent.lastName}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                     <TextField
                         type="text"
@@ -58,6 +60,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         section="parent"
                         value={formData.parent.phone}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                     <TextField
                         type="email"
@@ -68,6 +71,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         section="parent"
                         value={formData.parent.email}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                     <SelectField
                         label="Gender"
@@ -78,6 +82,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         section="parent"
                         field="gender"
                         handleSelectChange={handleInputChange}
+                        isRequired={true}
                     />
                     <SelectField
                         label="Marital Status"
@@ -88,6 +93,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         section="parent"
                         field="maritalStatus"
                         handleSelectChange={handleInputChange}
+                        isRequired={true}
                     />
                     <SelectField
                         label="Family Role"
@@ -98,6 +104,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         section="parent"
                         field="familyRole"
                         handleSelectChange={handleInputChange}
+                        // isRequired={true}
                     />
                     <SelectField
                         label="Employment Status"
@@ -139,6 +146,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         section="parent"
                         value={formData.parent.address.streetName}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                     <TextField
                         type="text"
@@ -149,6 +157,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         section="parent"
                         value={formData.parent.address.city}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                     <TextField
                         type="text"
@@ -159,6 +168,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         section="parent"
                         value={formData.parent.address.state}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                     <TextField
                         type="text"
@@ -169,6 +179,7 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         section="parent"
                         value={formData.parent.address.zipCode}
                         handleInputChange={handleInputChange}
+                        isRequired={true}
                     />
                 </div>
             </div>
@@ -284,8 +295,9 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         placeholder="State Issued ID"
                         section="guarantor"
                         field="stateIssuedId"
-                        isRequired={true}
+                        isRequired={false}
                         handleFormChange={handleInputChange}
+                        patientName={`${formData.personal.firstName}-${formData.personal.lastName}`}
                     />
                     <FileUpload
                         label="Insurance Card"
@@ -293,8 +305,9 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         placeholder="Insurance Card"
                         section="guarantor"
                         field="insuranceCard"
-                        isRequired={true}
+                        isRequired={false}
                         handleFormChange={handleInputChange}
+                        patientName={`${formData.personal.firstName}-${formData.personal.lastName}`}
                     />
                 </div>
             </div>

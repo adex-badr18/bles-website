@@ -58,11 +58,11 @@ export const objectToFormData = (
         } else if (Array.isArray(value)) {
             // If value is an array of strings or objects
             value.forEach((item, index) => {
-                const arrayKey = `${fieldName}[${index}]`
+                const arrayKey = `${fieldName}[${index}]`;
 
                 if (typeof item === "object" && item !== null) {
                     // Array of objects
-                    objectToFormData(item, formData,arrayKey);
+                    objectToFormData(item, formData, arrayKey);
                 } else {
                     // Array of strings
                     formData.append(arrayKey, String(item));
@@ -82,4 +82,20 @@ export const objectToFormData = (
 
 export const convertToBoolean = (value) => {
     return value.toLowerCase() === "yes" ? true : false;
+};
+
+export const convertIsoDateToReadable = (date) => {
+    if (!date) {
+        return;
+    }
+    
+    return new Date(date).toLocaleString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+    });
 };

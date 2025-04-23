@@ -10,11 +10,30 @@ import OtherHistory from "./OtherHistory";
 import IntroForm from "./IntroForm";
 import Preview from "./Preview";
 
+import { useToast } from "../../../../../components/ToastContext";
+import { useCreateForm } from "../../../../../hooks/usePatients";
+import { objectToFormData, convertToBoolean } from "../../../../utils";
+
 const IntakeForm = () => {
+    const { showToast } = useToast();
+    const [successModalData, setSuccessModalData] = useState({});
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const { mutate, isPending, error, data } = useCreateForm({
+        onSuccess: (response) => {
+            setSuccessModalData(response?.data);
+            setIsSuccessModalOpen(true);
+        },
+        onError: (error) => {
+            showToast({
+                message: error?.message || `Failed to submit form!`,
+                type: "error",
+                duration: 5000,
+            });
+        },
+    });
     const [formData, setFormData] = useState({
         verification: {
-            id: "",
-            verificationStatus: "",
+            patientId: "",
             firstName: "",
             middleName: "",
             lastName: "",
@@ -22,10 +41,13 @@ const IntakeForm = () => {
             dob: "",
             phone: "",
             email: "",
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
+            address: {
+                id: null,
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
         },
         intro: {
             doYouShareHome: "",
@@ -36,7 +58,7 @@ const IntakeForm = () => {
             childrenCount: 0,
             marriageCount: 0,
             pastMarriagesInfo: [
-                { MarriageDescription: "", duration: "", divorceReason: "" },
+                { marriageDescription: "", duration: "", divorceReason: "" },
             ],
         },
         psychHistory: {
@@ -126,10 +148,153 @@ const IntakeForm = () => {
         });
     };
 
-    const submitHandler = (e) => {
-        e.preventDefault();
+    const submitHandler = async (e) => {
+        // prepare data
+        const pastMarriages = formData.intro.pastMarriagesInfo.map(
+            (marriage) => {
+                const marriageData = {
+                    id: "",
+                    marriageDescription: marriage["marriageDescription"],
+                    duration: marriage["duration"],
+                    divorceReason: marriage["divorceReason"],
+                };
 
-        console.log(formData);
+                return marriageData;
+            }
+        );
+
+        const pastProviders = formData.psychHistory.pastProviders.map(
+            (pastProvider) => ({
+                id: "",
+                provider: pastProvider["providerName"],
+                appointmentDate: pastProvider["appointmentDate"],
+            })
+        );
+
+        const currentMedications = formData.psychHistory.currentMedications.map(
+            (medication) => ({
+                id: "",
+                medication: medication["medication"],
+                usageInstruction: medication["instruction"],
+                conditionTreated: medication["conditionTreated"],
+                prescription: medication["prescription"],
+                category: "",
+            })
+        );
+
+        const pastMedications = formData.psychHistory.pastMedications.map(
+            (medication) => ({
+                id: "",
+                medication: medication["medication"],
+                usageInstruction: medication["instruction"],
+                conditionTreated: medication["conditionTreated"],
+                prescription: medication["prescription"],
+                category: "",
+            })
+        );
+
+        const substanceUsages = formData.alcoholDrugHistory.substanceUsages.map(
+            (substance) => ({
+                id: "",
+                substanceName: substance["substanceName"],
+                ageAtFirstUse: substance["ageAtFirstUse"],
+                qtyUse: substance["qtyUse"],
+                usageFrequency: substance["usageFrequency"],
+                lastUsed: substance["lastUsed"],
+            })
+        );
+
+        const pastTreatments =
+            formData.alcoholDrugHistory.pastTreatmentInfo.map((treatment) => ({
+                id: "",
+                facility: treatment["facility"],
+                date: treatment["date"],
+                drugTreated: treatment["drugTreated"],
+                isTreatmentCompleted: convertToBoolean(
+                    treatment["isTreatmentCompleted"]
+                ),
+            }));
+
+        const relativesWithIllness =
+            formData.otherHistory.relativesWithMentalIllnessOrSuicide.map(
+                (relative) => ({
+                    id: "",
+                    relative: relative["relative"],
+                    illness: relative["illness"],
+                })
+            );
+
+        const data = {
+            id: "",
+            patientId: formData.verification.patientId,
+            doYouShareHome: formData.intro.doYouShareHome,
+            complaints: formData.intro.complaints,
+            sexPreference: formData.intro.sexPreference,
+            onProbation: formData.intro.onProbation,
+            inLawsuit: formData.intro.inLawsuit,
+            childrenCount: formData.intro.childrenCount,
+            marriageCount: formData.intro.marriageCount,
+            pastMarriagesInfo: [...pastMarriages],
+            pastProviders: [...pastProviders],
+            currentMedications: [...currentMedications],
+            hasAttemptedSuicide: true,
+            isPsychHospitalized: true,
+            pastMedications: [...pastMedications],
+            alcoholDrugHistory: {
+                id: "",
+                usageFrequency:
+                    formData.alcoholDrugHistory.alcohol.usageFrequency,
+                brand: formData.alcoholDrugHistory.alcohol.brand,
+                lastUsed: formData.alcoholDrugHistory.alcohol.lastUsed,
+                drinkGuiltCheck: {
+                    // Later
+                    haveCutBack: true,
+                    angeredByCritics: true,
+                    feelGuilt: true,
+                    upWithDrink: true,
+                },
+                substanceUsages: [...substanceUsages],
+                weeklyAverageSpending:
+                    formData.alcoholDrugHistory.weeklyAverageSpending,
+                pastTreatmentInfo: [...pastTreatments],
+                isPastStepRecoveryParticipant: convertToBoolean(
+                    formData.alcoholDrugHistory.isPastStepRecoveryParticipant
+                ),
+                isCurrentStepRecoveryParticipant: convertToBoolean(
+                    formData.alcoholDrugHistory.isCurrentStepRecoveryParticipant
+                ),
+                birthPlace: formData.psychosocialHistory.birthPlace,
+                growthPlace: formData.psychosocialHistory.growthPlace,
+                raisedBy: formData.psychosocialHistory.raisedBy,
+                siblingsCount: formData.psychosocialHistory.siblingsCount,
+                childhoodInfo: formData.psychosocialHistory.childhoodInfo,
+                wasPhysicallyAbused: convertToBoolean(
+                    formData.psychosocialHistory.wasPhysicallyAbused
+                ),
+                wasEmotionallyAbused: convertToBoolean(
+                    formData.psychosocialHistory.wasEmotionallyAbused
+                ),
+                wasSexuallyAbused: convertToBoolean(
+                    formData.psychosocialHistory.wasSexuallyAbused
+                ),
+                hasMedicalDisability: convertToBoolean(
+                    formData.otherHistory.hasMedicalDisability
+                ),
+                pastMedicalHistory: [
+                    ...formData.otherHistory.pastMedicalHistory,
+                ],
+                pastSurgicalHistory: [
+                    ...formData.otherHistory.pastSurgicalHistory,
+                ],
+                allergies: [...formData.otherHistory.allergies],
+                relativesWithMentalIllnessOrSuicide: [...relativesWithIllness],
+                otherUsefulInfo: formData.otherHistory.otherUsefulInfo,
+            },
+        };
+
+        const payload = objectToFormData(data);
+
+        mutate({ payload, endpoint: "/patients/forms/intake" });
     };
 
     const isStepValid = (step) => {
@@ -137,11 +302,12 @@ const IntakeForm = () => {
             "firstName",
             "lastName",
             "gender",
-            "dob",
+            // "dob",
             "maritalStatus",
             "phone",
             "email",
             "address",
+            "patientId"
         ];
 
         if (step === 1) {
@@ -196,7 +362,7 @@ const IntakeForm = () => {
                     <VerificationStep
                         key={1}
                         formData={formData}
-                        onChange={handleFormElementChange}
+                        setFormData={setFormData}
                     />
                 ),
             },
@@ -273,13 +439,15 @@ const IntakeForm = () => {
     return (
         <div>
             <MultiStepForm
-                formData={formData}
                 formSize="md"
-                optionalFields={[]}
+                isStepValid={isStepValid}
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
-                isStepValid={isStepValid}
+                isSuccessModalOpen={isSuccessModalOpen}
+                setIsSuccessModalOpen={setIsSuccessModalOpen}
+                successModalData={successModalData}
+                isSubmitting={isPending}
             />
         </div>
     );

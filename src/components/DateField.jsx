@@ -18,7 +18,7 @@ const DateField = ({
 
     useEffect(() => {
         if (selectedDate) {
-            handleFormElementChange(section, field, selectedDate);
+            handleFormElementChange(section, field, new Date(selectedDate).toLocaleDateString());
         }
     }, [selectedDate]);
 

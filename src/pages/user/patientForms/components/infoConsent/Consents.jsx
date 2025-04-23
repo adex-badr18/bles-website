@@ -4,12 +4,13 @@ import SignaturePad from "../../../../../components/SignaturePad";
 import { Checkbox } from "../../../../../components/CheckboxGroup";
 
 import { consents } from "./data";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const Consents = ({ formData, onChange, infoConsent, setInfoConsent }) => {
     const patientFullName = `${formData.verification.firstName} ${formData.verification.middleName} ${formData.verification.lastName}`;
 
-    console.log(formData);
-    console.log(infoConsent);
+    // console.log(formData);
+    // console.log(infoConsent);
 
     return (
         <div className="space-y-6 md:space-y-10">
@@ -59,9 +60,9 @@ const Consents = ({ formData, onChange, infoConsent, setInfoConsent }) => {
                     {formData.consent.date && (
                         <FieldItem
                             label="Date"
-                            value={new Date(
+                            value={convertIsoDateToReadable(
                                 formData.consent.date
-                            ).toLocaleDateString()}
+                            )}
                             isRequired={true}
                         />
                     )}

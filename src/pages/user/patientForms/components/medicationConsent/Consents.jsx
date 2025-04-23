@@ -6,6 +6,7 @@ import SelectField from "../../../../../components/SelectField";
 import FieldItem from "../../../../../components/FieldItem";
 import { consents } from "./data";
 import { booleanOptions } from "../../data";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const Consents = ({ formData, onChange, consent, setConsent }) => {
     const patientFullName = `${formData.verification.firstName} ${formData.verification.middleName} ${formData.verification.lastName}`;
@@ -95,9 +96,9 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                         {formData.consent.patientSignDate && (
                             <FieldItem
                                 label="Date"
-                                value={new Date(
+                                value={convertIsoDateToReadable(
                                     formData.consent.patientSignDate
-                                ).toLocaleDateString()}
+                                )}
                                 isRequired={true}
                             />
                         )}
@@ -187,9 +188,9 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                         {formData.consent.guardianSignDate && (
                             <FieldItem
                                 label="Date"
-                                value={new Date(
+                                value={convertIsoDateToReadable(
                                     formData.consent.guardianSignDate
-                                ).toLocaleDateString()}
+                                )}
                                 isRequired={true}
                             />
                         )}

@@ -4,11 +4,11 @@ import checkbox from "../../../../../assets/checkbox.jpg";
 import { formatCamelCase } from "../../utils";
 import { consents, risksAndBenefits } from "./data";
 import LetterHead from "../LetterHead";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const PdfDoc = ({ data }) => {
     const treatmentConsentData = {
         verification: {
-            id: { title: "Patient ID:", value: data.verification.id },
             fullName: {
                 title: "Patient's Name:",
                 value: `${data.verification.firstName} ${data.verification.middleName} ${data.verification.lastName}`,
@@ -17,17 +17,19 @@ const PdfDoc = ({ data }) => {
             phone: { title: "Phone:", value: data.verification.phone },
             dob: {
                 title: "Date of Birth:",
-                value: new Date(data.verification.dob).toLocaleDateString(),
+                value: data.verification.dob
+                    ? new Date(data.verification.dob).toLocaleDateString()
+                    : "N/A",
             },
             streetAddress: {
                 title: "Street Address:",
-                value: data.verification.street,
+                value: data.verification.address.streetName,
             },
-            city: { title: "City:", value: data.verification.city },
-            state: { title: "State:", value: data.verification.state },
+            city: { title: "City:", value: data.verification.address.city },
+            state: { title: "State:", value: data.verification.address.state },
             zipCode: {
                 title: "Zip Code:",
-                value: data.verification.zipCode,
+                value: data.verification.address.zipCode,
             },
         },
         consent: {
@@ -38,9 +40,9 @@ const PdfDoc = ({ data }) => {
                 },
                 patientSignDate: {
                     title: "Date:",
-                    value: new Date(
+                    value: convertIsoDateToReadable(
                         data.consent.patientSignDate
-                    ).toLocaleDateString(),
+                    ),
                 },
             },
             guardian: {
@@ -58,9 +60,9 @@ const PdfDoc = ({ data }) => {
                 },
                 guardianSignDate: {
                     title: "Date:",
-                    value: new Date(
+                    value: convertIsoDateToReadable(
                         data.consent.guardianSignDate
-                    ).toLocaleDateString(),
+                    ),
                 },
             },
         },
@@ -85,6 +87,14 @@ const PdfDoc = ({ data }) => {
                         <Text style={styles.sectionHeader}>
                             Patient Information
                         </Text>
+
+                        <View style={{ ...styles.fieldItem, marginBottom: 20 }}>
+                            <Text style={styles.key}>Patient ID</Text>
+                            <Text style={styles.value}>
+                                {data?.verification?.patientId || "N/A"}
+                            </Text>
+                        </View>
+
                         <View style={styles.row}>
                             {Object.entries(verification).map(([key, val]) => (
                                 <View key={key} style={styles.fieldItem}>
@@ -246,48 +256,52 @@ const PdfDoc = ({ data }) => {
                                         width: "100%",
                                     }}
                                 >
-                                    {Object.values(consent.patient).map((obj, index) =>
-                                        obj.title
-                                            .toLocaleLowerCase()
-                                            .includes("signature") ? (
-                                            <View
-                                            key={index}
-                                                style={{
-                                                    ...styles.flexRow,
-                                                    alignItems: "center",
-                                                }}
-                                            >
-                                                <Text style={styles.key}>
-                                                    {obj.title}
-                                                </Text>
-                                                {obj.value ? (
-                                                    <Image
-                                                        src={obj.value}
-                                                        style={{
-                                                            width: 100,
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    <Text style={styles.value}>
-                                                        N/A
+                                    {Object.values(consent.patient).map(
+                                        (obj, index) =>
+                                            obj.title
+                                                .toLocaleLowerCase()
+                                                .includes("signature") ? (
+                                                <View
+                                                    key={index}
+                                                    style={{
+                                                        ...styles.flexRow,
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <Text style={styles.key}>
+                                                        {obj.title}
                                                     </Text>
-                                                )}
-                                            </View>
-                                        ) : (
-                                            <View
-                                                style={{
-                                                    ...styles.flexRow,
-                                                    alignItems: "center",
-                                                }}
-                                            >
-                                                <Text style={styles.key}>
-                                                    {obj.title}
-                                                </Text>
-                                                <Text style={styles.value}>
-                                                    {obj.value || "N/A"}
-                                                </Text>
-                                            </View>
-                                        )
+                                                    {obj.value ? (
+                                                        <Image
+                                                            src={obj.value}
+                                                            style={{
+                                                                width: 100,
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <Text
+                                                            style={styles.value}
+                                                        >
+                                                            N/A
+                                                        </Text>
+                                                    )}
+                                                </View>
+                                            ) : (
+                                                <View
+                                                    key={index}
+                                                    style={{
+                                                        ...styles.flexRow,
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <Text style={styles.key}>
+                                                        {obj.title}
+                                                    </Text>
+                                                    <Text style={styles.value}>
+                                                        {obj.value || "N/A"}
+                                                    </Text>
+                                                </View>
+                                            )
                                     )}
                                 </View>
                             </View>

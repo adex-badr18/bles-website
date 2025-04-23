@@ -3,18 +3,18 @@ import { styles } from "../patientReg/PdfDoc";
 import { consentOptions } from "./data";
 import checkbox from "../../../../../assets/checkbox.jpg";
 import LetterHead from "../LetterHead";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const PdfDoc = ({ data }) => {
     // const consents = consentOptions.map((consent) => consent.label);
     const consents = [
         consentOptions.finRes.label,
         // consentOptions.pcpAuth.label,
-        consentOptions.treatmentConsent.label,        
+        consentOptions.treatmentConsent.label,
     ];
 
     const evaluationData = {
         verification: {
-            id: { title: "Patient ID:", value: data.verification.id || "N/A" },
             fullName: {
                 title: "Patient's Name:",
                 value: `${data.verification.firstName} ${data.verification.middleName} ${data.verification.lastName}`,
@@ -23,19 +23,19 @@ const PdfDoc = ({ data }) => {
             phone: { title: "Phone:", value: data.verification.phone || "N/A" },
             dob: {
                 title: "Date of Birth:",
-                value:
-                    new Date(data.verification.dob).toLocaleDateString() ||
-                    "N/A",
+                value: data.verification.dob
+                    ? convertIsoDateToReadable(data.verification.dob)
+                    : "N/A",
             },
             streetAddress: {
                 title: "Street Address:",
-                value: data.verification.street,
+                value: data.verification.address.streetName,
             },
-            city: { title: "City:", value: data.verification.city },
-            state: { title: "State:", value: data.verification.state },
+            city: { title: "City:", value: data.verification.address.city },
+            state: { title: "State:", value: data.verification.address.state },
             zipCode: {
                 title: "Zip Code:",
-                value: data.verification.zipCode,
+                value: data.verification.address.zipCode,
             },
         },
         pharmacy: {
@@ -102,8 +102,7 @@ const PdfDoc = ({ data }) => {
             },
             date: {
                 title: "Date:",
-                value:
-                    new Date(data.consent.date).toLocaleDateString() || "N/A",
+                value: convertIsoDateToReadable(data.consent.date) || "N/A",
             },
         },
     };
@@ -126,6 +125,14 @@ const PdfDoc = ({ data }) => {
                         <Text style={styles.sectionHeader}>
                             Patient Information
                         </Text>
+
+                        <View style={{ ...styles.fieldItem, marginBottom: 24 }}>
+                            <Text style={styles.key}>Patient ID</Text>
+                            <Text style={styles.value}>
+                                {data?.verification?.patientId || "N/A"}
+                            </Text>
+                        </View>
+
                         <View style={styles.row}>
                             {Object.entries(verification).map(([key, val]) => (
                                 <View key={key} style={styles.fieldItem}>
@@ -176,7 +183,7 @@ const PdfDoc = ({ data }) => {
                         </View>
                     </View>
 
-                    <View style={{...styles.sectionWrapper, marginTop: ""}}>
+                    <View style={{ ...styles.sectionWrapper, marginTop: "" }}>
                         <Text style={styles.sectionHeader}>
                             Agreement and Consents
                         </Text>

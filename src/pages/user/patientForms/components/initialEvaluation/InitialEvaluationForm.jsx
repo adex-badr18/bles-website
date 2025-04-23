@@ -6,7 +6,39 @@ import MultiStepForm from "../../../../../components/MultiStepForm";
 import PdfPreview from "../../../../../components/PdfPreview";
 import PdfDoc from "./PdfDoc";
 
+import { useToast } from "../../../../../components/ToastContext";
+import { useCreateForm, useUploadFile } from "../../../../../hooks/usePatients";
+import { objectToFormData } from "../../../../utils";
+import { pdf } from "@react-pdf/renderer";
+
 const InitialEvaluationForm = () => {
+    const { showToast } = useToast();
+    const [successModalData, setSuccessModalData] = useState({});
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const {
+        mutateAsync: mutateSubmit,
+        isPending: isSubmitting,
+        error,
+        data,
+    } = useCreateForm({
+        onSuccess: (response) => {
+            setSuccessModalData(response?.data);
+            setIsSuccessModalOpen(true);
+        },
+        onError: (error) => {
+            showToast({
+                message: error?.message || `Failed to submit form!`,
+                type: "error",
+                duration: 5000,
+            });
+        },
+    });
+    const { mutateAsync: mutateFile, isPending: isUploading } = useUploadFile({
+        handleFormChange: handleFormElementChange,
+        field: "file",
+        section: "upload",
+        showToast,
+    });
     const [consents, setConsents] = useState({
         finResponsibility: false,
         treatmentConsent: false,
@@ -15,8 +47,7 @@ const InitialEvaluationForm = () => {
     });
     const [formData, setFormData] = useState({
         verification: {
-            id: "",
-            verificationStatus: "",
+            patientId: "",
             firstName: "",
             middleName: "",
             lastName: "",
@@ -24,10 +55,13 @@ const InitialEvaluationForm = () => {
             dob: "",
             phone: "",
             email: "",
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
+            address: {
+                id: null,
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
         },
         pharmacy: {
             name: "",
@@ -43,9 +77,10 @@ const InitialEvaluationForm = () => {
             infoToRelease: "",
         },
         consent: { signature: "", date: "" },
+        upload: { file: "" },
     });
+
     console.log(formData);
-    console.log(consents);
 
     useEffect(() => {
         if (formData.primaryCarePhysician.havePcp.toLowerCase() === "no") {
@@ -76,7 +111,7 @@ const InitialEvaluationForm = () => {
     }, [formData.primaryCarePhysician.havePcp]);
 
     // Handle form element change
-    const handleFormElementChange = (section, fieldPath, value) => {
+    function handleFormElementChange(section, fieldPath, value) {
         setFormData((prev) => {
             const keys = fieldPath.split(".");
 
@@ -103,12 +138,69 @@ const InitialEvaluationForm = () => {
                 [section]: updateNestedField(prev[section], keys, value),
             };
         });
-    };
+    }
 
-    const submitHandler = (e) => {
-        e.preventDefault();
+    const submitHandler = async () => {
+        // prepare pdf file payload
+        const pdfBlob = await pdf(<PdfDoc data={formData} />).toBlob();
+        const pdfFile = new File([pdfBlob], "initial-evaluation.pdf", {
+            type: "application/pdf",
+        });
+        const uploadPayload = objectToFormData({
+            fileType: "initial-evaluation",
+            owner: `${formData.verification.firstName}-${formData.verification.lastName}`,
+            file: pdfFile,
+        });
 
-        console.log(formData);
+        // TODO: Upload pdf file
+        const uploadResponse = await mutateFile(uploadPayload);
+        const fileUrl = uploadResponse?.data?.fileUrl;
+
+        // Prepare submission payload
+        const data = {
+            id: "",
+            patientId: formData.verification.patientId,
+            pharmacy: {
+                id: "",
+                patientId: formData.verification.patientId,
+                name: formData.pharmacy.name,
+                phone: formData.pharmacy.phone,
+                address: {
+                    id: 0,
+                    streetName: formData.pharmacy.address.streetName,
+                    city: formData.pharmacy.address.city,
+                    state: formData.pharmacy.address.state,
+                    zipCode: formData.pharmacy.address.zipCode,
+                },
+            },
+            primaryCarePhysician: {
+                id: "",
+                patientId: formData.verification.patientId,
+                havePcp: formData.primaryCarePhysician.havePcp,
+                name: formData.primaryCarePhysician.name,
+                phone: formData.primaryCarePhysician.phone,
+                fax: formData.primaryCarePhysician.fax,
+                address: {
+                    id: "",
+                    streetName: formData.primaryCarePhysician.address.streetName,
+                    city: formData.primaryCarePhysician.address.city,
+                    state: formData.primaryCarePhysician.address.state,
+                    zipCode: formData.primaryCarePhysician.address.zipCode,
+                },
+            },
+            infoToRelease: formData.primaryCarePhysician.infoToRelease,
+            date: formData.consent.date,
+            initialEvaluation: "",
+            file: fileUrl,
+        };
+
+        const payload = objectToFormData(data);
+
+        // TODO: submit form
+        await mutateSubmit({
+            payload,
+            endpoint: "/patients/forms/initial-evaluation",
+        });
     };
 
     const isStepValid = (step) => {
@@ -116,12 +208,13 @@ const InitialEvaluationForm = () => {
             "firstName",
             "lastName",
             "gender",
-            "dob",
+            // "dob",
             "maritalStatus",
             "phone",
             "email",
             "address",
             "havePcp",
+            "patientId"
         ];
 
         if (step === 1) {
@@ -229,7 +322,7 @@ const InitialEvaluationForm = () => {
                 component: (
                     <VerificationStep
                         formData={formData}
-                        onChange={handleFormElementChange}
+                        setFormData={setFormData}
                     />
                 ),
             },
@@ -268,13 +361,15 @@ const InitialEvaluationForm = () => {
     return (
         <div>
             <MultiStepForm
-                formData={formData}
                 formSize="md"
-                optionalFields={[]}
+                isStepValid={isStepValid}
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
-                isStepValid={isStepValid}
+                isSuccessModalOpen={isSuccessModalOpen}
+                setIsSuccessModalOpen={setIsSuccessModalOpen}
+                successModalData={successModalData}
+                isSubmitting={isUploading || isSubmitting}
             />
         </div>
     );

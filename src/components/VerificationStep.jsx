@@ -6,43 +6,54 @@ import StaticDivider from "./StaticDivider";
 import FieldItem from "./FieldItem";
 import { MdEmail } from "react-icons/md";
 import SubmitButton from "./SubmitButton";
+import { useFetchBasicPatient } from "../hooks/usePatients";
+import { useToast } from "./ToastContext";
+import Spinner from "./Spinner";
 
-const VerificationStep = ({ formData, onChange }) => {
-    const [isSubmitting, setIsSubmitting] = useState(false);
+const VerificationStep = ({ formData, setFormData }) => {
+    const { showToast } = useToast();
+    const [patientId, setPatientId] = useState("");
+    const { refetch, isLoading, isSuccess, isError, error } =
+        useFetchBasicPatient(patientId);
 
     // Fetch patient info by Id
-    const verifyId = async (e) => {
+    const verifyIdHandler = async (e) => {
         e.preventDefault();
 
-        setIsSubmitting(true);
+        if (!patientId) {
+            showToast({
+                message: `Please enter a patient ID`,
+                type: "error",
+                duration: 5000,
+            });
 
-        // TODO: Fetch Patient data by id
+            return;
+        }
 
-        setTimeout(() => {
-            // Success
-            onChange("verification", "verificationStatus", "success");
+        try {
+            const response = await refetch(); // returns {data, error, status}
 
-            // Error
-            // onChange("verification", "verificationStatus", "failed")
-
-            onChange("verification", "id", "PAT000001");
-            onChange("verification", "firstName", "Badrudeen");
-            onChange("verification", "middleName", "");
-            onChange("verification", "lastName", "Abdul-hameed");
-            onChange("verification", "gender", "Male");
-            onChange("verification", "phone", "+1234567890");
-            onChange("verification", "email", "tukstom12@gmail.com");
-            onChange("verification", "dob", new Date("01/10/1990"));
-            onChange("verification", "street", "23 Hagers Street");
-            onChange("verification", "city", "Middlesbrough");
-            onChange("verification", "state", "London");
-            onChange("verification", "zipCode", "123456");
-
-            setIsSubmitting(false);
-        }, 4000);
+            if (response?.data) {
+                showToast({
+                    message: `Verification successful!`,
+                    type: "success",
+                    duration: 5000,
+                });
+                setFormData((prev) => ({
+                    ...prev,
+                    verification: response.data,
+                }));
+            } else if (response?.error) {
+                throw response.error;
+            }
+        } catch (error) {
+            showToast({
+                message: error?.message || `Patient ID could not be found!`,
+                type: "error",
+                duration: 5000,
+            });
+        }
     };
-
-    console.log(formData);
 
     return (
         <form className="">
@@ -53,50 +64,50 @@ const VerificationStep = ({ formData, onChange }) => {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
                     <div className="col-span-2">
-                        <TextField
-                            type="text"
-                            label="Patient ID"
-                            name="id"
-                            field="id"
-                            placeholder="Patient ID e.g. PAT000001"
-                            section="verification"
-                            value={formData.verification.id}
-                            handleInputChange={onChange}
-                            isRequired={true}
-                        />
+                        <div className={`space-y-1`}>
+                            <label
+                                htmlFor={`patientId`}
+                                className="block text-deepGrey"
+                            >
+                                Patient ID{" "}
+                                <small className="text-vividRed text-lg">
+                                    *
+                                </small>
+                            </label>
+                            <input
+                                type="text"
+                                id={`patientId`}
+                                name="patientId"
+                                className="input bg-gray-100"
+                                placeholder="Patient ID"
+                                value={patientId}
+                                onChange={(e) => setPatientId(e.target.value)}
+                                readOnly={
+                                    isSuccess || formData.verification.patientId
+                                }
+                            />
+                        </div>
                     </div>
 
                     <SubmitButton
-                        isSubmitting={isSubmitting}
+                        isSubmitting={isLoading}
                         loadingText="Verifying..."
-                        onSubmit={verifyId}
+                        onSubmit={verifyIdHandler}
                         submitText="Verify ID"
                         xtraClass="place-self-end"
-                        isDisabled={
-                            formData.verification.verificationStatus.toLowerCase() ===
-                            "success" || !formData.verification.id
-                        }
+                        isDisabled={isLoading || isSuccess}
                     />
-
-                    {/* <button
-                        onClick={verifyId}
-                        className="place-self-end bg-lightGreen hover:bg-emerald-500 text-white font-semibold py-2 px-3 rounded-md w-full transition-colors duration-300"
-                    >
-                        {isSubmitting ? (
-                            <Spinner secondaryText="Verifying..." />
-                        ) : (
-                            "Verify ID"
-                        )}
-                    </button> */}
                 </div>
 
-                {formData.verification.verificationStatus === "failed" && (
+                {isError && (
                     <div className="text-vividRed font-medium text-center">
-                        The requested patient ID could not be found.
+                        {error?.message}
                     </div>
                 )}
 
-                {formData.verification.verificationStatus === "success" && (
+                {isLoading && <Spinner secondaryText="Loading..." textClass="font-semibold" borderClass="border-lightGreen" />}
+
+                {(isSuccess || formData?.verification?.patientId) && (
                     <div className="space-y-10">
                         <StaticDivider />
 
@@ -115,9 +126,13 @@ const VerificationStep = ({ formData, onChange }) => {
                             />
                             <FieldItem
                                 label="Date of Birth"
-                                value={new Date(
+                                value={
                                     formData.verification.dob
-                                ).toLocaleDateString()}
+                                        ? new Date(
+                                              formData.verification.dob
+                                          ).toLocaleDateString()
+                                        : ""
+                                }
                             />
                             <FieldItem
                                 label="Gender"
@@ -133,19 +148,19 @@ const VerificationStep = ({ formData, onChange }) => {
                             />
                             <FieldItem
                                 label="Street Address"
-                                value={formData.verification.street}
+                                value={formData.verification.address.streetName}
                             />
                             <FieldItem
                                 label="City"
-                                value={formData.verification.city}
+                                value={formData.verification.address.city}
                             />
                             <FieldItem
                                 label="State"
-                                value={formData.verification.state}
+                                value={formData.verification.address.state}
                             />
                             <FieldItem
                                 label="Zip Code"
-                                value={formData.verification.zipCode}
+                                value={formData.verification.address.zipCode}
                             />
                         </div>
                     </div>

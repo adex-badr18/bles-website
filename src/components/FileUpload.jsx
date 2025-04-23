@@ -1,4 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Spinner from "./Spinner";
+import { useUploadFile } from "../hooks/usePatients";
+import { useToast } from "./ToastContext";
+import { objectToFormData } from "../pages/utils";
+import { IoCheckmarkDone } from "react-icons/io5";
+import { MdError } from "react-icons/md";
 
 const FileUpload = ({
     value,
@@ -9,23 +15,59 @@ const FileUpload = ({
     section,
     field,
     isRequired,
+    patientName,
 }) => {
+    const { showToast } = useToast();
     const [selectedFile, setSelectedFile] = useState("");
+    const [fileUploadError, setFileUploadError] = useState("");
+    // const [fileObj, setFileObj] = useState({
+    //     selectedFile: "",
+    //     isUploading: false,
+    //     fileUrl: "",
+    //     uploadStatus: false,
+    // });
+    const { mutate, isPending, isSuccess, isError, error } = useUploadFile({
+        handleFormChange,
+        section,
+        field,
+        showToast
+    });
 
-    useEffect(() => {
-        handleFormChange(section, field, selectedFile);
-    }, [selectedFile]);
+    // useEffect(() => {
+    //     handleFormChange(section, field, selectedFile);
+    // }, [selectedFile]);
 
     const onFileChange = (e) => {
         if (e.target.files && e.target.files[0]) {
-            let reader = new FileReader();
             const file = e.target.files[0];
-            reader.onloadend = () => {
-                setSelectedFile(reader.result);
-            };
-            reader.readAsDataURL(file);
+            setSelectedFile(file);
+            // let reader = new FileReader();
+            // const file = e.target.files[0];
+            // reader.onloadend = () => {
+            //     setSelectedFile(reader.result);
+            // };
+            // reader.readAsDataURL(file);
         }
     };
+
+    const uploadHandler = useCallback((e) => {
+        e.preventDefault();
+
+        setFileUploadError("");
+
+        if (!selectedFile) {
+            setFileUploadError("No file selected!");
+            return;
+        }
+
+        const payload = objectToFormData({
+            fileType: name,
+            owner: patientName,
+            file: selectedFile,
+        });
+
+        mutate(payload);
+    });
 
     return (
         <div className="space-y-1">
@@ -43,8 +85,57 @@ const FileUpload = ({
                 onChange={onFileChange}
                 placeholder={placeholder}
                 className="input"
-                required
+                required={isRequired}
             />
+
+            {!isSuccess && (
+                <small className="text-xs text-darkBlue">
+                    Browse a file and click Upload
+                </small>
+            )}
+
+            <div className="flex items-center gap-2">
+                {!isSuccess && (
+                    <button
+                        className="py-1 px-2 bg-lightGreen text-white hover:bg-green-700 text-xs font-semibold rounded-md transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={uploadHandler}
+                        disabled={isPending}
+                    >
+                        {isPending ? (
+                            <Spinner
+                                secondaryText="Uploding..."
+                                spinnerSize="w-3.5 h-3.5"
+                                textClass="text-xs"
+                            />
+                        ) : (
+                            "Upload"
+                        )}
+                    </button>
+                )}
+
+                {isSuccess && (
+                    <p className="flex items-center gap-1 text-xs text-lightGreen">
+                        <IoCheckmarkDone />
+                        <span className="">{`${label} Uploaded`}</span>
+                    </p>
+                )}
+
+                {isError && (
+                    <p className="flex items-center gap-1 text-xs text-vividRed">
+                        <MdError />
+                        <span className="">
+                            {error.message || "File upload failed!"}
+                        </span>
+                    </p>
+                )}
+
+                {fileUploadError && (
+                    <p className="flex items-center gap-1 text-xs text-vividRed">
+                        <MdError />
+                        <span className="">{fileUploadError}</span>
+                    </p>
+                )}
+            </div>
         </div>
     );
 };

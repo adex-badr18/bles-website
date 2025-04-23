@@ -4,13 +4,43 @@ import VerificationStep from "../../../../../components/VerificationStep";
 import PdfDoc from "./PdfDoc";
 import PdfPreview from "../../../../../components/PdfPreview";
 import Policy from "./Policy";
+import { useToast } from "../../../../../components/ToastContext";
+import { useCreateForm, useUploadFile } from "../../../../../hooks/usePatients";
+import { objectToFormData } from "../../../../utils";
+import { pdf } from "@react-pdf/renderer";
 
 const TerminationPolicy = () => {
+    const { showToast } = useToast();
+    const [successModalData, setSuccessModalData] = useState({});
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const {
+        mutateAsync: mutateSubmit,
+        isPending: isSubmitting,
+        error,
+        data,
+    } = useCreateForm({
+        onSuccess: (response) => {
+            setSuccessModalData(response?.data);
+            setIsSuccessModalOpen(true);
+        },
+        onError: (error) => {
+            showToast({
+                message: error?.message || `Failed to submit form!`,
+                type: "error",
+                duration: 5000,
+            });
+        },
+    });
+    const { mutateAsync: mutateFile, isPending: isUploading } = useUploadFile({
+        handleFormChange: handleFormElementChange,
+        field: "file",
+        section: "upload",
+        showToast,
+    });
     const [policyConsent, setPolicyConsent] = useState(false);
     const [formData, setFormData] = useState({
         verification: {
-            id: "",
-            verificationStatus: "",
+            patientId: "",
             firstName: "",
             middleName: "",
             lastName: "",
@@ -18,10 +48,13 @@ const TerminationPolicy = () => {
             dob: "",
             phone: "",
             email: "",
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
+            address: {
+                id: null,
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
         },
         consent: {
             patientSignature: "",
@@ -30,12 +63,13 @@ const TerminationPolicy = () => {
             witnessSignature: "",
             witnessSignDate: "",
         },
+        upload: { file: "" },
     });
 
     console.log(formData);
 
     // Handle form element change
-    const handleFormElementChange = (section, fieldPath, value) => {
+    function handleFormElementChange(section, fieldPath, value) {
         setFormData((prev) => {
             const keys = fieldPath.split(".");
 
@@ -62,12 +96,42 @@ const TerminationPolicy = () => {
                 [section]: updateNestedField(prev[section], keys, value),
             };
         });
-    };
+    }
 
-    const submitHandler = (e) => {
-        e.preventDefault();
+    const submitHandler = async (e) => {
+        // prepare pdf file payload
+        const pdfBlob = await pdf(<PdfDoc data={formData} />).toBlob();
+        const pdfFile = new File([pdfBlob], "termination-policy.pdf", {
+            type: "application/pdf",
+        });
+        const uploadPayload = objectToFormData({
+            fileType: "termination-policy",
+            owner: `${formData.verification.firstName}-${formData.verification.lastName}`,
+            file: pdfFile,
+        });
 
-        console.log(formData);
+        // TODO: Upload pdf file
+        const uploadResponse = await mutateFile(uploadPayload);
+        const fileUrl = uploadResponse?.data?.fileUrl;
+
+        // Prepare submission payload
+        const data = {
+            id: "",
+            patientId: formData.verification.patientId,
+            patientSignDate: formData.consent.patientSignDate,
+            witnessName: formData.consent.witnessName,
+            witnessSignDate: formData.consent.witnessSignDate,
+            terminationPolicy: "",
+            file: fileUrl,
+        };
+
+        const payload = objectToFormData(data);
+
+        // TODO: submit form
+        await mutateSubmit({
+            payload,
+            endpoint: "/patients/forms/termination-policy",
+        });
     };
 
     const isStepValid = (step) => {
@@ -75,11 +139,12 @@ const TerminationPolicy = () => {
             "firstName",
             "lastName",
             "gender",
-            "dob",
+            // "dob",
             "maritalStatus",
             "phone",
             "email",
             "address",
+            "patientId",
         ];
 
         if (step === 1) {
@@ -132,7 +197,7 @@ const TerminationPolicy = () => {
                 component: (
                     <VerificationStep
                         formData={formData}
-                        onChange={handleFormElementChange}
+                        setFormData={setFormData}
                     />
                 ),
             },
@@ -161,13 +226,15 @@ const TerminationPolicy = () => {
     return (
         <div>
             <MultiStepForm
-                formData={formData}
-                formSize="md"
-                optionalFields={[]}
-                stepForms={formSteps.forms}
-                steps={formSteps.steps}
-                submitHandler={submitHandler}
-                isStepValid={isStepValid}
+               formSize="md"
+               isStepValid={isStepValid}
+               stepForms={formSteps.forms}
+               steps={formSteps.steps}
+               submitHandler={submitHandler}
+               isSuccessModalOpen={isSuccessModalOpen}
+               setIsSuccessModalOpen={setIsSuccessModalOpen}
+               successModalData={successModalData}
+               isSubmitting={isUploading || isSubmitting}
             />
         </div>
     );

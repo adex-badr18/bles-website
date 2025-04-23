@@ -4,6 +4,7 @@ import DateField from "../../../../../components/DateField";
 import FieldItem from "../../../../../components/FieldItem";
 
 import { consentOptions } from "../../data";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const ConsentForm = ({
     consentData,
@@ -68,9 +69,7 @@ const ConsentForm = ({
                     {formData.consent.date && (
                         <FieldItem
                             label="Date"
-                            value={new Date(
-                                formData.consent.date
-                            ).toLocaleDateString()}
+                            value={convertIsoDateToReadable(formData.consent.date)}
                             isRequired={true}
                         />
                     )}

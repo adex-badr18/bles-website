@@ -6,7 +6,6 @@ import { styles } from "../patientReg/PdfDoc";
 const PdfDoc = ({ data }) => {
     const moodDisorderData = {
         verification: {
-            id: { title: "Patient ID:", value: data.verification.id },
             fullName: {
                 title: "Patient's Name:",
                 value: `${data.verification.firstName} ${data.verification.middleName} ${data.verification.lastName}`,
@@ -15,21 +14,23 @@ const PdfDoc = ({ data }) => {
             phone: { title: "Phone:", value: data.verification.phone },
             dob: {
                 title: "Date of Birth:",
-                value: data.verification.dob.toLocaleDateString() || "N/A",
+                value: data.verification.dob
+                    ? new Date(data.verification.dob).toLocaleDateString()
+                    : "N/A",
             },
             streetAddress: {
                 title: "Street Address:",
-                value: data.verification.street,
+                value: data.verification.address.streetName,
             },
-            city: { title: "City:", value: data.verification.city },
-            state: { title: "State:", value: data.verification.state },
+            city: { title: "City:", value: data.verification.address.city },
+            state: { title: "State:", value: data.verification.address.state },
             zipCode: {
                 title: "Zip Code:",
-                value: data.verification.zipCode,
+                value: data.verification.address.zipCode,
             },
             date: {
                 title: "Date:",
-                value: data.verification.date || "N/A",
+                value: new Date().toLocaleDateString() || "N/A",
             },
         },
         part1: data.part1,
@@ -54,6 +55,14 @@ const PdfDoc = ({ data }) => {
                         <Text style={styles.sectionHeader}>
                             Patient Information
                         </Text>
+
+                        <View style={{ ...styles.fieldItem, marginBottom: 20 }}>
+                            <Text style={styles.key}>Patient ID</Text>
+                            <Text style={styles.value}>
+                                {data?.verification?.patientId || "N/A"}
+                            </Text>
+                        </View>
+
                         <View style={styles.row}>
                             {Object.entries(verification).map(([key, val]) => (
                                 <View key={key} style={styles.fieldItem}>
@@ -103,7 +112,7 @@ const PdfDoc = ({ data }) => {
                         >
                             <Text style={styles.consentTitle}>Section One</Text>
                             {Object.entries(part1).map(
-                                ([key, value], index) => (
+                                ([key, value]) => (
                                     <View
                                         key={key}
                                         style={{
@@ -169,7 +178,7 @@ const PdfDoc = ({ data }) => {
                         >
                             <Text style={styles.consentTitle}>Section Two</Text>
                             {Object.entries(part2).map(
-                                ([key, value], index) => (
+                                ([key, value]) => (
                                     <View
                                         key={key}
                                         style={{

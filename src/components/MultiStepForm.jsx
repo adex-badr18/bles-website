@@ -257,34 +257,30 @@ const MultiStepForm = ({
                         <LuShieldCheck className="text-5xl text-lightGreen" />
 
                         <div className="flex flex-col items-center">
-                            <h3 className="text-lg text-center font-bold mb-5">
+                            <h3 className="text-lg text-center font-bold mb-2">
                                 Submission Successful!
                             </h3>
+
+                            {successModalData && (
+                                <div className="mb-5">
+                                    <span className="font-semibold">
+                                        {successModalData.message}
+                                    </span>
+                                </div>
+                            )}
 
                             <div className="space-y-2 text-center text-deepGrey">
                                 <p className="">
                                     Thank you for completing the form. Your
-                                    information has been successfully submitted,
-                                    and a confirmation message containing the
-                                    details has been sent to your registered
-                                    email.
+                                    information has been successfully submitted
                                 </p>
 
-                                {successModalData && (
-                                    <div className="">
-                                        Patient ID:{" "}
-                                        <span className="font-bold">
-                                            {successModalData.patientId}
-                                        </span>
-                                    </div>
-                                )}
-
-                                <p className="">
+                                {/* <p className="">
                                     If you do not receive an email within the
                                     next few minutes, please check your spam or
                                     junk folder. If you need further assistance,
                                     feel free to contact us.
-                                </p>
+                                </p> */}
                             </div>
                         </div>
 

@@ -6,11 +6,30 @@ import Referral from "./Referral";
 import PdfDoc from "./PdfDoc";
 import PdfPreview from "../../../../../components/PdfPreview";
 
+import { useToast } from "../../../../../components/ToastContext";
+import { useCreateForm } from "../../../../../hooks/usePatients";
+import { objectToFormData, convertToBoolean } from "../../../../utils";
+
 const ScreeningForm = () => {
+    const { showToast } = useToast();
+    const [successModalData, setSuccessModalData] = useState({});
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const { mutate, isPending, error, data } = useCreateForm({
+        onSuccess: (response) => {
+            setSuccessModalData(response?.data);
+            setIsSuccessModalOpen(true);
+        },
+        onError: (error) => {
+            showToast({
+                message: error?.message || `Failed to submit form!`,
+                type: "error",
+                duration: 5000,
+            });
+        },
+    });
     const [formData, setFormData] = useState({
         verification: {
-            id: "",
-            verificationStatus: "",
+            patientId: "",
             firstName: "",
             middleName: "",
             lastName: "",
@@ -18,10 +37,13 @@ const ScreeningForm = () => {
             dob: "",
             phone: "",
             email: "",
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
+            address: {
+                id: null,
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
         },
         screening: {
             mhBhPhone: "",
@@ -39,18 +61,24 @@ const ScreeningForm = () => {
             healthSymptomsFrequency: "",
         },
         referral: {
+            id: "",
             source: "",
             therapist: "",
             firstName: "",
             middleName: "",
             lastName: "",
             phone: "",
-            address: { streetName: "", city: "", state: "", zipCode: "" },
+            address: {
+                id: "",
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
         },
     });
 
     console.log(formData);
-    console.log(Boolean(formData.screening.helpNeeds));
 
     // Handle form element change
     const handleFormElementChange = (section, fieldPath, value) => {
@@ -82,10 +110,59 @@ const ScreeningForm = () => {
         });
     };
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
 
-        console.log(formData);
+        // prepare data
+        const data = {
+            id: "",
+            patientId: formData.verification.patientId,
+            mhBhPhone: formData.screening.mhBhPhone,
+            helpNeeds: formData.screening.helpNeeds,
+            inCrisis: convertToBoolean(formData.screening.inCrisis),
+            currentlyOnPsychMed: convertToBoolean(
+                formData.screening.currentlyOnPsychMed
+            ),
+            stableOnMed: convertToBoolean(formData.screening.stableOnMed),
+            isPsychiatristConsult: convertToBoolean(
+                formData.screening.isPsychiatristConsult
+            ),
+            isTherapistConsult: convertToBoolean(
+                formData.screening.isTherapistConsult
+            ),
+            anyMentalHealthTreatment: convertToBoolean(
+                formData.screening.anyMentalHealthTreatment
+            ),
+            suicideAttemptHistory: convertToBoolean(
+                formData.screening.suicideAttemptHistory
+            ),
+            harmToSelfOrOthers: convertToBoolean(
+                formData.screening.harmToSelfOrOthers
+            ),
+            intent: formData.screening.intent,
+            healthSymptoms: convertToBoolean(formData.screening.healthSymptoms),
+            healthSymptomsFrequency: formData.screening.healthSymptomsFrequency,
+            referral: {
+                id: "",
+                source: formData.referral.source,
+                therapist: formData.referral.therapist,
+                firstName: formData.referral.firstName,
+                middleName: formData.referral.middleName,
+                lastName: formData.referral.lastName,
+                phone: formData.referral.phone,
+                address: {
+                    id: 0,
+                    streetName: formData.referral.address.streetName,
+                    city: formData.referral.address.city,
+                    state: formData.referral.address.state,
+                    zipCode: formData.referral.address.zipCode,
+                },
+            },
+        };
+
+        const payload = objectToFormData(data);
+
+        mutate({ payload, endpoint: "/patients/forms/screening" });
     };
 
     const isStepValid = (step) => {
@@ -93,12 +170,13 @@ const ScreeningForm = () => {
             "firstName",
             "lastName",
             "gender",
-            "dob",
+            // "dob",
             "maritalStatus",
             "phone",
             "email",
             "address",
             "helpNeeds",
+            "patientId",
         ];
 
         if (step === 1) {
@@ -126,9 +204,8 @@ const ScreeningForm = () => {
 
                 return true;
             }
-
         }
-        
+
         if (step === 2) {
             const value = formData.screening.helpNeeds;
 
@@ -151,7 +228,7 @@ const ScreeningForm = () => {
                 component: (
                     <VerificationStep
                         formData={formData}
-                        onChange={handleFormElementChange}
+                        setFormData={setFormData}
                     />
                 ),
             },
@@ -188,13 +265,15 @@ const ScreeningForm = () => {
     return (
         <div>
             <MultiStepForm
-                formData={formData}
                 formSize="md"
-                optionalFields={[]}
+                isStepValid={isStepValid}
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
-                isStepValid={isStepValid}
+                isSuccessModalOpen={isSuccessModalOpen}
+                setIsSuccessModalOpen={setIsSuccessModalOpen}
+                successModalData={successModalData}
+                isSubmitting={isPending}
             />
         </div>
     );

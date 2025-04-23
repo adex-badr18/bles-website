@@ -4,6 +4,7 @@ import DateField from "../../../../../components/DateField";
 import FieldItem from "../../../../../components/FieldItem";
 import { Checkbox } from "../../../../../components/CheckboxGroup";
 import SignaturePad from "../../../../../components/SignaturePad";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const Policy = ({ formData, onChange, consent, setConsent }) => {
     const patientFullName = `${formData.verification.firstName} ${formData.verification.middleName} ${formData.verification.lastName}`;
@@ -87,9 +88,9 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                             {formData.consent.patientSignDate && (
                                 <FieldItem
                                     label="Patient Signature Date"
-                                    value={new Date(
+                                    value={convertIsoDateToReadable(
                                         formData.consent.patientSignDate
-                                    ).toLocaleDateString()}
+                                    )}
                                     isRequired={true}
                                 />
                             )}
@@ -113,9 +114,9 @@ const Policy = ({ formData, onChange, consent, setConsent }) => {
                             {formData.consent.witnessSignDate && (
                                 <FieldItem
                                     label="Witness Signature Date"
-                                    value={new Date(
+                                    value={convertIsoDateToReadable(
                                         formData.consent.witnessSignDate
-                                    ).toLocaleDateString()}
+                                    )}
                                     isRequired={true}
                                 />
                             )}

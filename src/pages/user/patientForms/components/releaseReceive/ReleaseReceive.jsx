@@ -4,13 +4,43 @@ import VerificationStep from "../../../../../components/VerificationStep";
 import Authorizations from "./Authorizations";
 import PdfDoc from "./PdfDoc";
 import PdfPreview from "../../../../../components/PdfPreview";
+import { useToast } from "../../../../../components/ToastContext";
+import { useCreateForm, useUploadFile } from "../../../../../hooks/usePatients";
+import { objectToFormData, convertToBoolean } from "../../../../utils";
+import { pdf } from "@react-pdf/renderer";
 
 const ReleaseReceive = () => {
+    const { showToast } = useToast();
+    const [successModalData, setSuccessModalData] = useState({});
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const {
+        mutateAsync: mutateSubmit,
+        isPending: isSubmitting,
+        error,
+        data,
+    } = useCreateForm({
+        onSuccess: (response) => {
+            setSuccessModalData(response?.data);
+            setIsSuccessModalOpen(true);
+        },
+        onError: (error) => {
+            showToast({
+                message: error?.message || `Failed to submit form!`,
+                type: "error",
+                duration: 5000,
+            });
+        },
+    });
+    const { mutateAsync: mutateFile, isPending: isUploading } = useUploadFile({
+        handleFormChange: handleFormElementChange,
+        field: "file",
+        section: "upload",
+        showToast,
+    });
     const [consent, setConsent] = useState(false);
     const [formData, setFormData] = useState({
         verification: {
-            id: "",
-            verificationStatus: "",
+            patientId: "",
             firstName: "",
             middleName: "",
             lastName: "",
@@ -18,10 +48,13 @@ const ReleaseReceive = () => {
             dob: "",
             phone: "",
             email: "",
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
+            address: {
+                id: null,
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
         },
         consent: {
             patientName: "",
@@ -39,6 +72,7 @@ const ReleaseReceive = () => {
         authRight: [],
         disclosurePurpose: [],
         infoTypeToRelease: [],
+        upload: { file: "" },
     });
 
     useEffect(() => {
@@ -57,7 +91,7 @@ const ReleaseReceive = () => {
     }, [formData.consent.isMinor]);
 
     // Handle form element change
-    const handleFormElementChange = (section, fieldPath, value) => {
+    function handleFormElementChange(section, fieldPath, value) {
         setFormData((prev) => {
             const keys = fieldPath.split(".");
 
@@ -84,12 +118,68 @@ const ReleaseReceive = () => {
                 [section]: updateNestedField(prev[section], keys, value),
             };
         });
-    };
+    }
 
-    const submitHandler = (e) => {
-        e.preventDefault();
+    const submitHandler = async (e) => {
+        // prepare pdf file payload
+        const pdfBlob = await pdf(<PdfDoc data={formData} />).toBlob();
+        const pdfFile = new File([pdfBlob], "release-receive.pdf", {
+            type: "application/pdf",
+        });
+        const uploadPayload = objectToFormData({
+            fileType: "release-receive",
+            owner: `${formData.verification.firstName}-${formData.verification.lastName}`,
+            file: pdfFile,
+        });
 
-        console.log(formData);
+        // TODO: Upload pdf file
+        const uploadResponse = await mutateFile(uploadPayload);
+        const fileUrl = uploadResponse?.data?.fileUrl;
+
+        // Prepare submission payload
+        const parties = formData.authorization.parties.map((party) => {
+            const modifiedParty = {
+                id: "",
+                name: party.name,
+                phoneNumber: party.phone,
+                fax: party.fax,
+                isReceive: true,
+                address: {
+                    id: "",
+                    streetName: party.streetAddress,
+                    city: party.city,
+                    state: party.state,
+                    zipCode: party.zipCode,
+                },
+            };
+
+            return modifiedParty;
+        });
+
+        const data = {
+            id: 0,
+            patientId: formData.verification.patientId,
+            isMinor: convertToBoolean(formData.consent.isMinor),
+            releaseHealthInfo: true,
+            receiveHealthInfo: true,
+            exchangeHealthInfo: true,
+            party: [...parties],
+            disclosurePurpose: [...formData.disclosurePurpose],
+            infoTypeToRelease: [formData.infoTypeToRelease],
+            guardianName: formData.consent.guardianName,
+            relationship: formData.consent.patientGuardianRelationship,
+            date: new Date().toLocaleDateString(),
+            releaseReceive: "",
+            file: fileUrl,
+        };
+
+        const payload = objectToFormData(data);
+
+        // TODO: submit form
+        await mutateSubmit({
+            payload,
+            endpoint: "/patients/forms/release-receive",
+        });
     };
 
     const isStepValid = (step) => {
@@ -103,6 +193,7 @@ const ReleaseReceive = () => {
             "email",
             "address",
             "patientSignature",
+            "patientId",
         ];
 
         if (step === 1) {
@@ -140,9 +231,9 @@ const ReleaseReceive = () => {
                 "patientGuardianRelationship",
             ];
 
-            // if (!formData.consent.isMinor) {
-            //     return false;
-            // }
+            if (!formData.consent.isMinor) {
+                return false;
+            }
 
             for (const key in dataObj) {
                 const value = dataObj[key];
@@ -183,7 +274,7 @@ const ReleaseReceive = () => {
                 component: (
                     <VerificationStep
                         formData={formData}
-                        onChange={handleFormElementChange}
+                        setFormData={setFormData}
                     />
                 ),
             },
@@ -211,13 +302,15 @@ const ReleaseReceive = () => {
     return (
         <div>
             <MultiStepForm
-                formData={formData}
                 formSize="md"
-                optionalFields={[]}
+                isStepValid={isStepValid}
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
-                isStepValid={isStepValid}
+                isSuccessModalOpen={isSuccessModalOpen}
+                setIsSuccessModalOpen={setIsSuccessModalOpen}
+                successModalData={successModalData}
+                isSubmitting={isUploading || isSubmitting}
             />
         </div>
     );

@@ -9,44 +9,68 @@ import PdfPreview from "../../../../../components/PdfPreview";
 import PdfDoc from "./PdfDoc";
 
 import { useToast } from "../../../../../components/ToastContext";
-import { useCreatePatient } from "../../../../../hooks/usePatients";
+import {
+    useCreatePatient,
+    useUploadFile,
+} from "../../../../../hooks/usePatients";
 import { objectToFormData, convertToBoolean } from "../../../../utils";
 import { pdf } from "@react-pdf/renderer";
 
 const PatientRegistrationForm = () => {
     const { showToast } = useToast();
-    const { mutate, isPending, error, data } = useCreatePatient({
+    const {
+        mutateAsync: mutateRegister,
+        isPending: isSubmitting,
+        error,
+        data,
+    } = useCreatePatient({
         openModal: openSuccessModal,
         showToast,
     });
+
+    const { mutateAsync: mutateFile, isPending: isUploading } = useUploadFile({
+        handleFormChange: handleFormElementChange,
+        field: "file",
+        section: "upload",
+        showToast,
+    });
+
     const [successModalData, setSuccessModalData] = useState({});
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [consents, setConsents] = useState({
-        dataAccuracy: false,
-        insuranceAuth: false,
-        finResponsible: false,
-        infoRelease: false,
+        dataAccuracy: true,
+        insuranceAuth: true,
+        finResponsible: true,
+        infoRelease: true,
     });
     const [regForm, setRegForm] = useState({
         personal: {
-            firstName: "",
-            middleName: "",
-            lastName: "",
-            gender: "",
-            dob: "",
-            maritalStatus: "",
+            id: null,
+            patientId: "",
+            firstName: "Badru",
+            middleName: "Ade",
+            lastName: "Ajayi",
+            gender: "Male",
+            dob: "01/01/1985",
+            maritalStatus: "Single",
             socialSecurityNumber: "",
             homePhone: "",
-            cellPhone: "",
+            cellPhone: "09076543212",
             workPhone: "",
             preferredPhone: "",
             appointmentReminderMode: "",
-            email: "",
+            email: "jamesdee@yahoo.com",
             sendMsgToHomePhone: "",
             sendMsgToRelative: "",
             sendMsgToWork: "",
             sendMsgToCellPhone: "",
-            address: { streetName: "", city: "", state: "", zipCode: "" },
+            address: {
+                id: null,
+                streetName: "Wema",
+                city: "JohnDey",
+                state: "Ospo",
+                zipCode: "123456",
+            },
             highestEduLevel: "",
             employmentStatus: "",
             employer: "",
@@ -57,44 +81,64 @@ const PatientRegistrationForm = () => {
             preferredLanguage: "",
         },
         guarantor: {
-            firstName: "",
-            // middleName: "",
-            lastName: "",
+            id: null,
+            firstName: "Badru",
+            lastName: "Ade",
             dob: "",
             relationship: "",
-            address: { streetName: "", city: "", state: "", zipCode: "" },
+            address: {
+                id: null,
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
             phone: "",
             email: "",
             stateIssuedId: "",
             insuranceCard: "",
         },
         parent: {
-            firstName: "",
-            // middleName: "",
-            lastName: "",
-            gender: "",
-            maritalStatus: "",
-            phone: "",
-            email: "",
-            familyRole: "",
-            employmentStatus: "",
-            employer: "",
-            occupation: "",
-            address: { streetName: "", city: "", state: "", zipCode: "" },
+            id: null,
+            firstName: "Badr",
+            lastName: "Ade",
+            gender: "Male",
+            maritalStatus: "Married",
+            phone: "124898876",
+            email: "adeey@gmail.com",
+            familyRole: "Father",
+            employmentStatus: "Employed",
+            employer: "Acritech Construction",
+            occupation: "Engineer",
+            address: {
+                id: null,
+                streetName: "Osko",
+                city: "Wembley",
+                state: "Wembley",
+                zipCode: "123456",
+            },
         },
         emergency: {
+            id: null,
             firstName: "",
-            // middleName: "",
             lastName: "",
             relationship: "",
-            address: { streetName: "", city: "", state: "", zipCode: "" },
+            address: {
+                id: null,
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
             homePhone: "",
             cellPhone: "",
             email: "",
         },
         insurance: {
-            paymentMode: "",
+            paymentMode: "Self Pay",
             primaryInsurance: {
+                id: null,
+                primary: true,
                 policyHolder: {
                     firstName: "",
                     middleName: "",
@@ -113,6 +157,7 @@ const PatientRegistrationForm = () => {
                     coverageStartDate: "",
                     coverageEndDate: "",
                     address: {
+                        id: null,
                         streetName: "",
                         city: "",
                         state: "",
@@ -121,6 +166,8 @@ const PatientRegistrationForm = () => {
                 },
             },
             secondaryInsurance: {
+                id: null,
+                primary: false,
                 policyHolder: {
                     firstName: "",
                     middleName: "",
@@ -139,6 +186,7 @@ const PatientRegistrationForm = () => {
                     coverageEndDate: "",
                     // haveCoordinationBenefits: "",
                     address: {
+                        id: null,
                         streetName: "",
                         city: "",
                         state: "",
@@ -149,6 +197,7 @@ const PatientRegistrationForm = () => {
             },
         },
         consent: { signature: "", date: "" },
+        upload: { file: "" },
     });
 
     // Function to open modal
@@ -158,7 +207,7 @@ const PatientRegistrationForm = () => {
     }
 
     // Handle form element change
-    const handleFormElementChange = (section, fieldPath, value) => {
+    function handleFormElementChange(section, fieldPath, value) {
         setRegForm((prev) => {
             const keys = fieldPath.split(".");
 
@@ -185,15 +234,29 @@ const PatientRegistrationForm = () => {
                 [section]: updateNestedField(prev[section], keys, value),
             };
         });
-    };
+    }
 
-    // console.log(isPending)
+    // console.log(regForm.personal)
 
     const submitHandler = async () => {
+        // prepare pdf file payload
         const pdfBlob = await pdf(<PdfDoc data={regForm} />).toBlob();
+        const pdfFile = new File([pdfBlob], "registration-form.pdf", {
+            type: "application/pdf",
+        });
+        const uploadPayload = objectToFormData({
+            fileType: "registration-form",
+            owner: `${regForm.personal.firstName}-${regForm.personal.lastName}`,
+            file: pdfFile,
+        });
+
+        // TODO: Upload pdf file
+        await mutateFile(uploadPayload);
+
+        // Prepare register payload
         const data = {
-            id: null,
-            patientId: "",
+            id: regForm.personal.id,
+            patientId: regForm.personal.patientId,
             personalInfo: {
                 ...regForm.personal,
                 sendMsgToHomePhone: convertToBoolean(
@@ -206,85 +269,30 @@ const PatientRegistrationForm = () => {
                 sendMsgToCellPhone: convertToBoolean(
                     regForm.personal.sendMsgToCellPhone
                 ),
-                address: { ...regForm.personal.address, id: null },
             },
-            guarantor: {
-                ...regForm.guarantor,
-                id: null,
-                address: { ...regForm.guarantor.address, id: null },
-            },
-            parentGuardian: {
-                ...regForm.parent,
-                id: null,
-                address: { ...regForm.parent.address, id: null },
-            },
-            emergency: {
-                ...regForm.emergency,
-                id: null,
-                address: { ...regForm.emergency.address, id: null },
-            },
+            guarantor: regForm.guarantor,
+            parentGuardian: regForm.parent,
+            emergency: regForm.emergency,
             paymentStructure: {
                 paymentMode: regForm.insurance.paymentMode,
                 insurances: [
-                    {
-                        ...regForm.insurance.primaryInsurance,
-                        id: null,
-                        primary: true,
-                        insuranceProvider: {
-                            ...regForm.insurance.primaryInsurance
-                                .insuranceProvider,
-                            address: {
-                                id: null,
-                                ...regForm.insurance.primaryInsurance
-                                    .insuranceProvider.address,
-                            },
-                        },
-                    },
-                    {
-                        ...regForm.insurance.secondaryInsurance,
-                        id: null,
-                        primary: false,
-                        insuranceProvider: {
-                            ...regForm.insurance.secondaryInsurance
-                                .insuranceProvider,
-                            address: {
-                                id: null,
-                                ...regForm.insurance.secondaryInsurance
-                                    .insuranceProvider.address,
-                            },
-                        },
-                    },
+                    regForm.insurance.primaryInsurance,
+                    regForm.insurance.secondaryInsurance,
                 ],
             },
             date: regForm.consent.date,
-            patientRegForm: "",
+            patientRegForm: regForm.upload.file,
         };
+        
+        const formData = objectToFormData(data);
 
-        const pdfFile = new File([pdfBlob], "registration-form.pdf", {
-            type: "application/pdf",
-        });
+        // for (const [key, value] of formData.entries()) {
+        //     console.log(`${key}: ${value}`);
+        // }
 
-        const payload = {
-            payload: data,
-            formFile: pdfFile,
-            stateIssuedIdFile: "",
-            insuranceCardFile: "",
-        };
-
-        console.log("Payload", payload);
-
-        const formData = objectToFormData(payload);
-
-        for (const [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-        }
-
-        // TODO: Create patient
-        mutate(formData);
+        // TODO: register patient
+        await mutateRegister(formData);
     };
-
-    // console.log(regForm);
-    // console.log(consents);
 
     const isStepValid = (step) => {
         const requiredFields = [
@@ -296,10 +304,13 @@ const PatientRegistrationForm = () => {
             "cellPhone",
             "email",
             "address",
+            "phone",
+            "patientId"
         ];
 
-        if (step === 1) {
-            const dataObj = regForm.personal;
+        if (step === 1 || step === 2) {
+            const dataObj =
+                step === 1 ? regForm.personal : step === 2 && regForm.parent;
 
             for (const key in dataObj) {
                 const value = dataObj[key];
@@ -310,6 +321,10 @@ const PatientRegistrationForm = () => {
 
                 if (value !== null && typeof value === "object") {
                     for (const key in value) {
+                        if (key === "id") {
+                            continue;
+                        }
+
                         const nestedValue = value[key];
                         if (nestedValue === "" || nestedValue === null) {
                             return false;
@@ -324,14 +339,6 @@ const PatientRegistrationForm = () => {
 
             return true;
         }
-
-        // if (step === 2) {
-        //     return true;
-        // }
-
-        // if (step === 3) {
-        //     return true;
-        // }
 
         if (step === 4) {
             for (const key in consents) {
@@ -420,9 +427,7 @@ const PatientRegistrationForm = () => {
     return (
         <div>
             <MultiStepForm
-                formData={regForm}
                 formSize="md"
-                optionalFields={[]}
                 isStepValid={isStepValid}
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
@@ -430,7 +435,7 @@ const PatientRegistrationForm = () => {
                 isSuccessModalOpen={isSuccessModalOpen}
                 setIsSuccessModalOpen={setIsSuccessModalOpen}
                 successModalData={successModalData}
-                isSubmitting={isPending}
+                isSubmitting={isSubmitting || isUploading}
             />
         </div>
     );

@@ -15,8 +15,15 @@ import {
     langOptions,
     preferredPhoneOptions,
 } from "../../data";
+import IdField from "./IdField";
 
 const PersonalStep = ({ formData, handleInputChange }) => {
+    const newPatientData = {
+        firstName: formData.personal.firstName,
+        lastName: formData.personal.lastName,
+        email: formData.personal.email,
+    };
+
     return (
         <form className="space-y-4 md:space-y-8">
             <div className="space-y-4 md:space-y-8">
@@ -114,8 +121,28 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         value={formData.personal.socialSecurityNumber}
                         handleInputChange={handleInputChange}
                     />
+
+                    <TextField
+                        type="email"
+                        label="Email Address"
+                        name="email"
+                        field="email"
+                        placeholder="Email Address"
+                        section="personal"
+                        value={formData.personal.email}
+                        handleInputChange={handleInputChange}
+                        isRequired={true}
+                    />
                 </div>
             </div>
+
+            <IdField
+                field="patientId"
+                handleFormChange={handleInputChange}
+                section="personal"
+                isRequired={true}
+                formData={formData}
+            />
 
             <div className="space-y-4 md:space-y-8">
                 <h3 className="font-bold text-xl text-darkBlue">Contact</h3>
@@ -131,7 +158,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         handleInputChange={handleInputChange}
                         isRequired={true}
                     />
-                    <TextField
+                    {/* <TextField
                         type="email"
                         label="Email Address"
                         name="email"
@@ -141,7 +168,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
                         value={formData.personal.email}
                         handleInputChange={handleInputChange}
                         isRequired={true}
-                    />
+                    /> */}
                     <TextField
                         type="text"
                         label="Home Phone"

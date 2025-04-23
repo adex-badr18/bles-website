@@ -53,12 +53,6 @@ export const useCreateReview = ({ openModal, showToast }) => {
             queryClient.invalidateQueries(["reviews"]);
         },
         onError: async (error, variables, context) => {
-            // console.error("Error creating review", error);
-
-            for (const pair of variables.entries()) {
-                console.log(`${pair[0]}: ${pair[1]}`);
-            }
-
             showToast({
                 message:
                     error?.message ||

@@ -5,11 +5,30 @@ import Assessment from "./Assessment";
 import PdfDoc from "./PdfDoc";
 import PdfPreview from "../../../../../components/PdfPreview";
 
+import { useToast } from "../../../../../components/ToastContext";
+import { useCreateForm } from "../../../../../hooks/usePatients";
+import { convertToBoolean, objectToFormData } from "../../../../utils";
+
 const MoodDisorderForm = () => {
+    const { showToast } = useToast();
+    const [successModalData, setSuccessModalData] = useState({});
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const { mutate, isPending, error, data } = useCreateForm({
+        onSuccess: (response) => {
+            setSuccessModalData(response?.data);
+            setIsSuccessModalOpen(true);
+        },
+        onError: (error) => {
+            showToast({
+                message: error?.message || `Failed to submit form!`,
+                type: "error",
+                duration: 5000,
+            });
+        },
+    });
     const [formData, setFormData] = useState({
         verification: {
-            id: "",
-            verificationStatus: "",
+            patientId: "",
             firstName: "",
             middleName: "",
             lastName: "",
@@ -17,10 +36,13 @@ const MoodDisorderForm = () => {
             dob: "",
             phone: "",
             email: "",
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
+            address: {
+                id: null,
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
         },
         part1: {
             hyperFeeling: {
@@ -143,10 +165,51 @@ const MoodDisorderForm = () => {
         });
     };
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
 
-        console.log(formData);
+        const data = {
+            id: null,
+            patientId: formData.verification.patientId,
+            hyperFeeling: convertToBoolean(formData.part1.hyperFeeling.answer),
+            isIrritable: convertToBoolean(formData.part1.isIrritable.answer),
+            isOverConfident: convertToBoolean(
+                formData.part1.isOverConfident.answer
+            ),
+            lessSleep: convertToBoolean(formData.part1.lessSleep.answer),
+            talkMore: convertToBoolean(formData.part1.talkMore.answer),
+            pacedThoughts: convertToBoolean(
+                formData.part1.pacedThoughts.answer
+            ),
+            easyDistraction: convertToBoolean(
+                formData.part1.easyDistraction.answer
+            ),
+            overEnergetic: convertToBoolean(
+                formData.part1.overEnergetic.answer
+            ),
+            overActive: convertToBoolean(formData.part1.overActive.answer),
+            overSocial: convertToBoolean(formData.part1.overSocial.answer),
+            sexaholic: convertToBoolean(formData.part1.sexaholic.answer),
+            overFoolish: convertToBoolean(formData.part1.overFoolish.answer),
+            overSpending: convertToBoolean(formData.part1.overSpending.answer),
+            sameTimeOccurrence: convertToBoolean(
+                formData.part2.sameTimeOccurrence.answer
+            ),
+            influenceOnLife: formData.part2.influenceOnLife.answer,
+            isRelativeWithBipolar: convertToBoolean(
+                formData.part2.isRelativeWithBipolar.answer
+            ),
+            isBipolarDiagnosed: convertToBoolean(
+                formData.part2.isBipolarDiagnosed.answer
+            ),
+        };
+
+        const payload = objectToFormData(data);
+
+        mutate({
+            payload,
+            endpoint: "/patients/forms/mood-disorder-assessment",
+        });
     };
 
     const isStepValid = (step) => {
@@ -159,6 +222,7 @@ const MoodDisorderForm = () => {
             "phone",
             "email",
             "address",
+            "patientId",
         ];
 
         if (step === 1) {
@@ -212,7 +276,7 @@ const MoodDisorderForm = () => {
                 component: (
                     <VerificationStep
                         formData={formData}
-                        onChange={handleFormElementChange}
+                        setFormData={setFormData}
                     />
                 ),
             },
@@ -239,13 +303,15 @@ const MoodDisorderForm = () => {
     return (
         <div>
             <MultiStepForm
-                formData={formData}
                 formSize="md"
-                optionalFields={[]}
+                isStepValid={isStepValid}
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
-                isStepValid={isStepValid}
+                isSuccessModalOpen={isSuccessModalOpen}
+                setIsSuccessModalOpen={setIsSuccessModalOpen}
+                successModalData={successModalData}
+                isSubmitting={isPending}
             />
         </div>
     );

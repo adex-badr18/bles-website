@@ -21,7 +21,7 @@ const Review = () => {
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [rating, setRating] = useState(0);
     const [reviewData, setReviewData] = useState({
-        id: null,
+        id: "",
         nickname: "",
         email: "",
         referralWish: "",
@@ -67,6 +67,7 @@ const Review = () => {
         e.preventDefault();
 
         const formData = objectToFormData(reviewData);
+        // console.log(formData)
 
         mutate(formData);
     };

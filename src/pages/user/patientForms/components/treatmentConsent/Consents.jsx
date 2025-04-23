@@ -7,6 +7,7 @@ import TextField from "../../../../../components/TextField";
 import { booleanOptions } from "../../data";
 
 import { consents, risksAndBenefits } from "./data";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const Consents = ({ formData, onChange, consent, setConsent }) => {
     const patientFullName = `${formData.verification.firstName} ${formData.verification.middleName} ${formData.verification.lastName}`;
@@ -102,9 +103,9 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                         {formData.consent.patientSignDate && (
                             <FieldItem
                                 label="Patient Signature Date"
-                                value={new Date(
+                                value={convertIsoDateToReadable(
                                     formData.consent.patientSignDate
-                                ).toLocaleDateString()}
+                                )}
                                 isRequired={true}
                             />
                         )}
@@ -206,9 +207,9 @@ const Consents = ({ formData, onChange, consent, setConsent }) => {
                         {formData.consent.guardianSignDate && (
                             <FieldItem
                                 label="Guardian Signature Date"
-                                value={new Date(
+                                value={convertIsoDateToReadable(
                                     formData.consent.guardianSignDate
-                                ).toLocaleDateString()}
+                                )}
                                 isRequired={true}
                             />
                         )}

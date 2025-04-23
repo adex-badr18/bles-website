@@ -4,6 +4,7 @@ import SignaturePad from "../../../../../components/SignaturePad";
 import FieldItem from "../../../../../components/FieldItem";
 import { CheckMarkIcon } from "../../../programs/components/icons";
 import { disclosureList, patientRights, phidisclosureList } from "./data";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const PrivacyPolicy = ({ formData, onChange, consent, setConsent }) => {
     const patientFullName = `${formData.verification.firstName} ${formData.verification.middleName} ${formData.verification.lastName}`;
@@ -189,8 +190,8 @@ const PrivacyPolicy = ({ formData, onChange, consent, setConsent }) => {
 
                 {formData.consent.noticeEffectDate && (
                     <Checkbox
-                        label={`This notice is effective from, ${formData.consent.noticeEffectDate.toLocaleDateString()} and it is our intention to abide by the terms of the Notice of Privacy Practices and HIPAA Regulations currently in effect. We reserve the right to change the terms of our Notice of Privacy Practice and to make the new notice provision effective for all PHI that we maintain. We will post and you may request a written copy of the revised Notice of Privacy Practice from our office.`}
-                        value={`This notice is effective from, ${formData.consent.noticeEffectDate.toLocaleDateString()} and it is our intention to abide by the terms of the Notice of Privacy Practices and HIPAA Regulations currently in effect. We reserve the right to change the terms of our Notice of Privacy Practice and to make the new notice provision effective for all PHI that we maintain. We will post and you may request a written copy of the revised Notice of Privacy Practice from our office.`}
+                        label={`This notice is effective from, ${new Date(formData.consent.noticeEffectDate).toLocaleDateString()} and it is our intention to abide by the terms of the Notice of Privacy Practices and HIPAA Regulations currently in effect. We reserve the right to change the terms of our Notice of Privacy Practice and to make the new notice provision effective for all PHI that we maintain. We will post and you may request a written copy of the revised Notice of Privacy Practice from our office.`}
+                        value={`This notice is effective from, ${new Date(formData.consent.noticeEffectDate).toLocaleDateString()} and it is our intention to abide by the terms of the Notice of Privacy Practices and HIPAA Regulations currently in effect. We reserve the right to change the terms of our Notice of Privacy Practice and to make the new notice provision effective for all PHI that we maintain. We will post and you may request a written copy of the revised Notice of Privacy Practice from our office.`}
                         checked={consent}
                         onChange={() => setConsent((prev) => !prev)}
                         checkedClass="border-2 border-darkBlue"
@@ -210,9 +211,9 @@ const PrivacyPolicy = ({ formData, onChange, consent, setConsent }) => {
                     {formData.consent.date && (
                         <FieldItem
                             label="Date"
-                            value={new Date(
+                            value={convertIsoDateToReadable(
                                 formData.consent.date
-                            ).toLocaleDateString()}
+                            )}
                             isRequired={true}
                         />
                     )}

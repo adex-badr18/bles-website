@@ -7,6 +7,7 @@ import { pcpAuthOptions, consentOptions } from "./data";
 import { Checkbox } from "../../../../../components/CheckboxGroup";
 import SelectField from "../../../../../components/SelectField";
 import { booleanOptions } from "../../data";
+import { convertIsoDateToReadable } from "../../../../utils";
 
 const Agreements = ({ formData, onChange, consents, setConsents }) => {
     const patientFullName = `${formData.verification.firstName} ${formData.verification.middleName} ${formData.verification.lastName}`;
@@ -263,9 +264,9 @@ const Agreements = ({ formData, onChange, consents, setConsents }) => {
                         {formData.consent.date && (
                             <FieldItem
                                 label="Date"
-                                value={new Date(
+                                value={convertIsoDateToReadable(
                                     formData.consent.date
-                                ).toLocaleDateString()}
+                                ) || "N/A"}
                                 isRequired={true}
                             />
                         )}
