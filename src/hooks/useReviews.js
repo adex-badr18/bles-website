@@ -48,8 +48,9 @@ export const useCreateReview = ({ openModal, showToast }) => {
 
     return useMutation({
         mutationFn: createReview,
-        onSuccess: async (newReview) => {
-            openModal(newReview);
+        onSuccess: async (response) => {
+            console.log("OnSuccess:", response?.data)
+            openModal(response.data);
             queryClient.invalidateQueries(["reviews"]);
         },
         onError: async (error, variables, context) => {

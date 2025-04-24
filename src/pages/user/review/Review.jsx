@@ -239,24 +239,18 @@ const Review = () => {
                         <LuShieldCheck className="text-5xl text-lightGreen" />
 
                         <div className="flex flex-col items-center">
-                            <h3 className="text-lg text-center font-bold mb-5">
+                            <h3 className="text-lg text-center font-bold mb-3">
                                 Submission Successful!
                             </h3>
+                            <p className="mb-5 font-semibold">
+                                {successModalData.success}
+                            </p>
 
                             <div className="space-y-2 text-center text-deepGrey">
                                 <p className="">
-                                    Thank you for dropping your feedbacck. Your
+                                    Thank you for dropping your feedback. Your
                                     review has been successfully submitted.
                                 </p>
-
-                                {successModalData && (
-                                    <div className="">
-                                        Patient ID:{" "}
-                                        <span className="font-bold">
-                                            {successModalData.patientId}
-                                        </span>
-                                    </div>
-                                )}
                             </div>
                         </div>
 
