@@ -95,17 +95,27 @@ const VerificationStep = ({ formData, setFormData }) => {
                         onSubmit={verifyIdHandler}
                         submitText="Verify ID"
                         xtraClass="place-self-end"
-                        isDisabled={isLoading || isSuccess}
+                        isDisabled={
+                            isLoading ||
+                            isSuccess ||
+                            formData.verification.patientId
+                        }
                     />
                 </div>
 
                 {isError && (
                     <div className="text-vividRed font-medium text-center">
-                        {error?.message}
+                        {error?.message || "Patient ID could not be found!"}
                     </div>
                 )}
 
-                {isLoading && <Spinner secondaryText="Loading..." textClass="font-semibold" borderClass="border-lightGreen" />}
+                {isLoading && (
+                    <Spinner
+                        secondaryText="Loading..."
+                        textClass="font-semibold"
+                        borderClass="border-lightGreen"
+                    />
+                )}
 
                 {(isSuccess || formData?.verification?.patientId) && (
                     <div className="space-y-10">

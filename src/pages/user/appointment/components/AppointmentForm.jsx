@@ -12,44 +12,66 @@ import {
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import SelectField from "../../../../components/SelectField";
+import { useFetchBookedAppointments } from "../../../../hooks/useAppointments";
+
+import { MdRefresh } from "react-icons/md";
 
 const AppointmentForm = ({ formData, handleInputChange }) => {
-    const [selectedDateTime, setSelectedDateTime] = useState(formData.appointment.appointmentDateTime || null);
+    const [selectedDateTime, setSelectedDateTime] = useState(
+        formData.appointment.appointmentDateTime || null
+    );
     const [holidays, setHolidays] = useState([]);
     const [excludedTimes, setExcludedTimes] = useState({});
+    const {
+        refetch,
+        isLoading,
+        isPending,
+        isSuccess,
+        isError,
+        error: bookedAppointmentsError,
+    } = useFetchBookedAppointments();
+
+    // console.log("ExcludedTimes", excludedTimes);
+    // console.log("Holidays", holidays);
+    // console.log(isError);
+    // console.log(bookedAppointmentsError);
+
 
     useEffect(() => {
-        const fetchData = async () => {
-            const [adminPeriods, bookedPeriods, holidays] = await Promise.all([
-                fetchAdminUnavailablePeriods(),
-                fetchBookedAppointmentsPeriods(),
-                fetchUSHolidays(),
-            ]);
+        fetchBookedSlots();
+    }, []);
 
-            // Create a map of dates to excluded times
-            const excludedDatesTimesMap = {};
+    async function fetchBookedSlots() {
+        const holidays = await fetchUSHolidays();
 
-            const processExclusions = (list) => {
-                list.forEach((period) => {
-                    const dateKey = new Date(period.date).toLocaleDateString();
-                    if (!excludedDatesTimesMap[dateKey])
-                        excludedDatesTimesMap[dateKey] = [];
-                    excludedDatesTimesMap[dateKey].push(...period.times);
-                });
-            };
+        // Fetch booked slots
+        const response = await refetch();
+        const bookedSlots = response?.data || [];
 
-            // Map all admin-set times
-            processExclusions(adminPeriods);
+        // Create a map of dates to excluded times
+        const excludedDatesTimesMap = {};
 
-            // Map all booked appointment times
-            processExclusions(bookedPeriods);
-
-            setExcludedTimes(excludedDatesTimesMap);
-            setHolidays(holidays);
+        const processExclusions = (list) => {
+            list.forEach((period) => {
+                const dateKey = new Date(period.date).toLocaleDateString();
+                if (!excludedDatesTimesMap[dateKey])
+                    excludedDatesTimesMap[dateKey] = [];
+                excludedDatesTimesMap[dateKey].push(...period.times);
+            });
         };
 
-        fetchData();
-    }, []);
+        // Map all booked appointment times
+        processExclusions(bookedSlots);
+
+        setExcludedTimes(excludedDatesTimesMap);
+        setHolidays(holidays);
+    }
+
+    const handleBookedSlotsRefetch = async (e) => {
+        e.preventDefault();
+
+        await fetchBookedSlots();
+    };
 
     // Function to filter dates
     const isDateExcluded = (date) => {
@@ -67,31 +89,11 @@ const AppointmentForm = ({ formData, handleInputChange }) => {
         return !excludedTimes[dateKey]?.includes(timeString);
     };
 
-    // const getMinTime = useMemo(() => {
-    //     const today = new Date();
-    //     if (!selectedDateTime) return today;
-
-    //     const selectedDate = new Date(selectedDateTime);
-
-    //     const allTimes = Array.from({ length: 24 }, (_, i) =>
-    //         selectedDateTime.setHours(i, 0, 0, 0)
-    //     );
-
-    //     const allowedTimes = allTimes
-    //         .filter((time) => {
-    //             const hour = new Date(time).getHours();
-    //             return hour >= 9 && hour <= 16;
-    //         })
-    //         .map((time) => new Date(time));
-
-    //     console.log(allowedTimes);
-    // });
-
     useEffect(() => {
         handleInputChange(
             "appointment",
             "appointmentDateTime",
-            selectedDateTime
+            new Date(selectedDateTime).toISOString()
         );
     }, [selectedDateTime]);
 
@@ -179,7 +181,21 @@ const AppointmentForm = ({ formData, handleInputChange }) => {
                             minDate={new Date()}
                             minTime={new Date(0, 0, 0, 9)}
                             maxTime={new Date(0, 0, 0, 16)}
+                            disabled={isLoading || isPending || isError}
                         />
+                        {isError && (
+                            <div className="flex items-center gap-3">
+                                <p className="text-sm text-vividRed">
+                                    {`Could not fetch booked slots: ${bookedAppointmentsError}`}
+                                </p>
+                                <button
+                                    onClick={handleBookedSlotsRefetch}
+                                    className="flex items-center gap-1 text-sm text-white bg-grey hover:bg-gray-600 px-2 py-1 rounded transition-colors duration-300"
+                                >
+                                    <span className="">Retry</span> <MdRefresh />
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </form>

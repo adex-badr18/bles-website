@@ -23,6 +23,12 @@ export const fetchAppointmentById = async (appointmentId) => {
     return response;
 };
 
+// Fetch a appointment by ID
+export const fetchBookedAppointments = async () => {
+    const response = await api.get(`/appointments/slots`);
+    return response;
+};
+
 // Create a new appointment
 export const createAppointment = async (appointmentData) => {
     const response = await api.post("/appointments", appointmentData, {

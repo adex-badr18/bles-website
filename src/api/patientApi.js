@@ -67,8 +67,7 @@ export const createPatient = async (patientData) => {
 };
 
 // Create register a new patient
-export const registerPatient = async (patientData, test) => {
-    console.log(test)
+export const registerPatient = async (patientData) => {
     const options = {
         headers: {
             "Content-Type": "application/json",

@@ -10,40 +10,58 @@ import DateField from "../../../../components/DateField";
 import FieldItem from "../../../../components/FieldItem";
 import Spinner from "../../../../components/Spinner";
 import { booleanOptions, genderOptions } from "../../patientForms/data";
+import { useFetchBasicPatient } from "../../../../hooks/usePatients";
+import { useToast } from "../../../../components/ToastContext";
+import SubmitButton from "../../../../components/SubmitButton";
+import IdField from "../../patientForms/components/patientReg/IdField";
 
-const PersonalInfoForm = ({ formData, handleInputChange }) => {
-    const [isSubmitting, setIsSubmitting] = useState(false);
+const PersonalInfoForm = ({ formData, handleInputChange, setFormData }) => {
+    const { showToast } = useToast();
+    const [patientId, setPatientId] = useState("");
+    const { refetch, isLoading, isSuccess, isError, error } =
+        useFetchBasicPatient(patientId);
 
     // Fetch patient info by Id
-    const verifyId = async (e) => {
+    const verifyIdHandler = async (e) => {
         e.preventDefault();
 
-        setIsSubmitting(true);
+        if (!patientId) {
+            showToast({
+                message: `Please enter a patient ID`,
+                type: "error",
+                duration: 5000,
+            });
 
-        // TODO: Fetch Patient data by id
+            return;
+        }
 
-        setTimeout(() => {
-            // Success
-            handleInputChange("personal", "verificationStatus", "success");
+        try {
+            const response = await refetch(); // returns {data, error, status}
 
-            // Error
-            // handleInputChange("personal", "verificationStatus", "failed")
-
-            handleInputChange("personal", "id", "PAT000001");
-            handleInputChange("personal", "firstName", "Badrudeen");
-            handleInputChange("personal", "middleName", "");
-            handleInputChange("personal", "lastName", "Abdul-hameed");
-            handleInputChange("personal", "gender", "Male");
-            handleInputChange("personal", "phone", "+1234567890");
-            handleInputChange("personal", "email", "tukstom12@gmail.com");
-            handleInputChange("personal", "dob", new Date("01/10/1990"));
-            handleInputChange("address", "street", "23 Hagers Street");
-            handleInputChange("address", "city", "Middlesbrough");
-            handleInputChange("address", "state", "London");
-            handleInputChange("address", "zipCode", "123456");
-
-            setIsSubmitting(false);
-        }, 4000);
+            if (response?.data) {
+                showToast({
+                    message: `Verification successful!`,
+                    type: "success",
+                    duration: 5000,
+                });
+                setFormData((prev) => ({
+                    ...prev,
+                    personal: {
+                        ...formData.personal,
+                        ...response.data,
+                        verificationStatus: "success",
+                    },
+                }));
+            } else if (response?.error) {
+                throw response.error;
+            }
+        } catch (error) {
+            showToast({
+                message: error?.message || `Patient ID could not be found!`,
+                type: "error",
+                duration: 5000,
+            });
+        }
     };
 
     return (
@@ -66,8 +84,7 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
             </div>
 
             <div className="space-y-4 md:space-y-8">
-                {formData.personal.verificationStatus.toLowerCase() !==
-                    "success" && (
+                {(!formData.personal.patientId || !isSuccess) && (
                     <SelectField
                         label="Are you a new patient?"
                         name="isNew"
@@ -83,21 +100,44 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
 
                 {formData.personal.isNew.toLowerCase() === "no" && (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-                        <div className="col-span-2">
-                            <TextField
+                        <div className="col-span-2 space-y-1">
+                            <label
+                                htmlFor={`patientId`}
+                                className="block text-deepGrey"
+                            >
+                                Patient ID{" "}
+                                <small className="text-vividRed text-lg">
+                                    *
+                                </small>
+                            </label>
+                            <input
                                 type="text"
-                                label="Patient ID"
-                                name="id"
-                                field="id"
+                                id="patientId"
+                                name="patientId"
+                                className="input bg-gray-100"
                                 placeholder="Patient ID"
-                                section="personal"
-                                value={formData.personal.id}
-                                handleInputChange={handleInputChange}
-                                isRequired={true}
+                                value={patientId}
+                                onChange={(e) => setPatientId(e.target.value)}
+                                readOnly={
+                                    isSuccess || formData.personal.patientId
+                                }
                             />
                         </div>
 
-                        <button
+                        <SubmitButton
+                            isSubmitting={isLoading}
+                            loadingText="Verifying..."
+                            onSubmit={verifyIdHandler}
+                            submitText="Verify ID"
+                            xtraClass="place-self-end"
+                            isDisabled={
+                                isLoading ||
+                                isSuccess ||
+                                formData.personal.patientId
+                            }
+                        />
+
+                        {/* <button
                             onClick={verifyId}
                             className="place-self-end bg-lightGreen hover:bg-emerald-500 text-white font-semibold py-2 px-3 rounded-md w-full transition-colors duration-300 disabled:opacity-45 disabled:cursor-not-allowed"
                             disabled={
@@ -110,17 +150,25 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                             ) : (
                                 "Verify ID"
                             )}
-                        </button>
+                        </button> */}
                     </div>
                 )}
 
-                {formData.personal.verificationStatus === "failed" && (
+                {isError && (
                     <div className="text-vividRed font-medium text-center">
-                        The requested patient ID could not be found.
+                        {error?.message || "Patient ID could not be found!"}
                     </div>
                 )}
 
-                {formData.personal.verificationStatus === "success" && (
+                {isLoading && (
+                    <Spinner
+                        secondaryText="Loading..."
+                        textClass="font-semibold"
+                        borderClass="border-lightGreen"
+                    />
+                )}
+
+                {(isSuccess || formData.personal.patientId) && (
                     <div className="space-y-10">
                         <StaticDivider />
 
@@ -128,48 +176,63 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                             <FieldItem
                                 label="First Name"
                                 value={formData.personal.firstName}
+                                isRequired={true}
                             />
                             <FieldItem
                                 label="Middle Name"
                                 value={formData.personal.middleName}
+                                isRequired={true}
                             />
                             <FieldItem
                                 label="Last Name"
                                 value={formData.personal.lastName}
+                                isRequired={true}
                             />
                             <FieldItem
                                 label="Date of Birth"
-                                value={new Date(
+                                value={
                                     formData.personal.dob
-                                ).toLocaleDateString()}
+                                        ? new Date(
+                                              formData.personal.dob
+                                          ).toLocaleDateString()
+                                        : "N/A"
+                                }
+                                isRequired={true}
                             />
                             <FieldItem
                                 label="Gender"
                                 value={formData.personal.gender}
+                                isRequired={true}
                             />
                             <FieldItem
                                 label="Phone Number"
                                 value={formData.personal.phone}
+                                isRequired={true}
                             />
                             <FieldItem
                                 label="Email"
                                 value={formData.personal.email}
+                                isRequired={true}
                             />
                             <FieldItem
                                 label="Street Address"
-                                value={formData.address.street}
+                                value={formData.personal.address.streetName}
+                                isRequired={true}
                             />
                             <FieldItem
                                 label="City"
-                                value={formData.address.city}
+                                value={formData.personal.address.city}
+                                isRequired={true}
                             />
                             <FieldItem
                                 label="State"
-                                value={formData.address.state}
+                                value={formData.personal.address.state}
+                                isRequired={true}
                             />
                             <FieldItem
                                 label="Zip Code"
-                                value={formData.address.zipCode}
+                                value={formData.personal.address.zipCode}
+                                isRequired={true}
                             />
                         </div>
                     </div>
@@ -183,63 +246,69 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                             Tell us a little about you
                         </h3>
 
-                        <TextField
-                            type="text"
-                            label="First Name"
-                            name="firstName"
-                            placeholder="First Name"
-                            section="personal"
-                            field="firstName"
-                            value={formData.personal.firstName}
-                            handleInputChange={handleInputChange}
-                            isRequired={true}
-                        />
-                        <TextField
-                            type="text"
-                            label="Middle Name"
-                            name="middleName"
-                            placeholder="Middle Name"
-                            section="personal"
-                            field="middleName"
-                            value={formData.personal.middleName}
-                            handleInputChange={handleInputChange}
-                        />
-                        <TextField
-                            type="text"
-                            label="Last Name"
-                            name="lastName"
-                            field="lastName"
-                            placeholder="Last Name"
-                            section="personal"
-                            value={formData.personal.lastName}
-                            handleInputChange={handleInputChange}
-                            isRequired={true}
-                        />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                            <TextField
+                                type="text"
+                                label="First Name"
+                                name="firstName"
+                                placeholder="First Name"
+                                section="personal"
+                                field="firstName"
+                                value={formData.personal.firstName}
+                                handleInputChange={handleInputChange}
+                                isRequired={true}
+                            />
+                            <TextField
+                                type="text"
+                                label="Middle Name"
+                                name="middleName"
+                                placeholder="Middle Name"
+                                section="personal"
+                                field="middleName"
+                                value={formData.personal.middleName}
+                                handleInputChange={handleInputChange}
+                            />
+                            <TextField
+                                type="text"
+                                label="Last Name"
+                                name="lastName"
+                                field="lastName"
+                                placeholder="Last Name"
+                                section="personal"
+                                value={formData.personal.lastName}
+                                handleInputChange={handleInputChange}
+                                isRequired={true}
+                            />
 
-                        <SelectField
-                            label="Gender"
-                            name="gender"
-                            title="-- Select Gender --"
-                            data={genderOptions}
-                            value={formData.personal.gender}
-                            section="personal"
-                            field="gender"
-                            handleSelectChange={handleInputChange}
-                            isRequired={true}
-                        />
-                        <DateField
-                            label="Date of Birth"
-                            name="dob"
-                            field="dob"
-                            section="personal"
-                            placeholder="MM/DD/YYYY"
-                            handleFormElementChange={handleInputChange}
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
-                            defaultDate={``}
-                            isRequired={true}
-                        />
+                            <SelectField
+                                label="Gender"
+                                name="gender"
+                                title="-- Select Gender --"
+                                data={genderOptions}
+                                value={formData.personal.gender}
+                                section="personal"
+                                field="gender"
+                                handleSelectChange={handleInputChange}
+                                isRequired={true}
+                            />
+                            <DateField
+                                label="Date of Birth"
+                                name="dob"
+                                field="dob"
+                                section="personal"
+                                placeholder="MM/DD/YYYY"
+                                handleFormElementChange={handleInputChange}
+                                showMonthDropdown
+                                showYearDropdown
+                                dropdownMode="select"
+                                defaultDate={
+                                    formData.personal.dob
+                                        ? new Date(formData.personal.dob)
+                                        : ""
+                                }
+                                isRequired={true}
+                            />
+                        </div>
                     </div>
 
                     <StaticDivider />
@@ -248,6 +317,7 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                         <h3 className="text-lg md:text-xl font-medium text-deepGrey">
                             Your contact Information
                         </h3>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                             <TextField
                                 type="text"
@@ -272,44 +342,54 @@ const PersonalInfoForm = ({ formData, handleInputChange }) => {
                                 isRequired={true}
                             />
 
+                            <div className="col-span-2">
+                                <IdField
+                                    field="patientId"
+                                    handleFormChange={handleInputChange}
+                                    section="personal"
+                                    isRequired={true}
+                                    formData={formData}
+                                />
+                            </div>
+
                             <TextField
                                 type="text"
                                 label="Street Address"
                                 name="street"
-                                field="street"
+                                field="address.streetName"
                                 placeholder="Street Address"
-                                section="address"
-                                value={formData.address.street}
+                                section="personal"
+                                value={formData.personal.address.streetName}
                                 handleInputChange={handleInputChange}
                             />
                             <TextField
                                 type="text"
                                 label="City"
                                 name="city"
-                                field="city"
+                                field="address.city"
                                 placeholder="City"
-                                section="address"
-                                value={formData.address.city}
+                                section="personal"
+                                value={formData.personal.address.city}
                                 handleInputChange={handleInputChange}
                             />
                             <TextField
                                 type="text"
                                 label="State"
                                 name="state"
-                                field="state"
+                                field="address.state"
                                 placeholder="State"
-                                section="address"
-                                value={formData.address.state}
+                                section="personal"
+                                value={formData.personal.address.state}
                                 handleInputChange={handleInputChange}
                             />
                             <TextField
                                 type="text"
                                 label="Zip Code"
                                 name="zipCode"
-                                field="zipCode"
+                                field="address.zipCode"
                                 placeholder="Zip Code"
-                                section="address"
-                                value={formData.address.zipCode}
+                                section="personal"
+                                value={formData.personal.address.zipCode}
                                 handleInputChange={handleInputChange}
                             />
                         </div>

@@ -14,18 +14,42 @@ import { isFormValid } from "./utils";
 
 import { LuShieldCheck } from "react-icons/lu";
 
+import { useToast } from "../../../components/ToastContext";
+import {
+    useCreateAppointment,
+    useFetchBookedAppointments,
+} from "../../../hooks/useAppointments";
+import { objectToFormData, convertToBoolean } from "../../utils";
+
 const Appointment = () => {
     const navigate = useNavigate();
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { showToast } = useToast();
+    const {
+        mutate,
+        isPending: isSubmitting,
+        error,
+        data,
+    } = useCreateAppointment({
+        openModal: openSuccessModal,
+        showToast,
+    });
+    const [successModalData, setSuccessModalData] = useState({});
     const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
     const [completedSteps, setCompletedSteps] = useState([]);
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+    // const [bookedAppointments, setBookedAppointments] = useState([]);
+    // const {
+    //     refetch,
+    //     isLoading,
+    //     isError,
+    //     error: bookedAppointmentsError,
+    // } = useFetchBookedAppointments();
     const [formData, setFormData] = useState({
         personal: {
             isNew: "",
-            id: "",
             verificationStatus: "",
+            patientId: "",
             firstName: "",
             middleName: "",
             lastName: "",
@@ -33,18 +57,18 @@ const Appointment = () => {
             dob: "",
             phone: "",
             email: "",
-        },
-        address: {
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
+            address: {
+                streetName: "",
+                city: "",
+                state: "",
+                zipCode: "",
+            },
         },
         appointment: {
             appointmentType: "",
             service: "",
             appointmentDateTime: "",
-            purpose: ""
+            purpose: "",
         },
         insurance: {
             paymentMethod: "",
@@ -53,13 +77,27 @@ const Appointment = () => {
         },
     });
 
-    console.log(formData);
+    // console.log(formData);
+    // console.log(bookedAppointments);
+
+    // Fetch booked appointments
+    // useEffect(() => {
+    //     const fetchBookedSlots = async () => {
+    //         const response = await refetch();
+
+    //         if (response.data) {
+    //             setBookedAppointments(response.data.slots);
+    //         }
+    //     };
+
+    //     fetchBookedSlots();
+    // }, []);
 
     // Scroll to top when the step value changes
     useEffect(() => {
         window.scrollTo({ top: 200, behavior: "smooth" });
 
-        isStepValid();
+        isStepsValid();
     }, [currentStep]);
 
     useEffect(() => {
@@ -77,18 +115,46 @@ const Appointment = () => {
             setCompletedSteps((prev) => prev.filter((step) => step !== 3));
         }
 
-        isStepValid();
+        isStepsValid();
     }, [formData.insurance.paymentMethod]);
 
     const steps = ["Personal", "Appointment", "Insurance"];
 
+    // Function to open modal
+    function openSuccessModal(data) {
+        setSuccessModalData(data);
+        setIsSuccessModalOpen(true);
+    }
+
     // Handle form element change
-    const handleFormElementChange = (section, field, value) => {
-        setFormData((prev) => ({
-            ...prev,
-            [section]: { ...prev[section], [field]: value },
-        }));
-    };
+    function handleFormElementChange(section, fieldPath, value) {
+        setFormData((prev) => {
+            const keys = fieldPath.split(".");
+
+            const updateNestedField = (obj, keys, value) => {
+                if (keys.length === 1) {
+                    return {
+                        ...obj,
+                        [keys[0]]: value,
+                    };
+                }
+
+                return {
+                    ...obj,
+                    [keys[0]]: updateNestedField(
+                        obj[keys[0]],
+                        keys.slice(1),
+                        value
+                    ),
+                };
+            };
+
+            return {
+                ...prev,
+                [section]: updateNestedField(prev[section], keys, value),
+            };
+        });
+    }
 
     const formatToCamelCase = (str) => {
         return `${str.slice(0, 1).toLowerCase()}${str.slice(1)}`.replace(
@@ -97,7 +163,6 @@ const Appointment = () => {
         );
     };
 
-    // Step Validation logic
     const isStepValid = (step = currentStep) => {
         const dataObj = formData[formatToCamelCase(steps[step])];
         const nonRequiredProps = ["id", "verificationStatus", "middleName"];
@@ -127,10 +192,10 @@ const Appointment = () => {
         }
 
         for (const key in formData.address) {
-            const value = formData.address[key]
+            const value = formData.address[key];
 
             if (!value) {
-                return false
+                return false;
             }
         }
 
@@ -144,9 +209,84 @@ const Appointment = () => {
 
         return true;
     };
+    // Step Validation logic
+    const isStepsValid = (step = currentStep) => {
+        const requiredFields = [
+            "firstName",
+            "lastName",
+            "gender",
+            // "dob",
+            "maritalStatus",
+            "phone",
+            "email",
+            "address",
+            "patientId",
+            "appointmentType",
+            "purpose",
+            "service",
+            "appointmentDateTime",
+        ];
+
+        if (step === 0 || step === 1) {
+            const dataObj =
+                step === 0 ? formData.personal : formData.appointment;
+
+            for (const key in dataObj) {
+                const value = dataObj[key];
+
+                if (!requiredFields.includes(key)) {
+                    continue;
+                }
+
+                if (value !== null && typeof value === "object") {
+                    for (const key in value) {
+                        const nestedValue = value[key];
+                        if (nestedValue === "" || nestedValue === null) {
+                            return false;
+                        }
+                    }
+                }
+
+                if (value === "" || value === null || value === undefined) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (step === 2) {
+            const dataObj = formData.insurance;
+
+            if (!formData.insurance.paymentMethod) {
+                return false;
+            }
+
+            if (
+                formData.insurance.paymentMethod.toLowerCase() ===
+                "insurance card"
+            ) {
+                if (
+                    !formData.insurance.insuranceName ||
+                    !formData.insurance.insuranceNumber
+                ) {
+                    return false;
+                }
+                // for (const key in dataObj) {
+                //     const value = dataObj[key];
+
+                //     if (value === "" || value === null || value === undefined) {
+                //         return false;
+                //     }
+                // }
+            }
+
+            return true;
+        }
+    };
 
     const goToNextStep = () => {
-        if (isStepValid()) {
+        if (isStepsValid()) {
             setCompletedSteps((prev) => [...prev, currentStep]);
 
             setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
@@ -162,14 +302,38 @@ const Appointment = () => {
     };
 
     const submitHandler = async () => {
-        setIsSubmitting(true);
+        const data = {
+            id: "",
+            patientId: formData.personal.patientId,
+            isNew: convertToBoolean(formData.personal.isNew),
+            verificationStatus: formData.personal.verificationStatus,
+            firstName: formData.personal.firstName,
+            middleName: formData.personal.middleName,
+            lastName: formData.personal.lastName,
+            gender: formData.personal.gender,
+            dob: formData.personal.dob,
+            phone: formData.personal.phone,
+            email: formData.personal.email,
+            address: {
+                id: "",
+                streetName: formData.personal.address.streetName,
+                city: formData.personal.address.city,
+                state: formData.personal.address.state,
+                zipCode: formData.personal.address.zipCode,
+            },
+            appointmentType: formData.appointment.appointmentType,
+            service: formData.appointment.service,
+            appointmentDateTime: formData.appointment.appointmentDateTime,
+            purpose: formData.appointment.purpose,
+            paymentMethod: formData.insurance.paymentMethod,
+            insuranceName: formData.insurance.insuranceName,
+            insuranceNumber: formData.insurance.insuranceNumber,
+        };
 
-        setTimeout(() => {
-            setIsReviewModalOpen(false);
-            setIsSubmitModalOpen(true);
-            setIsSubmitting(false);
-        }, 4000);
-        console.log("Submitted", formData);
+        const payload = objectToFormData(data);
+
+        // TODO: book an appointment
+        mutate(payload);
     };
 
     const reviewHandler = () => {
@@ -182,13 +346,11 @@ const Appointment = () => {
     };
 
     const goToStep = (step) => {
-        
-        if (isStepValid(step)) {
+        if (isStepsValid(step)) {
             setCompletedSteps((prev) => [...prev, step]);
             setCurrentStep(step);
-            
         }
-        
+
         // if (!isStepValid(step)) return;
     };
 
@@ -217,7 +379,7 @@ const Appointment = () => {
                         <StepIndicator
                             steps={steps}
                             currentStep={currentStep}
-                            isStepValid={isStepValid}
+                            isStepValid={isStepsValid}
                             completedSteps={completedSteps}
                             goToStep={goToStep}
                         />
@@ -227,15 +389,10 @@ const Appointment = () => {
                             {currentStep === 0 && (
                                 <PersonalInfoForm
                                     formData={formData}
+                                    setFormData={setFormData}
                                     handleInputChange={handleFormElementChange}
                                 />
                             )}
-                            {/* {currentStep === 1 && (
-                                <AddressForm
-                                    formData={formData}
-                                    handleInputChange={handleFormElementChange}
-                                />
-                            )} */}
                             {currentStep === 1 && (
                                 <AppointmentForm
                                     formData={formData}
@@ -264,7 +421,7 @@ const Appointment = () => {
                                 <button
                                     onClick={goToNextStep}
                                     className={`w-full py-2 px-4 font-medium text-center border border-lightGreen rounded-lg text-white hover:bg-lightGreen transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-transparent`}
-                                    disabled={!isStepValid()}
+                                    disabled={!isStepsValid()}
                                 >
                                     Next
                                 </button>
@@ -274,7 +431,7 @@ const Appointment = () => {
                                 <button
                                     onClick={reviewHandler}
                                     className="w-full py-2 px-4 font-medium text-center border border-lightGreen rounded-lg text-white hover:bg-lightGreen transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-transparent"
-                                    disabled={!isFormValid(formData)}
+                                    disabled={!isStepsValid()}
                                 >
                                     Review
                                 </button>
@@ -288,7 +445,7 @@ const Appointment = () => {
             <Modal
                 isOpen={isReviewModalOpen}
                 onClose={closeReview}
-                maxWidth="w-full max-w-5xl"
+                maxWidth="w-full max-w-2xl"
             >
                 {/* <div className="">Placeholder</div> */}
                 <ReviewForm
@@ -307,22 +464,22 @@ const Appointment = () => {
                         <LuShieldCheck className="text-5xl text-lightGreen" />
 
                         <div className="flex flex-col items-center">
-                            <h3 className="text-lg text-center font-bold mb-5">
+                            <h3 className="text-lg text-center font-bold mb-3">
                                 Appointment Confirmed!
                             </h3>
 
-                            <div className="space-y-2 text-center text-deepGrey">
+                            {(successModalData.message ||
+                                successModalData.success) && (
+                                <p className="font-semibold mb-5">
+                                    {successModalData?.message ||
+                                        successModalData?.success}
+                                </p>
+                            )}
+
+                            <div className="text-center text-deepGrey">
                                 <p className="">
                                     Your appointment has been successfully
-                                    booked. A confirmation email with the
-                                    details has been sent to your registered
-                                    email.
-                                </p>
-
-                                <p className="">
-                                    If you have any questions or need to
-                                    reschedule, please contact our office. We
-                                    look forward to seeing you!
+                                    booked.
                                 </p>
                             </div>
                         </div>

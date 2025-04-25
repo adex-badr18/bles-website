@@ -16,7 +16,7 @@ const Patients = () => {
     const [page, setPage] = useState(1);
     const [searchParams, setSearchParams] = useState({});
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-    const { data, isLoading, isFetching, isError, error } = usePatients(
+    const { data, isLoading, isFetching, isError, error } = useFetchPatients(
         page,
         searchParams
     );

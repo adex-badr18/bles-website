@@ -58,7 +58,7 @@ const IdField = ({
 
         const payload = objectToFormData(data);
 
-        mutate(payload, "/patients/forms");
+        mutate(payload);
     });
 
     return (

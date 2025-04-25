@@ -159,7 +159,7 @@ const MedicationConsentForm = () => {
             "firstName",
             "lastName",
             "gender",
-            // "dob",
+            "dob",
             "maritalStatus",
             "phone",
             "email",

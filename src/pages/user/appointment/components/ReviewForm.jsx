@@ -1,8 +1,9 @@
 import { MdClose } from "react-icons/md";
 import Spinner from "../../../../components/Spinner";
+import { convertIsoDateToReadable } from "../../../utils";
 
 const ReviewForm = ({ formData, onSubmit, onClose, onEdit, isSubmitting }) => {
-    const { personal, address, appointment, insurance } = formData;
+    const { personal, appointment, insurance } = formData;
 
     return (
         // <div className="flex items-center justify-center px-4 overflow-y-auto h-[520px]">
@@ -22,11 +23,11 @@ const ReviewForm = ({ formData, onSubmit, onClose, onEdit, isSubmitting }) => {
 
             <div className="space-y-4">
                 {/* Personal Information */}
-                <div className="py-2 px-4 border rounded space-y-1">
-                    <h3 className="text-lg font-semibold text-darkBlue">
+                <fieldset className="px-4 border rounded">
+                    <legend className="px-2 font-semibold text-darkBlue">
                         Personal Information
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-1">
+                    </legend>
+                    <div className="px-2 pt-2 pb-4 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-2">
                         <p>
                             <span className="font-medium text-deepGrey">
                                 First Name:
@@ -71,47 +72,47 @@ const ReviewForm = ({ formData, onSubmit, onClose, onEdit, isSubmitting }) => {
                             {personal.email || "N/A"}
                         </p>
                     </div>
-                </div>
+                </fieldset>
 
                 {/* Address */}
-                <div className="py-2 px-4 border rounded space-y-1">
-                    <h3 className="text-lg font-semibold text-darkBlue">
+                <fieldset className="px-4 border rounded">
+                    <legend className="px-2 font-semibold text-darkBlue">
                         Address
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                    </legend>
+                    <div className="px-2 pt-2 pb-4 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-2">
                         <p>
                             <span className="font-medium text-deepGrey">
                                 Street:
                             </span>{" "}
-                            {address.street || "N/A"}
+                            {personal.address.streetName || "N/A"}
                         </p>
                         <p>
                             <span className="font-medium text-deepGrey">
                                 City:
                             </span>{" "}
-                            {address.city || "N/A"}
+                            {personal.address.city || "N/A"}
                         </p>
                         <p>
                             <span className="font-medium text-deepGrey">
                                 State:
                             </span>{" "}
-                            {address.state || "N/A"}
+                            {personal.address.state || "N/A"}
                         </p>
                         <p>
                             <span className="font-medium text-deepGrey">
                                 Zip Code:
                             </span>{" "}
-                            {address.zipCode || "N/A"}
+                            {personal.address.zipCode || "N/A"}
                         </p>
                     </div>
-                </div>
+                </fieldset>
 
                 {/* Appointment */}
-                <div className="py-2 px-4 border rounded space-y-1">
-                    <h3 className="text-lg font-semibold text-darkBlue">
+                <fieldset className="px-4 border rounded">
+                    <legend className="px-2 font-semibold text-darkBlue">
                         Appointment
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                    </legend>
+                    <div className="px-2 pt-2 pb-4 grid grid-cols-1 gap-4">
                         <p>
                             <span className="font-medium text-deepGrey">
                                 Type:
@@ -128,19 +129,25 @@ const ReviewForm = ({ formData, onSubmit, onClose, onEdit, isSubmitting }) => {
                             <span className="font-medium text-deepGrey">
                                 Date/Time:
                             </span>{" "}
-                            {new Date(
+                            {convertIsoDateToReadable(
                                 appointment.appointmentDateTime
-                            ).toLocaleString() || "N/A"}
+                            ) || "N/A"}
+                        </p>
+                        <p>
+                            <span className="font-medium text-deepGrey">
+                                Purpose of Visit:
+                            </span>{" "}
+                            {appointment.purpose || "N/A"}
                         </p>
                     </div>
-                </div>
+                </fieldset>
 
                 {/* Insurance */}
-                <div className="py-2 px-4 border rounded space-y-1">
-                    <h3 className="text-lg font-semibold text-darkBlue">
+                <fieldset className="px-4 border rounded">
+                    <legend className="px-2 font-semibold text-darkBlue">
                         Insurance Information
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                    </legend>
+                    <div className="px-2 pt-2 pb-4 grid grid-cols-1 gap-4">
                         <p>
                             <span className="font-medium text-deepGrey">
                                 Payment Method:
@@ -164,7 +171,7 @@ const ReviewForm = ({ formData, onSubmit, onClose, onEdit, isSubmitting }) => {
                             </>
                         )}
                     </div>
-                </div>
+                </fieldset>
             </div>
 
             {/* Buttons */}
