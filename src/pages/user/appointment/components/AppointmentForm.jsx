@@ -1,13 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 
-import Dropdown from "../../../../components/Dropdown";
 import TextAreaField from "../../../../components/TextAreaField";
 import { appointmentTypes, services } from "../data";
-import {
-    fetchAdminUnavailablePeriods,
-    fetchBookedAppointmentsPeriods,
-    fetchUSHolidays,
-} from "../api";
+import { fetchUSHolidays } from "../api";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -18,11 +13,14 @@ import { MdRefresh } from "react-icons/md";
 
 const AppointmentForm = ({ formData, handleInputChange }) => {
     const [selectedDateTime, setSelectedDateTime] = useState(
-        new Date(formData.appointment.appointmentDateTime) || null
+        formData.appointment.appointmentDateTime
+            ? new Date(formData.appointment.appointmentDateTime)
+            : null
     );
     const [holidays, setHolidays] = useState([]);
     const [excludedTimes, setExcludedTimes] = useState({});
     const {
+        data,
         refetch,
         isLoading,
         isPending,
@@ -38,14 +36,18 @@ const AppointmentForm = ({ formData, handleInputChange }) => {
 
     useEffect(() => {
         fetchBookedSlots();
-    }, []);
+    }, [data]);
+
+    console.log(excludedTimes);
+    // console.log(data)
 
     async function fetchBookedSlots() {
         const holidays = await fetchUSHolidays();
 
         // Fetch booked slots
         const response = await refetch();
-        const bookedSlots = response?.data?.data?.slots || [];
+        const bookedSlots = response?.data?.data?.slots || data?.slots;
+        // console.log(bookedSlots)
 
         // Create a map of dates to excluded times
         const excludedDatesTimesMap = {};
@@ -55,12 +57,14 @@ const AppointmentForm = ({ formData, handleInputChange }) => {
                 const dateKey = new Date(period.date).toLocaleDateString();
                 if (!excludedDatesTimesMap[dateKey])
                     excludedDatesTimesMap[dateKey] = [];
-                excludedDatesTimesMap[dateKey].push(...period.times);
+                excludedDatesTimesMap[dateKey].push(...period.daySlots);
             });
         };
 
-        // Map all booked appointment times
-        processExclusions(bookedSlots);
+        if (bookedSlots?.length > 0) {
+            // Map all booked appointment times
+            processExclusions(bookedSlots);
+        }
 
         setExcludedTimes(excludedDatesTimesMap);
         setHolidays(holidays);

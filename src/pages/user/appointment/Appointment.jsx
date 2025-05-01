@@ -5,21 +5,18 @@ import { useNavigate } from "react-router-dom";
 import SectionHeader from "../../../components/SectionHeader";
 import StepIndicator from "./components/StepIndicator";
 import PersonalInfoForm from "./components/PersonalInfoForm";
-import AddressForm from "./components/AddressForm";
 import AppointmentForm from "./components/AppointmentForm";
 import InsuranceForm from "./components/InsuranceForm";
 import Modal from "../../../components/Modal";
 import ReviewForm from "./components/ReviewForm";
-import { isFormValid } from "./utils";
-
 import { LuShieldCheck } from "react-icons/lu";
-
 import { useToast } from "../../../components/ToastContext";
+import { useCreateAppointment } from "../../../hooks/useAppointments";
 import {
-    useCreateAppointment,
-    useFetchBookedAppointments,
-} from "../../../hooks/useAppointments";
-import { objectToFormData, convertToBoolean } from "../../utils";
+    objectToFormData,
+    convertToBoolean,
+    formatToYYYYMMDD,
+} from "../../utils";
 
 const Appointment = () => {
     const navigate = useNavigate();
@@ -38,13 +35,6 @@ const Appointment = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [completedSteps, setCompletedSteps] = useState([]);
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-    // const [bookedAppointments, setBookedAppointments] = useState([]);
-    // const {
-    //     refetch,
-    //     isLoading,
-    //     isError,
-    //     error: bookedAppointmentsError,
-    // } = useFetchBookedAppointments();
     const [formData, setFormData] = useState({
         personal: {
             isNew: "",
@@ -77,22 +67,6 @@ const Appointment = () => {
         },
     });
 
-    // console.log(formData);
-    // console.log(bookedAppointments);
-
-    // Fetch booked appointments
-    // useEffect(() => {
-    //     const fetchBookedSlots = async () => {
-    //         const response = await refetch();
-
-    //         if (response.data) {
-    //             setBookedAppointments(response.data.slots);
-    //         }
-    //     };
-
-    //     fetchBookedSlots();
-    // }, []);
-
     // Scroll to top when the step value changes
     useEffect(() => {
         window.scrollTo({ top: 200, behavior: "smooth" });
@@ -123,7 +97,8 @@ const Appointment = () => {
     // Function to open modal
     function openSuccessModal(data) {
         setSuccessModalData(data);
-        setIsSuccessModalOpen(true);
+        setIsSubmitModalOpen(true);
+        setIsReviewModalOpen(false);
     }
 
     // Handle form element change
@@ -156,59 +131,13 @@ const Appointment = () => {
         });
     }
 
-    const formatToCamelCase = (str) => {
-        return `${str.slice(0, 1).toLowerCase()}${str.slice(1)}`.replace(
-            " ",
-            ""
-        );
-    };
+    // const formatToCamelCase = (str) => {
+    //     return `${str.slice(0, 1).toLowerCase()}${str.slice(1)}`.replace(
+    //         " ",
+    //         ""
+    //     );
+    // };
 
-    const isStepValid = (step = currentStep) => {
-        const dataObj = formData[formatToCamelCase(steps[step])];
-        const nonRequiredProps = ["id", "verificationStatus", "middleName"];
-        const optionalInsuranceFields = ["insuranceName", "insuranceNumber"];
-
-        for (const key in dataObj) {
-            const value = dataObj[key];
-
-            if (nonRequiredProps.includes(key)) {
-                continue;
-            }
-
-            if (optionalInsuranceFields.includes(key)) {
-                if (dataObj["paymentMethod"].toLowerCase() === "self pay") {
-                    continue;
-                }
-            }
-
-            if (
-                value === null ||
-                value === undefined ||
-                (typeof value === "string" && value.trim() === "") ||
-                (Array.isArray(value) && value.length === 0)
-            ) {
-                return false;
-            }
-        }
-
-        for (const key in formData.address) {
-            const value = formData.address[key];
-
-            if (!value) {
-                return false;
-            }
-        }
-
-        // for (const key in formData.appointment) {
-        //     const value = formData.appointment[key]
-
-        //     if (!value) {
-        //         return false
-        //     }
-        // }
-
-        return true;
-    };
     // Step Validation logic
     const isStepsValid = (step = currentStep) => {
         const requiredFields = [
@@ -291,10 +220,6 @@ const Appointment = () => {
 
             setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
         }
-
-        // setCompletedSteps((prev) => [...prev, currentStep]);
-
-        // setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
     };
 
     const goToPreviousStep = () => {
@@ -311,7 +236,7 @@ const Appointment = () => {
             middleName: formData.personal.middleName,
             lastName: formData.personal.lastName,
             gender: formData.personal.gender,
-            dob: formData.personal.dob,
+            dob: formatToYYYYMMDD(formData.personal.dob),
             phone: formData.personal.phone,
             email: formData.personal.email,
             address: {
@@ -332,6 +257,11 @@ const Appointment = () => {
 
         const payload = objectToFormData(data);
 
+        console.log(
+            "Final Appointment Date Time: ",
+            new Date(data.appointmentDateTime).toLocaleString()
+        );
+
         // TODO: book an appointment
         mutate(payload);
     };
@@ -350,8 +280,6 @@ const Appointment = () => {
             setCompletedSteps((prev) => [...prev, step]);
             setCurrentStep(step);
         }
-
-        // if (!isStepValid(step)) return;
     };
 
     const editHandler = () => {
@@ -447,7 +375,6 @@ const Appointment = () => {
                 onClose={closeReview}
                 maxWidth="w-full max-w-2xl"
             >
-                {/* <div className="">Placeholder</div> */}
                 <ReviewForm
                     formData={formData}
                     onSubmit={submitHandler}
@@ -468,18 +395,12 @@ const Appointment = () => {
                                 Appointment Confirmed!
                             </h3>
 
-                            {(successModalData.message ||
-                                successModalData.success) && (
-                                <p className="font-semibold mb-5">
-                                    {successModalData?.message ||
-                                        successModalData?.success}
-                                </p>
-                            )}
-
                             <div className="text-center text-deepGrey">
                                 <p className="">
-                                    Your appointment has been successfully
-                                    booked.
+                                    {`Your appointment has been successfully
+                                    scheduled for ${new Date(
+                                        formData.appointment.appointmentDateTime
+                                    ).toLocaleString()}.`}
                                 </p>
                             </div>
                         </div>

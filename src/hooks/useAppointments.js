@@ -49,7 +49,7 @@ export const useGetAppointment = (appointmentId) => {
 export const useFetchBookedAppointments = () => {
     return useQuery({
         queryKey: ["bookedAppointments"],
-        queryFn: () => fetchBookedAppointments(),
+        queryFn: fetchBookedAppointments,
         enabled: true, // enables automatic fetch
         retry: 3,
     });
@@ -62,6 +62,7 @@ export const useCreateAppointment = ({ openModal, showToast }) => {
     return useMutation({
         mutationFn: createAppointment,
         onSuccess: (response) => {
+            console.log(response)
             openModal(response.data);
             queryClient.invalidateQueries(["appointments"]);
         },
