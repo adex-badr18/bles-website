@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
     useReactTable,
     getCoreRowModel,
@@ -24,11 +24,49 @@ const Table = ({
     setIsSearchModalOpen,
     isGlobalSearch,
     setGlobalSearch,
+    patientId,
 }) => {
     const [globalFilter, setGlobalFilter] = useState("");
     const [rowSelection, setRowSelection] = useState({});
     const navigate = useNavigate();
     const entityUrl = `/admin/${entity}`;
+
+    console.log(isGlobalSearch)
+
+    const { defaultSearchReqBody } = useMemo(() => {
+        let defaultSearchReqBody;
+
+        if (patientId) {
+            if (entity === "appointments") {
+                defaultSearchReqBody = {
+                    patientId: patientId,
+                    firstName: "",
+                    lastName: "",
+                    middleName: "",
+                    dob: "",
+                    phone: "",
+                    email: "",
+                    gender: "",
+                    maritalStatus: "",
+                    city: "",
+                    state: "",
+                    appointmentDateTime: "",
+                    paymentMode: "",
+                };
+            } else if (entity === "reviews") {
+                defaultSearchReqBody = {
+                    patientId: patientId,
+                    nickName: "string",
+                    email: "user@example.com",
+                    rating: 5,
+                    status: "",
+                };
+            }
+        } else {
+            defaultSearchReqBody = {};
+        }
+        return { defaultSearchReqBody };
+    }, [data, entity, patientId]);
 
     // Define the table instance
     const table = useReactTable({
@@ -72,7 +110,7 @@ const Table = ({
         e.preventDefault();
 
         setGlobalFilter("");
-        setGlobalSearch({});
+        setGlobalSearch(defaultSearchReqBody);
     };
 
     return (
@@ -104,7 +142,7 @@ const Table = ({
                             />
                         </div>
 
-                        {isGlobalSearch && (
+                        {!isGlobalSearch && (
                             <button
                                 onClick={handleClearFilters}
                                 className="text-vividRed flex items-center gap-1 text-sm"

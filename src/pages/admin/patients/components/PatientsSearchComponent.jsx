@@ -8,22 +8,29 @@ import {
 } from "../../../user/patientForms/data";
 import { paymentMethods } from "../../../user/appointment/data";
 
-const SearchComponent = ({ setIsSearchModalOpen, onSearch, searchData }) => {
+const PatientsSearchComponent = ({
+    setIsSearchModalOpen,
+    onSearch,
+    searchData,
+}) => {
     const [reqBody, setReqBody] = useState({
-        data: searchData || {
-            // patientId: "",
-            firstName: "",
-            lastName: "",
-            middleName: "",
-            dob: "",
-            phone: "",
-            email: "",
-            gender: "",
-            maritalStatus: "",
-            city: "",
-            state: "",
-            // paymentMode: "",
-        },
+        data:
+            searchData && Object.keys(searchData).length > 0
+                ? searchData
+                : {
+                      // patientId: "",
+                      firstName: "",
+                      lastName: "",
+                      middleName: "",
+                      dob: "",
+                      phone: "",
+                      email: "",
+                      gender: "",
+                      maritalStatus: "",
+                      city: "",
+                      state: "",
+                      // paymentMode: "",
+                  },
     });
 
     const onReqBodyChange = (section, fieldPath, value) => {
@@ -243,4 +250,4 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch, searchData }) => {
     );
 };
 
-export default SearchComponent;
+export default PatientsSearchComponent;

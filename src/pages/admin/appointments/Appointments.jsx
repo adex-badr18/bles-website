@@ -4,7 +4,7 @@ import PageTitle from "../components/PageTitle";
 import Modal from "../../../components/Modal";
 import { MdClose } from "react-icons/md";
 import GlobalPagination from "../components/GlobalPagination";
-import SearchComponent from "./components/SearchComponent";
+import AppointmentsSearchComponent from "./components/AppointmentsSearchComponent";
 import PaginatedList from "../components/PaginatedList";
 import { objectToFormData } from "../../utils";
 import { appointments, appointmentsColumns } from "./data";
@@ -33,7 +33,7 @@ const Appointments = () => {
             <Modal isOpen={isSearchModalOpen}>
                 <div className="w-full max-w-xl h-[90vh] overflow-y-auto bg-white relative p-6 rounded-md shadow-lg">
                     {
-                        <SearchComponent
+                        <AppointmentsSearchComponent
                             setIsSearchModalOpen={setIsSearchModalOpen}
                             onSearch={searchHandler}
                             searchData={reqBody}

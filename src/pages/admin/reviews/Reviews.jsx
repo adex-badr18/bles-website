@@ -5,7 +5,7 @@ import { reviews, reviewsColumns } from "./data";
 import Modal from "../../../components/Modal";
 import { MdClose } from "react-icons/md";
 import GlobalPagination from "../components/GlobalPagination";
-import SearchComponent from "./components/SearchComponent";
+import SearchComponent from "./components/ReviewsSearchComponent";
 import PaginatedList from "../components/PaginatedList";
 import { objectToFormData } from "../../utils";
 

@@ -1,12 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
-import { useLoaderData, useLocation } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
 import LinkButton from "../../../components/LinkButton";
-import FieldItem from "../../../components/FieldItem";
 import GeneralTab from "./components/GeneralTab";
-import { patients, patientsList } from "./data";
 import { MdOutlineHome } from "react-icons/md";
-import { convertToUSDateTime } from "../utils";
 import FormsTab from "./components/FormsTab";
 import AppointmentsTab from "./components/AppointmentsTab";
 import ReviewsTab from "./components/ReviewsTab";
@@ -18,40 +14,21 @@ import { useParams } from "react-router-dom";
 import { useToast } from "../../../components/ToastContext";
 import Spinner from "../../../components/Spinner";
 
-export const patientLoader = async ({ params }) => {
-    const id = params.id;
-
-    const patient = patientsList.filter((patient) => patient.id === id);
-
-    return patient.length > 0
-        ? patient[0]
-        : {
-              status: "error",
-              message:
-                  "The patient information you requested could not be found.",
-          };
-};
-
 const Patient = () => {
-    const patient = useLoaderData();
-    const location = useLocation();
-
-    // Custom hook setup start
     const [tabIndex, setTabIndex] = useState(1);
     const { showToast } = useToast();
     const { id } = useParams();
-    const { data, isLoading, isSuccess, isError, error } = useGetPatient(
+    const { data: patient, isLoading, isSuccess, isError, error } = useGetPatient(
         id || ""
     );
-    // const { forms, appointments, reviews, patientId } = data;
     const { forms, appointments, reviews, patientId } = useMemo(() => {
         return {
-            forms: data?.forms || {},
-            appointments: data?.appointments || [],
-            reviews: data?.reviews,
-            patientId: data?.patientId,
+            forms: patient?.forms || {},
+            appointments: patient?.appointments || [],
+            reviews: patient?.reviews,
+            patientId: patient?.patientId,
         };
-    }, [data]);
+    }, [patient]);
 
     useEffect(() => {
         if (isError) {
@@ -66,9 +43,8 @@ const Patient = () => {
             });
         }
     }, [isError]);
-    // Custom hook end
 
-    console.log(data);
+    console.log(patient);
 
     const changeTabHandler = (tabIndex) => {
         setTabIndex(tabIndex);
@@ -152,9 +128,9 @@ const Patient = () => {
 
             {tabIndex === 2 && <FormsTab forms={forms} />}
 
-            {tabIndex === 3 && <AppointmentsTab appointments={appointments} />}
+            {tabIndex === 3 && <AppointmentsTab appointments={appointments} patientId={patientId} />}
 
-            {tabIndex === 4 && <ReviewsTab reviews={reviews} />}
+            {tabIndex === 4 && <ReviewsTab reviews={reviews} patientId={patientId} />}
         </section>
     );
 };

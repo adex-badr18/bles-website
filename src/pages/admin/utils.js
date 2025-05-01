@@ -50,3 +50,21 @@ export const getFormattedKeyValues = (data) => {
         });
     });
 };
+
+export const isAllEmptyExceptPatientId = (obj) => {
+    return Object.entries(obj).every(([key, value]) => {
+        if (key === "patientId") {
+            return true;
+        }
+        
+        return value === "" || value === null || value === undefined;
+    });
+};
+
+export const isFormEmpty = (reqBody) => {
+    const dataObj = reqBody.data;
+
+    return Object.values(dataObj).every(
+        (value) => value === "" || value === null
+    );
+};

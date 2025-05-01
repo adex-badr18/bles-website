@@ -2,15 +2,26 @@ import { useState } from "react";
 import TextField from "../../../../components/TextField";
 import SelectField from "../../../../components/SelectField";
 import { ratingOptions, statusOptions } from "../data";
+import { convertToISO, isFormEmpty } from "../../utils";
 
-const SearchComponent = ({ setIsSearchModalOpen, onSearch, searchData }) => {
+const ReviewsSearchComponent = ({
+    setIsSearchModalOpen,
+    onSearch,
+    searchData,
+    patientId,
+}) => {
     const [reqBody, setReqBody] = useState({
-        data: searchData || {
-            nickName: "",
-            email: "",
-            rating: "",
-            status: "",
-        },
+        data:
+            searchData && Object.keys(searchData).length > 0
+                ? searchData
+                : {
+                      patientId: patientId || "",
+                      nickName: "",
+                      email: "",
+                      rating: "",
+                      status: "",
+                      createdAt: "",
+                  },
     });
 
     const onReqBodyChange = (section, fieldPath, value) => {
@@ -45,7 +56,12 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch, searchData }) => {
     const searchHandler = async (e) => {
         e.preventDefault();
 
-        onSearch({ ...reqBody.data });
+        onSearch({
+            ...reqBody.data,
+            createdAt: reqBody.data.createdAt
+                ? convertToISO(reqBody.data.createdAt)
+                : "",
+        });
         setIsSearchModalOpen(false);
     };
 
@@ -54,21 +70,26 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch, searchData }) => {
 
         setReqBody({
             data: {
+                patientId: patientId || "",
                 nickName: "",
                 email: "",
                 rating: "",
                 status: "",
+                createdAt: "",
             },
         });
 
-        onSearch({});
-    };
-
-    const isFormEmpty = () => {
-        const dataObj = reqBody.data;
-
-        return Object.values(dataObj).every(
-            (value) => value === "" || value === null
+        onSearch(
+            patientId
+                ? {
+                      patientId: patientId,
+                      nickName: "",
+                      email: "",
+                      rating: "",
+                      status: "",
+                      createdAt: "",
+                  }
+                : {}
         );
     };
 
@@ -116,6 +137,23 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch, searchData }) => {
                     field="status"
                     handleSelectChange={onReqBodyChange}
                 />
+
+                <DateField
+                    label="Review Date"
+                    name="createdAt"
+                    field="createdAt"
+                    section="data"
+                    placeholder="MM/DD/YYYY"
+                    handleFormElementChange={onReqBodyChange}
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode="select"
+                    defaultDate={
+                        reqBody.data.createdAt
+                            ? new Date(reqBody.data.createdAt)
+                            : null
+                    }
+                />
             </div>
 
             <div className="flex items-center justify-end gap-4">
@@ -129,7 +167,7 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch, searchData }) => {
                 <button
                     onClick={searchHandler}
                     className={`py-2 px-4 font-semibold text-center border border-lightGreen rounded-lg text-lightGreen hover:text-white hover:bg-lightGreen transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-transparent disabled:hover:text-lightGreen`}
-                    disabled={isFormEmpty()}
+                    disabled={isFormEmpty(reqBody)}
                 >
                     Search
                 </button>
@@ -138,4 +176,4 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch, searchData }) => {
     );
 };
 
-export default SearchComponent;
+export default ReviewsSearchComponent;

@@ -2,9 +2,9 @@ import { useState } from "react";
 import PageTitle from "../components/PageTitle";
 import Table from "../components/Table";
 import Modal from "../../../components/Modal";
-import SearchComponent from "./components/SearchComponent";
+import PatientsSearchComponent from "./components/PatientsSearchComponent";
 import { MdClose } from "react-icons/md";
-import { patients, patientsColumns, patientsList } from "./data";
+import { patientsColumns } from "./data";
 
 import PaginatedList from "../components/PaginatedList";
 import { objectToFormData } from "../../utils";
@@ -33,7 +33,7 @@ const Patients = () => {
             <Modal isOpen={isSearchModalOpen}>
                 <div className="w-full max-w-xl h-[90vh] overflow-y-auto bg-white relative p-6 rounded-md shadow-lg">
                     {
-                        <SearchComponent
+                        <PatientsSearchComponent
                             setIsSearchModalOpen={setIsSearchModalOpen}
                             onSearch={searchHandler}
                             searchData={reqBody}

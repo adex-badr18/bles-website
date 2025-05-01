@@ -20,7 +20,7 @@ import PatientForm, {
 import Error from "./components/Error";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Patients from "./pages/admin/patients/Patients";
-import Patient, { patientLoader } from "./pages/admin/patients/Patient";
+import Patient from "./pages/admin/patients/Patient";
 import Reviews from "./pages/admin/reviews/Reviews";
 import ReviewInfo, { reviewLoader } from "./pages/admin/reviews/ReviewInfo";
 import Appointments from "./pages/admin/appointments/Appointments";
@@ -252,18 +252,16 @@ const router = createBrowserRouter([
                             {
                                 path: "patients/:id",
                                 element: <Patient />,
-                                loader: patientLoader,
                             },
                             {
                                 path: "patients/:id/update",
                                 element: <UpdateForm />,
-                                loader: patientLoader,
                             },
                             { path: "reviews", element: <Reviews /> },
                             {
                                 path: "reviews/:id",
                                 element: <ReviewInfo />,
-                                loader: reviewLoader,
+                                // loader: reviewLoader,
                             },
                             {
                                 path: "appointments",

@@ -5,6 +5,7 @@ import GlobalPagination from "./GlobalPagination";
 import Spinner from "../../../components/Spinner";
 import { usePaginatedList } from "../../../hooks/useGeneral";
 import { useToast } from "../../../components/ToastContext";
+import { isAllEmptyExceptPatientId } from "../utils";
 
 const PaginatedList = ({
     queryKey,
@@ -14,7 +15,8 @@ const PaginatedList = ({
     pageTitle,
     setIsSearchModalOpen,
     reqBody,
-    setReqBody
+    setReqBody,
+    patientId,
 }) => {
     const { showToast } = useToast();
     const [page, setPage] = useState(1);
@@ -28,8 +30,8 @@ const PaginatedList = ({
     // const tableData = queryKey[0] in (data || {}) ? data[queryKey[0]] : [];
     const tableData = (!isError && data && data[queryKey[0]]) || [];
 
-    // console.log(data);
-    console.log(tableData);
+    console.log(reqBody);
+    console.log(data);
 
     // Reset page to 1 when payload changes
     useEffect(() => {
@@ -93,7 +95,9 @@ const PaginatedList = ({
             </PageTitle>
 
             {isError && (
-                <p className="text-vividRed text-center mb-3">{error.message}</p>
+                <p className="text-vividRed text-center mb-3">
+                    {error.message}
+                </p>
             )}
 
             <Table
@@ -105,8 +109,13 @@ const PaginatedList = ({
                 tableTitle={queryKey[0]}
                 columnFilters={[]}
                 setIsSearchModalOpen={setIsSearchModalOpen}
-                isGlobalSearch={Object.keys(reqBody).length > 0}
+                isGlobalSearch={
+                    patientId
+                        ? isAllEmptyExceptPatientId(reqBody)
+                        : Object.keys(reqBody).length < 1
+                }
                 setGlobalSearch={setReqBody}
+                patientId={patientId}
             />
         </section>
     );
