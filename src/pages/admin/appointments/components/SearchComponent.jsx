@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DateField from "../../../../components/DateField";
 import TextField from "../../../../components/TextField";
 import SelectField from "../../../../components/SelectField";
@@ -7,14 +7,115 @@ import {
     maritalStatusOptions,
 } from "../../../user/patientForms/data";
 import { paymentMethods } from "../../../user/appointment/data";
-import SubmitButton from "../../../../components/SubmitButton";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { convertToISO } from "../../utils";
 
-const SearchComponent = ({
-    searchFormData,
-    onChange,
-    onSearch,
-    isSubmitting,
-}) => {
+const SearchComponent = ({ setIsSearchModalOpen, onSearch, searchData }) => {
+    const [reqBody, setReqBody] = useState({
+        data: searchData || {
+            patientId: "",
+            firstName: "",
+            lastName: "",
+            middleName: "",
+            dob: "",
+            phone: "",
+            email: "",
+            gender: "",
+            maritalStatus: "",
+            city: "",
+            state: "",
+            appointmentDateTime: "",
+            paymentMode: "",
+        },
+    });
+    const [selectedDateTime, setSelectedDateTime] = useState(
+        searchData.appointmentDateTime || null
+    );
+
+    // Reformat appointment date and time
+    useEffect(() => {
+        setReqBody((prev) => ({
+            ...prev,
+            data: {
+                ...prev.data,
+                appointmentDateTime: convertToISO(selectedDateTime),
+            },
+        }));
+    }, [selectedDateTime]);
+
+    const onReqBodyChange = (section, fieldPath, value) => {
+        setReqBody((prev) => {
+            const keys = fieldPath.split(".");
+
+            const updateNestedField = (obj, keys, value) => {
+                if (keys.length === 1) {
+                    return {
+                        ...obj,
+                        [keys[0]]: value,
+                    };
+                }
+
+                return {
+                    ...obj,
+                    [keys[0]]: updateNestedField(
+                        obj[keys[0]],
+                        keys.slice(1),
+                        value
+                    ),
+                };
+            };
+
+            return {
+                ...prev,
+                [section]: updateNestedField(prev[section], keys, value),
+            };
+        });
+    };
+
+    const searchHandler = async (e) => {
+        e.preventDefault();
+
+        onSearch({ ...reqBody.data });
+        setIsSearchModalOpen(false);
+    };
+
+    const clearSearch = (e) => {
+        e.preventDefault();
+
+        setReqBody({
+            data: {
+                patientId: "",
+                firstName: "",
+                lastName: "",
+                middleName: "",
+                dob: "",
+                phone: "",
+                email: "",
+                gender: "",
+                maritalStatus: "",
+                city: "",
+                state: "",
+                appointmentDateTime: "",
+                paymentMode: "",
+            },
+        });
+
+        onSearch({});
+    };
+
+    const isFormEmpty = () => {
+        const dataObj = reqBody.data;
+
+        return Object.values(dataObj).every(
+            (value) => value === "" || value === null
+        );
+    };
+
+    const handleDateTimeChange = (date) => {
+        setSelectedDateTime(date);
+    };
+
     return (
         <form className="space-y-5">
             <h3 className="text-xl font-semibold">Search Appointment(s)</h3>
@@ -22,12 +123,12 @@ const SearchComponent = ({
                 <TextField
                     type="text"
                     label="Patient ID"
-                    name="id"
-                    field="id"
+                    name="patientId"
+                    field="patientId"
                     placeholder="Patient ID"
                     section="data"
-                    value={searchFormData.data.id}
-                    handleInputChange={onChange}
+                    value={reqBody.data.patientId ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <TextField
                     type="text"
@@ -36,8 +137,8 @@ const SearchComponent = ({
                     field="firstName"
                     placeholder="First Name"
                     section="data"
-                    value={searchFormData.data.firstName}
-                    handleInputChange={onChange}
+                    value={reqBody.data.firstName ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <TextField
                     type="text"
@@ -46,8 +147,8 @@ const SearchComponent = ({
                     field="middleName"
                     placeholder="Middle Name"
                     section="data"
-                    value={searchFormData.data.middleName}
-                    handleInputChange={onChange}
+                    value={reqBody.data.middleName ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <TextField
                     type="text"
@@ -56,8 +157,8 @@ const SearchComponent = ({
                     field="lastName"
                     placeholder="Last Name"
                     section="data"
-                    value={searchFormData.data.lastName}
-                    handleInputChange={onChange}
+                    value={reqBody.data.lastName ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <DateField
                     label="Date of Birth"
@@ -65,14 +166,12 @@ const SearchComponent = ({
                     field="dob"
                     section="data"
                     placeholder="MM/DD/YYYY"
-                    handleFormElementChange={onChange}
+                    handleFormElementChange={onReqBodyChange}
                     showMonthDropdown
                     showYearDropdown
                     dropdownMode="select"
                     defaultDate={
-                        searchFormData.data.dob
-                            ? new Date(searchFormData.data.dob)
-                            : null
+                        reqBody.data.dob ? new Date(reqBody.data.dob) : null
                     }
                 />
                 <TextField
@@ -82,8 +181,8 @@ const SearchComponent = ({
                     field="phone"
                     placeholder="Phone Number"
                     section="data"
-                    value={searchFormData.data.phone}
-                    handleInputChange={onChange}
+                    value={reqBody.data.phone ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <TextField
                     type="text"
@@ -92,28 +191,28 @@ const SearchComponent = ({
                     field="email"
                     placeholder="Email"
                     section="data"
-                    value={searchFormData.data.email}
-                    handleInputChange={onChange}
+                    value={reqBody.data.email ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <SelectField
                     label="Gender"
                     name="gender"
                     title="-- Select an option --"
                     data={genderOptions}
-                    value={searchFormData.data.gender}
+                    value={reqBody.data.gender ?? ""}
                     section="data"
                     field="gender"
-                    handleSelectChange={onChange}
+                    handleSelectChange={onReqBodyChange}
                 />
                 <SelectField
                     label="Marital Status"
                     name="maritalStatus"
                     title="-- Select an option --"
                     data={maritalStatusOptions}
-                    value={searchFormData.data.maritalStatus}
+                    value={reqBody.data.maritalStatus ?? ""}
                     section="data"
                     field="maritalStatus"
-                    handleSelectChange={onChange}
+                    handleSelectChange={onReqBodyChange}
                 />
                 <TextField
                     type="text"
@@ -122,8 +221,8 @@ const SearchComponent = ({
                     field="city"
                     placeholder="City"
                     section="data"
-                    value={searchFormData.data.city}
-                    handleInputChange={onChange}
+                    value={reqBody.data.city ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <TextField
                     type="text"
@@ -132,45 +231,60 @@ const SearchComponent = ({
                     field="state"
                     placeholder="State"
                     section="data"
-                    value={searchFormData.data.state}
-                    handleInputChange={onChange}
+                    value={reqBody.data.state ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
-                <DateField
-                    label="Appointment Date & Time"
-                    name="appointmentDateTime"
-                    field="appointmentDateTime"
-                    section="data"
-                    placeholder="MM/DD/YYYY"
-                    handleFormElementChange={onChange}
-                    showMonthDropdown
-                    showYearDropdown
-                    dropdownMode="select"
-                    defaultDate={
-                        searchFormData.data.appointmentDateTime
-                            ? new Date(searchFormData.data.appointmentDateTime)
-                            : null
-                    }
-                />
+                <div className="space-y-1">
+                    <label
+                        htmlFor="appointmentDateTime"
+                        className="block text-deepGrey"
+                    >
+                        Appointment Date & Time
+                    </label>
+                    <DatePicker
+                        id="appointmentDateTime"
+                        name="appointmentDateTime"
+                        selected={selectedDateTime}
+                        onChange={handleDateTimeChange}
+                        showTimeSelect
+                        showYearDropdown
+                        showMonthDropdown
+                        dropdownMode="select"
+                        timeFormat="HH:mm"
+                        timeIntervals={60}
+                        dateFormat={`MM/dd/yyyy HH:mm`}
+                        placeholderText="MM/dd/yyyy HH:mm"
+                        className="input"
+                    />
+                </div>
                 <SelectField
                     label="Payment Options"
                     name="paymentMode"
                     title="-- Select an option --"
                     data={paymentMethods}
-                    value={searchFormData.data.paymentMode}
+                    value={reqBody.data.paymentMode ?? ""}
                     section="data"
                     field="paymentMode"
-                    handleSelectChange={onChange}
+                    handleSelectChange={onReqBodyChange}
                 />
             </div>
 
-            <SubmitButton
-                isDisabled={isSubmitting}
-                isSubmitting={isSubmitting}
-                loadingText="Searching..."
-                onSubmit={onSearch}
-                submitText="Search"
-                xtraClass=""
-            />
+            <div className="flex items-center justify-end gap-4">
+                <button
+                    onClick={clearSearch}
+                    className="py-2 px-4 font-semibold text-center border border-vividRed bg-vividRed rounded-lg text-white hover:text-vividRed hover:bg-transparent transition duration-300"
+                >
+                    Clear
+                </button>
+
+                <button
+                    onClick={searchHandler}
+                    className={`py-2 px-4 font-semibold text-center border border-lightGreen rounded-lg text-lightGreen hover:text-white hover:bg-lightGreen transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-transparent disabled:hover:text-lightGreen`}
+                    disabled={isFormEmpty()}
+                >
+                    Search
+                </button>
+            </div>
         </form>
     );
 };

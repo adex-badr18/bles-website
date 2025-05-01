@@ -18,7 +18,7 @@ import { MdRefresh } from "react-icons/md";
 
 const AppointmentForm = ({ formData, handleInputChange }) => {
     const [selectedDateTime, setSelectedDateTime] = useState(
-        formData.appointment.appointmentDateTime || null
+        new Date(formData.appointment.appointmentDateTime) || null
     );
     const [holidays, setHolidays] = useState([]);
     const [excludedTimes, setExcludedTimes] = useState({});
@@ -36,7 +36,6 @@ const AppointmentForm = ({ formData, handleInputChange }) => {
     // console.log(isError);
     // console.log(bookedAppointmentsError);
 
-
     useEffect(() => {
         fetchBookedSlots();
     }, []);
@@ -46,7 +45,7 @@ const AppointmentForm = ({ formData, handleInputChange }) => {
 
         // Fetch booked slots
         const response = await refetch();
-        const bookedSlots = response?.data || [];
+        const bookedSlots = response?.data?.data?.slots || [];
 
         // Create a map of dates to excluded times
         const excludedDatesTimesMap = {};
@@ -90,11 +89,13 @@ const AppointmentForm = ({ formData, handleInputChange }) => {
     };
 
     useEffect(() => {
-        handleInputChange(
-            "appointment",
-            "appointmentDateTime",
-            new Date(selectedDateTime).toISOString()
-        );
+        if (selectedDateTime instanceof Date && !isNaN(selectedDateTime)) {
+            handleInputChange(
+                "appointment",
+                "appointmentDateTime",
+                selectedDateTime.toISOString()
+            );
+        }
     }, [selectedDateTime]);
 
     const handleDateTimeChange = (date) => {
@@ -192,7 +193,8 @@ const AppointmentForm = ({ formData, handleInputChange }) => {
                                     onClick={handleBookedSlotsRefetch}
                                     className="flex items-center gap-1 text-sm text-white bg-grey hover:bg-gray-600 px-2 py-1 rounded transition-colors duration-300"
                                 >
-                                    <span className="">Retry</span> <MdRefresh />
+                                    <span className="">Retry</span>{" "}
+                                    <MdRefresh />
                                 </button>
                             </div>
                         )}

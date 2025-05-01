@@ -8,8 +8,7 @@ import {
 } from "@tanstack/react-table";
 import { Link, useNavigate } from "react-router-dom";
 import SearchBox from "./SearchBox";
-import Modal from "../../../components/Modal";
-import { MdFilterListAlt, MdClose } from "react-icons/md";
+import { IoCloseCircleSharp } from "react-icons/io5";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { FilterIcon } from "./icons";
 
@@ -23,6 +22,8 @@ const Table = ({
     isIncludeSearchBox,
     isSnapshot,
     setIsSearchModalOpen,
+    isGlobalSearch,
+    setGlobalSearch,
 }) => {
     const [globalFilter, setGlobalFilter] = useState("");
     const [rowSelection, setRowSelection] = useState({});
@@ -44,9 +45,17 @@ const Table = ({
         getPaginationRowModel: getPaginationRowModel(),
     });
 
-    const handleRowClick = (id) => {
-        const entityData = data.filter((entity) => entity.id === id)[0];
-        navigate(`${entityUrl}/${id}`, { state: { data: entityData } });
+    const handleRowClick = (entityData) => {
+        // const entityData = data.filter((entity) => entity.id === id)[0];
+        let id = "";
+
+        if (entity.toLowerCase() === "patients") {
+            id = entityData.patientId;
+        } else {
+            id = entityData.id;
+        }
+
+        navigate(`${entityUrl}/${id}`);
     };
 
     const generateMultiplesOf10 = (totalNumber) => {
@@ -59,30 +68,51 @@ const Table = ({
         return multiplesOf10;
     };
 
+    const handleClearFilters = (e) => {
+        e.preventDefault();
+
+        setGlobalFilter("");
+        setGlobalSearch({});
+    };
+
     return (
         <div className="px-4 py-6 bg-offWhite rounded-lg space-y-6 w-full">
             {/* Title Bar */}
             <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-                <h2 className="text-lg text-darkBlue font-medium">
+                <h2 className="text-lg text-darkBlue font-medium capitalize">
                     {tableTitle}
                 </h2>
 
                 {isIncludeSearchBox && (
-                    <div className="flex items-center gap-3">
-                        <button
-                            className="bg-lightGray p-2 rounded-md border hover:bg-gray-300 transition-colors duration-300"
-                            onClick={() => setIsSearchModalOpen(true)}
-                        >
-                            <FilterIcon className="w-6" />
-                        </button>
+                    <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-3">
+                            <button
+                                className="bg-lightGray p-2 rounded-md border hover:bg-gray-300 transition-colors duration-300"
+                                onClick={() => setIsSearchModalOpen(true)}
+                            >
+                                <FilterIcon className="w-6" />
+                            </button>
 
-                        {/* Global Filter */}
-                        <SearchBox
-                            inputName="globalFilter"
-                            searchText={globalFilter}
-                            onChange={(e) => setGlobalFilter(e.target.value)}
-                            placeholderText={`Search...`}
-                        />
+                            {/* Global Filter */}
+                            <SearchBox
+                                inputName="globalFilter"
+                                searchText={globalFilter}
+                                onChange={(e) =>
+                                    setGlobalFilter(e.target.value)
+                                }
+                                placeholderText={`Search...`}
+                            />
+                        </div>
+
+                        {isGlobalSearch && (
+                            <button
+                                onClick={handleClearFilters}
+                                className="text-vividRed flex items-center gap-1 text-sm"
+                            >
+                                <IoCloseCircleSharp />
+                                <span className="">Reset Filters</span>
+                            </button>
+                        )}
                     </div>
                 )}
 
@@ -130,13 +160,15 @@ const Table = ({
                             </tr>
                         ) : (
                             table.getRowModel().rows.map((row) => {
-                                const id = row.original.id;
+                                const singleEntityData = row.original;
 
                                 return (
                                     <tr
                                         key={row.id}
                                         className="cursor-pointer"
-                                        onClick={() => handleRowClick(id)}
+                                        onClick={() =>
+                                            handleRowClick(singleEntityData)
+                                        }
                                     >
                                         {row.getVisibleCells().map((cell) => (
                                             <td key={cell.id} className="p-4">
@@ -155,7 +187,7 @@ const Table = ({
             </div>
 
             {/* Pagination */}
-            {isIncludePagination && (
+            {isIncludePagination && data.length > 0 && (
                 <div className="mt-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="hidden sm:flex items-center gap-4 md:gap-8 text-deepGrey">
                         <span className="font-medium">

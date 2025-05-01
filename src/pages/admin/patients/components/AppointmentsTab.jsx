@@ -1,7 +1,7 @@
 import Table from "../../components/Table";
 import { appointments, appointmentsColumns } from "../data";
 
-const AppointmentsTab = () => {
+const AppointmentsTab = ({ appointments: appointmentsData }) => {
     return (
         <div>
             <Table

@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useState } from "react";
 import { useLoaderData, useLocation } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
 import LinkButton from "../../../components/LinkButton";
@@ -9,14 +9,8 @@ import { MdOutlineHome } from "react-icons/md";
 import { convertToUSDateTime } from "../utils";
 import FormsTab from "./components/FormsTab";
 import AppointmentsTab from "./components/AppointmentsTab";
-import ReviewsTab from "./components/ReviewsTab";
 
 import { MdOutlineEdit } from "react-icons/md";
-
-import { useGetPatient } from "../../../hooks/usePatients";
-import { useParams } from "react-router-dom";
-import { useToast } from "../../../components/ToastContext";
-import Spinner from "../../../components/Spinner";
 
 export const patientLoader = async ({ params }) => {
     const id = params.id;
@@ -34,41 +28,11 @@ export const patientLoader = async ({ params }) => {
 
 const Patient = () => {
     const patient = useLoaderData();
-    const location = useLocation();
-
-    // Custom hook setup start
+    const location = useLocation()
     const [tabIndex, setTabIndex] = useState(1);
-    const { showToast } = useToast();
-    const { id } = useParams();
-    const { data, isLoading, isSuccess, isError, error } = useGetPatient(
-        id || ""
-    );
-    // const { forms, appointments, reviews, patientId } = data;
-    const { forms, appointments, reviews, patientId } = useMemo(() => {
-        return {
-            forms: data?.forms || {},
-            appointments: data?.appointments || [],
-            reviews: data?.reviews,
-            patientId: data?.patientId,
-        };
-    }, [data]);
 
-    useEffect(() => {
-        if (isError) {
-            const errorMessage =
-                (typeof error === "string" && error) ||
-                error.message ||
-                "An unexpected error occurred. Please try again.";
-            showToast({
-                message: errorMessage,
-                type: "error",
-                duration: 5000,
-            });
-        }
-    }, [isError]);
-    // Custom hook end
-
-    console.log(data);
+    // console.log(patient);
+    console.log(location?.state?.data);
 
     const changeTabHandler = (tabIndex) => {
         setTabIndex(tabIndex);
@@ -78,47 +42,37 @@ const Patient = () => {
         { id: 1, tabName: "General" },
         { id: 2, tabName: "Patient Forms" },
         { id: 3, tabName: "Appointments" },
-        { id: 4, tabName: "Reviews" },
     ];
 
-    if (isError) {
+    if (patient.status === "error") {
         return (
             <section className="py-8 md:py-20">
                 <div className="flex flex-col items-center justify-center gap-4 font-poppins">
                     <h1 className="capitalize text-vividRed text-3xl font-bold">
-                        Error!
+                        {patient.status}!
                     </h1>
                     <p className="text-grey text-lg font-medium">
-                        {error.message}
+                        {patient.message}
                     </p>
-                    {/* <LinkButton
+                    <LinkButton
                         name="Home"
                         to="/"
                         bgColor="green"
                         icon={<MdOutlineHome className="text-xl" />}
-                    /> */}
+                    />
                 </div>
             </section>
         );
     }
 
-    if (isLoading) {
-        return (
-            <Spinner
-                secondaryText={`Loading patient...`}
-                spinnerSize="w-10 h-10"
-                textClass="text-lg text-darkBlue font-semibold"
-                borderClass="border-lightGreen"
-            />
-        );
-    }
-
     return (
-        <section className="">
-            <PageTitle title={""}>
+        <section>
+            <PageTitle
+                title={`${patient.personal.firstName} ${patient.personal.middleName} ${patient.personal.lastName}`}
+            >
                 <LinkButton
                     name="Update Patient Details"
-                    to={`/admin/patients/${patient.patientId}/update`}
+                    to={`/admin/patients/${patient.id}/update`}
                     bgColor="green"
                     icon={<MdOutlineEdit className="text-xl" />}
                 />
@@ -146,15 +100,11 @@ const Patient = () => {
                 </div>
             </div>
 
-            {tabIndex === 1 && (
-                <GeneralTab patient={forms.patientRegistrationForm} />
-            )}
+            {tabIndex === 1 && <GeneralTab patient={patient} />}
 
-            {tabIndex === 2 && <FormsTab forms={forms} />}
+            {tabIndex === 2 && <FormsTab />}
 
-            {tabIndex === 3 && <AppointmentsTab appointments={appointments} />}
-
-            {tabIndex === 4 && <ReviewsTab reviews={reviews} />}
+            {tabIndex === 3 && <AppointmentsTab />}
         </section>
     );
 };

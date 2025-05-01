@@ -6,11 +6,13 @@ import {
 } from "@tanstack/react-query";
 import {
     fetchReviews,
-    fetchReviewById,
     createReview,
     updateReview,
     searchReviews,
+    getReviewById,
+    toggleReviewStatus,
 } from "../api/reviewApi";
+import { useToast } from "../components/ToastContext";
 
 // Fetch list of reviews
 export const useFetchReviews = (page = 1, searchParams) => {
@@ -34,11 +36,12 @@ export const useSearchReviews = (searchParams) => {
 };
 
 // Fetch a review by ID
-export const useFetchReview = (id) => {
+export const useGetReview = (reviewId) => {
     return useQuery({
-        queryKey: ["review", id],
-        queryFn: () => fetchReviewById(id),
-        enabled: !!id, // Ensures the query runs only when id is avaialble
+        queryKey: ["review", reviewId],
+        queryFn: () => getReviewById(reviewId),
+        enabled: !!reviewId, // Ensures the query runs only when id is avaialble
+        retry: 1,
     });
 };
 
@@ -49,7 +52,7 @@ export const useCreateReview = ({ openModal, showToast }) => {
     return useMutation({
         mutationFn: createReview,
         onSuccess: async (response) => {
-            console.log("OnSuccess:", response?.data)
+            console.log("OnSuccess:", response?.data);
             openModal(response.data);
             queryClient.invalidateQueries(["reviews"]);
         },
@@ -66,25 +69,47 @@ export const useCreateReview = ({ openModal, showToast }) => {
     });
 };
 
-// Update a review
-export const useUpdateReview = () => {
+// Toggle Review status
+export const useToggleReviewStatus = ({ setIsConfirmModalOpen }) => {
     const queryClient = useQueryClient();
+    const { showToast } = useToast();
 
     return useMutation({
-        mutationFn: ({ id, updatedData }) => updateReview(id, updatedData),
-        onMutate: async ({ id, updatedData }) => {
+        mutationFn: ({ id, payload, endpoint }) =>
+            toggleReviewStatus({ endpoint }),
+        onMutate: async ({ id, payload }) => {
+            // This callback runs before the server call happens
+
+            // cancel any ongoing operation for this review
             await queryClient.cancelQueries(["review", id]);
 
+            // get hold of the current review, to e used for rollback on request failure
             const previousReview = queryClient.getQueryData(["review", id]);
 
+            // Set the review in cache to the payload, Optimistically update the UI before the response
+            // is returned from the server
             queryClient.setQueryData(["review", id], (prev) => ({
                 ...prev,
-                ...updatedData,
+                ...payload,
             }));
 
+            // The returned object can be used to rollback the data in cases of failure
+            // This will be available in the context params of onError and onSettled callbacks
             return { previousReview };
         },
         onError: (error, variables, context) => {
+            const errorMessage =
+                (typeof error === "string" && error) ||
+                error?.message ||
+                "An unexpected error occurred. Please try again";
+
+            showToast({
+                message: errorMessage,
+                type: "error",
+                duration: 5000,
+            });
+
+            // Rollback the data
             if (context?.previousReview) {
                 queryClient.setQueryData(
                     ["review", variables.id],
@@ -93,8 +118,18 @@ export const useUpdateReview = () => {
             }
         },
         onSuccess: (updatedReview) => {
-            queryClient.invalidateQueries(["reviews"]); // Refresh review list
-            queryClient.invalidateQueries(["review", updatedReview.id]); // Refresh updated review
+            setIsConfirmModalOpen(false);
+
+            showToast({
+                message: "Review Status Successfully updated.",
+                type: "success",
+                duration: 5000,
+            });
+            queryClient.invalidateQueries(["appointments"]); // Refresh appointment list
+            queryClient.invalidateQueries([
+                "appointment",
+                updatedAppointment.id,
+            ]); // Refresh updated appointment
         },
     });
 };

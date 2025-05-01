@@ -84,11 +84,15 @@ export const convertToBoolean = (value) => {
     return value.toLowerCase() === "yes" ? true : false;
 };
 
+export const convertBooleanToText = (value) => {
+    return value ? "Yes" : "No";
+};
+
 export const convertIsoDateToReadable = (date) => {
     if (!date) {
         return;
     }
-    
+
     return new Date(date).toLocaleString("en-US", {
         year: "numeric",
         month: "2-digit",
@@ -98,4 +102,27 @@ export const convertIsoDateToReadable = (date) => {
         second: "2-digit",
         hour12: false,
     });
+};
+
+export const formatToYYYYMMDD = (dateString) => {
+    if (!dateString) {
+        return null;
+    }
+
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+};
+
+export const formatToMMDDYYYY = (dateString) => {
+    if (!dateString) {
+        return null;
+    }
+
+    const [year, month, day] = dateString.split("-");
+
+    return `${month}/${day}/${year}`;
 };

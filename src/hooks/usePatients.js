@@ -6,7 +6,6 @@ import {
 } from "@tanstack/react-query";
 import {
     fetchPatients,
-    fetchPatientById,
     fetchBasicPatientById,
     createPatient,
     updatePatient,
@@ -14,6 +13,7 @@ import {
     uploadFile,
     registerPatient,
     createForm,
+    getPatientById,
 } from "../api/patientApi";
 
 // Fetch list of patients
@@ -29,21 +29,24 @@ export const useFetchPatients = (page = 1, searchParams) => {
 };
 
 // Search patients based on search terms
-export const useSearchPatients = (searchParams) => {
+export const useSearchPatients = (searchParams, payload) => {
     return useQuery({
-        queryKey: ["searchPatients", searchParams],
-        queryFn: () => searchPatients(searchParams),
-        enabled: Object.keys(searchParams).length > 0, // Runs query only when searchTerm exists
+        queryKey: ["patients", searchParams],
+        queryFn: () => searchPatients(searchParams, payload),
+        staleTime: 5 * 1000 * 60, // Cache data for 5 minutes
+        retry: 2, // retry failed request twice
+        enabled: false,
+        // enabled: Object.keys(searchParams).length > 0, // Runs query only when searchTerm exists
     });
 };
 
 // Fetch a patient by ID
-export const useFetchPatient = (id, options = {}) => {
+export const useGetPatient = (patientId) => {
     return useQuery({
-        queryKey: ["patients", id],
-        queryFn: () => fetchPatientById(id),
-        enabled: !!id, // Ensures the query runs only when id is avaialble
-        ...options,
+        queryKey: ["patients", patientId],
+        queryFn: () => getPatientById(patientId),
+        enabled: !!patientId, // Ensures the query runs only when id is avaialble
+        
     });
 };
 

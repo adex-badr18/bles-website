@@ -9,6 +9,7 @@ const TextAreaField = ({
     field,
     handleFormElementChange,
     isRequired,
+    ...rest
 }) => {
     return (
         <div className="space-y-1">
@@ -25,6 +26,7 @@ const TextAreaField = ({
                 onChange={(e) =>
                     handleFormElementChange(section, field, e.target.value)
                 }
+                {...rest}
             ></textarea>
         </div>
     );

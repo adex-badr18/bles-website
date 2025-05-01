@@ -1,29 +1,40 @@
 import { useState, useEffect } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import PageTitle from "../components/PageTitle";
-import LinkButton from "../../../components/LinkButton";
 import FieldItem from "../../../components/FieldItem";
-import Modal from "../../../components/Modal";
-import SubmitButton from "../../../components/SubmitButton";
 import TextField from "../../../components/TextField";
 import SelectField from "../../../components/SelectField";
 import DateField from "../../../components/DateField";
 import TextAreaField from "../../../components/TextAreaField";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+import { MdEdit, MdClose } from "react-icons/md";
 
 import { appointmentStatusOptions, appointments } from "./data";
-import { appointmentTypes, insuranceNames, paymentMethods, services } from "../../user/appointment/data";
 import {
-    fetchAdminUnavailablePeriods,
-    fetchBookedAppointmentsPeriods,
+    appointmentTypes,
+    insuranceNames,
+    paymentMethods,
+    services,
+} from "../../user/appointment/data";
+import {
     fetchUSHolidays,
 } from "../../user/appointment/api";
-import { convertToUSDateTime } from "../utils";
 import { genderOptions } from "../../user/patientForms/data";
 
-import { MdOutlineHome, MdEdit, MdClose } from "react-icons/md";
-import { BsFillQuestionDiamondFill } from "react-icons/bs";
-import { LuShieldCheck } from "react-icons/lu";
+import {
+    useFetchBookedAppointments,
+    useGetAppointment,
+    useUpdateAppointment,
+} from "../../../hooks/useAppointments";
+import { useParams } from "react-router-dom";
+import { useToast } from "../../../components/ToastContext";
+import Spinner from "../../../components/Spinner";
+import SubmitSuccessModal from "./components/SubmitSuccessModal";
+import ConfirmUpdateModal from "./components/ConfirmUpdateModal";
+import { formatToYYYYMMDD } from "../../utils";
 
 export const appointmentLoader = async ({ params }) => {
     const id = params.id;
@@ -43,78 +54,120 @@ export const appointmentLoader = async ({ params }) => {
 
 const AppointmentInfo = () => {
     const navigate = useNavigate();
-    const appointment = useLoaderData();
+    // useGetAppointment
+    const { showToast } = useToast();
+    const { id } = useParams();
+    const {
+        data: appointment,
+        isLoading,
+        isSuccess,
+        isError,
+        error,
+    } = useGetAppointment(id || "");
+    const {
+        refetch,
+        isLoading: isBookedLoading,
+        isPending: isBookedPending,
+        isSuccess: isBookedSuccess,
+        isError: isBookedError,
+        error: bookedAppointmentsError,
+    } = useFetchBookedAppointments();
+
     const [isAppointmentEditable, setIsAppointmentEditable] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
+    const [selectedDateTime, setSelectedDateTime] = useState(
+        appointment?.appointmentDateTime
+            ? new Date(appointment?.appointmentDateTime)
+            : null
+    );
     const [holidays, setHolidays] = useState([]);
     const [excludedTimes, setExcludedTimes] = useState({});
     const [formData, setFormData] = useState({
-        personal: {
-            patientId: appointment.patientId || "",
-            firstName: appointment.firstName || "",
-            middleName: appointment.middleName || "",
-            lastName: appointment.lastName || "",
-            gender: appointment.gender || "",
-            dob: new Date(appointment.dob) || "",
-            phone: appointment.phone || "",
-            email: appointment.email || "",
-        },
-        address: {
-            street: appointment.streetAddress || "",
-            city: appointment.city || "",
-            state: appointment.state || "",
-            zipCode: appointment.zipCode || "",
-        },
-        appointment: {
-            appointmentType: appointment.appointmentType || "",
-            service: appointment.service || "",
-            appointmentDateTime: new Date(appointment.dateTime) || "",
-            purpose: appointment.purpose || "",
-            status: appointment.status || "",
-        },
-        insurance: {
-            paymentMethod: appointment.paymentMethod || "",
-            insuranceName: appointment.insuranceName || "",
-            insuranceNumber: appointment.insuranceNumber || "",
-        },
+        data: {},
     });
 
-    console.log(formData);
+    const { mutate: updateAppointment, isPending: isUpdatingAppointment } =
+        useUpdateAppointment({
+            setIsAppointmentEditable,
+            setIsConfirmModalOpen,
+        });
+
+    // console.log("FormData", formData);
+    // console.log("Appointment", appointment);
+    // console.log(selectedDateTime);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const [adminPeriods, bookedPeriods, holidays] = await Promise.all([
-                fetchAdminUnavailablePeriods(),
-                fetchBookedAppointmentsPeriods(),
-                fetchUSHolidays(),
-            ]);
+        if (isError) {
+            showToast({
+                message:
+                    `${error?.message}` ||
+                    error ||
+                    "An error occurred. Please try again.",
+                type: "error",
+                duration: 5000,
+            });
+        }
 
-            // Create a map of dates to excluded times
-            const excludedDatesTimesMap = {};
+        if (isSuccess) {
+            console.log(appointment);
+            setFormData((prev) => ({
+                data: { ...prev.data, ...appointment },
+            }));
+        }
+    }, [isError, isSuccess]);
 
-            const processExclusions = (list) => {
-                list.forEach((period) => {
-                    const dateKey = new Date(period.date).toLocaleDateString();
-                    if (!excludedDatesTimesMap[dateKey])
-                        excludedDatesTimesMap[dateKey] = [];
-                    excludedDatesTimesMap[dateKey].push(...period.times);
-                });
-            };
+    useEffect(() => {
+        fetchBookedSlots();
+    }, []);
 
-            // Map all admin-set times
-            processExclusions(adminPeriods);
+    useEffect(() => {
+        if (selectedDateTime instanceof Date && !isNaN(selectedDateTime)) {
+            handleFormElementChange(
+                "data",
+                "appointmentDateTime",
+                selectedDateTime.toISOString()
+            );
+        }
+    }, [selectedDateTime]);
 
-            // Map all booked appointment times
-            processExclusions(bookedPeriods);
+    const handleDateTimeChange = (date) => {
+        setSelectedDateTime(date);
+    };
 
-            setExcludedTimes(excludedDatesTimesMap);
-            setHolidays(holidays);
+    async function fetchBookedSlots() {
+        const holidays = await fetchUSHolidays();
+
+        // Fetch booked slots
+        const response = await refetch();
+        const bookedSlots = response?.data?.data?.slots || [];
+
+        // Create a map of dates to excluded time slots
+        const excludedDatesTimesMap = {};
+
+        const processExclusions = (list) => {
+            list.forEach((period) => {
+                const dateKey = new Date(period.date).toLocaleDateString();
+                if (!excludedDatesTimesMap[dateKey])
+                    excludedDatesTimesMap[dateKey] = [];
+                excludedDatesTimesMap[dateKey].push(...period.times);
+            });
         };
 
-        fetchData();
-    }, []);
+        // Map all booked appointment times
+        processExclusions(bookedSlots);
+
+        setExcludedTimes(excludedDatesTimesMap);
+        setHolidays(holidays);
+    }
+
+    const handleBookedSlotsRefetch = async (e) => {
+        e.preventDefault();
+
+        await fetchBookedSlots();
+    };
 
     // Function to filter dates
     const isDateExcluded = (date) => {
@@ -125,9 +178,9 @@ const AppointmentInfo = () => {
 
     // Function to filter times
     const isTimeExcluded = (time) => {
-        const selectedDateTime = new Date(
-            formData.appointment.appointmentDateTime
-        );
+        // const selectedDateTime = new Date(
+        //     formData.appointment.appointmentDateTime
+        // );
 
         if (!selectedDateTime) return false;
 
@@ -138,12 +191,34 @@ const AppointmentInfo = () => {
     };
 
     // Handle form element change
-    const handleFormElementChange = (section, field, value) => {
-        setFormData((prev) => ({
-            ...prev,
-            [section]: { ...prev[section], [field]: value },
-        }));
-    };
+    function handleFormElementChange(section, fieldPath, value) {
+        setFormData((prev) => {
+            const keys = fieldPath.split(".");
+
+            const updateNestedField = (obj, keys, value) => {
+                if (keys.length === 1) {
+                    return {
+                        ...obj,
+                        [keys[0]]: value,
+                    };
+                }
+
+                return {
+                    ...obj,
+                    [keys[0]]: updateNestedField(
+                        obj[keys[0]],
+                        keys.slice(1),
+                        value
+                    ),
+                };
+            };
+
+            return {
+                ...prev,
+                [section]: updateNestedField(prev[section], keys, value),
+            };
+        });
+    }
 
     const handleAppointmentEdit = (e) => {
         setIsAppointmentEditable(!isAppointmentEditable);
@@ -154,42 +229,34 @@ const AppointmentInfo = () => {
         navigate("/admin/appointments");
     };
 
-    const submitHandler = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
+        const updatePayload = {
+            ...formData.data,
+            dob: formatToYYYYMMDD(formData.data.dob),
+        };
 
-        setIsSubmitting(true);
+        console.log(updatePayload);
 
-        setTimeout(() => {
-            setIsConfirmModalOpen(false);
-            setIsSubmitModalOpen(true);
-            setIsSubmitting(false);
-        }, 4000);
+        updateAppointment({
+            id: formData.data.id,
+            payload: updatePayload,
+        });
     };
 
-    const confirmHandler = (e) => {
+    const openConfirmModal = (e) => {
         e.preventDefault();
 
         setIsConfirmModalOpen(true);
     };
 
-    if (appointment.status === "error") {
+    if (isLoading) {
         return (
-            <section className="py-8 md:py-20">
-                <div className="flex flex-col items-center justify-center gap-4 font-poppins">
-                    <h1 className="capitalize text-vividRed text-3xl font-bold">
-                        {appointment.status}!
-                    </h1>
-                    <p className="text-grey text-lg font-medium">
-                        {appointment.message}
-                    </p>
-                    <LinkButton
-                        name="Home"
-                        to="/admin/dashboard"
-                        bgColor="green"
-                        icon={<MdOutlineHome className="text-xl" />}
-                    />
-                </div>
-            </section>
+            <Spinner
+                secondaryText={`Loading appointment...`}
+                spinnerSize="w-10 h-10"
+                textClass="text-lg text-darkBlue font-semibold"
+                borderClass="border-lightGreen"
+            />
         );
     }
 
@@ -215,6 +282,12 @@ const AppointmentInfo = () => {
                 </button>
             </PageTitle>
 
+            {isError && (
+                <p className="text-vividRed text-center mb-3">
+                    {error.message}
+                </p>
+            )}
+
             <div className="flex flex-col gap-6 md:gap-8">
                 <div className="p-8 border rounded-lg bg-offWhite space-y-4 shadow-lg">
                     <h4 className="text-xl font-medium text-darkBlue">
@@ -228,9 +301,9 @@ const AppointmentInfo = () => {
                                 label="First Name"
                                 name="firstName"
                                 placeholder="First Name"
-                                section="personal"
+                                section="data"
                                 field="firstName"
-                                value={formData.personal.firstName}
+                                value={formData.data.firstName ?? ""}
                                 handleInputChange={handleFormElementChange}
                                 autoFocus
                             />
@@ -240,9 +313,9 @@ const AppointmentInfo = () => {
                                 label="Middle Name"
                                 name="middleName"
                                 placeholder="Middle Name"
-                                section="personal"
+                                section="data"
                                 field="middleName"
-                                value={formData.personal.middleName}
+                                value={formData.data.middleName ?? ""}
                                 handleInputChange={handleFormElementChange}
                             />
 
@@ -251,9 +324,9 @@ const AppointmentInfo = () => {
                                 label="Last Name"
                                 name="lastName"
                                 placeholder="Last Name"
-                                section="personal"
+                                section="data"
                                 field="lastName"
-                                value={formData.personal.lastName}
+                                value={formData.data.lastName ?? ""}
                                 handleInputChange={handleFormElementChange}
                             />
 
@@ -262,8 +335,8 @@ const AppointmentInfo = () => {
                                 name="gender"
                                 title="-- Select an option --"
                                 data={genderOptions}
-                                value={formData.personal.gender}
-                                section="personal"
+                                value={formData.data.gender ?? ""}
+                                section="data"
                                 field="gender"
                                 handleSelectChange={handleFormElementChange}
                             />
@@ -272,7 +345,7 @@ const AppointmentInfo = () => {
                                 label="Date of Birth"
                                 name="dob"
                                 field="dob"
-                                section="personal"
+                                section="data"
                                 placeholder="MM/DD/YYYY"
                                 handleFormElementChange={
                                     handleFormElementChange
@@ -280,7 +353,11 @@ const AppointmentInfo = () => {
                                 showMonthDropdown
                                 showYearDropdown
                                 dropdownMode="select"
-                                defaultDate={new Date(formData.personal.dob)}
+                                defaultDate={
+                                    formData.data.dob
+                                        ? new Date(formData.data.dob)
+                                        : null
+                                }
                             />
 
                             <TextField
@@ -288,9 +365,9 @@ const AppointmentInfo = () => {
                                 label="Phone"
                                 name="phone"
                                 placeholder="Phone"
-                                section="personal"
+                                section="data"
                                 field="phone"
-                                value={formData.personal.phone}
+                                value={formData.data.phone ?? ""}
                                 handleInputChange={handleFormElementChange}
                             />
 
@@ -299,9 +376,9 @@ const AppointmentInfo = () => {
                                 label="Email"
                                 name="email"
                                 placeholder="Email"
-                                section="personal"
+                                section="data"
                                 field="email"
-                                value={formData.personal.email}
+                                value={formData.data.email ?? ""}
                                 handleInputChange={handleFormElementChange}
                             />
 
@@ -310,9 +387,9 @@ const AppointmentInfo = () => {
                                 label="Street Address"
                                 name="street"
                                 placeholder="Street Address"
-                                section="personal"
-                                field="street"
-                                value={formData.address.street}
+                                section="data"
+                                field="address.streetName"
+                                value={formData.data.address.streetName ?? ""}
                                 handleInputChange={handleFormElementChange}
                             />
 
@@ -321,9 +398,9 @@ const AppointmentInfo = () => {
                                 label="City"
                                 name="city"
                                 placeholder="City"
-                                section="address"
-                                field="city"
-                                value={formData.address.city}
+                                section="data"
+                                field="address.city"
+                                value={formData.data.address.city ?? ""}
                                 handleInputChange={handleFormElementChange}
                             />
 
@@ -332,9 +409,9 @@ const AppointmentInfo = () => {
                                 label="State"
                                 name="state"
                                 placeholder="State"
-                                section="address"
-                                field="state"
-                                value={formData.address.state}
+                                section="data"
+                                field="address.state"
+                                value={formData.data.address.state ?? ""}
                                 handleInputChange={handleFormElementChange}
                             />
 
@@ -343,9 +420,9 @@ const AppointmentInfo = () => {
                                 label="Zip Code"
                                 name="zipCode"
                                 placeholder="Zip Code"
-                                section="address"
-                                field="zipCode"
-                                value={formData.address.zipCode}
+                                section="data"
+                                field="address.zipCode"
+                                value={formData.data.address.zipCode ?? ""}
                                 handleInputChange={handleFormElementChange}
                             />
                         </div>
@@ -353,50 +430,55 @@ const AppointmentInfo = () => {
                         <div className="grid sm:grid-cols-2 lg:grid-cols- gap-8">
                             <FieldItem
                                 label="First Name"
-                                value={appointment.firstName || "N/A"}
+                                value={appointment?.firstName || "N/A"}
                             />
                             <FieldItem
                                 label="Middle Name"
-                                value={appointment.middleName || "N/A"}
+                                value={appointment?.middleName || "N/A"}
                             />
                             <FieldItem
                                 label="Last Name"
-                                value={appointment.lastName || "N/A"}
+                                value={appointment?.lastName || "N/A"}
                             />
                             <FieldItem
                                 label="Gender"
-                                value={appointment.gender || "N/A"}
+                                value={appointment?.gender || "N/A"}
                             />
                             <FieldItem
                                 label="Date of Birth"
                                 value={
-                                    convertToUSDateTime(appointment.dob) ||
-                                    "N/A"
+                                    appointment?.dob
+                                        ? new Date(
+                                              appointment?.dob
+                                          ).toLocaleDateString()
+                                        : "N/A"
                                 }
                             />
                             <FieldItem
                                 label="Email"
-                                value={appointment.email || "N/A"}
+                                value={appointment?.email || "N/A"}
                             />
                             <FieldItem
                                 label="Phone"
-                                value={appointment.phone || "N/A"}
+                                value={appointment?.phone || "N/A"}
                             />
                             <FieldItem
                                 label="Street Address"
-                                value={appointment.street || "N/A"}
+                                value={
+                                    appointment?.address?.streetName || "N/A"
+                                }
                             />
                             <FieldItem
                                 label="City"
-                                value={appointment.city || "N/A"}
+                                value={appointment?.address?.city || "N/A"}
                             />
                             <FieldItem
                                 label="State"
-                                value={appointment.state || "N/A"}
+                                value={appointment?.address?.state || "N/A"}
                             />
                             <FieldItem
                                 label="Zip Code"
-                                value={appointment.zipCode || "N/A"}
+                                value={appointment?.address?.zipCode || "N/A"}
                             />
                         </div>
                     )}
@@ -410,43 +492,63 @@ const AppointmentInfo = () => {
 
                         {isAppointmentEditable ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                                <DateField
-                                    label="Date & Time"
-                                    name="appointmentDateTime"
-                                    field="appointmentDateTime"
-                                    section="appointment"
-                                    handleFormElementChange={
-                                        handleFormElementChange
-                                    }
-                                    showMonthDropdown
-                                    showYearDropdown
-                                    dropdownMode="select"
-                                    defaultDate={
-                                        new Date(
-                                            formData.appointment.appointmentDateTime
-                                        )
-                                    }
-                                    showTimeSelect
-                                    timeFormat="HH:mm"
-                                    timeIntervals={60}
-                                    dateFormat={`MM/dd/yyyy HH:mm`}
-                                    placeholderText="MM/dd/yyyy HH:mm"
-                                    className="input"
-                                    holidays={holidays}
-                                    filterDate={isDateExcluded}
-                                    filterTime={isTimeExcluded}
-                                    minDate={new Date()}
-                                    minTime={new Date(0, 0, 0, 9)}
-                                    maxTime={new Date(0, 0, 0, 16)}
-                                />
+                                <div className="space-y-1">
+                                    <label
+                                        htmlFor="appointmentDateTime"
+                                        className="block text-deepGrey"
+                                    >
+                                        Appointment date & time{" "}
+                                    </label>
+                                    <DatePicker
+                                        id="appointmentDateTime"
+                                        name="appointmentDateTime"
+                                        selected={selectedDateTime}
+                                        onChange={handleDateTimeChange}
+                                        showTimeSelect
+                                        showYearDropdown
+                                        showMonthDropdown
+                                        dropdownMode="select"
+                                        timeFormat="HH:mm"
+                                        timeIntervals={60}
+                                        dateFormat={`MM/dd/yyyy HH:mm`}
+                                        placeholderText="MM/dd/yyyy HH:mm"
+                                        className="input"
+                                        holidays={holidays}
+                                        filterDate={isDateExcluded}
+                                        filterTime={isTimeExcluded}
+                                        minDate={new Date()}
+                                        minTime={new Date(0, 0, 0, 9)}
+                                        maxTime={new Date(0, 0, 0, 16)}
+                                        disabled={
+                                            isBookedLoading || isBookedError
+                                        }
+                                    />
+                                    {isBookedError && (
+                                        <div className="flex items-center gap-3">
+                                            <p className="text-sm text-vividRed">
+                                                {`Could not fetch booked slots: ${bookedAppointmentsError}`}
+                                            </p>
+                                            <button
+                                                onClick={
+                                                    handleBookedSlotsRefetch
+                                                }
+                                                className="flex items-center gap-1 text-sm text-white bg-grey hover:bg-gray-600 px-2 py-1 rounded transition-colors duration-300"
+                                                disabled={isBookedLoading}
+                                            >
+                                                <span className="">Retry</span>{" "}
+                                                <MdRefresh />
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
 
                                 <SelectField
                                     label="Status"
                                     name="status"
                                     title="-- Select an option --"
                                     data={appointmentStatusOptions}
-                                    value={formData.appointment.status}
-                                    section="appointment"
+                                    value={formData.data.status ?? ""}
+                                    section="data"
                                     field="status"
                                     handleSelectChange={handleFormElementChange}
                                 />
@@ -456,8 +558,8 @@ const AppointmentInfo = () => {
                                     name="appointmentType"
                                     title="-- Select an option --"
                                     data={appointmentTypes}
-                                    value={formData.appointment.appointmentType}
-                                    section="appointment"
+                                    value={formData.data.appointmentType ?? ""}
+                                    section="data"
                                     field="appointmentType"
                                     handleSelectChange={handleFormElementChange}
                                 />
@@ -467,8 +569,8 @@ const AppointmentInfo = () => {
                                     name="service"
                                     title="-- Select an option --"
                                     data={services}
-                                    value={formData.appointment.service}
-                                    section="appointment"
+                                    value={formData.data.service ?? ""}
+                                    section="data"
                                     field="service"
                                     handleSelectChange={handleFormElementChange}
                                 />
@@ -477,9 +579,9 @@ const AppointmentInfo = () => {
                                     label="Purpose of Visit"
                                     name="purpose"
                                     placeholder="Write detailed description here"
-                                    section="appointment"
+                                    section="data"
                                     field="purpose"
-                                    value={formData.appointment.purpose}
+                                    value={formData.data.purpose ?? ""}
                                     handleFormElementChange={
                                         handleFormElementChange
                                     }
@@ -489,28 +591,31 @@ const AppointmentInfo = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                                 <FieldItem
                                     label="Type"
-                                    value={appointment.appointmentType || "N/A"}
+                                    value={
+                                        appointment?.appointmentType || "N/A"
+                                    }
                                 />
                                 <FieldItem
                                     label="Service"
-                                    value={appointment.service || "N/A"}
+                                    value={appointment?.service || "N/A"}
                                 />
                                 <FieldItem
                                     label="Date & Time"
                                     value={
-                                        `${convertToUSDateTime(
-                                            appointment.dateTime,
-                                            true
-                                        )}` || "N/A"
+                                        appointment?.appointmentDateTime
+                                            ? new Date(
+                                                  appointment?.appointmentDateTime
+                                              ).toLocaleString()
+                                            : "N/A"
                                     }
                                 />
                                 <FieldItem
                                     label="Status"
-                                    value={appointment.status || "N/A"}
+                                    value={appointment?.status || "N/A"}
                                 />
                                 <FieldItem
                                     label="Purpose"
-                                    value={appointment.purpose || "N/A"}
+                                    value={appointment?.purpose || "N/A"}
                                 />
                             </div>
                         )}
@@ -522,14 +627,14 @@ const AppointmentInfo = () => {
                         </h4>
 
                         {isAppointmentEditable ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">                                
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                                 <SelectField
                                     label="Payment Method"
                                     name="paymentMethod"
                                     title="-- Select an option --"
                                     data={paymentMethods}
-                                    value={formData.insurance.paymentMethod}
-                                    section="insurance"
+                                    value={formData.data.paymentMethod ?? ""}
+                                    section="data"
                                     field="paymentMethod"
                                     handleSelectChange={handleFormElementChange}
                                 />
@@ -539,8 +644,8 @@ const AppointmentInfo = () => {
                                     name="insuranceName"
                                     title="-- Select an option --"
                                     data={insuranceNames}
-                                    value={formData.insurance.insuranceName}
-                                    section="insurance"
+                                    value={formData.data.insuranceName ?? ""}
+                                    section="data"
                                     field="insuranceName"
                                     handleSelectChange={handleFormElementChange}
                                 />
@@ -550,9 +655,9 @@ const AppointmentInfo = () => {
                                     label="Insurance Number"
                                     name="insuranceNumber"
                                     placeholder="Insurance Number"
-                                    section="insurance"
+                                    section="data"
                                     field="insuranceNumber"
-                                    value={formData.insurance.insuranceNumber}
+                                    value={formData.data.insuranceNumber ?? ""}
                                     handleInputChange={handleFormElementChange}
                                 />
                             </div>
@@ -560,15 +665,17 @@ const AppointmentInfo = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                                 <FieldItem
                                     label="Payment Method"
-                                    value={appointment.paymentMethod || "N/A"}
+                                    value={appointment?.paymentMethod || "N/A"}
                                 />
                                 <FieldItem
                                     label="Insurance Name"
-                                    value={appointment.insuranceName || "N/A"}
+                                    value={appointment?.insuranceName || "N/A"}
                                 />
                                 <FieldItem
                                     label="Insurance Number"
-                                    value={appointment.insuranceNumber || "N/A"}
+                                    value={
+                                        appointment?.insuranceNumber || "N/A"
+                                    }
                                 />
                             </div>
                         )}
@@ -577,7 +684,7 @@ const AppointmentInfo = () => {
 
                 {isAppointmentEditable && (
                     <button
-                        onClick={confirmHandler}
+                        onClick={openConfirmModal}
                         className="self-end w-auto bg-lightGreen hover:bg-lighterGreen px-4 py-2 text-white font-medium rounded-lg"
                     >
                         Update Appointment
@@ -586,76 +693,22 @@ const AppointmentInfo = () => {
             </div>
 
             {/* Submission Response */}
-            <Modal isOpen={isSubmitModalOpen}>
-                <div className="w-full max-w-xl p-4 rounded-lg bg-white text-deepGrey relative">
-                    <div className="flex flex-col gap-5 justify-center items-center">
-                        <LuShieldCheck className="text-5xl text-lightGreen" />
-
-                        <div className="flex flex-col items-center">
-                            <h3 className="text-lg text-center font-bold mb-5">
-                                Appointment Updated!
-                            </h3>
-
-                            <div className="space-y-2 text-center text-deepGrey">
-                                <p className="">
-                                    Appointment information has been
-                                    successfully updated.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col gap-2 mt-1">
-                            <button
-                                className="w-full bg-lightGreen hover:bg-green-600 px-4 py-3 text-white font-medium tracking-widest rounded-lg"
-                                onClick={returnHome}
-                            >
-                                Return Home
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </Modal>
+            {isSubmitModalOpen && (
+                <SubmitSuccessModal
+                    isSubmitModalOpen={isSubmitModalOpen}
+                    returnHome={returnHome}
+                />
+            )}
 
             {/* Confirm */}
-            <Modal isOpen={isConfirmModalOpen}>
-                <div className="w-full max-w-xl rounded-lg bg-white text-deepGrey border-t-8 border-t-yellow-600 relative">
-                    <div className="flex flex-col divide-y divide-lightGrey">
-                        <div className="flex items-center gap-4 md:gap-8 p-4 md:p-6">
-                            <BsFillQuestionDiamondFill className="flex-shrink-0 text-4xl md:text-6xl text-yellow-600" />
-
-                            <div className="space-y-2 text-deepGrey">
-                                <h3 className="text-lg font-semibold">
-                                    Confirm Appointment Update
-                                </h3>
-                                <p className="">
-                                    Are you sure you want to save these changes?
-                                    <span className="block">
-                                        Ensure all details are accurate before
-                                        proceeding.
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center justify-end gap-4 p-3 md:p-4">
-                            <button
-                                className="w-full bg-transparent hover:bg-vividRed border border-vividRed px-4 py-[7px] text-vividRed hover:text-white font-medium tracking-widest rounded-lg transition-colors duration-300"
-                                onClick={() => setIsConfirmModalOpen(false)}
-                            >
-                                Cancel
-                            </button>
-
-                            <SubmitButton
-                                submitText="Save Changes"
-                                loadingText="Saving..."
-                                onSubmit={submitHandler}
-                                isSubmitting={isSubmitting}
-                                xtraClass="self-end"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </Modal>
+            {isConfirmModalOpen && (
+                <ConfirmUpdateModal
+                    handleSubmit={handleSubmit}
+                    isConfirmModalOpen={isConfirmModalOpen}
+                    isSubmitting={isUpdatingAppointment}
+                    setIsConfirmModalOpen={setIsConfirmModalOpen}
+                />
+            )}
         </section>
     );
 };

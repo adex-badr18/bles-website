@@ -6,12 +6,13 @@ import {
 } from "@tanstack/react-query";
 import {
     searchAppointments,
-    fetchAppointmentById,
+    getAppointmentById,
     fetchAppointments,
     createAppointment,
     updateAppointment,
-    fetchBookedAppointments
+    fetchBookedAppointments,
 } from "../api/appointmentApi";
+import { useToast } from "../components/ToastContext";
 
 // Fetch list of appointments
 export const useFetchAppointments = (page = 1, searchParams) => {
@@ -35,12 +36,12 @@ export const useSearchAppointments = (searchParams) => {
 };
 
 // Fetch a appointment by ID
-export const useFetchAppointment = (id, options = {}) => {
+export const useGetAppointment = (appointmentId) => {
     return useQuery({
-        queryKey: ["appointments", id],
-        queryFn: () => fetchAppointmentById(id),
-        enabled: !!id, // Ensures the query runs only when id is avaialble
-        ...options,
+        queryKey: ["appointment", appointmentId],
+        queryFn: () => getAppointmentById(appointmentId),
+        enabled: !!appointmentId, // Ensures the query runs only when id is avaialble
+        retry: 1,
     });
 };
 
@@ -78,24 +79,42 @@ export const useCreateAppointment = ({ openModal, showToast }) => {
 };
 
 // Update a appointment
-export const useUpdateAppointment = () => {
+export const useUpdateAppointment = ({
+    setIsAppointmentEditable,
+    setIsConfirmModalOpen,
+}) => {
     const queryClient = useQueryClient();
+    const { showToast } = useToast();
 
     return useMutation({
-        mutationFn: ({ id, updatedData }) => updateAppointment(id, updatedData),
-        onMutate: async ({ id, updatedData }) => {
+        mutationFn: ({ id, payload }) => updateAppointment(payload),
+        onMutate: async ({ id, payload }) => {
             await queryClient.cancelQueries(["appointment", id]);
 
-            const previousAppointment = queryClient.getQueryData(["appointment", id]);
+            const previousAppointment = queryClient.getQueryData([
+                "appointment",
+                id,
+            ]);
 
             queryClient.setQueryData(["appointment", id], (prev) => ({
                 ...prev,
-                ...updatedData,
+                ...payload,
             }));
 
             return { previousAppointment };
         },
         onError: (error, variables, context) => {
+            const errorMessage =
+                (typeof error === "string" && error) ||
+                error?.message ||
+                "An unexpected error occurred. Please try again";
+
+            showToast({
+                message: errorMessage,
+                type: "error",
+                duration: 5000,
+            });
+
             if (context?.previousAppointment) {
                 queryClient.setQueryData(
                     ["appointment", variables.id],
@@ -104,8 +123,78 @@ export const useUpdateAppointment = () => {
             }
         },
         onSuccess: (updatedAppointment) => {
+            setIsAppointmentEditable(false);
+            setIsConfirmModalOpen(false);
+            console.log("OnSuccess", updatedAppointment)
+            showToast({
+                message: "Appointment Successfully updated.",
+                type: "success",
+                duration: 5000,
+            });
             queryClient.invalidateQueries(["appointments"]); // Refresh appointment list
-            queryClient.invalidateQueries(["appointment", updatedAppointment.id]); // Refresh updated appointment
+            queryClient.invalidateQueries([
+                "appointment",
+                updatedAppointment.id,
+            ]); // Refresh updated appointment
+        },
+    });
+};
+
+// Update a appointment
+export const useToggleAppointmentStatus = ({ setIsConfirmModalOpen }) => {
+    const queryClient = useQueryClient();
+    const { showToast } = useToast();
+
+    return useMutation({
+        mutationFn: ({ appointmentId, payload }) => updateAppointment(appointmentId, payload),
+        onMutate: async ({ appointmentId, payload }) => {
+            await queryClient.cancelQueries(["appointment", appointmentId]);
+
+            const previousAppointment = queryClient.getQueryData([
+                "appointment",
+                appointmentId,
+            ]);
+
+            queryClient.setQueryData(["appointment", appointmentId], (prev) => ({
+                ...prev,
+                ...payload,
+            }));
+
+            return { previousAppointment };
+        },
+        onError: (error, variables, context) => {
+            const errorMessage =
+                (typeof error === "string" && error) ||
+                error?.message ||
+                "An unexpected error occurred. Please try again";
+
+            showToast({
+                message: errorMessage,
+                type: "error",
+                duration: 5000,
+            });
+
+            if (context?.previousAppointment) {
+                queryClient.setQueryData(
+                    ["appointment", variables.id],
+                    context.previousAppointment
+                );
+            }
+        },
+        onSuccess: (updatedAppointment) => {
+            setIsAppointmentEditable(false);
+            setIsConfirmModalOpen(false);
+
+            showToast({
+                message: "Appointment Successfully updated.",
+                type: "success",
+                duration: 5000,
+            });
+            queryClient.invalidateQueries(["appointments"]); // Refresh appointment list
+            queryClient.invalidateQueries([
+                "appointment",
+                updatedAppointment.id,
+            ]); // Refresh updated appointment
         },
     });
 };

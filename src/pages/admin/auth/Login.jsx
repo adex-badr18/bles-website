@@ -5,31 +5,28 @@ import Logo from "../../../components/layout/Logo";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import SubmitButton from "../../../components/SubmitButton";
 import { useAuth } from "../components/auth/AuthProvider";
+import { useLogin } from "../../../hooks/useGeneral";
+import { objectToFormData } from "../../utils";
 
 const Login = () => {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [formData, setFormData] = useState({ email: "admin@admin.com", password: "password" });
     const { login } = useAuth();
+    const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from || "/admin/dashboard";
 
-    const navigate = useNavigate();
+    const { mutate, isError, error, isPending } = useLogin({
+        onSuccess: (response) => {
+            login(response);
+            navigate(from, { replace: true });
+        },
+    });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
 
-        setTimeout(() => {
-            if (
-                formData.email === "admin@gmail.com" &&
-                formData.password === "Pa$$word"
-            ) {
-                login(formData);
-                navigate(from, { replace: true });
-            }
-
-            setIsSubmitting(false);
-        }, 4000);
+        const payload = objectToFormData(formData);
+        mutate(payload);
     };
 
     return (
@@ -59,6 +56,12 @@ const Login = () => {
                     <h3 className="text-3xl text-emeraldGreen text-center font-montserrat">
                         Log in
                     </h3>
+
+                    {isError && (
+                        <p className="text-vividRed text-center">
+                            {error.message}
+                        </p>
+                    )}
 
                     <div className="">
                         <form className="">
@@ -127,11 +130,11 @@ const Login = () => {
                                         loadingText="Logging in..."
                                         submitText="Log in"
                                         onSubmit={handleSubmit}
-                                        isSubmitting={isSubmitting}
+                                        isSubmitting={isPending}
                                     />
-                                    <Link className="block text-center text-orange font-lato">
+                                    {/* <Link className="block text-center text-orange font-lato">
                                         Forgot your password?
-                                    </Link>
+                                    </Link> */}
                                 </div>
                             </div>
                         </form>

@@ -157,31 +157,31 @@ export const patients = [
 
 export const patientsColumns = [
     {
-        accessorKey: "id",
+        accessorKey: "patientId",
         header: "Patient ID",
     },
     {
-        accessorKey: "personal.firstName",
+        accessorKey: "firstName",
         header: "First Name",
     },
     {
-        accessorKey: "personal.lastName",
+        accessorKey: "lastName",
         header: "Last Name",
     },
     {
-        accessorKey: "personal.dob",
+        accessorKey: "dob",
         header: "Date of Birth",
     },
     {
-        accessorKey: "personal.gender",
+        accessorKey: "gender",
         header: "Gender",
     },
     {
-        accessorKey: "personal.phone",
+        accessorKey: "phone",
         header: "Phone",
     },
     {
-        accessorKey: "personal.email",
+        accessorKey: "email",
         header: "Email",
     },
 ];
@@ -2501,7 +2501,7 @@ export const appointmentsColumns = [
     {
         accessorKey: "dateTime",
         header: "Appointment Date",
-        cell: (prop) => `${convertToUSDateTime(prop.getValue(), true)}`,
+        cell: (prop) => `${new Date(prop.getValue()).toLocaleString()}`,
     },
     // {
     //     accessorKey: "phone",

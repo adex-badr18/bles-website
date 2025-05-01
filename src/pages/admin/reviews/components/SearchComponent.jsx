@@ -1,33 +1,90 @@
 import { useState } from "react";
-import DateField from "../../../../components/DateField";
 import TextField from "../../../../components/TextField";
 import SelectField from "../../../../components/SelectField";
-import {
-    genderOptions,
-    maritalStatusOptions,
-} from "../../../user/patientForms/data";
 import { ratingOptions, statusOptions } from "../data";
-import SubmitButton from "../../../../components/SubmitButton";
 
-const SearchComponent = ({
-    searchFormData,
-    onChange,
-    onSearch,
-    isSubmitting,
-}) => {
+const SearchComponent = ({ setIsSearchModalOpen, onSearch, searchData }) => {
+    const [reqBody, setReqBody] = useState({
+        data: searchData || {
+            nickName: "",
+            email: "",
+            rating: "",
+            status: "",
+        },
+    });
+
+    const onReqBodyChange = (section, fieldPath, value) => {
+        setReqBody((prev) => {
+            const keys = fieldPath.split(".");
+
+            const updateNestedField = (obj, keys, value) => {
+                if (keys.length === 1) {
+                    return {
+                        ...obj,
+                        [keys[0]]: value,
+                    };
+                }
+
+                return {
+                    ...obj,
+                    [keys[0]]: updateNestedField(
+                        obj[keys[0]],
+                        keys.slice(1),
+                        value
+                    ),
+                };
+            };
+
+            return {
+                ...prev,
+                [section]: updateNestedField(prev[section], keys, value),
+            };
+        });
+    };
+
+    const searchHandler = async (e) => {
+        e.preventDefault();
+
+        onSearch({ ...reqBody.data });
+        setIsSearchModalOpen(false);
+    };
+
+    const clearSearch = (e) => {
+        e.preventDefault();
+
+        setReqBody({
+            data: {
+                nickName: "",
+                email: "",
+                rating: "",
+                status: "",
+            },
+        });
+
+        onSearch({});
+    };
+
+    const isFormEmpty = () => {
+        const dataObj = reqBody.data;
+
+        return Object.values(dataObj).every(
+            (value) => value === "" || value === null
+        );
+    };
+
     return (
         <form className="space-y-5">
             <h3 className="text-xl font-semibold">Search Review(s)</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 <TextField
                     type="text"
-                    label="Name"
-                    name="name"
-                    field="name"
-                    placeholder="Name"
+                    label="Display Name"
+                    name="nickName"
+                    field="nickName"
+                    placeholder="Display Name"
                     section="data"
-                    value={searchFormData.data.name}
-                    handleInputChange={onChange}
+                    value={reqBody.data.nickName ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <TextField
                     type="text"
@@ -36,39 +93,47 @@ const SearchComponent = ({
                     field="email"
                     placeholder="Email"
                     section="data"
-                    value={searchFormData.data.email}
-                    handleInputChange={onChange}
+                    value={reqBody.data.email ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <SelectField
                     label="Rating"
                     name="rating"
                     title="-- Select an option --"
                     data={ratingOptions}
-                    value={searchFormData.data.rating}
+                    value={reqBody.data.rating ?? ""}
                     section="data"
                     field="rating"
-                    handleSelectChange={onChange}
+                    handleSelectChange={onReqBodyChange}
                 />
                 <SelectField
                     label="Status"
                     name="status"
                     title="-- Select an option --"
                     data={statusOptions}
-                    value={searchFormData.data.status}
+                    value={reqBody.data.status ?? ""}
                     section="data"
                     field="status"
-                    handleSelectChange={onChange}
+                    handleSelectChange={onReqBodyChange}
                 />
             </div>
 
-            <SubmitButton
-                isDisabled={isSubmitting}
-                isSubmitting={isSubmitting}
-                loadingText="Searching..."
-                onSubmit={onSearch}
-                submitText="Search"
-                xtraClass=""
-            />
+            <div className="flex items-center justify-end gap-4">
+                <button
+                    onClick={clearSearch}
+                    className="py-2 px-4 font-semibold text-center border border-vividRed bg-vividRed rounded-lg text-white hover:text-vividRed hover:bg-transparent transition duration-300"
+                >
+                    Clear
+                </button>
+
+                <button
+                    onClick={searchHandler}
+                    className={`py-2 px-4 font-semibold text-center border border-lightGreen rounded-lg text-lightGreen hover:text-white hover:bg-lightGreen transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-transparent disabled:hover:text-lightGreen`}
+                    disabled={isFormEmpty()}
+                >
+                    Search
+                </button>
+            </div>
         </form>
     );
 };

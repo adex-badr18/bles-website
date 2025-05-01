@@ -7,8 +7,8 @@ import maryland from "../../../assets/insurance/maryland.png";
 import amerigroup from "../../../assets/insurance/amerigroup.webp";
 
 export const appointmentTypes = [
-    { id: 1, text: "In-person", value: "In-person" },
-    { id: 2, text: "Tele-health", value: "Tele-health" },
+    { id: 1, text: "In-Person", value: "In-Person" },
+    { id: 2, text: "Tele-Health", value: "Tele-Health" },
     { id: 3, text: "Any", value: "Any" },
 ];
 

@@ -10,13 +10,13 @@ export const fetchPatients = async (page = 1, searchParams) => {
             Authorization: `Bearer ${token}`,
         },
     });
-    return response;
+    return response.data;
 };
 
 // Search for patients based on search terms
-export const searchPatients = async (searchParams) => {
+export const searchPatients = async (searchParams, payload) => {
     const token = JSON.parse(sessionStorage.getItem("user"));
-    const response = await api.get(`/patients/search`, {
+    const response = await api.post(`/patients/search`, payload, {
         params: searchParams,
         headers: {
             "Content-Type": "multipart/form-data",
@@ -24,19 +24,19 @@ export const searchPatients = async (searchParams) => {
         },
     });
 
-    return response;
+    return response.data;
 };
 
 // Fetch a patient by ID
-export const fetchPatientById = async (patientId) => {
-    const token = JSON.parse(sessionStorage.getItem("user"));
+export const getPatientById = async (patientId) => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
     const response = await api.get(`/patients/${patientId}`, {
         headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
         },
     });
-    return response;
+    return response.data;
 };
 
 // Fetch a basic patient info by ID

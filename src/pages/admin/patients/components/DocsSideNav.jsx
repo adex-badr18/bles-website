@@ -7,7 +7,7 @@ const DocsSideNav = ({
     selectedDoc,
     setSelectedDoc,
     isSidebarOpen,
-    setIsSidebarOpen
+    setIsSidebarOpen,
 }) => {
     return (
         <aside
@@ -20,25 +20,30 @@ const DocsSideNav = ({
                     {title}
                 </h3>
 
-                <button onClick={() => setIsSidebarOpen(false)} className="text-offWhite text-xl lg:hidden"><CgCloseR /></button>
+                <button
+                    onClick={() => setIsSidebarOpen(false)}
+                    className="text-offWhite text-xl lg:hidden"
+                >
+                    <CgCloseR />
+                </button>
             </div>
 
             <ul className="flex flex-col gap-4 px-4 lg:px-6 py-5 md:py-10">
-                {data.map((doc) => (
+                {data.map((doc, i) => (
                     <li
-                        key={doc.id}
+                        key={i}
                         className={`border border-[#dddddd8f] rounded-md p-4 font-rubik hover:bg-vividRed hover:text-white transition duration-300 hover:cursor-pointer ${
-                            selectedDoc?.url === doc.url
+                            selectedDoc?.title === doc?.title
                                 ? "bg-vividRed text-white"
                                 : "bg-white text-deepBlue"
                         }`}
                         onClick={() => {
-                            setSelectedDoc(doc)
-                            setIsSidebarOpen(false)
+                            setSelectedDoc(doc);
+                            setIsSidebarOpen(false);
                         }}
                     >
                         <div className="flex gap-2 items-center">
-                            <BiChevronsRight className="" />
+                            <BiChevronsRight className="flex-shrink-0" />
                             <span className="font-medium">{doc.title}</span>
                         </div>
                     </li>

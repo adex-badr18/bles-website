@@ -336,9 +336,9 @@ export const appointmentsColumns = [
         header: "Last Name",
     },
     {
-        accessorKey: "dateTime",
-        header: "Appointment Date",
-        cell: (prop) => `${convertToUSDateTime(prop.getValue(), true)}`,
+        accessorKey: "appointmentDateTime",
+        header: "Appointment Date Time",
+        cell: (prop) => `${new Date(prop.getValue()).toLocaleString()}`,
     },
     {
         accessorKey: "phone",
@@ -352,18 +352,18 @@ export const appointmentsColumns = [
         accessorKey: "status",
         header: "Status",
         cell: (prop) => {
-            const value = prop.getValue();
+            const value = prop.getValue() || "N/A";
 
             return (
                 <span
-                    className={`p-1 w-20 block text-center rounded text-xs text-offWhite capitalize ${
+                    className={`p-1 w-20 block text-center rounded text-xs capitalize ${
                         value.toLowerCase() === "attended"
-                            ? "bg-lightGreen"
+                            ? "bg-lightGreen text-offWhite"
                             : value.toLowerCase() === "upcoming"
-                            ? "bg-yellow-700"
+                            ? "bg-yellow-700 text-offWhite"
                             : value.toLowerCase() === "missed"
-                            ? "bg-vividRed"
-                            : ""
+                            ? "bg-vividRed text-offWhite"
+                            : "text-deepGrey text-lg"
                     }`}
                 >
                     {value}

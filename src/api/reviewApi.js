@@ -1,5 +1,6 @@
 import axios from "axios";
 import api from "./axiosInstance";
+import { objectToFormData } from "../pages/utils";
 
 // Fetch a list of reviews (Paginated)
 export const fetchReviews = async (page = 1, searchParams) => {
@@ -19,9 +20,30 @@ export const searchReviews = async (searchParams) => {
 };
 
 // Fetch a review by ID
-export const fetchReviewById = async (reviewId) => {
-    const response = await api.get(`/reviews/${reviewId}`);
-    return response;
+export const getReviewById = async (reviewId) => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const response = await api.get(`/reviews/${reviewId}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+        },
+    });
+    return response.data;
+};
+
+// Toggle review status
+export const toggleReviewStatus = async ({ endpoint }) => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const options = {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+        },
+    };
+
+    const response = await api.post(endpoint, options);
+
+    return response.data;
 };
 
 // Create a new review

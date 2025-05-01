@@ -7,12 +7,11 @@ import {
     maritalStatusOptions,
 } from "../../../user/patientForms/data";
 import { paymentMethods } from "../../../user/appointment/data";
-import SubmitButton from "../../../../components/SubmitButton";
 
-const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
-    const [searchParams, setSearchParams] = useState({
-        data: {
-            id: "",
+const SearchComponent = ({ setIsSearchModalOpen, onSearch, searchData }) => {
+    const [reqBody, setReqBody] = useState({
+        data: searchData || {
+            // patientId: "",
             firstName: "",
             lastName: "",
             middleName: "",
@@ -23,12 +22,12 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
             maritalStatus: "",
             city: "",
             state: "",
-            paymentMode: "",
+            // paymentMode: "",
         },
     });
 
-    const onSearchParamsChange = (e) => {
-        setSearchParams((prev) => {
+    const onReqBodyChange = (section, fieldPath, value) => {
+        setReqBody((prev) => {
             const keys = fieldPath.split(".");
 
             const updateNestedField = (obj, keys, value) => {
@@ -59,16 +58,16 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
     const searchHandler = async (e) => {
         e.preventDefault();
 
-        onSearch(searchParams);
+        onSearch({ ...reqBody.data });
         setIsSearchModalOpen(false);
     };
 
     const clearSearch = (e) => {
         e.preventDefault();
 
-        setSearchParams({
+        setReqBody({
             data: {
-                id: "",
+                // patientId: "",
                 firstName: "",
                 lastName: "",
                 middleName: "",
@@ -79,7 +78,7 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
                 maritalStatus: "",
                 city: "",
                 state: "",
-                paymentMode: "",
+                // paymentMode: "",
             },
         });
 
@@ -87,7 +86,7 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
     };
 
     const isFormEmpty = () => {
-        const dataObj = searchParams.data;
+        const dataObj = reqBody.data;
 
         return Object.values(dataObj).every(
             (value) => value === "" || value === null
@@ -98,16 +97,16 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
         <form className="space-y-5">
             <h3 className="text-xl font-semibold">Search Patient(s)</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                <TextField
+                {/* <TextField
                     type="text"
                     label="Patient ID"
-                    name="id"
-                    field="id"
+                    name="patientId"
+                    field="patientId"
                     placeholder="Patient ID"
                     section="data"
-                    value={searchParams.data.id}
-                    handleInputChange={onSearchParamsChange}
-                />
+                    value={reqBody.data.patientId ?? ""}
+                    handleInputChange={onReqBodyChange}
+                /> */}
                 <TextField
                     type="text"
                     label="First Name"
@@ -115,8 +114,8 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
                     field="firstName"
                     placeholder="First Name"
                     section="data"
-                    value={searchParams.data.firstName}
-                    handleInputChange={onSearchParamsChange}
+                    value={reqBody.data.firstName ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <TextField
                     type="text"
@@ -125,8 +124,8 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
                     field="middleName"
                     placeholder="Middle Name"
                     section="data"
-                    value={searchParams.data.middleName}
-                    handleInputChange={onSearchParamsChange}
+                    value={reqBody.data.middleName ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <TextField
                     type="text"
@@ -135,8 +134,8 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
                     field="lastName"
                     placeholder="Last Name"
                     section="data"
-                    value={searchParams.data.lastName}
-                    handleInputChange={onSearchParamsChange}
+                    value={reqBody.data.lastName ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <DateField
                     label="Date of Birth"
@@ -144,14 +143,12 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
                     field="dob"
                     section="data"
                     placeholder="MM/DD/YYYY"
-                    handleFormElementChange={onSearchParamsChange}
+                    handleFormElementChange={onReqBodyChange}
                     showMonthDropdown
                     showYearDropdown
                     dropdownMode="select"
                     defaultDate={
-                        searchParams.data.dob
-                            ? new Date(searchParams.data.dob)
-                            : null
+                        reqBody.data.dob ? new Date(reqBody.data.dob) : null
                     }
                 />
                 <TextField
@@ -161,8 +158,8 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
                     field="phone"
                     placeholder="Phone Number"
                     section="data"
-                    value={searchParams.data.phone}
-                    handleInputChange={onSearchParamsChange}
+                    value={reqBody.data.phone ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <TextField
                     type="text"
@@ -171,28 +168,28 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
                     field="email"
                     placeholder="Email"
                     section="data"
-                    value={searchParams.data.email}
-                    handleInputChange={onSearchParamsChange}
+                    value={reqBody.data.email ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <SelectField
                     label="Gender"
                     name="gender"
                     title="-- Select an option --"
                     data={genderOptions}
-                    value={searchParams.data.gender}
+                    value={reqBody.data.gender ?? ""}
                     section="data"
                     field="gender"
-                    handleSelectChange={onSearchParamsChange}
+                    handleSelectChange={onReqBodyChange}
                 />
                 <SelectField
                     label="Marital Status"
                     name="maritalStatus"
                     title="-- Select an option --"
                     data={maritalStatusOptions}
-                    value={searchParams.data.maritalStatus}
+                    value={reqBody.data.maritalStatus ?? ""}
                     section="data"
                     field="maritalStatus"
-                    handleSelectChange={onSearchParamsChange}
+                    handleSelectChange={onReqBodyChange}
                 />
                 <TextField
                     type="text"
@@ -201,8 +198,8 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
                     field="city"
                     placeholder="City"
                     section="data"
-                    value={searchParams.data.city}
-                    handleInputChange={onSearchParamsChange}
+                    value={reqBody.data.city ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
                 <TextField
                     type="text"
@@ -211,19 +208,19 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
                     field="state"
                     placeholder="State"
                     section="data"
-                    value={searchParams.data.state}
-                    handleInputChange={onSearchParamsChange}
+                    value={reqBody.data.state ?? ""}
+                    handleInputChange={onReqBodyChange}
                 />
-                <SelectField
+                {/* <SelectField
                     label="Payment Options"
                     name="paymentMode"
                     title="-- Select an option --"
                     data={paymentMethods}
-                    value={searchParams.data.paymentMode}
+                    value={reqBody.data.paymentMode ?? ""}
                     section="data"
                     field="paymentMode"
-                    handleSelectChange={onSearchParamsChange}
-                />
+                    handleSelectChange={onReqBodyChange}
+                /> */}
             </div>
 
             <div className="flex items-center justify-end gap-4">
@@ -237,20 +234,11 @@ const SearchComponent = ({ setIsSearchModalOpen, onSearch }) => {
                 <button
                     onClick={searchHandler}
                     className={`py-2 px-4 font-semibold text-center border border-lightGreen rounded-lg text-lightGreen hover:text-white hover:bg-lightGreen transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-transparent disabled:hover:text-lightGreen`}
-                    disabled={isFormEmpty}
+                    disabled={isFormEmpty()}
                 >
                     Search
                 </button>
             </div>
-
-            {/* <SubmitButton
-                isDisabled={isSubmitting}
-                isSubmitting={isSubmitting}
-                loadingText="Searching..."
-                onSubmit={onSearch}
-                submitText="Search"
-                xtraClass=""
-            /> */}
         </form>
     );
 };

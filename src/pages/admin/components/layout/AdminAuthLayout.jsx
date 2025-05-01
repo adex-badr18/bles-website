@@ -52,12 +52,12 @@ const AdminAuthLayout = () => {
             </aside>
 
             {/* Main Content */}
-            <div className="flex-1 lg:ml-[280px] bg-gray-100 w-full">
+            <div className="flex flex-col flex-1 lg:ml-[280px]">
                 <TopNav
                     toggleSideNav={toggleSideNav}
                     isSideNavOpen={isSideNavOpen}
                 />
-                <main className="p-5 text-gray-600 min-h-screen">
+                <main className="flex-1 overflow-y-auto p-5 text-gray-600 min-h-screen bg-gray-100">
                     <Outlet />
                 </main>
             </div>
@@ -81,7 +81,7 @@ const AdminAuthLayout = () => {
 
                         <div className="flex items-center justify-end gap-4 p-3 md:p-4">
                             <button
-                                className="bg-transparent hover:bg-lightGreen border border-lightGreen px-4 py-[7px] text-lightGreen hover:text-white font-medium tracking-widest rounded-lg transition-colors duration-300"
+                                className="flex-1 bg-transparent hover:bg-lightGreen border border-lightGreen px-4 py-[7px] text-lightGreen hover:text-white font-medium tracking-widest rounded-lg transition-colors duration-300"
                                 onClick={() => setIsConfirmModalOpen(false)}
                             >
                                 Cancel
@@ -92,7 +92,7 @@ const AdminAuthLayout = () => {
                                 loadingText="Logging out..."
                                 onSubmit={logoutHandler}
                                 isSubmitting={isSubmitting}
-                                xtraClass="self-end w-auto bg-vividRed hover:bg-red-700"
+                                xtraClass="flex-1 self-end w-auto bg-vividRed hover:bg-red-700"
                             />
                         </div>
                     </div>

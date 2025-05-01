@@ -11,6 +11,7 @@ const RadioField = ({
     orientation,
     labelClass,
     isRequired,
+    ...rest
 }) => {
     let orientationClass;
 
@@ -32,7 +33,9 @@ const RadioField = ({
         <div className="space-y-2">
             <p className={`${labelClass} text-deepGrey`}>
                 {label}{" "}
-                {isRequired && <small className="text-vividRed text-lg">*</small>}
+                {isRequired && (
+                    <small className="text-vividRed text-lg">*</small>
+                )}
             </p>
             <div className={`${orientationClass}`}>
                 {data.map((option) => (
@@ -54,7 +57,8 @@ const RadioField = ({
                                     field,
                                     e.target.value
                                 )
-                            }
+                            }                            
+                            {...rest}
                         />
                         <div className="w-5 h-5 rounded-full border-2 border-gray-500 peer-checked:bg-darkBlue flex-shrink-0 flex items-center justify-center">
                             <div className="w-3 h-3 rounded-full bg-transparent"></div>

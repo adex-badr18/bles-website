@@ -51,7 +51,7 @@ export const recentPatients = [
 
 export const recentPatientsColumns = [
     {
-        accessorKey: "id",
+        accessorKey: "patientId",
         header: "Patient ID",
     },
     {
@@ -62,10 +62,10 @@ export const recentPatientsColumns = [
         accessorKey: "lastName",
         header: "Last Name",
     },
-    {
-        accessorKey: "dob",
-        header: "Date of Birth",
-    },
+    // {
+    //     accessorKey: "dob",
+    //     header: "Date of Birth",
+    // },
     {
         accessorKey: "gender",
         header: "Gender",
@@ -242,9 +242,9 @@ export const recentAppointmentsColumns = [
         header: "Last Name",
     },
     {
-        accessorKey: "dateTime",
+        accessorKey: "appointmentDateTime",
         header: "Appointment Date",
-        cell: (prop) => `${convertToUSDateTime(prop.getValue(), true)} ET`,
+        cell: (prop) => `${new Date(prop.getValue()).toLocaleString()}`,
     },
 ];
 
@@ -284,7 +284,7 @@ export const recentReviews = [
 
 export const recentReviewsColumns = [
     {
-        accessorKey: "name",
+        accessorKey: "nickname",
         header: "Name",
     },
     {
