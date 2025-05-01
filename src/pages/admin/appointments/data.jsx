@@ -338,7 +338,10 @@ export const appointmentsColumns = [
     {
         accessorKey: "appointmentDateTime",
         header: "Appointment Date Time",
-        cell: (prop) => `${new Date(prop.getValue()).toLocaleString()}`,
+        cell: (prop) => {
+            const value = prop.getValue() || "N/A";
+            return <span className="text-deepGrey">{value}</span>;
+        },
     },
     {
         accessorKey: "phone",
@@ -374,7 +377,7 @@ export const appointmentsColumns = [
 ];
 
 export const appointmentStatusOptions = [
-    {id: 1, text: "Attended", value: "Attended"},
-    {id: 2, text: "Missed", value: "Missed"},
-    {id: 3, text: "Upcoming", value: "Upcoming"},
-]
+    { id: 1, text: "Attended", value: "Attended" },
+    { id: 2, text: "Missed", value: "Missed" },
+    { id: 3, text: "Upcoming", value: "Upcoming" },
+];

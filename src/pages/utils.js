@@ -106,7 +106,7 @@ export const convertIsoDateToReadable = (date) => {
 
 export const formatToYYYYMMDD = (dateString) => {
     if (!dateString) {
-        return null;
+        return "";
     }
 
     const date = new Date(dateString);
@@ -119,7 +119,7 @@ export const formatToYYYYMMDD = (dateString) => {
 
 export const formatToMMDDYYYY = (dateString) => {
     if (!dateString) {
-        return null;
+        return "";
     }
 
     const [year, month, day] = dateString.split("-");

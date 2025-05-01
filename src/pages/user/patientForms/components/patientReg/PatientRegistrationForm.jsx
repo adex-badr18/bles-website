@@ -13,7 +13,11 @@ import {
     useCreatePatient,
     useUploadFile,
 } from "../../../../../hooks/usePatients";
-import { objectToFormData, convertToBoolean } from "../../../../utils";
+import {
+    objectToFormData,
+    convertToBoolean,
+    formatToYYYYMMDD,
+} from "../../../../utils";
 import { pdf } from "@react-pdf/renderer";
 
 const PatientRegistrationForm = () => {
@@ -200,6 +204,8 @@ const PatientRegistrationForm = () => {
         upload: { file: "" },
     });
 
+    // console.log(regForm);
+
     // Function to open modal
     function openSuccessModal(data) {
         setSuccessModalData(data);
@@ -254,11 +260,12 @@ const PatientRegistrationForm = () => {
         await mutateFile(uploadPayload);
 
         // Prepare register payload
-        const data = {
+        const formattedData = {
             id: regForm.personal.id,
             patientId: regForm.personal.patientId,
             personalInfo: {
                 ...regForm.personal,
+                dob: formatToYYYYMMDD(regForm.personal.dob),
                 sendMsgToHomePhone: convertToBoolean(
                     regForm.personal.sendMsgToHomePhone
                 ),
@@ -270,28 +277,72 @@ const PatientRegistrationForm = () => {
                     regForm.personal.sendMsgToCellPhone
                 ),
             },
-            guarantor: regForm.guarantor,
+            guarantor: {
+                ...regForm.guarantor,
+                dob: formatToYYYYMMDD(regForm.guarantor.dob),
+            },
             parentGuardian: regForm.parent,
             emergency: regForm.emergency,
             paymentStructure: {
                 paymentMode: regForm.insurance.paymentMode,
                 insurances: [
-                    regForm.insurance.primaryInsurance,
-                    regForm.insurance.secondaryInsurance,
+                    {
+                        ...regForm.insurance.primaryInsurance,
+                        policyHolder: {
+                            ...regForm.insurance.primaryInsurance.policyHolder,
+                            dob: formatToYYYYMMDD(
+                                regForm.insurance.primaryInsurance.policyHolder
+                                    .dob
+                            ),
+                        },
+                        insuranceProvider: {
+                            ...regForm.insurance.primaryInsurance
+                                .insuranceProvider,
+                            coverageStartDate: formatToYYYYMMDD(
+                                regForm.insurance.primaryInsurance
+                                    .insuranceProvider.coverageStartDate
+                            ),
+                            coverageEndDate: formatToYYYYMMDD(
+                                regForm.insurance.primaryInsurance
+                                    .insuranceProvider.coverageEndDate
+                            ),
+                        },
+                    },
+                    {
+                        ...regForm.insurance.secondaryInsurance,
+                        policyHolder: {
+                            ...regForm.insurance.secondaryInsurance
+                                .policyHolder,
+                            dob: formatToYYYYMMDD(
+                                regForm.insurance.secondaryInsurance
+                                    .policyHolder.dob
+                            ),
+                        },
+                        insuranceProvider: {
+                            ...regForm.insurance.secondaryInsurance
+                                .insuranceProvider,
+                            coverageStartDate: formatToYYYYMMDD(
+                                regForm.insurance.secondaryInsurance
+                                    .insuranceProvider.coverageStartDate
+                            ),
+                            coverageEndDate: formatToYYYYMMDD(
+                                regForm.insurance.secondaryInsurance
+                                    .insuranceProvider.coverageEndDate
+                            ),
+                        },
+                    },
                 ],
             },
             date: regForm.consent.date,
             patientRegForm: regForm.upload.file,
         };
-        
-        const formData = objectToFormData(data);
 
-        // for (const [key, value] of formData.entries()) {
-        //     console.log(`${key}: ${value}`);
-        // }
+        console.log(formattedData);
 
-        // TODO: register patient
-        await mutateRegister(formData);
+        // const formData = objectToFormData(formattedData);
+
+        // // TODO: register patient
+        // await mutateRegister(formData);
     };
 
     const isStepValid = (step) => {
@@ -305,7 +356,7 @@ const PatientRegistrationForm = () => {
             "email",
             "address",
             "phone",
-            "patientId"
+            // "patientId",
         ];
 
         if (step === 1 || step === 2) {

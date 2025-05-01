@@ -2497,9 +2497,12 @@ export const appointmentsColumns = [
         header: "Appointment Type",
     },
     {
-        accessorKey: "dateTime",
+        accessorKey: "appointmentDateTime",
         header: "Appointment Date",
-        cell: (prop) => new Date(prop.getValue()).toLocaleString(),
+        cell: (prop) => {
+            const value = prop.getValue() || "N/A";
+            return <span className="text-deepGrey">{value}</span>;
+        },
     },
     {
         accessorKey: "status",
