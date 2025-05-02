@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { patientReviewsColumns, reviews } from "../../reviews/data";
+import { reviewsColumns, reviews } from "../../reviews/data";
 import Modal from "../../../../components/Modal";
 import { MdClose } from "react-icons/md";
 import ReviewsSearchComponent from "../../reviews/components/ReviewsSearchComponent";
@@ -27,7 +27,7 @@ const ReviewsTab = ({ patientId }) => {
     return (
         <section className="py-8 relative">
             <PaginatedList
-                columns={patientReviewsColumns}
+                columns={reviewsColumns}
                 endpoint="/reviews/search"
                 pageTitle="Patient's Reviews"
                 payload={reqBody}

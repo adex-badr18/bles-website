@@ -134,7 +134,9 @@ const review = () => {
                             {review?.nickname}
                         </h3>
                         <span className=" block">{review?.email}</span>
-                        <span className="">{`04/23/2024`}</span>
+                        <span className="">
+                            {new Date(review?.createdAt).toLocaleDateString()}
+                        </span>
                         <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-8">
                             <div className="flex items-center gap-1">
                                 {Array.from({ length: 5 }, (_, index) => (

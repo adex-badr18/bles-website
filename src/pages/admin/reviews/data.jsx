@@ -50,17 +50,17 @@ export const reviews = [
 ];
 
 export const ratingOptions = [
-    {id: 1, text: "1 Star", value: "1"},
-    {id: 2, text: "2 Stars", value: "2"},
-    {id: 3, text: "3 Stars", value: "3"},
-    {id: 4, text: "4 Stars", value: "4"},
-    {id: 5, text: "5 Stars", value: "5"},
-]
+    { id: 1, text: "1 Star", value: "1" },
+    { id: 2, text: "2 Stars", value: "2" },
+    { id: 3, text: "3 Stars", value: "3" },
+    { id: 4, text: "4 Stars", value: "4" },
+    { id: 5, text: "5 Stars", value: "5" },
+];
 
 export const statusOptions = [
-    {id: 1, text: "Published", value: "Published"},
-    {id: 2, text: "Draft", value: "Draft"},
-]
+    { id: 1, text: "Published", value: "Published" },
+    { id: 2, text: "Draft", value: "Draft" },
+];
 
 export const reviewsColumns = [
     {
@@ -70,6 +70,15 @@ export const reviewsColumns = [
     {
         accessorKey: "email",
         header: "Email",
+    },
+    {
+        accessorKey: "createdAt",
+        header: "Date",
+        cell: (prop) => {
+            const value =
+                new Date(prop.getValue()).toLocaleDateString() || "N/A";
+            return <span className="">{value}</span>;
+        },
     },
     {
         accessorKey: "rating",
@@ -112,8 +121,13 @@ export const reviewsColumns = [
 
 export const patientReviewsColumns = [
     {
-        accessorKey: "date",
+        accessorKey: "createdAt",
         header: "Date",
+        cell: (prop) => {
+            const value =
+                new Date(prop.getValue()).toLocaleDateString() || "N/A";
+            return <span className="">{value}</span>;
+        },
     },
     {
         accessorKey: "email",

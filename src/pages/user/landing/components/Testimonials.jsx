@@ -91,7 +91,7 @@ const Testimonials = () => {
 
                 {testimonialsData.length === 0 && (
                     <div className="text-deepGrey text-center font-medium">
-                        No reviews submitted yet.
+                        No reviews published yet.
                     </div>
                 )}
 
