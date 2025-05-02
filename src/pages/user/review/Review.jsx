@@ -67,7 +67,7 @@ const Review = () => {
         e.preventDefault();
 
         const formData = objectToFormData(reviewData);
-        // console.log(formData)
+        console.log(reviewData)
 
         mutate(formData);
     };

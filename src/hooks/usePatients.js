@@ -11,10 +11,13 @@ import {
     updatePatient,
     searchPatients,
     uploadFile,
-    registerPatient,
     createForm,
     getPatientById,
+    getRegInfoById,
+    generatePatientId,
 } from "../api/patientApi";
+import { useToast } from "../components/ToastContext";
+import { useNavigate } from "react-router-dom";
 
 // Fetch list of patients
 export const useFetchPatients = (page = 1, searchParams) => {
@@ -46,7 +49,15 @@ export const useGetPatient = (patientId) => {
         queryKey: ["patients", patientId],
         queryFn: () => getPatientById(patientId),
         enabled: !!patientId, // Ensures the query runs only when id is avaialble
-        
+    });
+};
+
+// Fetch a patient by ID
+export const useGetRegInfo = (patientId) => {
+    return useQuery({
+        queryKey: ["registrationInfo", patientId],
+        queryFn: () => getRegInfoById(patientId),
+        enabled: !!patientId, // Ensures the query runs only when id is avaialble
     });
 };
 
@@ -60,7 +71,7 @@ export const useFetchBasicPatient = (id) => {
 };
 
 // Upload patient file
-export const useRegisterPatient = ({
+export const useGeneratePatientId = ({
     handleFormChange,
     section,
     field,
@@ -69,7 +80,7 @@ export const useRegisterPatient = ({
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: registerPatient,
+        mutationFn: generatePatientId,
         onSuccess: (response) => {
             handleFormChange(section, field, response.data.patientId);
             queryClient.invalidateQueries(["patients"]);
@@ -114,32 +125,63 @@ export const useCreatePatient = ({ openModal, showToast }) => {
 // Update a patient
 export const useUpdatePatient = () => {
     const queryClient = useQueryClient();
+    const { showToast } = useToast();
+    const navigate = useNavigate()
 
     return useMutation({
-        mutationFn: ({ id, updatedData }) => updatePatient(id, updatedData),
-        onMutate: async ({ id, updatedData }) => {
-            await queryClient.cancelQueries(["patient", id]);
+        mutationFn: ({ patientId, payload }) =>
+            updatePatient(patientId, payload),
+        onMutate: async ({ patientId, payload }) => {
+            await queryClient.cancelQueries(["patient", patientId]);
 
             const previousPatient = queryClient.getQueryData(["patient", id]);
 
             queryClient.setQueryData(["patient", id], (prev) => ({
                 ...prev,
-                ...updatedData,
+                ...payload,
             }));
 
             return { previousPatient };
         },
         onError: (error, variables, context) => {
+            const errorMessage =
+                (typeof error === "string" && error) ||
+                error?.message ||
+                "An unexpected error occurred. Please try again";
+
+            showToast({
+                message: errorMessage,
+                type: "error",
+                duration: 5000,
+            });
+
             if (context?.previousPatient) {
                 queryClient.setQueryData(
-                    ["patient", variables.id],
+                    ["patient", variables.patientId],
                     context.previousPatient
                 );
             }
         },
-        onSuccess: (updatedPatient) => {
+        onSuccess: (data, variables, context) => {
+            console.log("OnSuccess data:", data);
+            console.log("OnSuccess variables:", variables);
+            console.log("OnSuccess context:", context);
+
+            showToast({
+                message: "Patient information updated successfully!",
+                type: "success",
+                duration: 5000,
+            });
             queryClient.invalidateQueries(["patients"]); // Refresh patient list
-            queryClient.invalidateQueries(["patient", updatedPatient.id]); // Refresh updated patient
+            queryClient.invalidateQueries([
+                "patient",
+                data?.patientId,
+            ]); // Refresh updated patient
+
+            // Navigate to patient details page after 5secs
+            setTimeout(() => {
+                navigate(`/admin/patients/${data?.patientId}`)
+            }, 5500);
         },
     });
 };

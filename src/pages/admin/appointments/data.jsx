@@ -339,7 +339,7 @@ export const appointmentsColumns = [
         accessorKey: "appointmentDateTime",
         header: "Appointment Date Time",
         cell: (prop) => {
-            const value = prop.getValue() || "N/A";
+            const value = new Date(prop.getValue()).toLocaleString() || "N/A";
             return <span className="text-deepGrey">{value}</span>;
         },
     },

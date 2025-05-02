@@ -9,6 +9,7 @@ import {
     maritalStatusOptions,
 } from "../../data";
 import FileUpload from "../../../../../components/FileUpload";
+import FieldItem from "../../../../../components/FieldItem";
 
 const OtherContactsForm = ({ formData, handleInputChange }) => {
     console.log(formData);
@@ -289,26 +290,46 @@ const OtherContactsForm = ({ formData, handleInputChange }) => {
                         value={formData.guarantor.address.zipCode}
                         handleInputChange={handleInputChange}
                     />
-                    <FileUpload
-                        label="State Issued ID"
-                        name="stateIssuedId"
-                        placeholder="State Issued ID"
-                        section="guarantor"
-                        field="stateIssuedId"
-                        isRequired={false}
-                        handleFormChange={handleInputChange}
-                        patientName={`${formData.personal.firstName}-${formData.personal.lastName}`}
-                    />
-                    <FileUpload
-                        label="Insurance Card"
-                        name="insuranceCard"
-                        placeholder="Insurance Card"
-                        section="guarantor"
-                        field="insuranceCard"
-                        isRequired={false}
-                        handleFormChange={handleInputChange}
-                        patientName={`${formData.personal.firstName}-${formData.personal.lastName}`}
-                    />
+
+                    <div className="space-y-3">
+                        <FileUpload
+                            label="State Issued ID"
+                            name="stateIssuedId"
+                            placeholder="State Issued ID"
+                            section="guarantor"
+                            field="stateIssuedId"
+                            isRequired={false}
+                            value={formData.guarantor.stateIssuedId}
+                            handleFormChange={handleInputChange}
+                            patientName={`${formData.personal.firstName}-${formData.personal.lastName}`}
+                        />
+                        {formData.guarantor.stateIssuedId && (
+                            <FieldItem
+                                label="Current State Issued ID"
+                                src={formData.guarantor.stateIssuedId}
+                            />
+                        )}
+                    </div>
+
+                    <div className="space-y-3">
+                        <FileUpload
+                            label="Insurance Card"
+                            name="insuranceCard"
+                            placeholder="Insurance Card"
+                            section="guarantor"
+                            field="insuranceCard"
+                            isRequired={false}
+                            value={formData.guarantor.insuranceCard}
+                            handleFormChange={handleInputChange}
+                            patientName={`${formData.personal.firstName}-${formData.personal.lastName}`}
+                        />
+                        {formData.guarantor.insuranceCard && (
+                            <FieldItem
+                                label="Current Insurance Card"
+                                src={formData.guarantor.insuranceCard}
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
 

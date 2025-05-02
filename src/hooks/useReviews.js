@@ -11,6 +11,7 @@ import {
     searchReviews,
     getReviewById,
     toggleReviewStatus,
+    getPublishedReviews,
 } from "../api/reviewApi";
 import { useToast } from "../components/ToastContext";
 
@@ -27,11 +28,12 @@ export const useFetchReviews = (page = 1, searchParams) => {
 };
 
 // Search reviews based on search terms
-export const useSearchReviews = (searchParams) => {
+export const useGetPublishedReviews = () => {
     return useQuery({
-        queryKey: ["searchReviews", searchParams],
-        queryFn: () => searchReviews(searchParams),
-        enabled: Object.keys(searchParams).length > 0, // Runs query only when searchTerm exists
+        queryKey: ["publishedReviews"],
+        queryFn: getPublishedReviews,
+        enabled: true,
+        retry: 3,
     });
 };
 

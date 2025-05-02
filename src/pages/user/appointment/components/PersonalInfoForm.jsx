@@ -136,21 +136,6 @@ const PersonalInfoForm = ({ formData, handleInputChange, setFormData }) => {
                                 formData.personal.patientId
                             }
                         />
-
-                        {/* <button
-                            onClick={verifyId}
-                            className="place-self-end bg-lightGreen hover:bg-emerald-500 text-white font-semibold py-2 px-3 rounded-md w-full transition-colors duration-300 disabled:opacity-45 disabled:cursor-not-allowed"
-                            disabled={
-                                formData.personal.verificationStatus.toLowerCase() ===
-                                    "success" || !formData.personal.id
-                            }
-                        >
-                            {isSubmitting ? (
-                                <Spinner secondaryText="Verifying..." />
-                            ) : (
-                                "Verify ID"
-                            )}
-                        </button> */}
                     </div>
                 )}
 
@@ -342,7 +327,7 @@ const PersonalInfoForm = ({ formData, handleInputChange, setFormData }) => {
                                 isRequired={true}
                             />
 
-                            <div className="col-span-2">
+                            {/* <div className="col-span-2">
                                 <IdField
                                     field="patientId"
                                     handleFormChange={handleInputChange}
@@ -350,7 +335,7 @@ const PersonalInfoForm = ({ formData, handleInputChange, setFormData }) => {
                                     isRequired={true}
                                     formData={formData}
                                 />
-                            </div>
+                            </div> */}
 
                             <TextField
                                 type="text"

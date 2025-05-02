@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLoaderData, useParams } from "react-router-dom";
 
 import MultiStepForm from "../../../components/MultiStepForm";
 import PersonalStep from "../../user/patientForms/components/patientReg/PersonalStep";
@@ -12,263 +12,325 @@ import PageTitle from "../components/PageTitle";
 
 import { pdf } from "@react-pdf/renderer";
 
+import { useToast } from "../../../components/ToastContext";
+import {
+    useUploadFile,
+    useUpdatePatient,
+    useGetRegInfo,
+} from "../../../hooks/usePatients";
+import {
+    objectToFormData,
+    convertToBoolean,
+    formatToYYYYMMDD,
+} from "../../utils";
+import { initialPatientRegFormData } from "./data";
+
 const UpdateForm = () => {
-    const patientData = useLoaderData();
+    // const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const { showToast } = useToast();
+    const { id } = useParams();
+    const {
+        data: patient,
+        isLoading: isPatientLoading,
+        isSuccess: isPatientSuccess,
+        isError: isPatientError,
+        error: patientError,
+    } = useGetRegInfo(id || "");
+    const {
+        mutateAsync: mutateUpdate,
+        isPending: isUpdating,
+        error: updateError,
+        data: updateData,
+    } = useUpdatePatient();
+
+    const { mutateAsync: mutateFile, isPending: isUploading } = useUploadFile({
+        handleFormChange: handleFormElementChange,
+        field: "file",
+        section: "upload",
+        showToast,
+    });
+
     const [consents, setConsents] = useState({
         dataAccuracy: true,
         insuranceAuth: true,
         finResponsible: true,
         infoRelease: true,
     });
-    const [formData, setFormData] = useState({
-        personal: {
-            firstName: patientData.personal.firstName || "",
-            middleName: patientData.personal.middleName || "",
-            lastName: patientData.personal.lastName || "",
-            gender: patientData.personal.gender || "",
-            dob: patientData.personal.dob
-                ? new Date(patientData.personal.dob)
-                : null,
-            maritalStatus: patientData.personal.maritalStatus || "",
-            socialSecurityNumber:
-                patientData.personal.socialSecurityNumber || "",
-            homePhone: patientData.personal.homePhone || "",
-            cellPhone: patientData.personal.cellPhone || "",
-            workPhone: patientData.personal.workPhone || "",
-            preferredPhone: patientData.personal.preferredPhone || "",
-            appointmentReminderMode:
-                patientData.personal.appointmentReminderMode || "",
-            email: patientData.personal.email || "",
-            sendMsgToHomePhone: patientData.personal.sendMsgToHomePhone || "",
-            sendMsgToRelative: patientData.personal.sendMsgToRelative || "",
-            sendMsgToWork: patientData.personal.sendMsgToWork || "",
-            sendMsgToCellPhone: patientData.personal.sendMsgToCellPhone || "",
-            address: {
-                streetName: patientData.personal.address.streetName || "",
-                city: patientData.personal.address.city || "",
-                state: patientData.personal.address.state || "",
-                zipCode: patientData.personal.address.zipCode || "",
-            },
-            highestEduLevel: patientData.personal.highestEduLevel || "",
-            employmentStatus: patientData.personal.employmentStatus || "",
-            employer: patientData.personal.employer || "",
-            occupation: patientData.personal.occupation || "",
-            religion: patientData.personal.religion || "",
-            ethnicity: patientData.personal.ethnicity || "",
-            race: patientData.personal.race || "",
-            preferredLanguage: patientData.personal.preferredLanguage || "",
-        },
-        guarantor: {
-            firstName: patientData.guarantor.firstName || "",
-            // middleName: patientData.guarantor.firstName || "",
-            lastName: patientData.guarantor.lastName || "",
-            dob: patientData.guarantor.dob
-                ? new Date(patientData.guarantor.dob)
-                : null,
-            relationship: patientData.guarantor.relationship || "",
-            address: {
-                streetName:
-                    patientData.guarantor.address.streetNamefirstName || "",
-                city: patientData.guarantor.address.city || "",
-                state: patientData.guarantor.address.state || "",
-                zipCode: patientData.guarantor.address.zipCode || "",
-            },
-            phone: patientData.guarantor.phone || "",
-            email: patientData.guarantor.email || "",
-            stateIssuedId: patientData.guarantor.stateIssuedId || "",
-            insuranceCard: patientData.guarantor.insuranceCard || "",
-        },
-        parent: {
-            firstName: patientData.parent.firstName || "",
-            // middleName: patientData.parent.firstName || "",
-            lastName: patientData.parent.lastName || "",
-            gender: patientData.parent.gender || "",
-            maritalStatus: patientData.parent.maritalStatus || "",
-            phone: patientData.parent.phone || "",
-            email: patientData.parent.email || "",
-            familyRole: patientData.parent.familyRole || "",
-            employmentStatus: patientData.parent.employmentStatus || "",
-            employer: patientData.parent.employer || "",
-            occupation: patientData.parent.occupation || "",
-            address: {
-                streetName: patientData.parent.address.streetName || "",
-                city: patientData.parent.address.city || "",
-                state: patientData.parent.address.state || "",
-                zipCode: patientData.parent.address.zipCode || "",
-            },
-        },
-        emergency: {
-            firstName: patientData.emergency.firstName || "",
-            // middleName: patientData.emergency.firstName || "",
-            lastName: patientData.emergency.lastName || "",
-            relationship: patientData.emergency.relationship || "",
-            address: {
-                streetName: patientData.emergency.address.streetName || "",
-                city: patientData.emergency.address.city || "",
-                state: patientData.emergency.address.state || "",
-                zipCode: patientData.emergency.address.zipCode || "",
-            },
-            homePhone: patientData.emergency.homePhone || "",
-            cellPhone: patientData.emergency.cellPhone || "",
-            email: patientData.emergency.email || "",
-        },
-        insurance: {
-            paymentMode: patientData.insurance.paymentMode || "",
-            primaryInsurance: {
-                policyHolder: {
-                    firstName:
-                        patientData.insurance.primaryInsurance.policyHolder
-                            .firstName || "",
-                    middleName:
-                        patientData.insurance.primaryInsurance.policyHolder
-                            .middleName || "",
-                    lastName:
-                        patientData.insurance.primaryInsurance.policyHolder
-                            .lastName || "",
-                    relationship:
-                        patientData.insurance.primaryInsurance.policyHolder
-                            .relationship || "",
-                    phone:
-                        patientData.insurance.primaryInsurance.policyHolder
-                            .phone || "",
-                    dob: patientData.insurance.primaryInsurance.policyHolder.dob
-                        ? new Date(
-                              patientData.insurance.primaryInsurance.policyHolder.dob
-                          )
-                        : null,
-                },
-                insuranceProvider: {
-                    name:
-                        patientData.insurance.primaryInsurance.insuranceProvider
-                            .name || "",
-                    phone:
-                        patientData.insurance.primaryInsurance.insuranceProvider
-                            .phone || "",
-                    policyId:
-                        patientData.insurance.primaryInsurance.insuranceProvider
-                            .policyId || "",
-                    groupNumber:
-                        patientData.insurance.primaryInsurance.insuranceProvider
-                            .groupNumber || "",
-                    authorizationId:
-                        patientData.insurance.primaryInsurance.insuranceProvider
-                            .authorizationId || "",
-                    coPay:
-                        patientData.insurance.primaryInsurance.insuranceProvider
-                            .coPay || "",
-                    coverageStartDate: patientData.insurance.primaryInsurance
-                        .insuranceProvider.coverageStartDate
-                        ? new Date(
-                              patientData.insurance.primaryInsurance.insuranceProvider.coverageStartDate
-                          )
-                        : null,
-                    coverageEndDate: patientData.insurance.primaryInsurance
-                        .insuranceProvider.coverageEndDate
-                        ? new Date(
-                              patientData.insurance.primaryInsurance.insuranceProvider.coverageEndDate
-                          ).toLocaleDateString()
-                        : null,
-                    address: {
-                        streetName:
-                            patientData.insurance.primaryInsurance
-                                .insuranceProvider.address.streetName || "",
-                        city:
-                            patientData.insurance.primaryInsurance
-                                .insuranceProvider.address.city || "",
-                        state:
-                            patientData.insurance.primaryInsurance
-                                .insuranceProvider.address.state || "",
-                        zipCode:
-                            patientData.insurance.primaryInsurance
-                                .insuranceProvider.address.zipCode || "",
-                    },
-                },
-            },
-            secondaryInsurance: {
-                policyHolder: {
-                    firstName:
-                        patientData.insurance.secondaryInsurance.policyHolder
-                            .firstName || "",
-                    middleName:
-                        patientData.insurance.secondaryInsurance.policyHolder
-                            .middleName || "",
-                    lastName:
-                        patientData.insurance.secondaryInsurance.policyHolder
-                            .lastName || "",
-                    relationship:
-                        patientData.insurance.secondaryInsurance.policyHolder
-                            .relationship || "",
-                    phone:
-                        patientData.insurance.secondaryInsurance.policyHolder
-                            .phone || "",
-                    dob: patientData.insurance.secondaryInsurance.policyHolder
-                        .dob
-                        ? new Date(
-                              patientData.insurance.secondaryInsurance.policyHolder.dob
-                          ).toLocaleDateString()
-                        : null,
-                },
-                insuranceProvider: {
-                    name:
-                        patientData.insurance.secondaryInsurance
-                            .insuranceProvider.name || "",
-                    phone:
-                        patientData.insurance.secondaryInsurance
-                            .insuranceProvider.phone || "",
-                    policyId:
-                        patientData.insurance.secondaryInsurance
-                            .insuranceProvider.policyId || "",
-                    groupNumber:
-                        patientData.insurance.secondaryInsurance
-                            .insuranceProvider.groupNumber || "",
-                    authorizationId:
-                        patientData.insurance.secondaryInsurance
-                            .insuranceProvider.authorizationId || "",
-                    coverageStartDate: patientData.insurance.secondaryInsurance
-                        .insuranceProvider.coverageStartDate
-                        ? new Date(
-                              patientData.insurance.secondaryInsurance.insuranceProvider.coverageStartDate
-                          )
-                        : null,
-                    coverageEndDate: patientData.insurance.secondaryInsurance
-                        .insuranceProvider.coverageEndDate
-                        ? new Date(
-                              patientData.insurance.secondaryInsurance.insuranceProvider.coverageEndDate
-                          ).toLocaleDateString()
-                        : null,
-                    haveCoordinationBenefits:
-                        patientData.insurance.secondaryInsurance
-                            .insuranceProvider.haveCoordinationBenefits || "",
-                    address: {
-                        streetName:
-                            patientData.insurance.secondaryInsurance
-                                .insuranceProvider.address.streetName || "",
-                        city:
-                            patientData.insurance.secondaryInsurance
-                                .insuranceProvider.address.city || "",
-                        state:
-                            patientData.insurance.secondaryInsurance
-                                .insuranceProvider.address.state || "",
-                        zipCode:
-                            patientData.insurance.secondaryInsurance
-                                .insuranceProvider.address.zipCode || "",
-                    },
-                    coPay:
-                        patientData.insurance.secondaryInsurance
-                            .insuranceProvider.coPay || "",
-                },
-            },
-        },
-        consent: {
-            signature: "",
-            date: "",
-        },
-    });
+    const [formData, setFormData] = useState(initialPatientRegFormData);
 
-    console.log(patientData.guarantor);
+    console.log(formData);
+
+    useEffect(() => {
+        if (isPatientSuccess && patient) {
+            const insurances = patient.paymentStructure?.insurances || [];
+
+            const primaryInsurance =
+                insurances.filter((insurance) => !!insurance.primary) || {};
+
+            const secondaryInsurance =
+                insurances.filter((insurance) => !insurance.primary) || {};
+
+            setFormData({
+                identification: {
+                    id: patient?.id,
+                    patientId: patient?.patientId,
+                },
+                personal: {
+                    firstName: patient?.personalInfo?.firstName || "",
+                    middleName: patient?.personalInfo?.middleName || "",
+                    lastName: patient?.personalInfo?.lastName || "",
+                    gender: patient?.personalInfo?.gender || "",
+                    dob: patient?.personalInfo?.dob
+                        ? new Date(patient?.personalInfo?.dob)
+                        : null,
+                    maritalStatus: patient?.personalInfo?.maritalStatus || "",
+                    socialSecurityNumber:
+                        patient?.personalInfo?.socialSecurityNumber || "",
+                    homePhone: patient?.personalInfo?.homePhone || "",
+                    cellPhone: patient?.personalInfo?.cellPhone || "",
+                    workPhone: patient?.personalInfo?.workPhone || "",
+                    preferredPhone: patient?.personalInfo?.preferredPhone || "",
+                    appointmentReminderMode:
+                        patient?.personalInfo?.appointmentReminderMode || "",
+                    email: patient?.personalInfo?.email || "",
+                    sendMsgToHomePhone:
+                        patient?.personalInfo?.sendMsgToHomePhone || "",
+                    sendMsgToRelative:
+                        patient?.personalInfo?.sendMsgToRelative || "",
+                    sendMsgToWork: patient?.personalInfo?.sendMsgToWork || "",
+                    sendMsgToCellPhone:
+                        patient?.personalInfo?.sendMsgToCellPhone || "",
+                    address: {
+                        streetName:
+                            patient?.personalInfo?.address.streetName || "",
+                        city: patient?.personalInfo?.address.city || "",
+                        state: patient?.personalInfo?.address.state || "",
+                        zipCode: patient?.personalInfo?.address.zipCode || "",
+                    },
+                    highestEduLevel:
+                        patient?.personalInfo?.highestEduLevel || "",
+                    employmentStatus:
+                        patient?.personalInfo?.employmentStatus || "",
+                    employer: patient?.personalInfo?.employer || "",
+                    occupation: patient?.personalInfo?.occupation || "",
+                    religion: patient?.personalInfo?.religion || "",
+                    ethnicity: patient?.personalInfo?.ethnicity || "",
+                    race: patient?.personalInfo?.race || "",
+                    preferredLanguage:
+                        patient?.personalInfo?.preferredLanguage || "",
+                },
+                guarantor: {
+                    firstName: patient?.guarantor?.firstName || "",
+                    // middleName: patient?.guarantor?.firstName || "",
+                    lastName: patient?.guarantor?.lastName || "",
+                    dob: patient?.guarantor?.dob
+                        ? new Date(patient?.guarantor?.dob)
+                        : null,
+                    relationship: patient?.guarantor?.relationship || "",
+                    address: {
+                        streetName:
+                            patient?.guarantor?.address?.streetName || "",
+                        city: patient?.guarantor?.address?.city || "",
+                        state: patient?.guarantor?.address?.state || "",
+                        zipCode: patient?.guarantor?.address?.zipCode || "",
+                    },
+                    phone: patient?.guarantor?.phone || "",
+                    email: patient?.guarantor?.email || "",
+                    stateIssuedId: patient?.guarantor?.stateIssuedId || "",
+                    insuranceCard: patient?.guarantor?.insuranceCard || "",
+                },
+                parent: {
+                    firstName: patient?.parentGuardian?.firstName || "",
+                    // middleName: patient?.parentGuardian?.firstName || "",
+                    lastName: patient?.parentGuardian?.lastName || "",
+                    gender: patient?.parentGuardian?.gender || "",
+                    maritalStatus: patient?.parentGuardian?.maritalStatus || "",
+                    phone: patient?.parentGuardian?.phone || "",
+                    email: patient?.parentGuardian?.email || "",
+                    familyRole: patient?.parentGuardian?.familyRole || "",
+                    employmentStatus:
+                        patient?.parentGuardian?.employmentStatus || "",
+                    employer: patient?.parentGuardian?.employer || "",
+                    occupation: patient?.parentGuardian?.occupation || "",
+                    address: {
+                        streetName:
+                            patient?.parentGuardian?.address?.streetName || "",
+                        city: patient?.parentGuardian?.address?.city || "",
+                        state: patient?.parentGuardian?.address?.state || "",
+                        zipCode:
+                            patient?.parentGuardian?.address?.zipCode || "",
+                    },
+                },
+                emergency: {
+                    firstName: patient?.emergency?.firstName || "",
+                    // middleName: patient?.emergency?.firstName || "",
+                    lastName: patient?.emergency?.lastName || "",
+                    relationship: patient?.emergency?.relationship || "",
+                    address: {
+                        streetName:
+                            patient?.emergency?.address?.streetName || "",
+                        city: patient?.emergency?.address?.city || "",
+                        state: patient?.emergency?.address?.state || "",
+                        zipCode: patient?.emergency?.address?.zipCode || "",
+                    },
+                    homePhone: patient?.emergency?.homePhone || "",
+                    cellPhone: patient?.emergency?.cellPhone || "",
+                    email: patient?.emergency?.email || "",
+                },
+                insurance: {
+                    paymentMode: patient?.paymentStructure?.paymentMode || "",
+                    primaryInsurance: {
+                        policyHolder: {
+                            firstName:
+                                primaryInsurance?.policyHolder?.firstName || "",
+                            middleName:
+                                primaryInsurance?.policyHolder?.middleName ||
+                                "",
+                            lastName:
+                                primaryInsurance?.policyHolder?.lastName || "",
+                            relationship:
+                                primaryInsurance?.policyHolder?.relationship ||
+                                "",
+                            phone: primaryInsurance?.policyHolder?.phone || "",
+                            dob: primaryInsurance?.policyHolder?.dob
+                                ? new Date(primaryInsurance?.policyHolder?.dob)
+                                : null,
+                        },
+                        insuranceProvider: {
+                            name:
+                                primaryInsurance?.insuranceProvider?.name || "",
+                            phone:
+                                primaryInsurance?.insuranceProvider?.phone ||
+                                "",
+                            policyId:
+                                primaryInsurance?.insuranceProvider?.policyId ||
+                                "",
+                            groupNumber:
+                                primaryInsurance?.insuranceProvider
+                                    ?.groupNumber || "",
+                            authorizationId:
+                                primaryInsurance?.insuranceProvider
+                                    ?.authorizationId || "",
+                            coPay:
+                                primaryInsurance?.insuranceProvider?.coPay ||
+                                "",
+                            coverageStartDate: primaryInsurance
+                                ?.insuranceProvider?.coverageStartDate
+                                ? new Date(
+                                      primaryInsurance?.insuranceProvider?.coverageStartDate
+                                  )
+                                : null,
+                            coverageEndDate: primaryInsurance?.insuranceProvider
+                                ?.coverageEndDate
+                                ? new Date(
+                                      primaryInsurance?.insuranceProvider?.coverageEndDate
+                                  ).toLocaleDateString()
+                                : null,
+                            address: {
+                                streetName:
+                                    primaryInsurance?.insuranceProvider?.address
+                                        ?.streetName || "",
+                                city:
+                                    primaryInsurance?.insuranceProvider?.address
+                                        ?.city || "",
+                                state:
+                                    primaryInsurance?.insuranceProvider?.address
+                                        ?.state || "",
+                                zipCode:
+                                    primaryInsurance?.insuranceProvider?.address
+                                        ?.zipCode || "",
+                            },
+                        },
+                    },
+                    secondaryInsurance: {
+                        policyHolder: {
+                            firstName:
+                                secondaryInsurance?.policyHolder?.firstName ||
+                                "",
+                            middleName:
+                                secondaryInsurance?.policyHolder?.middleName ||
+                                "",
+                            lastName:
+                                secondaryInsurance?.policyHolder?.lastName ||
+                                "",
+                            relationship:
+                                secondaryInsurance?.policyHolder
+                                    ?.relationship || "",
+                            phone:
+                                secondaryInsurance?.policyHolder?.phone || "",
+                            dob: secondaryInsurance?.policyHolder?.dob
+                                ? new Date(
+                                      secondaryInsurance?.policyHolder?.dob
+                                  ).toLocaleDateString()
+                                : null,
+                        },
+                        insuranceProvider: {
+                            name:
+                                secondaryInsurance?.insuranceProvider?.name ||
+                                "",
+                            phone:
+                                secondaryInsurance?.insuranceProvider?.phone ||
+                                "",
+                            policyId:
+                                secondaryInsurance?.insuranceProvider
+                                    ?.policyId || "",
+                            groupNumber:
+                                secondaryInsurance?.insuranceProvider
+                                    ?.groupNumber || "",
+                            authorizationId:
+                                secondaryInsurance?.insuranceProvider
+                                    ?.authorizationId || "",
+                            coverageStartDate: secondaryInsurance
+                                ?.insuranceProvider?.coverageStartDate
+                                ? new Date(
+                                      secondaryInsurance?.insuranceProvider?.coverageStartDate
+                                  )
+                                : null,
+                            coverageEndDate: secondaryInsurance
+                                ?.insuranceProvider?.coverageEndDate
+                                ? new Date(
+                                      secondaryInsurance?.insuranceProvider?.coverageEndDate
+                                  ).toLocaleDateString()
+                                : null,
+                            // haveCoordinationBenefits:
+                            //     secondaryInsurance?.insuranceProvider?.haveCoordinationBenefits || "",
+                            address: {
+                                streetName:
+                                    secondaryInsurance?.insuranceProvider
+                                        ?.address?.streetName || "",
+                                city:
+                                    secondaryInsurance?.insuranceProvider
+                                        ?.address?.city || "",
+                                state:
+                                    secondaryInsurance?.insuranceProvider
+                                        ?.address?.state || "",
+                                zipCode:
+                                    secondaryInsurance?.insuranceProvider
+                                        ?.address?.zipCode || "",
+                            },
+                            coPay:
+                                secondaryInsurance?.insuranceProvider?.coPay ||
+                                "",
+                        },
+                    },
+                },
+                consent: {
+                    signature: "",
+                    date: "",
+                },
+                upload: { file: "" },
+            });
+        }
+    }, [patient, isPatientSuccess]);
+
+    // Function to open modal
+    // function openSuccessModal(data) {
+    //     setSuccessModalData(data);
+    //     setIsSuccessModalOpen(true);
+    // }
 
     // Handle form element change
-    const handleFormElementChange = (section, fieldPath, value) => {
+    function handleFormElementChange(section, fieldPath, value) {
         setFormData((prev) => {
             const keys = fieldPath.split(".");
 
@@ -295,24 +357,113 @@ const UpdateForm = () => {
                 [section]: updateNestedField(prev[section], keys, value),
             };
         });
-    };
+    }
 
     const submitHandler = async () => {
-        // e.preventDefault();
+        // prepare pdf file payload
+        const pdfBlob = await pdf(<PdfDoc data={formData} />).toBlob();
+        const pdfFile = new File([pdfBlob], "registration-form.pdf", {
+            type: "application/pdf",
+        });
+        const uploadPayload = objectToFormData({
+            fileType: "registration-form",
+            owner: `${formData.personal.firstName}-${formData.personal.lastName}`,
+            file: pdfFile,
+        });
 
-        const pdfFile = await pdf(<PdfDoc data={formData} />).toBlob()
+        // TODO: Upload pdf file
+        await mutateFile(uploadPayload);
 
-        setFormData(prev => ({
-            ...prev,
-            file: pdfFile
-        }))
+        // Prepare register update payload
+        const formattedData = {
+            id: formData.personal.id,
+            patientId: formData.personal.patientId,
+            personalInfo: {
+                ...formData.personal,
+                dob: formatToYYYYMMDD(formData.personal.dob),
+                sendMsgToHomePhone: convertToBoolean(
+                    formData.personal.sendMsgToHomePhone
+                ),
+                sendMsgToRelative: convertToBoolean(
+                    formData.personal.sendMsgToRelative
+                ),
+                sendMsgToWork: convertToBoolean(
+                    formData.personal.sendMsgToWork
+                ),
+                sendMsgToCellPhone: convertToBoolean(
+                    formData.personal.sendMsgToCellPhone
+                ),
+            },
+            guarantor: {
+                ...formData.guarantor,
+                dob: formatToYYYYMMDD(formData.guarantor.dob),
+            },
+            parentGuardian: formData.parent,
+            emergency: formData.emergency,
+            paymentStructure: {
+                paymentMode: formData.insurance.paymentMode,
+                insurances: [
+                    {
+                        ...formData.insurance.primaryInsurance,
+                        policyHolder: {
+                            ...formData.insurance.primaryInsurance.policyHolder,
+                            dob: formatToYYYYMMDD(
+                                formData.insurance.primaryInsurance.policyHolder
+                                    .dob
+                            ),
+                        },
+                        insuranceProvider: {
+                            ...formData.insurance.primaryInsurance
+                                .insuranceProvider,
+                            coverageStartDate: formatToYYYYMMDD(
+                                formData.insurance.primaryInsurance
+                                    .insuranceProvider.coverageStartDate
+                            ),
+                            coverageEndDate: formatToYYYYMMDD(
+                                formData.insurance.primaryInsurance
+                                    .insuranceProvider.coverageEndDate
+                            ),
+                        },
+                    },
+                    {
+                        ...formData.insurance.secondaryInsurance,
+                        policyHolder: {
+                            ...formData.insurance.secondaryInsurance
+                                .policyHolder,
+                            dob: formatToYYYYMMDD(
+                                formData.insurance.secondaryInsurance
+                                    .policyHolder.dob
+                            ),
+                        },
+                        insuranceProvider: {
+                            ...formData.insurance.secondaryInsurance
+                                .insuranceProvider,
+                            coverageStartDate: formatToYYYYMMDD(
+                                formData.insurance.secondaryInsurance
+                                    .insuranceProvider.coverageStartDate
+                            ),
+                            coverageEndDate: formatToYYYYMMDD(
+                                formData.insurance.secondaryInsurance
+                                    .insuranceProvider.coverageEndDate
+                            ),
+                        },
+                    },
+                ],
+            },
+            date: formData.consent.date,
+            patientformData: formData.upload.file,
+        };
 
-        console.log(pdfFile);
-        console.log(formData)
+        console.log(formattedData);
+
+        const formDataPayload = objectToFormData(formattedData);
+
+        // TODO: register patient
+        await mutateUpdate({
+            patientId: formData?.patientId,
+            payload: formDataPayload,
+        });
     };
-
-    console.log(formData);
-    // console.log(consents);
 
     const isStepValid = (step) => {
         const requiredFields = [
@@ -324,10 +475,13 @@ const UpdateForm = () => {
             "cellPhone",
             "email",
             "address",
+            "phone",
+            // "patientId",
         ];
 
-        if (step === 1) {
-            const dataObj = formData.personal;
+        if (step === 1 || step === 2) {
+            const dataObj =
+                step === 1 ? formData.personal : step === 2 && formData.parent;
 
             for (const key in dataObj) {
                 const value = dataObj[key];
@@ -338,6 +492,10 @@ const UpdateForm = () => {
 
                 if (value !== null && typeof value === "object") {
                     for (const key in value) {
+                        if (key === "id") {
+                            continue;
+                        }
+
                         const nestedValue = value[key];
                         if (nestedValue === "" || nestedValue === null) {
                             return false;
@@ -352,14 +510,6 @@ const UpdateForm = () => {
 
             return true;
         }
-
-        // if (step === 2) {
-        //     return true;
-        // }
-
-        // if (step === 3) {
-        //     return true;
-        // }
 
         if (step === 4) {
             for (const key in consents) {
@@ -449,13 +599,15 @@ const UpdateForm = () => {
         <section className="space-y-4 md:spce-y-8">
             <PageTitle title="Update Registration Information" />
             <MultiStepForm
-                formData={formData}
                 formSize="md"
-                optionalFields={[]}
+                isStepValid={isStepValid}
                 stepForms={formSteps.forms}
                 steps={formSteps.steps}
                 submitHandler={submitHandler}
-                isStepValid={isStepValid}
+                // isSuccessModalOpen={isSuccessModalOpen}
+                // setIsSuccessModalOpen={setIsSuccessModalOpen}
+                // successModalData={successModalData}
+                isSubmitting={isUpdating || isUploading}
             />
         </section>
     );

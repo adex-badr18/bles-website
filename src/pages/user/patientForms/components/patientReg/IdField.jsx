@@ -1,11 +1,12 @@
 import { useState, useCallback } from "react";
-import { useRegisterPatient } from "../../../../../hooks/usePatients";
+import { useGeneratePatientId } from "../../../../../hooks/usePatients";
 import { useToast } from "../../../../../components/ToastContext";
 import { objectToFormData } from "../../../../utils";
 
 import Spinner from "../../../../../components/Spinner";
 import { IoCheckmarkDone } from "react-icons/io5";
 import { MdError } from "react-icons/md";
+import { BsExclamationTriangleFill } from "react-icons/bs";
 
 const IdField = ({
     handleFormChange,
@@ -25,7 +26,7 @@ const IdField = ({
         isError,
         error,
         data: responseObj,
-    } = useRegisterPatient({
+    } = useGeneratePatientId({
         handleFormChange,
         section,
         field,
@@ -34,31 +35,23 @@ const IdField = ({
 
     const generateIdHandler = useCallback((e) => {
         e.preventDefault();
-        const { personal } = formData;
+        // const { personal } = formData;
 
-        setGenerateIdError("");
-        const isDataValid =
-            personal.firstName && personal.lastName && personal.email;
+        // setGenerateIdError("");
+        // const isDataValid =
+        //     personal.firstName && personal.lastName && personal.email;
 
-        if (!isDataValid) {
-            setGenerateIdError("First name, last name, and email are required");
-            showToast({
-                message: "First name, last name, and email are required",
-                type: "error",
-                duration: 5000,
-            });
-            return;
-        }
+        // if (!isDataValid) {
+        //     setGenerateIdError("First name, last name, and email are required");
+        //     showToast({
+        //         message: "First name, last name, and email are required",
+        //         type: "error",
+        //         duration: 5000,
+        //     });
+        //     return;
+        // }
 
-        const data = {
-            firstName: personal.firstName,
-            lastName: personal.lastName,
-            email: personal.email
-        }
-
-        const payload = objectToFormData(data);
-
-        mutate(payload);
+        mutate();
     });
 
     return (
@@ -79,19 +72,19 @@ const IdField = ({
                 className="input bg-gray-100"
                 placeholder="Patient ID"
                 // value={responseObj?.message || ""}
-                defaultValue={formData.personal.patientId}
+                defaultValue={formData.identification.patientId}
                 readOnly
                 required={isRequired}
             />
 
-            {!formData.personal.patientId && (
+            {!formData.identification.patientId && (
                 <small className="text-xs text-darkBlue">
                     Click Generate ID to get a Patient ID
                 </small>
             )}
 
             <div className="flex items-center gap-2">
-                {!formData.personal.patientId && (
+                {!formData.identification.patientId && (
                     <button
                         className="py-1 px-2 bg-lightGreen text-white hover:bg-green-700 text-sm font-semibold rounded-md transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                         onClick={generateIdHandler}
@@ -113,15 +106,15 @@ const IdField = ({
                     <p className="flex items-center gap-1 text-xs text-vividRed">
                         <MdError />
                         <span className="">
-                            {error.message || "Could not generate ID!"}
+                            {error?.message || "Could not generate ID!"}
                         </span>
                     </p>
                 )}
 
-                {generateIdError && (
-                    <p className="flex items-center gap-1 text-xs text-vividRed">
-                        <MdError />
-                        <span className="">{generateIdError}</span>
+                {isSuccess || formData.identification.patientId && (
+                    <p className="flex items-center gap-1 text-sm text-lightGreen">
+                        <BsExclamationTriangleFill />
+                        <span className="">Copy and store your ID for future reference.</span>
                     </p>
                 )}
             </div>

@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useGetPublishedReviews } from "../../../../hooks/useReviews";
 
 import SectionHeader from "../../../../components/SectionHeader";
 import TestimonialCard from "./TestimonialCard";
@@ -14,37 +15,55 @@ import testImage2 from "../../../../assets/testimonial-2.webp";
 import testImage3 from "../../../../assets/doc3.webp";
 
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
+import Spinner from "../../../../components/Spinner";
 
-const testimonialsData = [
-    {
-        id: 1,
-        name: "John Budapest",
-        message:
-            "Lorem ipsum is a dolor sitae amet consctet of and the voluptata laboriosam and then null on the ofen delenitie reiciendis as voliuptibu and the laboriosam on and nulla ideleniti and many lore other important quotes.",
-        profession: "Architect",
-        image: testImage1,
-    },
-    {
-        id: 2,
-        name: "Chris Anthony",
-        message:
-            "Lorem ipsum is a dolor sitae amet consctet of and the voluptata laboriosam and then null on the ofen delenitie reiciendis as voliuptibu and the laboriosam on and nulla ideleniti and many lore other important quotes.",
-        profession: "Software Developer",
-        image: testImage2,
-    },
-    {
-        id: 3,
-        name: "Mike Taylor",
-        message:
-            "Lorem ipsum is a dolor sitae amet consctet of and the voluptata laboriosam and then null on the ofen delenitie reiciendis as voliuptibu and the laboriosam on and nulla ideleniti and many lore other important quotes.",
-        profession: "Surgeon",
-        image: testImage3,
-    },
-];
+// const testimonialsData = [
+//     {
+//         id: 1,
+//         name: "John Budapest",
+//         message:
+//             "Lorem ipsum is a dolor sitae amet consctet of and the voluptata laboriosam and then null on the ofen delenitie reiciendis as voliuptibu and the laboriosam on and nulla ideleniti and many lore other important quotes.",
+//         profession: "Architect",
+//         image: testImage1,
+//     },
+//     {
+//         id: 2,
+//         name: "Chris Anthony",
+//         message:
+//             "Lorem ipsum is a dolor sitae amet consctet of and the voluptata laboriosam and then null on the ofen delenitie reiciendis as voliuptibu and the laboriosam on and nulla ideleniti and many lore other important quotes.",
+//         profession: "Software Developer",
+//         image: testImage2,
+//     },
+//     {
+//         id: 3,
+//         name: "Mike Taylor",
+//         message:
+//             "Lorem ipsum is a dolor sitae amet consctet of and the voluptata laboriosam and then null on the ofen delenitie reiciendis as voliuptibu and the laboriosam on and nulla ideleniti and many lore other important quotes.",
+//         profession: "Surgeon",
+//         image: testImage3,
+//     },
+// ];
 
 const Testimonials = () => {
     const prevButton = useRef();
     const nextButton = useRef();
+
+    const [testimonialsData, setTestimonialsData] = useState([]);
+    const { data, isLoading, isSuccess, isError, error } =
+        useGetPublishedReviews();
+
+    console.log(data);
+    useEffect(() => {
+        if (data?.reviews.length > 0) {
+            const transformedReviews = data?.reviews.map((review) => ({
+                id: 3,
+                name: review.nickname,
+                message: review.message,
+            }));
+
+            setTestimonialsData(transformedReviews);
+        }
+    }, [data, isSuccess]);
 
     return (
         <section className={`py-8 md:py-20`}>
@@ -56,64 +75,86 @@ const Testimonials = () => {
                     titleAlignment="center"
                 />
 
-                <div className="px-2 space-y-4 sm:mx-auto w-full sm:max-w-[540px] md:max-w-[760px] blg:max-w-[990px] bxl:max-w-[1170px] b2xl:max-w-[1320px]">
-                    <div className="hidden md:flex items-center justify-end gap-3">
-                        <button
-                            ref={prevButton}
-                            className="prev-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
-                        >
-                            <FaLongArrowAltLeft />
-                        </button>
-                        <button
-                            ref={nextButton}
-                            className="next-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
-                        >
-                            <FaLongArrowAltRight />
-                        </button>
-                    </div>
-                    <Swiper
-                        modules={[Navigation, Pagination, Autoplay]}
-                        loop={true}
-                        autoplay={{
-                            delay: 5000,
-                            disableOnInteraction: false,
-                        }}
-                        pagination={{
-                            clickable: true,
-                            el: ".pagination-wrapper",
-                            bulletClass: "pagination-bullet",
-                            bulletActiveClass: "pagination-bullet-active",
-                        }}
-                        spaceBetween={30}
-                        onSwiper={(swiper) => {
-                            swiper.params.navigation.prevEl =
-                                prevButton.current;
-                            swiper.params.navigation.nextEl =
-                                nextButton.current;
-                            swiper.navigation.init();
-                            swiper.navigation.update();
-                        }}
-                        speed={2000}
-                        breakpoints={{
-                            320: { slidesPerView: 1 },
-                            1000: { slidesPerView: 2 },
-                        }}
-                        className="group"
-                    >
-                        {testimonialsData.map((testimony) => (
-                            <SwiperSlide key={testimony.id}>
-                                <TestimonialCard
-                                    name={testimony.name}
-                                    image={testimony.image}
-                                    profession={testimony.profession}
-                                    message={testimony.message}
-                                />
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
+                {isLoading && (
+                    <Spinner
+                        secondaryText="Loading testimonials"
+                        borderClass="border-lightGreen"
+                        spinnerSize="w-8 h-8"
+                    />
+                )}
 
-                    <div className="pagination-wrapper flex justify-center gap-2 pt-4"></div>
-                </div>
+                {isError && (
+                    <div className="text-vividRed">
+                        {error.message || "Error loading testimonials."}
+                    </div>
+                )}
+
+                {testimonialsData.length === 0 && (
+                    <div className="text-deepGrey text-center font-medium">
+                        No reviews submitted yet.
+                    </div>
+                )}
+
+                {isSuccess && testimonialsData.length !== 0 && (
+                    <div className="px-2 space-y-4 sm:mx-auto w-full sm:max-w-[540px] md:max-w-[760px] blg:max-w-[990px] bxl:max-w-[1170px] b2xl:max-w-[1320px]">
+                        <div className="hidden md:flex items-center justify-end gap-3">
+                            <button
+                                ref={prevButton}
+                                className="prev-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
+                            >
+                                <FaLongArrowAltLeft />
+                            </button>
+                            <button
+                                ref={nextButton}
+                                className="next-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
+                            >
+                                <FaLongArrowAltRight />
+                            </button>
+                        </div>
+                        <Swiper
+                            modules={[Navigation, Pagination, Autoplay]}
+                            loop={true}
+                            autoplay={{
+                                delay: 5000,
+                                disableOnInteraction: false,
+                            }}
+                            pagination={{
+                                clickable: true,
+                                el: ".pagination-wrapper",
+                                bulletClass: "pagination-bullet",
+                                bulletActiveClass: "pagination-bullet-active",
+                            }}
+                            spaceBetween={30}
+                            onSwiper={(swiper) => {
+                                swiper.params.navigation.prevEl =
+                                    prevButton.current;
+                                swiper.params.navigation.nextEl =
+                                    nextButton.current;
+                                swiper.navigation.init();
+                                swiper.navigation.update();
+                            }}
+                            speed={2000}
+                            breakpoints={{
+                                320: { slidesPerView: 1 },
+                                1000: { slidesPerView: 2 },
+                            }}
+                            className="group"
+                        >
+                            {testimonialsData.map((testimony) => (
+                                <SwiperSlide key={testimony.id}>
+                                    <TestimonialCard
+                                        name={testimony.name}
+                                        image={testimony.image}
+                                        profession={testimony.profession}
+                                        message={testimony.message}
+                                    />
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+
+                        <div className="pagination-wrapper flex justify-center gap-2 pt-4"></div>
+                    </div>
+                )}
             </div>
         </section>
     );

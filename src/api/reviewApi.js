@@ -10,6 +10,16 @@ export const fetchReviews = async (page = 1, searchParams) => {
     return response;
 };
 
+// Fetch a list of published reviews (Paginated)
+export const getPublishedReviews = async () => {
+    const response = await api.get(`/reviews/published`, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+    return response.data;
+};
+
 // Search for reviews based on search terms
 export const searchReviews = async (searchParams) => {
     const response = await api.get(`/reviews/search`, {
@@ -37,11 +47,11 @@ export const toggleReviewStatus = async ({ endpoint }) => {
     const options = {
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${user?.token}`,
         },
     };
 
-    const response = await api.post(endpoint, options);
+    const response = await api.put(endpoint, options);
 
     return response.data;
 };

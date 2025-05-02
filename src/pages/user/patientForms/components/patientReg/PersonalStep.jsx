@@ -139,7 +139,7 @@ const PersonalStep = ({ formData, handleInputChange }) => {
             <IdField
                 field="patientId"
                 handleFormChange={handleInputChange}
-                section="personal"
+                section="identification"
                 isRequired={true}
                 formData={formData}
             />

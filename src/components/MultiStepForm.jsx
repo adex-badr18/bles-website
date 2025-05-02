@@ -128,9 +128,6 @@ const MultiStepForm = ({
         return checkProperties(obj);
     };
 
-    // console.log(isFormValid(formData.personal, ["middleName"]));
-    // console.log(isStepValid(currentStep));
-
     const goToStep = (step) => {
         if (currentStep > step) {
             setCurrentStep(step);
@@ -151,25 +148,6 @@ const MultiStepForm = ({
     const closeReview = () => {
         setIsReviewModalOpen(false);
     };
-
-    // const handleSubmit = () => {
-    //     setIsSubmitting(true);
-
-    //     setTimeout(() => {
-    //         // setIsSubmitModalOpen(true);
-
-    //         // () =>
-    //         //     showToast({
-    //         //         message: "An error occurred. Please try again.",
-    //         //         type: "error",
-    //         //         duration: 50000,
-    //         //     });
-
-    //         setIsSubmitting(false);
-    //     }, 4000);
-
-    //     submitHandler();
-    // };
 
     const returnHome = () => {
         setIsSuccessModalOpen(false);

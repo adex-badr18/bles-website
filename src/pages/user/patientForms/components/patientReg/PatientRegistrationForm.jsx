@@ -48,9 +48,11 @@ const PatientRegistrationForm = () => {
         infoRelease: true,
     });
     const [regForm, setRegForm] = useState({
-        personal: {
-            id: null,
+        identification: {
+            id: "",
             patientId: "",
+        },
+        personal: {
             firstName: "Badru",
             middleName: "Ade",
             lastName: "Ajayi",
@@ -204,7 +206,7 @@ const PatientRegistrationForm = () => {
         upload: { file: "" },
     });
 
-    // console.log(regForm);
+    console.log(regForm);
 
     // Function to open modal
     function openSuccessModal(data) {
@@ -246,23 +248,23 @@ const PatientRegistrationForm = () => {
 
     const submitHandler = async () => {
         // prepare pdf file payload
-        const pdfBlob = await pdf(<PdfDoc data={regForm} />).toBlob();
-        const pdfFile = new File([pdfBlob], "registration-form.pdf", {
-            type: "application/pdf",
-        });
-        const uploadPayload = objectToFormData({
-            fileType: "registration-form",
-            owner: `${regForm.personal.firstName}-${regForm.personal.lastName}`,
-            file: pdfFile,
-        });
+        // const pdfBlob = await pdf(<PdfDoc data={regForm} />).toBlob();
+        // const pdfFile = new File([pdfBlob], "registration-form.pdf", {
+        //     type: "application/pdf",
+        // });
+        // const uploadPayload = objectToFormData({
+        //     fileType: "registration-form",
+        //     owner: `${regForm.personal.firstName}-${regForm.personal.lastName}`,
+        //     file: pdfFile,
+        // });
 
-        // TODO: Upload pdf file
-        await mutateFile(uploadPayload);
+        // // TODO: Upload pdf file
+        // await mutateFile(uploadPayload);
 
         // Prepare register payload
         const formattedData = {
-            id: regForm.personal.id,
-            patientId: regForm.personal.patientId,
+            id: regForm.identification.id,
+            patientId: regForm.identification.patientId,
             personalInfo: {
                 ...regForm.personal,
                 dob: formatToYYYYMMDD(regForm.personal.dob),
@@ -339,10 +341,10 @@ const PatientRegistrationForm = () => {
 
         console.log(formattedData);
 
-        // const formData = objectToFormData(formattedData);
+        const formData = objectToFormData(formattedData);
 
-        // // TODO: register patient
-        // await mutateRegister(formData);
+        // TODO: register patient
+        await mutateRegister(formData);
     };
 
     const isStepValid = (step) => {
@@ -356,7 +358,7 @@ const PatientRegistrationForm = () => {
             "email",
             "address",
             "phone",
-            // "patientId",
+            "patientId",
         ];
 
         if (step === 1 || step === 2) {
@@ -391,21 +393,21 @@ const PatientRegistrationForm = () => {
             return true;
         }
 
-        if (step === 4) {
-            for (const key in consents) {
-                const value = consents[key];
+        // if (step === 4) {
+        //     for (const key in consents) {
+        //         const value = consents[key];
 
-                if (!value) {
-                    return false;
-                }
-            }
+        //         if (!value) {
+        //             return false;
+        //         }
+        //     }
 
-            if (!regForm.consent.signature) {
-                return false;
-            }
+        //     if (!regForm.consent.signature) {
+        //         return false;
+        //     }
 
-            return true;
-        }
+        //     return true;
+        // }
 
         return true;
     };
@@ -415,8 +417,8 @@ const PatientRegistrationForm = () => {
             "Personal",
             "Other Contacts",
             "Insurance",
-            "Consent",
-            "Preview",
+            // "Consent",
+            // "Preview",
         ],
         forms: [
             {
@@ -452,26 +454,26 @@ const PatientRegistrationForm = () => {
                     />
                 ),
             },
-            {
-                id: 4,
-                name: "Consent",
-                component: (
-                    <ConsentForm
-                        key={4}
-                        consentData={consents}
-                        setConsentData={setConsents}
-                        handleInputChange={handleFormElementChange}
-                        formData={regForm}
-                    />
-                ),
-            },
-            {
-                id: 5,
-                name: "Preview",
-                component: (
-                    <PdfPreview key={5} Doc={<PdfDoc data={regForm} />} />
-                ),
-            },
+            // {
+            //     id: 4,
+            //     name: "Consent",
+            //     component: (
+            //         <ConsentForm
+            //             key={4}
+            //             consentData={consents}
+            //             setConsentData={setConsents}
+            //             handleInputChange={handleFormElementChange}
+            //             formData={regForm}
+            //         />
+            //     ),
+            // },
+            // {
+            //     id: 5,
+            //     name: "Preview",
+            //     component: (
+            //         <PdfPreview key={5} Doc={<PdfDoc data={regForm} />} />
+            //     ),
+            // },
         ],
     };
 

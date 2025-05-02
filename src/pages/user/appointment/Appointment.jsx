@@ -131,13 +131,6 @@ const Appointment = () => {
         });
     }
 
-    // const formatToCamelCase = (str) => {
-    //     return `${str.slice(0, 1).toLowerCase()}${str.slice(1)}`.replace(
-    //         " ",
-    //         ""
-    //     );
-    // };
-
     // Step Validation logic
     const isStepsValid = (step = currentStep) => {
         const requiredFields = [
@@ -149,7 +142,7 @@ const Appointment = () => {
             "phone",
             "email",
             "address",
-            "patientId",
+            // "patientId",
             "appointmentType",
             "purpose",
             "service",
@@ -256,11 +249,6 @@ const Appointment = () => {
         };
 
         const payload = objectToFormData(data);
-
-        console.log(
-            "Final Appointment Date Time: ",
-            new Date(data.appointmentDateTime).toLocaleString()
-        );
 
         // TODO: book an appointment
         mutate(payload);

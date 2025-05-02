@@ -11,7 +11,11 @@ const FieldItem = ({ label, value, src, colspanClass, isRequired }) => {
             </h5>
             {src && <img src={src} alt={label} className="w-full" />}
 
-            <div className="input">{value || "N/A"}</div>
+            {
+                value && (
+                    <div className="input">{value || "N/A"}</div>
+                )
+            }
         </div>
     );
 };

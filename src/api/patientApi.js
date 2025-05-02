@@ -1,3 +1,4 @@
+import { objectToFormData } from "../pages/utils";
 import api from "./axiosInstance";
 
 // Fetch a list of patients (Paginated)
@@ -39,6 +40,18 @@ export const getPatientById = async (patientId) => {
     return response.data;
 };
 
+// Fetch a patient by ID
+export const getRegInfoById = async (patientId) => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const response = await api.get(`/patients/forms/register/${patientId}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+        },
+    });
+    return response.data;
+};
+
 // Fetch a basic patient info by ID
 export const fetchBasicPatientById = async (patientId) => {
     const response = await api.get(`/patients/validate/${patientId}`, {
@@ -67,32 +80,32 @@ export const createPatient = async (patientData) => {
 };
 
 // Create register a new patient
-export const registerPatient = async (patientData) => {
+export const generatePatientId = async () => {
     const options = {
         headers: {
             "Content-Type": "application/json",
         },
     };
 
-    const response = await api.post(
-        "/patients/register/id",
-        patientData,
-        options
-    );
+    const response = await api.get("/patients/register/id", options);
 
     return response;
 };
 
 // Update a patient by ID
-export const updatePatient = async (id) => {
-    const token = JSON.parse(sessionStorage.getItem("user"));
-    const response = await api.put(`/patients/${id}`, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-        },
-    });
-    return response;
+export const updatePatient = async (patientId, payload) => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const response = await api.put(
+        `/patients/forms/register/${patientId}/update`,
+        objectToFormData(payload),
+        {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+    return response.data;
 };
 
 // Patient File Upload
@@ -103,18 +116,14 @@ export const uploadFile = async (payload) => {
         },
     };
 
-    const response = await api.post(
-        "/file/upload",
-        payload,
-        options
-    );
+    const response = await api.post("/file/upload", payload, options);
 
     return response;
 };
 
 // Create patient form
-export const createForm = async ({payload, endpoint}) => {
-    console.log(endpoint)
+export const createForm = async ({ payload, endpoint }) => {
+    console.log(endpoint);
     const options = {
         headers: {
             "Content-Type": "application/json",

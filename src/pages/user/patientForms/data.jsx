@@ -212,11 +212,11 @@ export const educationOptions = [
 
 export const raceOptions = [
     { id: 1, text: "White", value: "White" },
-    { id: 2, text: "Black or African American", value: "Black or African American" },
+    { id: 2, text: "Black or African American", value: "Black Or African American" },
     { id: 3, text: "Asian", value: "Asian" },
-    { id: 4, text: "Native American or Alaska Native", value: "Native American or Alaska Native" },
+    { id: 4, text: "Native American or Alaska Native", value: "Native American Or Alaska Native" },
     { id: 5, text: "Multiracial", value: "Multiracial" },
-    { id: 6, text: "Prefer Not to Say", value: "Prefer Not to Say" },
+    { id: 6, text: "Prefer Not to Say", value: "Prefer Not To Say" },
 ];
 
 export const maritalStatusOptions = [
@@ -243,8 +243,8 @@ export const religionOptions = [
 ];
 
 export const appointmentReminderModeOptions = [
-    { id: 1, text: "Automated Text", value: "automated text" },
-    { id: 2, text: "Automated Email", value: "automated email" },
+    { id: 1, text: "Automated Text", value: "Automated Text" },
+    { id: 2, text: "Automated Email", value: "Automated Email" },
 ];
 
 export const preferredPhoneOptions = [

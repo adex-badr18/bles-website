@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import PageTitle from "../components/PageTitle";
 import FieldItem from "../../../components/FieldItem";
@@ -19,9 +19,7 @@ import {
     paymentMethods,
     services,
 } from "../../user/appointment/data";
-import {
-    fetchUSHolidays,
-} from "../../user/appointment/api";
+import { fetchUSHolidays } from "../../user/appointment/api";
 import { genderOptions } from "../../user/patientForms/data";
 
 import {
@@ -35,22 +33,6 @@ import Spinner from "../../../components/Spinner";
 import SubmitSuccessModal from "./components/SubmitSuccessModal";
 import ConfirmUpdateModal from "./components/ConfirmUpdateModal";
 import { formatToYYYYMMDD } from "../../utils";
-
-export const appointmentLoader = async ({ params }) => {
-    const id = params.id;
-
-    const appointment = appointments.filter(
-        (appointment) => appointment.id === id
-    );
-
-    return appointment.length > 0
-        ? appointment[0]
-        : {
-              status: "error",
-              message:
-                  "The appointment information you requested could not be found.",
-          };
-};
 
 const AppointmentInfo = () => {
     const navigate = useNavigate();
@@ -117,7 +99,7 @@ const AppointmentInfo = () => {
                 data: { ...prev.data, ...appointment },
             }));
         }
-    }, [isError, isSuccess]);
+    }, [isError, isSuccess, appointment]);
 
     useEffect(() => {
         fetchBookedSlots();
@@ -263,23 +245,36 @@ const AppointmentInfo = () => {
     return (
         <section>
             <PageTitle title={`Appointment Details`}>
-                <button
-                    onClick={handleAppointmentEdit}
-                    className={`${
-                        isAppointmentEditable
-                            ? "bg-vividRed hover:bg-red-700"
-                            : "bg-lightGreen hover:bg-lighterGreen"
-                    } rounded-lg px-4 md:px-6 py-3 flex items-center justify-center gap-2 divide-x-2 divide-white text-white font-poppins font-semibold text-nowrap transition duration-500`}
-                >
-                    <span className="">
-                        {isAppointmentEditable ? "Cancel" : "Edit Appointment"}
-                    </span>
-                    {isAppointmentEditable ? (
-                        <MdClose className="pl-2 text-3xl" />
-                    ) : (
-                        <MdEdit className="pl-2 text-3xl" />
+                <div className="flex flex-col items-cente gap-1">
+                    <button
+                        onClick={handleAppointmentEdit}
+                        className={`${
+                            isAppointmentEditable
+                                ? "bg-vividRed hover:bg-red-700"
+                                : "bg-lightGreen hover:bg-lighterGreen"
+                        } rounded-lg px-4 md:px-6 py-3 flex items-center justify-center gap-2 divide-x-2 divide-white text-white font-poppins font-semibold text-nowrap transition duration-500`}
+                    >
+                        <span className="">
+                            {isAppointmentEditable
+                                ? "Cancel"
+                                : "Edit Appointment"}
+                        </span>
+                        {isAppointmentEditable ? (
+                            <MdClose className="pl-2 text-3xl" />
+                        ) : (
+                            <MdEdit className="pl-2 text-3xl" />
+                        )}
+                    </button>
+                    {!appointment.patientId && (
+                        <Link
+                            to="/forms/patient-registration-form"
+                            target="_blank"
+                            className="text-s text-orange-700 hover:underline underline-offset-2"
+                        >
+                            Proceed to registration
+                        </Link>
                     )}
-                </button>
+                </div>
             </PageTitle>
 
             {isError && (
