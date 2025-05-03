@@ -111,7 +111,7 @@ const IdField = ({
                     </p>
                 )}
 
-                {isSuccess || formData.identification.patientId && (
+                {(isSuccess || formData.identification.patientId) && (
                     <p className="flex items-center gap-1 text-sm text-lightGreen">
                         <BsExclamationTriangleFill />
                         <span className="">Copy and store your ID for future reference.</span>

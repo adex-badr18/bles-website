@@ -71,6 +71,8 @@ const AppointmentInfo = () => {
         data: {},
     });
 
+    console.log(selectedDateTime)
+
     const { mutate: updateAppointment, isPending: isUpdatingAppointment } =
         useUpdateAppointment({
             setIsAppointmentEditable,

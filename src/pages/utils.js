@@ -48,9 +48,9 @@ export const objectToFormData = (
     Object.entries(obj).forEach(([key, value]) => {
         const fieldName = parentKey ? `${parentKey}[${key}]` : key; // Bracket notation for nesting
 
-        if (value === null || value === undefined) {
-            return; // skip empty values
-        }
+        // if (value === null || value === undefined) {
+        //     return; // skip empty values
+        // }
 
         if (value instanceof File || value instanceof Blob) {
             // File uploads
@@ -72,6 +72,9 @@ export const objectToFormData = (
             // recursively handle nested objects
             objectToFormData(value, formData, fieldName);
         } else {
+            if (value === null || value === undefined) {
+                formData.append(fieldName, "");
+            }
             // simple key-value pair
             formData.append(fieldName, String(value));
         }
