@@ -30,6 +30,7 @@ import Login from "./pages/admin/auth/Login";
 import AdminAuthLayout from "./pages/admin/components/layout/AdminAuthLayout";
 import RootLayout from "./components/layout/RootLayout";
 import UpdateForm from "./pages/admin/patients/UpdateForm";
+import UpdateRegistration from "./pages/admin/patients/UpdateRegistration";
 import Faq from "./pages/user/faq/Faq";
 
 import DepressionAssessmentForm from "./pages/admin/patients/components/forms/DepressionAssessmentForm";
@@ -255,7 +256,7 @@ const router = createBrowserRouter([
                             },
                             {
                                 path: "patients/:id/update",
-                                element: <UpdateForm />,
+                                element: <UpdateRegistration />,
                             },
                             { path: "reviews", element: <Reviews /> },
                             {

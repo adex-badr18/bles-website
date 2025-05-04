@@ -11,7 +11,7 @@ export const createForm = async (formData, endpoint) => {
 
     const response = await api.post(endpoint, formData, options);
 
-    return response;
+    return response.data;
 };
 
 // Search for patients based on search terms
@@ -59,3 +59,27 @@ export const getDashboardData = async () => {
 
     return response.data
 }
+
+// Fetch a patient by ID
+export const getAdminProfile = async (id) => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const response = await api.get(`/users/profile/${id}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+        },
+    });
+    return response.data;
+};
+
+// Fetch a patient by ID
+export const updateAdminProfile = async (id) => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const response = await api.put(`/users/profile/${id}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+        },
+    });
+    return response.data;
+};

@@ -7,8 +7,9 @@ const TabPanel = ({tabButtons, tabIndex, setTabIndex}) => {
                 {tabButtons.map((button) => (
                     <button
                         key={button.id}
-                        className="flex items-center gap-2"
+                        className="flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
                         onClick={() => setTabIndex(button.id)}
+                        disabled={button.isDisabled}
                     >
                         <span
                             className={`font-lato pb-1 ${

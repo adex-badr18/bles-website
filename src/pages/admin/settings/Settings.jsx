@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 
 import GeneralTab from "./components/GeneralTab";
@@ -11,6 +11,9 @@ import PageTitle from "../components/PageTitle";
 import { MdOutlineHome } from "react-icons/md";
 
 import { adminData } from "./data";
+
+import { useGetAdminProfile } from "../../../hooks/useGeneral";
+import Spinner from "../../../components/Spinner";
 
 export const settingsLoader = async () => {
     return adminData
@@ -25,6 +28,8 @@ export const settingsLoader = async () => {
 const Settings = () => {
     const admin = useLoaderData();
     const [tabIndex, setTabIndex] = useState(1);
+    const { data, isLoading, isSuccess, isError, error } =
+        useGetAdminProfile("1");
     const [formData, setFormData] = useState({
         profile: {
             firstName: admin.profile.firstName || "",
@@ -36,7 +41,21 @@ const Settings = () => {
         login: { currentPassword: "", newPassword: "", confirmNewPassword: "" },
     });
 
-    console.log(formData)
+    console.log(formData);
+
+    useEffect(() => {
+        if (isSuccess) {
+            setFormData((prev) => ({
+                ...prev,
+                profile: {
+                    firstName: data?.firstName,
+                    middleName: data?.middleName,
+                    lastName: data?.middleName,
+                    email: data?.email,
+                },
+            }));
+        }
+    }, [isSuccess]);
 
     // Handle form element change
     const handleFormElementChange = (section, field, value) => {
@@ -47,28 +66,38 @@ const Settings = () => {
     };
 
     const tabButtons = [
-        { id: 1, tabName: "General" },
-        { id: 2, tabName: "Security" },
+        { id: 1, tabName: "General", isDisabled: false },
+        { id: 2, tabName: "Security", isDisabled: false },
     ];
 
-    if (admin.status === "error") {
+    if (isError) {
         return (
             <section className="py-8 md:py-20">
                 <div className="flex flex-col items-center justify-center gap-4 font-poppins">
                     <h1 className="capitalize text-vividRed text-3xl font-bold">
-                        {admin.status}!
+                        Error!
                     </h1>
                     <p className="text-grey text-lg font-medium">
-                        {admin.message}
+                        {error.message || "An error occurred."}
                     </p>
-                    <LinkButton
+                    {/* <LinkButton
                         name="Home"
                         to="/"
                         bgColor="green"
                         icon={<MdOutlineHome className="text-xl" />}
-                    />
+                    /> */}
                 </div>
             </section>
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <Spinner
+                secondaryText="Loading..."
+                borderClass="border-green"
+                spinnerSize="w-10 h-10"
+            />
         );
     }
 
@@ -82,7 +111,12 @@ const Settings = () => {
                 setTabIndex={setTabIndex}
             />
 
-            {tabIndex === 1 && <GeneralTab formData={formData} onChange={handleFormElementChange} />}
+            {tabIndex === 1 && (
+                <GeneralTab
+                    formData={formData}
+                    onChange={handleFormElementChange}
+                />
+            )}
 
             {tabIndex === 2 && (
                 <SecurityTab

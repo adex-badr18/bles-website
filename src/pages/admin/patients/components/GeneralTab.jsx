@@ -13,17 +13,21 @@ const GeneralTab = ({ patient }) => {
     const { primaryInsurance, secondaryInsurance } = useMemo(() => {
         return {
             primaryInsurance:
-                patient?.paymentStruture?.insurances?.filter(
+                patient?.paymentStructure?.insurances?.filter(
                     (insurance) => !!insurance.primary
-                ) || {},
+                )[0] || {},
             secondaryInsurance:
-                patient?.paymentStruture?.insurances?.filter(
+                patient?.paymentStructure?.insurances?.filter(
                     (insurance) => !insurance.primary
-                ) || {},
+                )[0] || {},
         };
     }, [patient]);
 
-    // console.log(primaryInsurance);
+    // const primaryInsurance = patient?.paymentStructure?.insurances[0]
+
+    console.log(patient);
+    console.log(primaryInsurance);
+    console.log(secondaryInsurance);
 
     return (
         <div className="">
@@ -295,10 +299,10 @@ const GeneralTab = ({ patient }) => {
                 <h2 className="text-lg font-semibold mb-2">Insurance</h2>
                 <FieldItem
                     label="Payment Method"
-                    value={patient?.paymentStruture?.paymentMode}
+                    value={patient?.paymentStructure?.paymentMode}
                 />
 
-                {!patient?.paymentStruture?.insurances ? (
+                {!patient?.paymentStructure?.insurances ? (
                     <p className="text-deepGrey">Insurance information is not available</p>
                 ) : (
                     <div>

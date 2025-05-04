@@ -14,11 +14,24 @@ const DateField = ({
     isRequired,
     ...rest
 }) => {
-    const [selectedDate, setSelectedDate] = useState(defaultDate || null);
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    useEffect(() => {
+        if (
+            defaultDate instanceof Date &&
+            (!selectedDate || selectedDate.getTime() !== defaultDate.getTime())
+        ) {
+            setSelectedDate(defaultDate);
+        }
+    }, [defaultDate]);
 
     useEffect(() => {
         if (selectedDate) {
-            handleFormElementChange(section, field, new Date(selectedDate).toLocaleDateString());
+            handleFormElementChange(
+                section,
+                field,
+                new Date(selectedDate).toLocaleDateString()
+            );
         }
     }, [selectedDate]);
 
@@ -33,7 +46,9 @@ const DateField = ({
                 className="block text-deepGrey"
             >
                 {label}{" "}
-                {isRequired && <small className="text-vividRed text-lg">*</small>}
+                {isRequired && (
+                    <small className="text-vividRed text-lg">*</small>
+                )}
             </label>
             <DatePicker
                 id={`${section}-${name}`}

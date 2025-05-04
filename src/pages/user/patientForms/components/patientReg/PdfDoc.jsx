@@ -100,6 +100,7 @@ export const styles = StyleSheet.create({
 });
 
 const PdfDoc = ({ data }) => {
+    // console.log(data.guarantor.stateIssuedId)
     const regData = {
         personal: {
             firstName: { title: "First Name:", value: data.personal.firstName },
@@ -497,7 +498,7 @@ const PdfDoc = ({ data }) => {
         consent,
     } = regData;
 
-    // console.log(regData);
+    // console.log(guarantor.stateIssuedId);
 
     return (
         <Document>

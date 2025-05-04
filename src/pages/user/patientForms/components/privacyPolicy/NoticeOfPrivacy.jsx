@@ -7,7 +7,7 @@ import PrivacyPolicy from "./PrivacyPolicy";
 
 import { useToast } from "../../../../../components/ToastContext";
 import { useCreateForm, useUploadFile } from "../../../../../hooks/usePatients";
-import { objectToFormData } from "../../../../utils";
+import { formatToYYYYMMDD, objectToFormData } from "../../../../utils";
 import { pdf } from "@react-pdf/renderer";
 
 const NoticeOfPrivacy = () => {
@@ -117,7 +117,7 @@ const NoticeOfPrivacy = () => {
         const data = {
             id: null,
             patientId: formData.verification.patientId,
-            noticeEffectDate: formData.consent.noticeEffectDate,
+            noticeEffectDate: formatToYYYYMMDD(formData.consent.noticeEffectDate),
             noticeOfPrivacyPractices: "",
             date: formData.consent.date,
             file: fileUrl,

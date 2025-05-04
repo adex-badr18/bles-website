@@ -93,18 +93,38 @@ export const generatePatientId = async () => {
 };
 
 // Update a patient by ID
-export const updatePatient = async (patientId, payload) => {
+export const uploadPatientRegPdf = async (patientId, payload) => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     const response = await api.put(
         `/patients/forms/register/${patientId}/update`,
         objectToFormData(payload),
         {
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "multipart/form-data",
                 Authorization: `Bearer ${user?.token}`,
             },
         }
     );
+    return response.data;
+};
+
+// Update Patient's registration info
+export const updateRegInfo = async ({ payload, endpoint }) => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+
+    const options = {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+        },
+    };
+
+    const response = await api.put(
+        endpoint,
+        objectToFormData(payload),
+        options
+    );
+
     return response.data;
 };
 
@@ -132,5 +152,5 @@ export const createForm = async ({ payload, endpoint }) => {
 
     const response = await api.post(endpoint, payload, options);
 
-    return response;
+    return response.data;
 };
