@@ -5,7 +5,8 @@ import { CgChevronDoubleRight } from "react-icons/cg";
 const ServiceCard = ({ icon, title, descr, link, ...rest }) => {
     return (
         <div
-            className="bg-white p-10 space-y-6 shadow-2xl w-full md:max-w-[300px] hover:scale-105 transition duration-300"
+            // to={link}
+            className="bg-white py-10 px-8 space-y-6 shadow-2xl w-full md:max-w-[320px] hover:scale-105 transition duration-300 cursor-pointer"
             {...rest}
         >
             {icon}
@@ -15,11 +16,11 @@ const ServiceCard = ({ icon, title, descr, link, ...rest }) => {
                     {title}
                 </h3>
 
-                {/* <p className="font-rubik text-grey leading-7">{descr}</p> */}
+                <p className="font-rubik text-grey leading-7">{descr}</p>
 
                 {/* <Link
                     to={link}
-                    className="flex items-center gap-1 text-vividRed font-poppins font-semibold text-base"
+                    className="flex items-center gap-1 text-originalGreen font-poppins font-semibold text-base"
                 >
                     <span className="">Read More</span>
                     <CgChevronDoubleRight className="text-lg" />

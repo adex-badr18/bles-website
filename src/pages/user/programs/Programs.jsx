@@ -2,7 +2,8 @@ import SectionHeader from "../../../components/SectionHeader";
 import sectionBg from "../../../assets/section-bg.jpg";
 import ServiceCard from "../landing/components/ServiceCard";
 import { FaBrain } from "react-icons/fa";
-import { servicesData } from "./data";
+import { programsData } from "./data";
+import ProgramCard from "./components/ProgramCard";
 
 const Programs = () => {
     return (
@@ -12,29 +13,20 @@ const Programs = () => {
         >
             <div className="wrapper space-y-6 md:space-y-12">
                 <SectionHeader
-                    bgTitle="Services"
-                    primaryTitle="Services we Provide"
-                    secondaryTitle="Our Services"
+                    bgTitle="Programs"
+                    primaryTitle="Supportive Care Programs"
+                    secondaryTitle="Our Programs"
                 />
 
-                <div className="flex flex-col justify-center md:flex-row md:items-start flex-wrap gap-4 md:gap-8">
-                    {servicesData.map((service) => {
-                        console.log(typeof service.name.length)
-                        const title = service.name.length 
-                        return (
-                            <ServiceCard
-                            key={service.id}
-                                icon={service.icon}
-                                title={
-                                    service.name.length > 16
-                                        ? service.shortName
-                                        : service.name
-                                }
-                                descr={service.summary}
-                                link={`/services/${service.id}`}
-                            />
-                        );
-                    })}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 place-items-center justify-items-center gap-x-4 gap-y-24 md:gap-x-8 md:gap-y-32">
+                    {programsData.map((program) => (
+                        <ProgramCard    
+                            key={program.id}
+                            name={program.name}
+                            link={`/programs/${program.id}`}
+                            image={program.image}
+                        />
+                    ))}
                 </div>
             </div>
         </section>

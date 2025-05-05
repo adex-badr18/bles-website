@@ -1,104 +1,71 @@
-import { Link } from "react-router-dom";
 import SectionHeader from "../../../../components/SectionHeader";
+import ServiceCard from "./ServiceCard";
 
-import moreImg from "../../../../assets/behavioral-disorder2.jpg";
-import substanceImg from "../../../../assets/substance-use.webp";
-import bipolarImg from "../../../../assets/bipolar.webp";
+import { MdOutlineFamilyRestroom, MdGroups2, MdGroup } from "react-icons/md";
+import { GiLifeBar } from "react-icons/gi";
 
-import { CgChevronDoubleRight } from "react-icons/cg";
-
-import { servicesData } from "../../services/data";
-
-const data = [
-    {
-        id: 1,
-        name: "Medication Management",
-        image: substanceImg,
-    },
-    {
-        id: 2,
-        name: "Family/Group Therapy/Counselling",
-        image: moreImg,
-    },
-    {
-        id: 3,
-        name: "Psychiatric Rehabilitation Program",
-        image: bipolarImg,
-    },
-];
+import { PiHeartbeat } from "react-icons/pi";
 
 const Services = () => {
     return (
-        <section className="py-8 md:py-20">
-            <div className="w-full max-w-[1320px] mx-auto px-4 pb-10">
+        <section className={`py-8 md:py-20`}>
+            <div className="container">
                 <SectionHeader
                     bgTitle="Services"
-                    primaryTitle="Services We Provide"
+                    primaryTitle="Supportive Care Services"
                     secondaryTitle="Our Services"
-                    titleAlignment="center"
                 />
 
-                <div className="flex flex-wrap justify-center gap-x-6 gap-y-28">
-                    {data.map((service) => (
-                        <div
-                            key={service.id}
-                            className="relative w-full max-w-sm"
-                            data-aos="zoom-in"
-                        >
-                            {/* <Link
-                                to={service.link || `/services/${service.id}`}
-                                className=""
-                            >
-                                <img
-                                    src={service.image}
-                                    alt=""
-                                    className="w-full h-full object-cover"
-                                />
-                            </Link> */}
+                <div
+                    className={`space-y-8 md:space-y-32 md:bg-service-center-image bg-center bg-no-repeat`}
+                >
+                    <div className="px-5 md:px-10 lg:px-28 xl:px-40 flex flex-col sm:flex-row sm:justify-between gap-8">
+                        <ServiceCard
+                            icon={
+                                <MdGroup className="text-deepGreen text-5xl md:text-7xl" />
+                            }
+                            title="Individual/Couples Therapy"
+                            descr="Offers compassionate support to help you navigate personal challenges & strengthen your relationships."
+                            link="/programs/1"
+                            data-aos="fade-down-right"
+                            data-aos-delay=""
+                        />
 
-                            <img
-                                src={service.image}
-                                alt=""
-                                className="w-full h-full object-cover"
-                            />
+                        <ServiceCard
+                            icon={
+                                <GiLifeBar className="text-deepGreen text-5xl md:text-7xl" />
+                            }
+                            title="Lifestyle Coaching"
+                            descr="Encourages healthy lifestyle (nutrition, exercise, & sleep hygiene) to improve mood and energy levels."
+                            link="/programs/3"
+                            data-aos="fade-up-right"
+                            data-aos-delay=""
+                        />
+                    </div>
 
-                            <div className="group font-rubik w-10/12 h-24 absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-white py-5 px-6 space-y-2 flex items-center justify-center text-center shadow-xl z-10">
-                                {/* <Link
-                                    to={
-                                        service.link ||
-                                        `/services/${service.id}`
-                                    }
-                                    className="md:text-[22px] text-darkBlue hover:text-vividRed font-semibold"
-                                >
-                                    {service.name}
-                                </Link> */}
-                                <h4 className="md:text-lg text-darkBlue font-semibold">
-                                    {service.name}
-                                </h4>
-                                {/* <p className="text-sm md:text-base text-grey">
-                                    {service.advertText}
-                                </p> */}
-                                {/* <Link
-                                    to={
-                                        service.link ||
-                                        `/services/${service.id}`
-                                    }
-                                    className="text-vividRed text-sm md:text-base font-semibold font-poppins hidden md:group-hover:inline-flex items-center gap-1"
-                                >
-                                    <span className="">Read More</span>
-                                    <CgChevronDoubleRight className="" />
-                                </Link> */}
-                            </div>
-                        </div>
-                    ))}
+                    <div className="px-5 md:px-20 lg:px-44 xl:px-60 flex flex-col sm:flex-row sm:justify-between gap-8">
+                        <ServiceCard
+                            icon={
+                                <MdOutlineFamilyRestroom className="text-deepGreen text-5xl md:text-7xl" />
+                            }
+                            title="Family Counselling"
+                            descr="Engages family members in the treatment process, promoting understanding and support."
+                            link="/programs/2"
+                            data-aos="fade-down-left"
+                            data-aos-delay=""
+                        />
 
-                    <Link
-                        to={`/services`}
-                        className="flex items-center gap-1 text-vividRed font-poppins font-semibold text-base animate-bounce duration-500"
-                    >
-                        <span className="">More Services</span>
-                        <CgChevronDoubleRight className="text-lg" />
-                    </Link>
+                        <ServiceCard
+                            icon={
+                                <MdGroups2 className="text-deepGreen text-5xl md:text-7xl" />
+                            }
+                            title="Group Therapy"
+                            descr="Offers peer support and connection, reinforcing that you are not alone in your journey."
+                            link="/programs/4"
+                            data-aos="fade-up-left"
+                            data-aos-delay=""
+                        />
+                    </div>
                 </div>
             </div>
         </section>

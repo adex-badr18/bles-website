@@ -35,7 +35,7 @@ const SectionHeader = ({
                     <h4
                         data-aos="fade-up"
                         data-aos-delay="500"
-                        className={`text-vividRed text-xl font-semibold capitalize`}
+                        className={`text-originalGreen text-xl font-semibold capitalize`}
                     >
                         {secondaryTitle}
                     </h4>

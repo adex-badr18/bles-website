@@ -13,6 +13,7 @@ import {
     MdOutlineMedicalServices,
     MdOutlineMedicalInformation,
 } from "react-icons/md";
+import { RiCalendarScheduleLine } from "react-icons/ri";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 
 import HeroSlide from "./HeroSlide";
@@ -27,24 +28,24 @@ const slidesData = [
     {
         id: 1,
         bgImage: homeSlider1,
-        bgTitle: "Mental Health",
+        bgTitle: "Recovery",
         topSmallText: "Welcome to BrightLife Enhancement Services",
-        bottomSmallText: "We've 15 years of experience in Behavioral Health.",
-        primaryText: "Behavioral/Mental Health & Recovery Solutions.",
-        ctaText: "Our Services",
-        ctaLink: "/services",
-        ctaIcon: <MdOutlineMedicalServices size="16" />,
+        bottomSmallText: "Discover personalized pathways to recovery with BrightLife Enhancement Services.",
+        primaryText: "Renew Hope for a Brighter Tomorrow",
+        ctaText: "Get Started",
+        ctaLink: "/appointment",
+        ctaIcon: <RiCalendarScheduleLine size="16" />,
     },
     {
         id: 2,
-        bgTitle: "Recovery",
+        bgTitle: "Mental Health",
         bgImage: homeSlider2,
         topSmallText: "Welcome to BrightLife Enhancement Services",
-        bottomSmallText: "We've 15 years of experience in Health Care.",
+        bottomSmallText: "Our compassionate team guides you towards lasting wellness with tailored support and professional care.",
         primaryText: "Behavioral/Mental Health & Recovery Solutions.",
-        ctaText: "About Us",
-        ctaLink: "/about",
-        ctaIcon: <MdOutlineMedicalInformation size="16" />,
+        ctaText: "Get Started",
+        ctaLink: "/appointment",
+        ctaIcon: <RiCalendarScheduleLine size="16" />,
     },
 ];
 
@@ -71,7 +72,7 @@ const Hero = () => {
                 modules={[Navigation, Autoplay, EffectFade]}
                 slidesPerView={1}
                 loop={true}
-                autoplay={{ delay: 5000, disableOnInteraction: false }}
+                autoplay={{ delay: 10000, disableOnInteraction: false }}
                 effect="fade"
                 onSwiper={(swiper) => {
                     swiper.params.navigation.prevEl = prevButton.current;
@@ -101,13 +102,13 @@ const Hero = () => {
                 <div className="hidden md:flex items-center justify-between absolute inset-x-4 inset-y-0 z-50 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
                     <button
                         ref={prevButton}
-                        className="prev-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
+                        className="prev-button bg-deepGreen hover:bg-originalGreen text-white rounded-full p-4 shadow-2xl transition-colors duration-300"
                     >
                         <FaLongArrowAltLeft />
                     </button>
                     <button
                         ref={nextButton}
-                        className="next-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
+                        className="next-button bg-deepGreen hover:bg-originalGreen text-white rounded-full p-4 shadow-2xl transition-colors duration-300"
                     >
                         <FaLongArrowAltRight />
                     </button>

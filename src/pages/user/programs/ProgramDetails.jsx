@@ -37,9 +37,10 @@ const ProgramDetails = () => {
                     <h1 className="capitalize text-vividRed text-3xl font-bold">
                         {programInfo.status}!
                     </h1>
-                    <p className="text-grey text-lg font-medium">
+                    <p className="text-deepGrey text-lg font-medium">
                         {programInfo.message}
                     </p>
+
                     <LinkButton
                         name="Home"
                         to="/"
@@ -63,7 +64,7 @@ const ProgramDetails = () => {
                                 {programInfo.name}
                             </h1>
 
-                            <p className="text-grey font-rubik leading-[28px]">
+                            <p className="text-deepGrey font-rubik leading-[28px]">
                                 {programInfo.descr1}
                             </p>
 
@@ -75,78 +76,46 @@ const ProgramDetails = () => {
                                 />
                             </div>
 
-                            <p className="text-grey font-rubik leading-[28px]">
+                            <p className="text-deepGrey font-rubik leading-[28px]">
                                 {programInfo.descr2}
                             </p>
 
-                            <div className="space-y-2">
-                                <h3 className="text-xl md:text-2xl font-bold font-poppins text-darkBlue">
-                                    Benefits
-                                </h3>
+                            {programInfo.availableTreatments?.length > 0 && (
+                                <div className="space-y-2">
+                                    <h3 className="text-xl md:text-2xl font-bold font-poppins text-darkBlue">
+                                        We offer treatment for the following:
+                                    </h3>
+                                    <ul className="space-y-3">
+                                        {programInfo.availableTreatments.map(
+                                            (treatment) => (
+                                                <li
+                                                    key={treatment.id}
+                                                    className="flex items-start gap-4 group"
+                                                >
+                                                    <CheckMarkIcon className="" />
 
-                                <p className="text-grey font-rubik leading-[28px]">
-                                    {programInfo.benefitInfo}
-                                </p>
-
-                                <ul className="space-y-3">
-                                    {programInfo.benefits.map((benefit) => (
-                                        <li
-                                            key={benefit.id}
-                                            className="flex items-start gap-4 group"
-                                        >
-                                            <CheckMarkIcon className="" />
-
-                                            <span className="text-grey font-rubik leading-[28px]">
-                                                <span className="text-darkBlue font-semibold">
-                                                    {`${benefit.title}: `}
-                                                </span>
-                                                {benefit.descr}
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            <div className="space-y-2">
-                                <h3 className="text-xl md:text-2xl font-bold font-poppins text-darkBlue">
-                                    Services
-                                </h3>
-
-                                <p className="text-grey font-rubik leading-[28px]">
-                                    This program offers a high level of
-                                    supervision, treatment, and accountability
-                                    in a personalized manner. Some of the
-                                    services included might entail:
-                                </p>
-
-                                <ul className="space-y-3">
-                                    {programInfo.services.map((service) => (
-                                        <li
-                                            key={service.id}
-                                            className="flex items-start gap-4 group"
-                                        >
-                                            <CheckMarkIcon className="" />
-
-                                            <span className="text-grey font-rubik leading-[28px]">
-                                                <span className="text-darkBlue font-semibold">
-                                                    {`${service.title}: `}
-                                                </span>
-                                                {service.descr}
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                                                    <span className="text-deepGrey font-rubik leading-[28px]">
+                                                        <span className="text-darkBlue font-semibold">
+                                                            {`${treatment.title}: `}
+                                                        </span>
+                                                        {treatment.descr}
+                                                    </span>
+                                                </li>
+                                            )
+                                        )}
+                                    </ul>
+                                </div>
+                            )}
                         </div>
 
                         <div className="justify-self-start mt-6">
                             <LinkButton
-                                name="Schedule an Appointment Now"
+                                name="Start your journey now"
                                 to="/contact#appointment"
                                 icon={
                                     <MdOutlineScheduleSend className="text-lg" />
                                 }
-                                bgColor="red"
+                                bgColor="green"
                             />
                         </div>
                     </div>

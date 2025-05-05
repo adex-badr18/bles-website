@@ -27,7 +27,7 @@ const StickySideNav = ({ data, widgetTitle }) => {
 
     return (
         <aside className={`w-full max-w-[360px]`}>
-            <div className="px-5 py-3 md:px-10 bg-vividRed rounded-t-md">
+            <div className="px-5 py-3 md:px-10 bg-deepGreen rounded-t-md">
                 <h3 className="text-white text-lg md:text-2xl font-bold capitalize">
                     Other {widgetTitle}
                 </h3>
@@ -41,18 +41,16 @@ const StickySideNav = ({ data, widgetTitle }) => {
                         className={({ isActive }) =>
                             [
                                 isActive
-                                    ? "bg-vividRed text-white"
+                                    ? "bg-deepGreen text-white"
                                     : "bg-white text-deepBlue",
-                                "border border-[#dddddd8f] rounded-md p-4 font-rubik hover:bg-vividRed hover:text-white transition duration-300",
+                                "border border-[#dddddd8f] rounded-md p-4 font-rubik hover:bg-deepGreen hover:text-white transition duration-300",
                             ].join(" ")
                         }
                     >
-                        <div className="flex gap-2 items-center">
-                            <BiChevronsRight className="" />
+                        <div className="flex gap-2">
+                            <BiChevronsRight className="flex-shrink-0 mt-1" />
                             <span className="font-medium">
-                                {datum.name.length > 23
-                                    ? datum.shortName
-                                    : datum.name}
+                                {datum.name}
                             </span>
                         </div>
                     </NavLink>

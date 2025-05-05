@@ -172,7 +172,7 @@ const Nav = () => {
                             name="Contact Us"
                             icon={<MdOutlineContactPage size="16" />}
                             to="/contact"
-                            bgColor="red"
+                            bgColor="green"
                         />
                     </div>
 
@@ -182,14 +182,14 @@ const Nav = () => {
                                 name="Contact Us"
                                 icon={<MdOutlineContactPage size="16" />}
                                 to="/contact"
-                                bgColor="red"
+                                bgColor="green"
                             />
                         </div>
 
                         <div className="">
                             <SlMenu
                                 onClick={handleMobileMenuClick}
-                                className="text-vividRed"
+                                className="text-originalGreen"
                                 size="26"
                             />
                             {isMobileMenuOpen && (

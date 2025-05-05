@@ -5,6 +5,7 @@ import Services from "./pages/user/services/Services";
 import ServiceDetails, {
     serviceLoader,
 } from "./pages/user/services/ServiceDetails";
+import ConditionDetails, {conditionLoader} from "./pages/user/landing/components/ConditionDetails";
 import ProgramDetails, {
     programLoader,
 } from "./pages/user/programs/ProgramDetails";
@@ -37,6 +38,7 @@ import DepressionAssessmentForm from "./pages/admin/patients/components/forms/De
 import MoodDisorderAssessmentForm from "./pages/admin/patients/components/forms/MoodDisorderAssessmentForm";
 import ScreeningForm from "./pages/admin/patients/components/forms/ScreeningForm";
 import IntakeForm from "./pages/admin/patients/components/forms/IntakeForm";
+import Programs from "./pages/user/programs/Programs";
 
 const DATA = {
     id: 0,
@@ -185,6 +187,11 @@ const router = createBrowserRouter([
                         loader: serviceLoader,
                     },
                     {
+                        path: "/conditions/:id",
+                        element: <ConditionDetails />,
+                        loader: conditionLoader,
+                    },
+                    {
                         path: "/programs/:id",
                         element: <ProgramDetails />,
                         loader: programLoader,
@@ -203,6 +210,10 @@ const router = createBrowserRouter([
                         path: "/programs/:id",
                         element: <ProgramDetails />,
                         loader: programLoader,
+                    },
+                    {
+                        path: "/programs",
+                        element: <Programs />,
                     },
                     {
                         path: "/appointment",
@@ -225,11 +236,6 @@ const router = createBrowserRouter([
                     {
                         path: "/review",
                         element: <Review />,
-                    },
-                    // Form Test
-                    {
-                        path: "/test",
-                        element: <IntakeForm data={DATA} />,
                     },
                     { path: "*", element: <div>Coming Soon!</div> },
                 ],

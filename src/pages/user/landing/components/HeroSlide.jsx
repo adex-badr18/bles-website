@@ -57,7 +57,7 @@ const HeroSlide = ({
                             {topSmallText}
                         </h4>
                         <h1
-                            className={`text-2xl sm:text-3xl md:text-5xl text-darkBlue font-semibold md:font-bold capitalize ${
+                            className={`text-2xl sm:text-3xl md:text-5xl text-originalGreen font-semibold md:font-bold capitalize ${
                                 visibleTextIndex > 1
                                     ? "animate-fade-up"
                                     : "opacity-0"
@@ -86,7 +86,7 @@ const HeroSlide = ({
                         <LinkButton
                             name={ctaText}
                             to={ctaLink}
-                            bgColor="red"
+                            bgColor=""
                             icon={ctaIcon}
                             classAttrs="shadow"
                         />

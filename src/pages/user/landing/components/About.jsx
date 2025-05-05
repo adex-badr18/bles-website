@@ -1,5 +1,6 @@
 import SectionHeader from "../../../../components/SectionHeader";
-import aboutImage from "../../../../assets/three-image.png";
+import aboutImage from "../../../../assets/logo-mark.png";
+// import aboutImage from "../../../../assets/three-image.png";
 import LinkButton from "../../../../components/LinkButton";
 
 import { CgChevronDoubleRight } from "react-icons/cg";
@@ -10,34 +11,35 @@ import { LuStethoscope, LuBrainCircuit } from "react-icons/lu";
 import { RiPsychotherapyLine } from "react-icons/ri";
 import { MdOutlineHealthAndSafety } from "react-icons/md";
 import { PiStethoscope } from "react-icons/pi";
+import { Link } from "react-router-dom";
 
 const servicesData = [
     {
         id: 1,
-        text: "Medicine Management",
+        text: "Medication Management",
         icon: (
-            <LiaCapsulesSolid className="text-vividRed text-6xl md:text-[80px]" />
+            <LiaCapsulesSolid className="text-originalGreen text-6xl md:text-[80px]" />
         ),
     },
     {
         id: 2,
         text: "Group/Individual Therapy",
         icon: (
-            <PiStethoscope className="text-vividRed text-6xl md:text-[80px]" />
+            <PiStethoscope className="text-originalGreen text-6xl md:text-[80px]" />
         ),
     },
     {
         id: 3,
         text: "Psychiatric Rehabilitation",
         icon: (
-            <RiPsychotherapyLine className="text-vividRed text-6xl md:text-[80px]" />
+            <RiPsychotherapyLine className="text-originalGreen text-6xl md:text-[80px]" />
         ),
     },
     {
         id: 4,
         text: "SUD Program",
         icon: (
-            <MdOutlineHealthAndSafety className="text-vividRed text-6xl md:text-[80px]" />
+            <MdOutlineHealthAndSafety className="text-originalGreen text-6xl md:text-[80px]" />
         ),
     },
 ];
@@ -45,49 +47,52 @@ const servicesData = [
 const About = () => {
     return (
         <section className="p-8 md:py-20">
-            <div className="flex flex-col lg:flex-row lg:items-center gap-10 w-full min-w-0  max-w-[1320px] mx-auto">
-                <div className="">
+            <div className="flex flex-col lg:flex-row lg:items-center gap-20 w-full min-w-0  max-w-[1320px] mx-auto">
+                <div className="hidden lg:block">
                     <img src={aboutImage} alt="" className="object-cover" />
                 </div>
 
                 <div className="">
                     <SectionHeader
                         bgTitle="About"
-                        primaryTitle="Read About BrightLife Enhancement Services (BLES)"
+                        primaryTitle="BrightLife Enhancement Services (BLES)"
                         secondaryTitle="About Us"
-                        titleAlignment="left"
+                        titleAlignment=""
                     />
 
                     <div className="space-y-10">
                         <div className="space-y-5">
                             <p className="font-rubik text-grey leading-[28px] text-justify">
-                                <span className="text-vividRed font-bold">
+                                <span className="text-originalGreen font-bold">
                                     BrightLife Enhancement Services
                                 </span>{" "}
-                                was created with the goal of helping more people
-                                receive quality behavioral health services. As a
-                                practice, we adopt a supportive approach.
-                                Meaning, each of our clients is our partner in
-                                addressing their unique needs. We are also open
-                                to working with other care providers for our
-                                clients to promote their holistic well-being.
+                                was founded by Mia (Islammiyyah Al-Ameen) with a
+                                clear mission: to break the cycle and empower
+                                individuals to lead functional, fulfilling lives
+                                within their communities. She believed that true
+                                healing happens beyond hospital walls—within
+                                supportive environments where people are guided,
+                                heard, and valued.
                             </p>
 
                             <div className="flex flex-col items-start sm:flex-row sm:justify-between sm:items-center gap-5">
                                 <LinkButton
                                     name="Learn More"
                                     to="/about"
-                                    bgColor="red"
+                                    bgColor="green"
                                     icon={
                                         <CgChevronDoubleRight className="text-base" />
                                     }
                                 />
 
                                 <div className="flex items-center gap-5">
-                                    <FiPhoneCall className="text-vividRed text-[40px]" />
-                                    <span className="text-darkBlue text-[20px] font-medium font-rubik">
+                                    <FiPhoneCall className="text-deepGreen text-[40px]" />
+                                    <Link
+                                        to="tel:4109882655"
+                                        className="text-darkBlue text-[20px] font-medium font-rubik"
+                                    >
                                         +1(410)-988-2655
-                                    </span>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -96,10 +101,10 @@ const About = () => {
                             {servicesData.map((service) => (
                                 <div
                                     key={service.id}
-                                    className="flex flex-col gap-3"
+                                    className="flex flex-col gap-3 items-center"
                                 >
                                     {service.icon}
-                                    <span className="text-darkBlue font-poppins font-semibold">
+                                    <span className="text-darkBlue text-center font-poppins font-semibold">
                                         {service.text}
                                     </span>
                                 </div>

@@ -8,6 +8,7 @@ import Blog from "./components/Blog";
 import StatsAppointment from "./components/StatsAppointment";
 import Experts from "./components/Experts";
 import AcceptedInsurance from "./components/AcceptedInsurance";
+import Conditions from "./components/Conditions";
 
 const Home = () => {
     return (
@@ -15,6 +16,7 @@ const Home = () => {
             <Hero />
             <About />
             <AcceptedInsurance />
+            <Conditions />
             <Services />
             <Programs />
             <Experts />

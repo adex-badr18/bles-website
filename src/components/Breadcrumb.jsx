@@ -9,11 +9,11 @@ const Breadcrumb = ({ obj, page }) => {
         }
 
         if (!isNaN(path)) {
-            return { id: index + 1, name: obj.shortName, link: "" };
+            return { id: index + 1, name: obj.shortName || obj.name, link: "" };
         }
 
         if (path.includes("-")) {
-            return {id: index + 1, name: obj.title, link: ""}
+            return { id: index + 1, name: obj.title || obj.name, link: "" };
         }
 
         return {
@@ -33,7 +33,10 @@ const Breadcrumb = ({ obj, page }) => {
                     : "bg-deepBlue"
             } bg-no-repeat bg-cover bg-center`}
         >
-            <h1 data-aos="fade-up" className="text-white text-center text-[40px] font-bold">
+            <h1
+                data-aos="fade-up"
+                className="text-white text-center text-[40px] font-bold"
+            >
                 {obj.name}
             </h1>
 

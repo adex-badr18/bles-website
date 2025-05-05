@@ -1,3 +1,5 @@
+import { SiInsomnia } from "react-icons/si";
+
 export const SubstanceUseIcon = ({ ...rest }) => {
     return (
         <svg
@@ -95,6 +97,10 @@ export const DelusionalIcon = ({ ...rest }) => {
             </g>
         </svg>
     );
+};
+
+export const InsomniaIcon = ({ ...rest }) => {
+    return <SiInsomnia {...rest} />;
 };
 
 export const AnxietyIcon = ({ ...rest }) => {
