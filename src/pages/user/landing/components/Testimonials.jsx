@@ -46,7 +46,7 @@ const Testimonials = () => {
     const { data, isLoading, isSuccess, isError, error } =
         useGetPublishedReviews({setTestimonialsData, fallbackReviews});
 
-    // console.log(data);
+    console.log(testimonialsData);
 
     useEffect(() => {
         if (data?.reviews.length > 0) {
@@ -96,7 +96,7 @@ const Testimonials = () => {
                     </div>
                 )}
 
-                {isSuccess && testimonialsData.length !== 0 && (
+                {testimonialsData.length !== 0 && (
                     <div className="px-2 space-y-4 sm:mx-auto w-full sm:max-w-[540px] md:max-w-[760px] blg:max-w-[990px] bxl:max-w-[1170px] b2xl:max-w-[1320px]">
                         <div className="hidden md:flex items-center justify-end gap-3">
                             <button
