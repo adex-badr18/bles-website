@@ -89,6 +89,7 @@ const HeroSlide = ({
                             bgColor="green"
                             icon={ctaIcon}
                             classAttrs="shadow"
+                            target="_blank"
                         />
                     </div>
                 </div>
