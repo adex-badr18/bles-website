@@ -32,31 +32,31 @@ export const navMenu = [
         name: "Services",
         to: "/services",
         subMenu: [
-            { id: 1, name: "Anxiety Disorder", to: "/services/6" },
+            { id: 1, name: "Anxiety Disorder", to: "/services/2" },
             {
                 id: 2,
                 name: "Substance Use Disorder",
-                to: "/services/1",
+                to: "/services/5",
             },
             {
                 id: 3,
-                name: "ADHD",
-                to: "/services/8",
+                name: "ADHD & ADD Testing",
+                to: "/services/3",
             },
             {
                 id: 4,
                 name: "Depression",
-                to: "/services/3",
+                to: "/services/1",
             },
             {
                 id: 5,
-                name: "PTSD",
-                to: "/services/12",
+                name: "Schizophrenia",
+                to: "/services/6",
             },
             {
                 id: 6,
                 name: "Bipolar",
-                to: "/services/2",
+                to: "/services/4",
             },
             {
                 id: 7,
@@ -70,20 +70,30 @@ export const navMenu = [
         name: "Programs",
         to: "/programs",
         subMenu: [
-            { id: 1, name: "Outpatient Program", to: "/programs/1" },
+            { id: 1, name: "Comprehensive Mental Health Evaluation", to: "/programs/1" },
             {
                 id: 2,
-                name: "Intensive Outpatient Program (IOP)",
+                name: "Medication Management",
                 to: "/programs/2",
             },
             {
                 id: 3,
-                name: "Partial Hospitalization Program (PHP)",
+                name: "Psychotherapy",
                 to: "/programs/3",
             },
             {
                 id: 4,
-                name: "Residential Program",
+                name: "Medication-Assisted Treatment",
+                to: "/programs/5",
+            },
+            {
+                id: 5,
+                name: "Psychiatric Rehab. Program - Adults",
+                to: "/programs/4",
+            },
+            {
+                id: 6,
+                name: "More Programs",
                 to: "/programs/4",
             },
         ],

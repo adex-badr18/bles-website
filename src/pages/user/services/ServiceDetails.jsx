@@ -1,6 +1,6 @@
 import { Link, NavLink, useLoaderData, useLocation } from "react-router-dom";
-import { servicesData } from "./data";
-import { servicesFastLinks } from "./data";
+import { servicesData, conditionsData } from "./data";
+import { servicesFastLinks, conditionsFastLinks } from "./data";
 
 import LinkButton from "../../../components/LinkButton";
 import StickySideNav from "../../../components/StickySideNav";
@@ -16,7 +16,7 @@ import { BiChevronsRight } from "react-icons/bi";
 export const serviceLoader = async ({ params }) => {
     const id = Number(params.id);
 
-    const serviceInfo = servicesData.filter((service) => service.id === id);
+    const serviceInfo = conditionsData.filter((service) => service.id === id);
 
     return serviceInfo.length > 0
         ? serviceInfo[0]
@@ -116,7 +116,7 @@ const ServiceDetails = () => {
                     </div>
 
                     <StickySideNav
-                        data={servicesFastLinks}
+                        data={conditionsFastLinks}
                         widgetTitle="Services"
                     />
                 </div>
