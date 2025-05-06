@@ -10,55 +10,79 @@ import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 
 import SectionHeader from "../../../../components/SectionHeader";
 import ExpertCard from "./ExpertCard";
-import islammiyyah from "../../../../assets/specialists/islammiyyah-al-ameen.jpeg";
-import jennifer from "../../../../assets/specialists/jennifer-pierce.jpeg";
-import isoken from "../../../../assets/specialists/isoken-e.png";
-import opanin from "../../../../assets/specialists/placeholder-male.png";
-import irene from "../../../../assets/specialists/female-placeholder.png";
-import bukola from "../../../../assets/specialists/female-placeholder.png";
+import oluwadara from "../../../../assets/specialists/oluwadara.webp";
+import islammiyyah from "../../../../assets/specialists/mia.webp";
+import jennifer from "../../../../assets/specialists/jenifer.webp";
+import abiola from "../../../../assets/specialists/abiola.webp";
+import dora from "../../../../assets/specialists/dora.webp";
+import irene from "../../../../assets/specialists/irene.webp";
+import bukola from "../../../../assets/specialists/bukola.webp";
+import piro from "../../../../assets/specialists/piro.webp";
 
 const expertsData = [
     {
         id: 1,
-        image: islammiyyah,
-        name: "Islammiyyah Al-Ameen",
+        image: oluwadara,
+        name: "Oluwadara O.",
+        cert: "CRNP, PMHNP-BC",
         link: "/experts/1",
-        specialization: "Provider",
+        specialization: "Clinical Director",
     },
     {
         id: 2,
-        image: jennifer,
-        name: "Jennifer Pierce",
+        image: islammiyyah,
+        name: "Islammiyyah A.",
+        cert: "CRNP, PMHNP-BC",
         link: "/experts/2",
+        specialization: "Medical Director",
+    },
+    {
+        id: 3,
+        image: jennifer,
+        name: "Jennifer P.",
+        cert: "LCPC",
+        link: "/experts/3",
         specialization: "Lead Counselor",
     },
-    // {
-    //     id: 3,
-    //     image: isoken,
-    //     name: "Isoken E.",
-    //     link: "/experts/3",
-    //     specialization: "PRP Coordinator",
-    // },
-    // {
-    //     id: 4,
-    //     image: opanin,
-    //     name: "Opanin Ba Fosu",
-    //     link: "/experts/4",
-    //     specialization: "Medical Director",
-    // },
+    {
+        id: 4,
+        image: bukola,
+        name: "Bukola A.",
+        cert: "CPRP",
+        link: "/experts/4",
+        specialization: "Rehab Specialist",
+    },
     {
         id: 5,
         image: irene,
-        name: "Irene Nabalamba",
-        link: "/experts/4",
+        name: "Irene N.",
+        cert: "LCSW-C",
+        link: "/experts/5",
         specialization: "Lead Therapist",
     },
     {
         id: 6,
-        image: bukola,
-        name: "Bukola Almaroof",
-        link: "/experts/4",
-        specialization: "Rehab Specialist",
+        image: abiola,
+        name: "Abiola T.",
+        cert: "",
+        link: "/experts/6",
+        specialization: "Lead PRP Coordinator",
+    },
+    {
+        id: 7,
+        image: dora,
+        name: "Dora Rice",
+        cert: "MLT, MA, CPT",
+        link: "/experts/7",
+        specialization: "Business Ops/Compliance Manager",
+    },
+    {
+        id: 8,
+        image: piro,
+        name: "Jacquiline P.",
+        cert: "",
+        link: "/experts/8",
+        specialization: "Graduate Counselor/Intern",
     },
 ];
 
@@ -105,6 +129,7 @@ const Experts = () => {
                                     image={expert.image}
                                     name={expert.name}
                                     specialization={expert.specialization}
+                                    cert={expert.cert}
                                     link={expert.link}
                                 />
                             </SwiperSlide>
@@ -113,13 +138,13 @@ const Experts = () => {
                         <div className="hidden md:flex items-center justify-between absolute inset-x-4 inset-y-0 z-50 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
                             <button
                                 ref={prevBtn}
-                                className="prev-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
+                                className="prev-button bg-deepGreen hover:bg-originalGreen text-white rounded-full p-4 shadow transition-colors duration-300"
                             >
                                 <FaLongArrowAltLeft />
                             </button>
                             <button
                                 ref={nextBtn}
-                                className="next-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
+                                className="next-button bg-deepGreen hover:bg-originalGreen text-white rounded-full p-4 shadow transition-colors duration-300"
                             >
                                 <FaLongArrowAltRight />
                             </button>
