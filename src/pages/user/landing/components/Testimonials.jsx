@@ -44,7 +44,7 @@ const Testimonials = () => {
 
     const [testimonialsData, setTestimonialsData] = useState([]);
     const { data, isLoading, isSuccess, isError, error } =
-        useGetPublishedReviews();
+        useGetPublishedReviews({setTestimonialsData, fallbackReviews});
 
     // console.log(data);
 

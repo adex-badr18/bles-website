@@ -28,12 +28,18 @@ export const useFetchReviews = (page = 1, searchParams) => {
 };
 
 // Search reviews based on search terms
-export const useGetPublishedReviews = () => {
+export const useGetPublishedReviews = ({
+    setTestimonialsData,
+    fallbackReviews,
+}) => {
     return useQuery({
         queryKey: ["publishedReviews"],
         queryFn: getPublishedReviews,
         enabled: true,
         retry: 3,
+        onError: () => {
+            setTestimonialsData(fallbackReviews);
+        },
     });
 };
 
