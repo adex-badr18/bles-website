@@ -17,7 +17,7 @@ const FlexItem = ({ icon, title, text, classAttrs }) => {
 
 export const FlexContactInfo = ({ children, icon, link, classAttrs }) => {
     return (
-        <div className={`flex items-cente gap-2 ${classAttrs}`}>
+        <div className={`flex gap-2 ${classAttrs}`}>
             {icon}
             {link ? (
                 <Link to={link} target="_blank" className="">
