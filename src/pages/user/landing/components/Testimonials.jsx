@@ -84,11 +84,11 @@ const Testimonials = () => {
                     />
                 )}
 
-                {isError && (
+                {/* {isError && (
                     <div className="text-vividRed">
                         {error.message || "Error loading testimonials."}
                     </div>
-                )}
+                )} */}
 
                 {testimonialsData.length === 0 && (
                     <div className="text-deepGrey text-center font-medium">
