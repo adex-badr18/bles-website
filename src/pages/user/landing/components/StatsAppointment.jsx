@@ -120,7 +120,7 @@ const StatsAppointment = () => {
                             <LiaUserNurseSolid className="absolute right-0 bottom-0 md:-right-14 md:-bottom-10 text-[200px] md:text-[300px] text-lightGrey opacity-20" />
 
                             <div className="py-4 flex flex-col gap-6 md:gap-8 relative">
-                                <h3 className="text-xl md:text-2xl font-medium">
+                                <h3 className="text-lg md:text-xxl font-medium">
                                     Start your journey with{" "}
                                     <span className="font-bol text-originalGreen">
                                         BrightLife Enhacement Services

@@ -1,5 +1,6 @@
 import LinkButton from "../../../../components/LinkButton";
 import { MdOutlineContactPage, MdOutlineGroups3 } from "react-icons/md";
+import { GiGearStickPattern } from "react-icons/gi";
 
 const GetInTouch = () => {
     return (
@@ -28,7 +29,7 @@ const GetInTouch = () => {
                         data-aos="fade-up"
                         data-aos-delay="1000"
                     >
-                        We've 15 years of experience in Behavioral Health
+                        We've 15 years of experience in Behavioral & Mental Health
                         services.
                     </p>
                 </div>
@@ -37,18 +38,17 @@ const GetInTouch = () => {
                     <LinkButton
                         name="Contact Us"
                         icon={<MdOutlineContactPage className="" />}
-                        bgColor="red"
+                        bgColor="green"
+                        variant="outline"
                         to="/contact"
-                        classAttrs=""
                         data-aos="fade-right"
                         data-aos-delay="1500"
                     />
                     <LinkButton
                         name="Services"
-                        icon={<MdOutlineGroups3 className="" />}
-                        bgColor=""
+                        icon={<GiGearStickPattern className="" />}
+                        bgColor="green"
                         to="/services"
-                        classAttrs=""
                         data-aos="fade-left"
                         data-aos-delay="1500"
                     />
