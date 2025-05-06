@@ -34,12 +34,12 @@ const Footer = () => {
                             <input
                                 type="text"
                                 name="email"
-                                className="w-full p-3 text-[#626262] rounded-md outline-none"
+                                className="w-full p-3 text-deepGrey rounded-md outline-none"
                                 placeholder="Enter your Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
-                            <button className="absolute inset-y-0 right-0 bg-lightGreen px-4 py-3 rounded-r-md">
+                            <button className="absolute inset-y-0 right-0 bg-deepGreen hover:bg-originalGreen transition-colors duration-300 px-4 py-3 rounded-r-md">
                                 <TbSend className="text-white text-xl" />
                             </button>
                         </div>
@@ -121,6 +121,7 @@ const Footer = () => {
                                     key={item.id}
                                     icon={item.icon}
                                     classAttrs="font-rubik"
+                                    link={item.link}
                                 >
                                     {item.text}
                                 </FlexContactInfo>

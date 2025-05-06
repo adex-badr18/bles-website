@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const FlexItem = ({ icon, title, text, classAttrs }) => {
     return (
         <div className={`flex gap-2 items-center ${classAttrs}`}>
@@ -13,11 +15,17 @@ const FlexItem = ({ icon, title, text, classAttrs }) => {
     );
 };
 
-export const FlexContactInfo = ({ children, icon, classAttrs }) => {
+export const FlexContactInfo = ({ children, icon, link, classAttrs }) => {
     return (
-        <div className={`flex items-center gap-2 ${classAttrs}`}>
+        <div className={`flex items-cente gap-2 ${classAttrs}`}>
             {icon}
-            <p className="">{children}</p>
+            {link ? (
+                <Link to={link} target="_blank" className="">
+                    {children}
+                </Link>
+            ) : (
+                <p className="">{children}</p>
+            )}
         </div>
     );
 };

@@ -12,22 +12,32 @@ export const quickLinks = [
 export const contact = [
     {
         id: 1,
-        text: "226 N Potomac Street, Hagerstown MD 21740.",
-        icon: <MdLocationPin className="text-lightGreen flex-shrink-0" />,
+        text: "226 N Potomac Street, Hagerstown, MD, 21740.",
+        icon: <MdLocationPin className="text-lightGreen flex-shrink-0 mt-1" />,
+        link: "https://maps.app.goo.gl/aXytMQvBwq3CufCz5"
+    },
+    {
+        id: 5,
+        text: "516 N Rolling Road, Catonsville, MD, 21228",
+        icon: <MdLocationPin className="text-lightGreen flex-shrink-0 mt-1" />,
+        link: "https://maps.app.goo.gl/kyVZr7bpfpDGxqUW7"
     },
     {
         id: 2,
         text: "info@blesomhc.com",
-        icon: <MdEmail className="text-lightGreen flex-shrink-0" />,
+        icon: <MdEmail className="text-lightGreen flex-shrink-0 mt-1" />,
+        link: "mailto:info@blesomhc.com"
     },
     {
         id: 3,
-        text: "+1(410)-988-2655",
-        icon: <MdOutlinePhoneIphone className="text-lightGreen flex-shrink-0" />,
+        text: "4109882655",
+        icon: <MdOutlinePhoneIphone className="text-lightGreen flex-shrink-0 mt-1" />,
+        link: "tel:4109882655"
     },
     {
         id: 4,
-        text: "+1(410)-988-2626",
-        icon: <FaFax className="text-lightGreen flex-shrink-0" />,
+        text: "4109882626",
+        icon: <FaFax className="text-lightGreen flex-shrink-0 mt-1" />,
+        link: "tel:4109882626"
     },
 ];
