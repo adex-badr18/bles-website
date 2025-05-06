@@ -26,7 +26,6 @@ const Services = () => {
                             }
                             title="Individual/Couples Therapy"
                             descr="Offers compassionate support to help you navigate personal challenges & strengthen your relationships."
-                            link="/programs/1"
                             data-aos="fade-down-right"
                             data-aos-delay=""
                         />
@@ -37,7 +36,6 @@ const Services = () => {
                             }
                             title="Lifestyle Coaching"
                             descr="Encourages healthy lifestyle (nutrition, exercise, & sleep hygiene) to improve mood and energy levels."
-                            link="/programs/3"
                             data-aos="fade-up-right"
                             data-aos-delay=""
                         />
@@ -50,7 +48,6 @@ const Services = () => {
                             }
                             title="Family Counselling"
                             descr="Engages family members in the treatment process, promoting understanding and support."
-                            link="/programs/2"
                             data-aos="fade-down-left"
                             data-aos-delay=""
                         />
@@ -60,8 +57,7 @@ const Services = () => {
                                 <MdGroups2 className="text-deepGreen text-5xl md:text-7xl" />
                             }
                             title="Group Therapy"
-                            descr="Offers peer support and connection, reinforcing that you are not alone in your journey."
-                            link="/programs/4"
+                            descr="Offers peer support and connection, reinforcing that you are not alone in your journey."                            
                             data-aos="fade-up-left"
                             data-aos-delay=""
                         />

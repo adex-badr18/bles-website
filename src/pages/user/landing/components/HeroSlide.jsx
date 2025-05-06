@@ -86,7 +86,7 @@ const HeroSlide = ({
                         <LinkButton
                             name={ctaText}
                             to={ctaLink}
-                            bgColor=""
+                            bgColor="green"
                             icon={ctaIcon}
                             classAttrs="shadow"
                         />
