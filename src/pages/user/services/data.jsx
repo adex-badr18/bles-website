@@ -38,6 +38,9 @@ import majorDepressionImg from "../../../assets/major-depression.jpg";
 import ocdImg from "../../../assets/ocd.jpg";
 import insomniaImg from "../../../assets/insomnia.webp";
 
+import { MdGroup, MdGroups2, MdOutlineFamilyRestroom } from "react-icons/md";
+import { GiLifeBar } from "react-icons/gi";
+
 export const servicesData = [
     {
         id: 1,
@@ -453,44 +456,6 @@ export const conditionsData = [
         image: insomniaImg,
     },
     {
-        id: 1,
-        name: "Depression & Related Disorders",
-        shortName: "Depression",
-        descr1: "Depression is more than just occasional sadness; it is a serious mental health condition characterized by persistent feelings of sadness, loss of interest, fatigue, and other emotional and physical symptoms that interfere with daily life.",
-        descr2: "We offer a holistic approach to managing depression and related disorders. Our experienced mental health professionals will work closely with you to create an individualized treatment plan tailored to your specific needs and circumstances.",
-        summary: "Persistent sadness that resists treatment.",
-        symptoms: [
-            "Persistent sadness",
-            "Loss of interest",
-            "Fatigue and low energy",
-            "Sleep disturbances",
-            "Feelings of hopelessness",
-            "Difficulty concentrating",
-        ],
-        personalizedTherapy: [
-            {
-                id: 1,
-                title: "Cognitive Behavioral Therapy (CBT):",
-                descr: "Helps identify and modify negative thought patterns.",
-            },
-            {
-                id: 2,
-                title: "Dialectical Behavior Therapy (DBT):",
-                descr: "Equips you with skills to manage emotional instability and distress.",
-            },
-            {
-                id: 3,
-                title: "Interpersonal Therapy:",
-                descr: "Focuses on improving personal relationships and social functioning.",
-            },
-            { id: 4, title: "Medication Management", descr: "" },
-        ],
-        diagnosis:
-            "Recovery from depression is possible. Let BrightLife Enhancement Services guide you toward a brighter, healthier future. Contact us today to begin your healing journey.",
-        icon: <DepressionIcon className="text-deepGreen w-12 md:w-16" />,
-        image: depressionBleso,
-    },
-    {
         id: 2,
         name: "Anxiety & Related Disorders",
         shortName: "Anxiety Disorder",
@@ -533,7 +498,7 @@ export const conditionsData = [
             "If anxiety is interfering with your life, know that you don’t have to face it alone. At BrightLife, we are committed to helping individuals find relief and regain control. Contact us today to learn more about our anxiety treatment options and take the first step toward a calmer, more fulfilling life.",
         icon: <AnxietyIcon className="text-deepGreen w-12 md:w-16" />,
         image: anxietyBleso,
-    },    
+    },
     {
         id: 4,
         name: "Bipolar & Related Disorders",
@@ -555,6 +520,71 @@ export const conditionsData = [
             "Our specialists provide a comprehensive evaluation to identify patterns and triggers, followed by a tailored treatment plan involving therapy, medication, and support systems to achieve emotional balance and long-term stability.",
         icon: <BipolarIcon className="text-deepGreen w-12 md:w-16" />,
         image: bipolarImg,
+    },
+    {
+        id: 1,
+        name: "Depression & Related Disorders",
+        shortName: "Depression",
+        descr1: "Depression is more than just occasional sadness; it is a serious mental health condition characterized by persistent feelings of sadness, loss of interest, fatigue, and other emotional and physical symptoms that interfere with daily life.",
+        descr2: "We offer a holistic approach to managing depression and related disorders. Our experienced mental health professionals will work closely with you to create an individualized treatment plan tailored to your specific needs and circumstances.",
+        summary: "Persistent sadness that resists treatment.",
+        symptoms: [
+            "Persistent sadness",
+            "Loss of interest",
+            "Fatigue and low energy",
+            "Sleep disturbances",
+            "Feelings of hopelessness",
+            "Difficulty concentrating",
+        ],
+        personalizedTherapy: [
+            {
+                id: 1,
+                title: "Cognitive Behavioral Therapy (CBT):",
+                descr: "Helps identify and modify negative thought patterns.",
+            },
+            {
+                id: 2,
+                title: "Dialectical Behavior Therapy (DBT):",
+                descr: "Equips you with skills to manage emotional instability and distress.",
+            },
+            {
+                id: 3,
+                title: "Interpersonal Therapy:",
+                descr: "Focuses on improving personal relationships and social functioning.",
+            },
+            { id: 4, title: "Medication Management", descr: "" },
+        ],
+        diagnosis:
+            "Recovery from depression is possible. Let BrightLife Enhancement Services guide you toward a brighter, healthier future. Contact us today to begin your healing journey.",
+        icon: <DepressionIcon className="text-deepGreen w-12 md:w-16" />,
+        image: depressionBleso,
+    },
+];
+
+export const supportiveServicesData = [
+    {
+        id: 1,
+        name: "Individual/Couples Therapy",
+        descr: "Offers compassionate support to help you navigate personal challenges & strengthen your relationships.",
+        icon: <MdGroup className="text-deepGreen text-5xl md:text-7xl" />,
+    },
+    {
+        id: 2,
+        name: "Lifestyle Coaching",
+        descr: "Encourages healthy lifestyle (nutrition, exercise, & sleep hygiene) to improve mood and energy levels.",
+        icon: <GiLifeBar className="text-deepGreen text-5xl md:text-7xl" />,
+    },
+    {
+        id: 3,
+        name: "Family Counselling",
+        descr: "Engages family members in the treatment process, promoting understanding and support.",
+        icon: <MdOutlineFamilyRestroom className="text-deepGreen text-5xl md:text-7xl" />,
+    },
+    {
+        id: 4,
+        name: "Group Therapy",
+        descr: "Offers peer support and connection, reinforcing that you are not alone in your journey.",
+        icon: <MdGroups2 className="text-deepGreen text-5xl md:text-7xl" />,
     },
 ];
 

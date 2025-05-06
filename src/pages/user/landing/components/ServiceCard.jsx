@@ -16,15 +16,19 @@ const ServiceCard = ({ icon, title, descr, link, ...rest }) => {
                     {title}
                 </h3>
 
-                <p className="font-rubik text-grey leading-7">{descr}</p>
+                {descr && (
+                    <p className="font-rubik text-grey leading-7">{descr}</p>
+                )}
 
-                {/* <Link
-                    to={link}
-                    className="flex items-center gap-1 text-originalGreen font-poppins font-semibold text-base"
-                >
-                    <span className="">Read More</span>
-                    <CgChevronDoubleRight className="text-lg" />
-                </Link> */}
+                {link && (
+                    <Link
+                        to={link}
+                        className="flex items-center gap-1 text-originalGreen font-poppins font-semibold text-base"
+                    >
+                        <span className="">Read More</span>
+                        <CgChevronDoubleRight className="text-lg" />
+                    </Link>
+                )}
             </div>
         </div>
     );

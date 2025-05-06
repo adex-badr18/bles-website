@@ -26,7 +26,7 @@ const About = () => {
                 <div className="space-y-5 flex-1">
                     <h2 className="text-darkBlue text-2xl font-semibold">
                         The Story of BrightLife: A Vision from Mia, Founder of{" "}
-                        <span className="text-vividRed font-bold">
+                        <span className="text-originalGreen font-bold">
                             BrightLife Enhancement Services
                         </span>
                     </h2>
@@ -86,7 +86,7 @@ const About = () => {
                     </div>
 
                     <div className="space-y-5 flex-[5]">
-                        <h2 className="text-darkBlue text-2xl font-semibold">
+                        <h2 className="text-originalGreen text-2xl font-semibold">
                             BrightLife Logo Story: A Symbol of Hope, Unity, and
                             Care
                         </h2>
@@ -157,7 +157,7 @@ const About = () => {
                             </span>
                         </p>
 
-                        <div className="flex items-center gap-8 text-lightGreen text-4xl py-5">
+                        <div className="flex items-center gap-8 text-originalGreen text-4xl py-5">
                             <TbSquareLetterL />
                             <MdOutlineAdd />
                             <MdOutlineStarBorder />
@@ -173,7 +173,7 @@ const About = () => {
                             />
                         </div>
 
-                        <p className="text-lightGreen text-lg md:text-xl">
+                        <p className="text-originalGreen text-lg md:text-xl">
                             <span className="font-bold">BrightLife:</span>{" "}
                             Lighting the path to healing, together.
                         </p>
