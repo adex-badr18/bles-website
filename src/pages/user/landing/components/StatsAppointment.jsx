@@ -16,6 +16,7 @@ import { LiaUsersSolid, LiaUserNurseSolid } from "react-icons/lia";
 import { RiSendPlaneLine } from "react-icons/ri";
 import { TbSend } from "react-icons/tb";
 import { MdOutlineScheduleSend } from "react-icons/md";
+import { RiCalendarScheduleLine } from "react-icons/ri";
 import LinkButton from "../../../../components/LinkButton";
 
 const statsData = [
@@ -23,25 +24,25 @@ const statsData = [
         id: 1,
         title: "Professional Specialists",
         val: 25,
-        icon: <FaUserDoctor className="text-lightGreen text-[80px]" />,
+        icon: <FaUserDoctor className="text-originalGreen text-[80px]" />,
     },
     {
         id: 2,
         title: "Satisfied Patients",
         val: 1030,
-        icon: <LiaUsersSolid className="text-lightGreen text-[80px]" />,
+        icon: <LiaUsersSolid className="text-originalGreen text-[80px]" />,
     },
     {
         id: 3,
         title: "Years of Experience",
         val: 15,
-        icon: <GrAchievement className="text-lightGreen text-[80px]" />,
+        icon: <GrAchievement className="text-originalGreen text-[80px]" />,
     },
     {
         id: 4,
         title: "Acclaimed Recognition",
         val: 178,
-        icon: <GiLaurelCrown className="text-lightGreen text-[80px]" />,
+        icon: <GiLaurelCrown className="text-originalGreen text-[80px]" />,
     },
 ];
 
@@ -59,7 +60,7 @@ const StatsAppointment = () => {
 
     return (
         <section ref={ref} className="py-8 md:py-20">
-            <div className="bg-vividRed py-6 px-4">
+            <div className="bg-deepGreen py-6 px-4">
                 <div className="w-full max-w-[1320px] mx-auto">
                     <div className="flex items-center justify-center">
                         <p className="text-lg font-poppins font-semibold text-white text-center">
@@ -111,7 +112,7 @@ const StatsAppointment = () => {
 
                         <div className="font-poppins bg-white text-deepGrey p-6 lg:px-[50px] blg:-mt-10 w-full blg:w-[470px] relative">
                             <h2 className="text-3xl font-semibold mb-5">
-                                <span className="text-lg block text-vividRed">
+                                <span className="text-lg block text-originalGreen">
                                     Make an
                                 </span>
                                 <span className="">Appointment</span>
@@ -120,8 +121,8 @@ const StatsAppointment = () => {
 
                             <div className="py-4 flex flex-col gap-6 md:gap-8 relative">
                                 <h3 className="text-xl md:text-2xl font-medium">
-                                    Schedule your appointment with{" "}
-                                    <span className="font-bol text-vividRed">
+                                    Start your journey with{" "}
+                                    <span className="font-bol text-originalGreen">
                                         BrightLife Enhacement Services
                                     </span>{" "}
                                     today.
@@ -130,7 +131,7 @@ const StatsAppointment = () => {
                                     <em className="">
                                         "Every day is a new opportunity for
                                         change. Together, we can build a{" "}
-                                        <span className="text-vividRed">
+                                        <span className="text-originalGreen">
                                             brighter
                                         </span>{" "}
                                         future filled with hope and resilience."
@@ -140,10 +141,10 @@ const StatsAppointment = () => {
                                     name="Schedule Now"
                                     to="/appointment"
                                     icon={
-                                        <MdOutlineScheduleSend />
+                                        <RiCalendarScheduleLine />
                                     }
                                     classAttrs=""
-                                    bgColor="red"
+                                    bgColor="green"
                                 />
                             </div>
                         </div>
