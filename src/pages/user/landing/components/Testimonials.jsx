@@ -60,7 +60,11 @@ const Testimonials = () => {
         } else {
             setTestimonialsData(fallbackReviews);
         }
-    }, [data, isSuccess]);
+
+        if (isError) {
+            setTestimonialsData(fallbackReviews);
+        }
+    }, [data, isSuccess, isError]);
 
     return (
         <section className={`py-8 md:py-20`}>
