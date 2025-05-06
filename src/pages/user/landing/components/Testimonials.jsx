@@ -17,32 +17,26 @@ import testImage3 from "../../../../assets/doc3.webp";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 import Spinner from "../../../../components/Spinner";
 
-// const testimonialsData = [
-//     {
-//         id: 1,
-//         name: "John Budapest",
-//         message:
-//             "Lorem ipsum is a dolor sitae amet consctet of and the voluptata laboriosam and then null on the ofen delenitie reiciendis as voliuptibu and the laboriosam on and nulla ideleniti and many lore other important quotes.",
-//         profession: "Architect",
-//         image: testImage1,
-//     },
-//     {
-//         id: 2,
-//         name: "Chris Anthony",
-//         message:
-//             "Lorem ipsum is a dolor sitae amet consctet of and the voluptata laboriosam and then null on the ofen delenitie reiciendis as voliuptibu and the laboriosam on and nulla ideleniti and many lore other important quotes.",
-//         profession: "Software Developer",
-//         image: testImage2,
-//     },
-//     {
-//         id: 3,
-//         name: "Mike Taylor",
-//         message:
-//             "Lorem ipsum is a dolor sitae amet consctet of and the voluptata laboriosam and then null on the ofen delenitie reiciendis as voliuptibu and the laboriosam on and nulla ideleniti and many lore other important quotes.",
-//         profession: "Surgeon",
-//         image: testImage3,
-//     },
-// ];
+const fallbackReviews = [
+    {
+        id: 1,
+        name: "Jamie Lee",
+        message:
+            "BrightLife Enhancement Services offered me unparalleled support during my recovery. Their dedicated team crafted a personalized plan that truly resonated with me, promoting lasting change. I am grateful for their unwavering commitment to my well-being.",
+    },
+    {
+        id: 2,
+        name: "Alex Morgan",
+        message:
+            "BrightLife Enhancement Services transformed my life! Their compassionate and skilled team helped me navigate my recovery journey with personalized care. I now feel stronger, more confident, and ready to embrace the future. Highly recommend their services to anyone seeking positive change.",
+    },
+    {
+        id: 3,
+        name: "Taylor Smith",
+        message:
+            "BrightLife Enhancement Services provided the guidance and support I needed to reclaim my life. Their team's expertise and genuine care made my recovery journey a transformative experience. I am forever grateful for the hope and resilience they instilled in me.",
+    },
+];
 
 const Testimonials = () => {
     const prevButton = useRef();
@@ -52,16 +46,19 @@ const Testimonials = () => {
     const { data, isLoading, isSuccess, isError, error } =
         useGetPublishedReviews();
 
-    console.log(data);
+    // console.log(data);
+
     useEffect(() => {
         if (data?.reviews.length > 0) {
-            const transformedReviews = data?.reviews.map((review) => ({
-                id: 3,
+            const transformedReviews = data?.reviews.map((review, index) => ({
+                id: review.id || index,
                 name: review.nickname,
                 message: review.message,
             }));
 
             setTestimonialsData(transformedReviews);
+        } else {
+            setTestimonialsData(fallbackReviews);
         }
     }, [data, isSuccess]);
 
@@ -100,13 +97,13 @@ const Testimonials = () => {
                         <div className="hidden md:flex items-center justify-end gap-3">
                             <button
                                 ref={prevButton}
-                                className="prev-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
+                                className="prev-button bg-deepGreen hover:bg-originalGreen text-white rounded-full p-4 shadow transition-colors duration-300"
                             >
                                 <FaLongArrowAltLeft />
                             </button>
                             <button
                                 ref={nextButton}
-                                className="next-button bg-vividRed hover:bg-lightGreen text-white rounded-full p-4 shadow"
+                                className="next-button bg-deepGreen hover:bg-originalGreen text-white rounded-full p-4 shadow transition-colors duration-300"
                             >
                                 <FaLongArrowAltRight />
                             </button>
@@ -115,7 +112,7 @@ const Testimonials = () => {
                             modules={[Navigation, Pagination, Autoplay]}
                             loop={true}
                             autoplay={{
-                                delay: 5000,
+                                delay: 10000,
                                 disableOnInteraction: false,
                             }}
                             pagination={{

@@ -14,11 +14,11 @@ body {
 }
 
 .pagination-wrapper span {
-    @apply w-[14px] h-[14px] bg-vividRed cursor-pointer rounded-full
+    @apply w-[14px] h-[14px] bg-transparent border border-deepGreen cursor-pointer rounded-full
 }
 
 .pagination-wrapper span.pagination-bullet-active {
-    @apply bg-lightGreen shadow transform scale-150 transition-all mx-1 duration-300
+    @apply bg-deepGreen border-none shadow transform scale-150 transition-all mx-1 duration-300
 }
 
 .react-datepicker-wrapper {

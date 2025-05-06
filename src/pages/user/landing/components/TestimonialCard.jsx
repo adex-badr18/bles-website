@@ -17,7 +17,7 @@ const TestimonialCard = ({ image, message, name, profession }) => {
                 </p>
 
                 <div className="flex items-start gap-2">
-                    <MdOutlineFormatQuote className="text-vividRed text-[35px]" />
+                    <MdOutlineFormatQuote className="text-deepGreen text-[35px]" />
                     <div className="">
                         <h3 className="text-darkBlue text-xl font-semibold leading-[32px]">
                             {name}
