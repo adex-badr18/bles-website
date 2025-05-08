@@ -37,7 +37,6 @@ const Settings = () => {
             lastName: admin.profile.lastName || "",
             email: admin.profile.email || "",
         },
-        // appointment: { dateTime: "" },
         login: { currentPassword: "", newPassword: "", confirmNewPassword: "" },
     });
 
@@ -124,10 +123,6 @@ const Settings = () => {
                     onChange={handleFormElementChange}
                 />
             )}
-
-            {/* {tabIndex === 2 && (
-                <AppointmentTab formData={formData} onChange={handleFormElementChange} />
-            )} */}
         </section>
     );
 };

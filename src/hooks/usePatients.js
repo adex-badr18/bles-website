@@ -187,21 +187,21 @@ export const useUpdatePatient = () => {
     });
 };
 
-// Update a patient
+// Update a patient info by uploading their pdf form
 export const useUploadPatientRegPdf = () => {
     const queryClient = useQueryClient();
     const { showToast } = useToast();
     const navigate = useNavigate()
 
     return useMutation({
-        mutationFn: ({ patientId, payload, endpoint }) =>
-            uploadPatientRegPdf({payload, endpoint}),
+        mutationFn: ({ patientId, payload }) =>
+            uploadPatientRegPdf(patientId, payload),
         onMutate: async ({ patientId, payload }) => {
             await queryClient.cancelQueries(["patient", patientId]);
 
-            const previousPatient = queryClient.getQueryData(["patient", id]);
+            const previousPatient = queryClient.getQueryData(["patient", patientId]);
 
-            queryClient.setQueryData(["patient", id], (prev) => ({
+            queryClient.setQueryData(["patient", patientId], (prev) => ({
                 ...prev,
                 ...payload,
             }));

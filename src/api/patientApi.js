@@ -92,7 +92,7 @@ export const generatePatientId = async () => {
     return response;
 };
 
-// Update a patient by ID
+// Update a patient by uploading their registration form
 export const uploadPatientRegPdf = async (patientId, payload) => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     const response = await api.put(
