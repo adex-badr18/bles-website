@@ -79,13 +79,23 @@ const UpdateRegistration = () => {
                         patient?.personalInfo?.appointmentReminderMode || "",
                     email: patient?.personalInfo?.email || "",
                     sendMsgToHomePhone:
-                        convertBooleanToText(patient?.personalInfo?.sendMsgToHomePhone) || "",
+                        convertBooleanToText(
+                            patient?.personalInfo?.sendMsgToHomePhone
+                        ) || "",
                     sendMsgToRelative:
-                        convertBooleanToText(patient?.personalInfo?.sendMsgToRelative) || "",
-                    sendMsgToWork: convertBooleanToText(patient?.personalInfo?.sendMsgToWork) || "",
+                        convertBooleanToText(
+                            patient?.personalInfo?.sendMsgToRelative
+                        ) || "",
+                    sendMsgToWork:
+                        convertBooleanToText(
+                            patient?.personalInfo?.sendMsgToWork
+                        ) || "",
                     sendMsgToCellPhone:
-                        convertBooleanToText(patient?.personalInfo?.sendMsgToCellPhone) || "",
+                        convertBooleanToText(
+                            patient?.personalInfo?.sendMsgToCellPhone
+                        ) || "",
                     address: {
+                        id: patient?.personalInfo?.address?.id || "",
                         streetName:
                             patient?.personalInfo?.address.streetName || "",
                         city: patient?.personalInfo?.address.city || "",
@@ -105,6 +115,7 @@ const UpdateRegistration = () => {
                         patient?.personalInfo?.preferredLanguage || "",
                 },
                 guarantor: {
+                    id: patient?.guarantor?.id || "",
                     firstName: patient?.guarantor?.firstName || "",
                     // middleName: patient?.guarantor?.firstName || "",
                     lastName: patient?.guarantor?.lastName || "",
@@ -113,6 +124,7 @@ const UpdateRegistration = () => {
                         : null,
                     relationship: patient?.guarantor?.relationship || "",
                     address: {
+                        id: patient?.guarantor?.address?.id || "",
                         streetName:
                             patient?.guarantor?.address?.streetName || "",
                         city: patient?.guarantor?.address?.city || "",
@@ -125,6 +137,7 @@ const UpdateRegistration = () => {
                     insuranceCard: patient?.guarantor?.insuranceCard || "",
                 },
                 parent: {
+                    id: patient?.parentGuardian?.id || "",
                     firstName: patient?.parentGuardian?.firstName || "",
                     // middleName: patient?.parentGuardian?.firstName || "",
                     lastName: patient?.parentGuardian?.lastName || "",
@@ -138,6 +151,7 @@ const UpdateRegistration = () => {
                     employer: patient?.parentGuardian?.employer || "",
                     occupation: patient?.parentGuardian?.occupation || "",
                     address: {
+                        id: patient?.parentGuardian?.address?.id || "",
                         streetName:
                             patient?.parentGuardian?.address?.streetName || "",
                         city: patient?.parentGuardian?.address?.city || "",
@@ -147,11 +161,13 @@ const UpdateRegistration = () => {
                     },
                 },
                 emergency: {
+                    id: patient?.emergency?.id || "",
                     firstName: patient?.emergency?.firstName || "",
                     // middleName: patient?.emergency?.firstName || "",
                     lastName: patient?.emergency?.lastName || "",
                     relationship: patient?.emergency?.relationship || "",
                     address: {
+                        id: patient?.emergency?.address?.id || "",
                         streetName:
                             patient?.emergency?.address?.streetName || "",
                         city: patient?.emergency?.address?.city || "",
@@ -165,6 +181,8 @@ const UpdateRegistration = () => {
                 insurance: {
                     paymentMode: patient?.paymentStructure?.paymentMode || "",
                     primaryInsurance: {
+                        id: primaryInsurance?.id || "",
+                        primary: true,
                         policyHolder: {
                             firstName:
                                 primaryInsurance?.policyHolder?.firstName || "",
@@ -212,6 +230,9 @@ const UpdateRegistration = () => {
                                   ).toLocaleDateString()
                                 : null,
                             address: {
+                                id:
+                                    primaryInsurance?.insuranceProvider?.address
+                                        ?.id || "",
                                 streetName:
                                     primaryInsurance?.insuranceProvider?.address
                                         ?.streetName || "",
@@ -228,6 +249,8 @@ const UpdateRegistration = () => {
                         },
                     },
                     secondaryInsurance: {
+                        id: secondaryInsurance?.id || "",
+                        primary: false,
                         policyHolder: {
                             firstName:
                                 secondaryInsurance?.policyHolder?.firstName ||
@@ -280,6 +303,9 @@ const UpdateRegistration = () => {
                             // haveCoordinationBenefits:
                             //     secondaryInsurance?.insuranceProvider?.haveCoordinationBenefits || "",
                             address: {
+                                id:
+                                    secondaryInsurance?.insuranceProvider
+                                        ?.address?.id || "",
                                 streetName:
                                     secondaryInsurance?.insuranceProvider
                                         ?.address?.streetName || "",
@@ -328,7 +354,7 @@ const UpdateRegistration = () => {
         return false;
     };
 
-    console.log(formData)
+    console.log(formData);
 
     const tabButtons = [
         { id: 1, tabName: "Personal", isDisabled: false },
@@ -415,53 +441,51 @@ const UpdateRegistration = () => {
             />
 
             <div className="bg-offWhite p-4 md:p-6 rounded-lg">
+                {tabIndex === 1 && (
+                    <PersonalUpdateForm
+                        formData={formData}
+                        onChange={handleFormElementChange}
+                    />
+                )}
 
-            
-            {tabIndex === 1 && (
-                <PersonalUpdateForm
-                    formData={formData}
-                    onChange={handleFormElementChange}
-                />
-            )}
+                {tabIndex === 2 && (
+                    <ParentUpdateForm
+                        formData={formData}
+                        handleInputChange={handleFormElementChange}
+                    />
+                )}
 
-            {tabIndex === 2 && (
-                <ParentUpdateForm
-                    formData={formData}
-                    handleInputChange={handleFormElementChange}
-                />
-            )}
+                {tabIndex === 3 && (
+                    <GuarantorUpdateForm
+                        formData={formData}
+                        handleInputChange={handleFormElementChange}
+                    />
+                )}
 
-            {tabIndex === 3 && (
-                <GuarantorUpdateForm
-                    formData={formData}
-                    handleInputChange={handleFormElementChange}
-                />
-            )}
+                {tabIndex === 4 && (
+                    <EmergencyUpdateForm
+                        formData={formData}
+                        handleInputChange={handleFormElementChange}
+                    />
+                )}
 
-            {tabIndex === 4 && (
-                <EmergencyUpdateForm
-                    formData={formData}
-                    handleInputChange={handleFormElementChange}
-                />
-            )}
+                {tabIndex === 5 && (
+                    <PaymentInfoUpdateForm
+                        formData={formData}
+                        onChange={handleFormElementChange}
+                    />
+                )}
 
-            {tabIndex === 5 && (
-                <PaymentInfoUpdateForm
-                    formData={formData}
-                    onChange={handleFormElementChange}
-                />
-            )}
+                {tabIndex === 6 && (
+                    <ConsentUpdateForm
+                        formData={formData}
+                        onChange={handleFormElementChange}
+                        consents={consents}
+                        setConsents={setConsents}
+                    />
+                )}
 
-            {tabIndex === 6 && (
-                <ConsentUpdateForm
-                    formData={formData}
-                    onChange={handleFormElementChange}
-                    consents={consents}
-                    setConsents={setConsents}
-                />
-            )}
-
-            {tabIndex === 7 && <PdfUpload formData={formData} />}
+                {tabIndex === 7 && <PdfUpload formData={formData} />}
             </div>
         </section>
     );

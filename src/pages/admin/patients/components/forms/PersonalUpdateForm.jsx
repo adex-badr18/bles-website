@@ -8,8 +8,6 @@ const PersonalUpdateForm = ({ formData, onChange }) => {
     const { mutate, isPending, error, data } = useUpdatePatient();
     const {id} = useParams()
 
-    console.log(formData.patientId)
-
     const handleSubmit = () => {
         // Prepare personal info update payload
         const formattedData = {
@@ -26,10 +24,6 @@ const PersonalUpdateForm = ({ formData, onChange }) => {
                 formData.personal.sendMsgToCellPhone
             ),
         };
-
-        console.log(formattedData);
-
-        // const formDataPayload = objectToFormData(formattedData);
 
         // TODO: Update personal info
         mutate({

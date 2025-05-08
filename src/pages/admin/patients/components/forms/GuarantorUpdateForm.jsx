@@ -17,15 +17,11 @@ const GuarantorUpdateForm = ({ formData, handleInputChange }) => {
             dob: formatToYYYYMMDD(formData.guarantor.dob),
         };
 
-        console.log(formattedData);
-
-        const formDataPayload = objectToFormData(formattedData);
-
-        // TODO: Update personal info
+        // TODO: Update guarantor info
         mutate({
-            patientId: formData?.patientId,
-            payload: formDataPayload,
-            endpoint: `patients/forms/register/${formData.patientId}/guarantor/${formData.id}`,
+            patientId: formData?.identification?.patientId,
+            payload: formattedData,
+            endpoint: `patients/forms/register/${formData.identification.patientId}/guarantor/${formData.guarantor.id}`,
         });
     };
 

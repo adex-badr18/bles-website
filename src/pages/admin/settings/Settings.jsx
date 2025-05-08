@@ -95,7 +95,7 @@ const Settings = () => {
         return (
             <Spinner
                 secondaryText="Loading..."
-                borderClass="border-green"
+                borderClass="border-originalGreen"
                 spinnerSize="w-10 h-10"
             />
         );

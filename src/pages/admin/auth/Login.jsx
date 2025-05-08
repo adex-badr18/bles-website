@@ -26,7 +26,11 @@ const Login = () => {
         e.preventDefault();
 
         const payload = objectToFormData(formData);
-        mutate(payload);
+        // mutate(payload);
+
+        // Temporary login
+        login(formData)
+        navigate(from, { replace: true });
     };
 
     return (

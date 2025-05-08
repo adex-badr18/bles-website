@@ -9,15 +9,11 @@ const EmergencyUpdateForm = ({ formData, handleInputChange }) => {
         // Prepare personal info update payload
         const formattedData = { ...formData.emergency };
 
-        console.log(formattedData);
-
-        const formDataPayload = objectToFormData(formattedData);
-
-        // TODO: Update personal info
+        // TODO: Update emergency info
         mutate({
-            patientId: formData?.patientId,
-            payload: formDataPayload,
-            endpoint: `patients/forms/register/${formData.patientId}/emergency/${formData.id}`,
+            patientId: formData?.identification.patientId,
+            payload: formattedData,
+            endpoint: `patients/forms/register/${formData.identification.patientId}/emergency-contact/${formData.identification.id}`,
         });
     };
 

@@ -2,7 +2,12 @@ import SelectField from "../../../../../components/SelectField";
 import SubmitButton from "../../../../../components/SubmitButton";
 import TextField from "../../../../../components/TextField";
 import { useUpdatePatient } from "../../../../../hooks/usePatients";
-import { employmentOptions, familyRoleOptions, genderOptions, maritalStatusOptions } from "../../../../user/patientForms/data";
+import {
+    employmentOptions,
+    familyRoleOptions,
+    genderOptions,
+    maritalStatusOptions,
+} from "../../../../user/patientForms/data";
 
 const ParentUpdateForm = ({ formData, handleInputChange }) => {
     const { mutate, isPending, error, data } = useUpdatePatient();
@@ -11,15 +16,11 @@ const ParentUpdateForm = ({ formData, handleInputChange }) => {
         // Prepare parent info update payload
         const formattedData = { ...formData.parent };
 
-        console.log(formattedData);
-
-        const formDataPayload = objectToFormData(formattedData);
-
         // TODO: Update parent info
         mutate({
-            patientId: formData?.patientId,
-            payload: formDataPayload,
-            endpoint: `patients/forms/register/${formData.patientId}/parent-guardian/${formData.id}`,
+            patientId: formData?.identification?.patientId,
+            payload: formattedData,
+            endpoint: `patients/forms/register/${formData.identification.patientId}/parent-guardian/${formData.parent.id}`,
         });
     };
 

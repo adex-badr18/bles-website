@@ -57,15 +57,11 @@ const PaymentInfoUpdateForm = ({formData, onChange}) => {
             ],
         };
 
-        console.log(formattedData);
-
-        const formDataPayload = objectToFormData(formattedData);
-
-        // TODO: Update personal info
+        // TODO: Update payment structure
         mutate({
-            patientId: formData?.patientId,
-            payload: formDataPayload,
-            endpoint: `patients/forms/register/${formData.patientId}/payment-structure/${formData.id}`,
+            patientId: formData?.identification.patientId,
+            payload: formattedData,
+            endpoint: `patients/forms/register/${formData.identification.patientId}/payment-structure/${formData.identification.id}`,
         });
     };
 
