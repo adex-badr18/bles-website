@@ -6,33 +6,29 @@ import FieldItem from "../../../../components/FieldItem";
 import SubmitButton from "../../../../components/SubmitButton";
 import Modal from "../../../../components/Modal";
 
-import { LuShieldCheck } from "react-icons/lu";
 import { BsFillQuestionDiamondFill } from "react-icons/bs";
 import { MdEdit, MdClose } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
 
+import { useUpdateAdminProfile } from "../../../../hooks/useGeneral";
+
 const GeneralTab = ({ formData, onChange }) => {
     const navigate = useNavigate();
     const [isProfileEditable, setIsProfileEditable] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
-    const returnHome = () => {
-        setIsSubmitModalOpen(false);
-        navigate("/admin/dashboard");
-    };
+    const { mutate, isPending, isSuccess, isError, error } =
+        useUpdateAdminProfile({ returnHome });
+
+    function returnHome() {
+        setIsConfirmModalOpen(false);
+
+        navigate("/admin/settings");
+    }
 
     const submitHandler = async (e) => {
-        e.preventDefault();
-
-        setIsSubmitting(true);
-
-        setTimeout(() => {
-            setIsConfirmModalOpen(false);
-            setIsSubmitModalOpen(true);
-            setIsSubmitting(false);
-        }, 4000);
+        const payload = formData.profile;
+        mutate({ userId: "1", payload });
     };
 
     const handleProfileEdit = (e) => {
@@ -58,7 +54,11 @@ const GeneralTab = ({ formData, onChange }) => {
 
                         <button
                             onClick={handleProfileEdit}
-                            className={`${isProfileEditable ? "bg-vividRed hover:bg-red-700" : "bg-lightGreen hover:bg-lighterGreen"} rounded-lg px-4 md:px-6 py-3 flex items-center justify-center gap-2 divide-x-2 divide-white text-white font-poppins font-semibold text-nowrap transition duration-500`}
+                            className={`${
+                                isProfileEditable
+                                    ? "bg-vividRed hover:bg-red-700"
+                                    : "bg-deepGreen hover:bg-originalGreen"
+                            } rounded-lg px-4 md:px-6 py-3 flex items-center justify-center gap-2 divide-x-2 divide-white text-white font-poppins font-semibold text-nowrap transition duration-500`}
                         >
                             <span className="">
                                 {isProfileEditable ? "Cancel" : "Edit Profile"}
@@ -143,7 +143,7 @@ const GeneralTab = ({ formData, onChange }) => {
                         {isProfileEditable && (
                             <button
                                 onClick={confirmHandler}
-                                className="self-end w-auto bg-lightGreen hover:bg-lighterGreen px-4 py-2 text-white font-medium rounded-lg"
+                                className="self-end w-auto bg-deepGreen hover:bg-originalGreen px-4 py-2 text-white font-medium rounded-lg"
                             >
                                 Update Profile
                             </button>
@@ -152,37 +152,7 @@ const GeneralTab = ({ formData, onChange }) => {
                 </div>
             </form>
 
-            {/* Submission Response */}
-            <Modal isOpen={isSubmitModalOpen}>
-                <div className="w-full max-w-xl p-4 rounded-lg bg-white text-deepGrey relative">
-                    <div className="flex flex-col gap-5 justify-center items-center">
-                        <LuShieldCheck className="text-5xl text-lightGreen" />
-
-                        <div className="flex flex-col items-center">
-                            <h3 className="text-lg text-center font-bold mb-5">
-                                Profile Updated!
-                            </h3>
-
-                            <div className="space-y-2 text-center text-deepGrey">
-                                <p className="">
-                                    Your profile has been successfully updated.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col gap-2 mt-1">
-                            <button
-                                className="w-full bg-lightGreen hover:bg-green-600 px-4 py-3 text-white font-medium tracking-widest rounded-lg"
-                                onClick={returnHome}
-                            >
-                                Return Home
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </Modal>
-
-            {/* Confirm */}
+            {/* Confirm Modal */}
             <Modal isOpen={isConfirmModalOpen}>
                 <div className="w-full max-w-xl rounded-lg bg-white text-deepGrey border-t-8 border-t-yellow-600 relative">
                     <div className="flex flex-col divide-y divide-lightGrey">
@@ -206,17 +176,18 @@ const GeneralTab = ({ formData, onChange }) => {
 
                         <div className="flex items-center justify-end gap-4 p-3 md:p-4">
                             <button
-                                className="bg-transparent hover:bg-lightGreen border border-lightGreen px-4 py-[7px] text-lightGreen hover:text-white font-medium tracking-widest rounded-lg transition-colors duration-300"
+                                className="bg-transparent hover:bg-deepGreen border border-deepGreen px-4 py-[7px] text-originalGreen hover:text-white font-medium tracking-widest rounded-lg transition-colors duration-300"
                                 onClick={() => setIsConfirmModalOpen(false)}
                             >
                                 Cancel
                             </button>
 
                             <SubmitButton
-                                submitText="Save Changes"
-                                loadingText="Saving..."
+                                submitText="Update Profile"
+                                loadingText="Updating..."
                                 onSubmit={submitHandler}
-                                isSubmitting={isSubmitting}
+                                isSubmitting={isPending}
+                                isDisabled={isPending}
                                 xtraClass="self-end w-auto"
                             />
                         </div>

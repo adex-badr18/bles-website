@@ -1,5 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchPaginatedData, getAdminProfile, updateAdminProfile } from "../api/generalApi";
+import {
+    fetchPaginatedData,
+    getAdminProfile,
+    updateAdminPassword,
+    updateAdminProfile,
+} from "../api/generalApi";
 import { useAuth } from "../pages/admin/components/auth/AuthProvider";
 import { useToast } from "../components/ToastContext";
 import { loginUser, getDashboardData } from "../api/generalApi";
@@ -71,37 +76,43 @@ export const useGetDashboardData = () => {
     });
 };
 
-
 // Get Admin Profile
-export const useGetAdminProfile = (id) => {
+export const useGetAdminProfile = (userId) => {
     return useQuery({
-        queryKey: ["profile", id],
-        queryFn: () => getAdminProfile(id),
-        enabled: !!id, // Ensures the query runs only when id is avaialble
+        queryKey: ["profile", userId],
+        queryFn: () => getAdminProfile(userId),
+        enabled: !!userId, // Ensures the query runs only when id is avaialble
     });
 };
 
-// Update a patient
-export const useUpdateAdminProfile = () => {
+// Update admin profile
+export const useUpdateAdminProfile = ({returnHome}) => {
     const queryClient = useQueryClient();
     const { showToast } = useToast();
 
     return useMutation({
-        mutationFn: ({ patientId, payload, endpoint }) =>
-            updateRegInfo({payload, endpoint}),
-        onMutate: async ({ patientId, payload }) => {
-            await queryClient.cancelQueries(["patient", patientId]);
+        mutationFn: ({ userId, payload }) =>
+            updateAdminProfile(userId, payload),
+        onMutate: async ({ userId, payload }) => {
+            await queryClient.cancelQueries(["profile", userId]);
 
-            const previousPatient = queryClient.getQueryData(["patient", patientId]);
+            const previousProfile = queryClient.getQueryData([
+                "profile",
+                userId,
+            ]);
 
-            queryClient.setQueryData(["patient", patientId], (prev) => ({
+            queryClient.setQueryData(["profile", userId], (prev) => ({
                 ...prev,
                 ...payload,
             }));
 
-            return { previousPatient };
+            return { previousProfile };
         },
         onError: (error, variables, context) => {
+            console.log("OnError data:", data);
+            console.log("OnError variables:", variables);
+            console.log("OnError context:", context);
+
             const errorMessage =
                 (typeof error === "string" && error) ||
                 error?.message ||
@@ -113,10 +124,10 @@ export const useUpdateAdminProfile = () => {
                 duration: 5000,
             });
 
-            if (context?.previousPatient) {
+            if (context?.previousProfile) {
                 queryClient.setQueryData(
-                    ["patient", variables.patientId],
-                    context.previousPatient
+                    ["profile", variables.userId],
+                    context.previousProfile
                 );
             }
         },
@@ -126,20 +137,58 @@ export const useUpdateAdminProfile = () => {
             console.log("OnSuccess context:", context);
 
             showToast({
-                message: "Patient information updated successfully!",
+                message: "Profile updated successfully!",
                 type: "success",
                 duration: 5000,
             });
-            queryClient.invalidateQueries(["patients"]); // Refresh patient list
-            queryClient.invalidateQueries([
-                "patient",
-                data?.patientId,
-            ]); // Refresh updated patient
 
-            // Navigate to patient details page after 5secs
-            // setTimeout(() => {
-            //     navigate(`/admin/patients/${data?.patientId}`)
-            // }, 5500);
+            // Refresh updated profile
+            queryClient.invalidateQueries(["profile", data?.id]);
+
+            setTimeout(() => {
+                returnHome();
+            }, 5000);
+        },
+    });
+};
+
+// Update admin password
+export const useUpdateAdminPassword = ({ returnHome }) => {
+    const { showToast } = useToast();
+
+    return useMutation({
+        mutationFn: ({ userId, payload }) =>
+            updateAdminPassword(userId, payload),
+        onError: (error, variables, context) => {
+            console.log("OnError data:", data);
+            console.log("OnError variables:", variables);
+            console.log("OnError context:", context);
+
+            const errorMessage =
+                (typeof error === "string" && error) ||
+                error?.message ||
+                "An unexpected error occurred. Please try again";
+
+            showToast({
+                message: errorMessage,
+                type: "error",
+                duration: 5000,
+            });
+        },
+        onSuccess: (data, variables, context) => {
+            console.log("OnSuccess data:", data);
+            console.log("OnSuccess variables:", variables);
+            console.log("OnSuccess context:", context);
+
+            showToast({
+                message: "Password updated successfully!",
+                type: "success",
+                duration: 5000,
+            });
+
+            setTimeout(() => {
+                returnHome();
+            }, 5000);
         },
     });
 };

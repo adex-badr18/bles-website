@@ -32,12 +32,16 @@ const Settings = () => {
         useGetAdminProfile("1");
     const [formData, setFormData] = useState({
         profile: {
-            firstName: admin.profile.firstName || "",
-            middleName: admin.profile.middleName || "",
-            lastName: admin.profile.lastName || "",
-            email: admin.profile.email || "",
+            firstName: "",
+            middleName: "",
+            lastName: "",
+            email: "",
         },
-        login: { currentPassword: "", newPassword: "", confirmNewPassword: "" },
+        login: {
+            oldPassword: "",
+            newPassword: "",
+            confirmPassword: "",
+        },
     });
 
     console.log(formData);
@@ -77,7 +81,7 @@ const Settings = () => {
                         Error!
                     </h1>
                     <p className="text-grey text-lg font-medium">
-                        {error.message || "An error occurred."}
+                        {error.message || "Could not fetch admin profile."}
                     </p>
                     {/* <LinkButton
                         name="Home"

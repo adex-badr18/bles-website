@@ -49,16 +49,16 @@ export const loginUser = async (credentials) => {
 
 // Fetch Admin Dashboard information
 export const getDashboardData = async () => {
-    const user = JSON.parse(sessionStorage.getItem("user"))
+    const user = JSON.parse(sessionStorage.getItem("user"));
     const response = await api.get("admin/dashboard", {
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user?.token}`
-        }
-    })
+            Authorization: `Bearer ${user?.token}`,
+        },
+    });
 
-    return response.data
-}
+    return response.data;
+};
 
 // Fetch a patient by ID
 export const getAdminProfile = async (id) => {
@@ -72,14 +72,34 @@ export const getAdminProfile = async (id) => {
     return response.data;
 };
 
-// Fetch a patient by ID
-export const updateAdminProfile = async (id) => {
+// Update an admin profile
+export const updateAdminProfile = async (userId, payload) => {
     const user = JSON.parse(sessionStorage.getItem("user"));
-    const response = await api.put(`/users/profile/${id}`, {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user?.token}`,
-        },
-    });
+    const response = await api.put(
+        `/users/profile/${userId}/update`,
+        objectToFormData(payload),
+        {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+    return response.data;
+};
+
+// Update an admin password
+export const updateAdminPassword = async (userId, payload) => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const response = await api.put(
+        `/users/profile/${userId}/password/update`,
+        objectToFormData(payload),
+        {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
     return response.data;
 };

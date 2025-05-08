@@ -4,30 +4,29 @@ import TextField from "../../../../components/TextField";
 import SubmitButton from "../../../../components/SubmitButton";
 import Modal from "../../../../components/Modal";
 
-import { LuShieldCheck } from "react-icons/lu";
 import { BsFillQuestionDiamondFill } from "react-icons/bs";
+
+import { useUpdateAdminPassword } from "../../../../hooks/useGeneral";
 
 const SecurityTab = ({ formData, onChange }) => {
     const navigate = useNavigate();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
-    const returnHome = () => {
-        setIsSubmitModalOpen(false);
-        navigate("/admin/dashboard");
-    };
+    const { mutate, isPending, isError, error } = useUpdateAdminPassword({returnHome});
+
+    function returnHome() {
+        setIsConfirmModalOpen(false);
+
+        Object.keys(formData.login).forEach((field) =>
+            onChange("login", field, "")
+        );
+
+        navigate("/admin/settings");
+    }
 
     const submitHandler = async (e) => {
-        e.preventDefault();
-
-        setIsSubmitting(true);
-
-        setTimeout(() => {
-            setIsConfirmModalOpen(false);
-            setIsSubmitModalOpen(true);
-            setIsSubmitting(false);
-        }, 4000);
+        const payload = formData.login;
+        mutate({ userId: "1", payload });
     };
 
     const confirmHandler = (e) => {
@@ -47,11 +46,11 @@ const SecurityTab = ({ formData, onChange }) => {
                     <TextField
                         type="password"
                         label="Current Password"
-                        name="currentPassword"
+                        name="oldPassword"
                         placeholder="Current Password"
                         section="login"
-                        field="currentPassword"
-                        value={formData.login.currentPassword}
+                        field="oldPassword"
+                        value={formData.login.oldPassword}
                         handleInputChange={onChange}
                     />
 
@@ -69,11 +68,11 @@ const SecurityTab = ({ formData, onChange }) => {
                     <TextField
                         type="password"
                         label="Confirm New Password"
-                        name="confirmNewPassword"
+                        name="confirmPassword"
                         placeholder="Confirm New Password"
                         section="login"
-                        field="confirmNewPassword"
-                        value={formData.login.confirmNewPassword}
+                        field="confirmPassword"
+                        value={formData.login.confirmPassword}
                         handleInputChange={onChange}
                     />
 
@@ -85,36 +84,6 @@ const SecurityTab = ({ formData, onChange }) => {
                     </button>
                 </div>
             </form>
-
-            {/* Submission Response */}
-            <Modal isOpen={isSubmitModalOpen}>
-                <div className="w-full max-w-xl p-4 rounded-lg bg-white text-deepGrey relative">
-                    <div className="flex flex-col gap-5 justify-center items-center">
-                        <LuShieldCheck className="text-5xl text-lightGreen" />
-
-                        <div className="flex flex-col items-center">
-                            <h3 className="text-lg text-center font-bold mb-5">
-                                Password Changed!
-                            </h3>
-
-                            <div className="space-y-2 text-center text-deepGrey">
-                                <p className="">
-                                    Your password has been successfully changed.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col gap-2 mt-1">
-                            <button
-                                className="w-full bg-lightGreen hover:bg-green-600 px-4 py-3 text-white font-medium tracking-widest rounded-lg"
-                                onClick={returnHome}
-                            >
-                                Return Home
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </Modal>
 
             {/* Confirm */}
             <Modal isOpen={isConfirmModalOpen}>
@@ -150,7 +119,8 @@ const SecurityTab = ({ formData, onChange }) => {
                                 submitText="Update"
                                 loadingText="Updating..."
                                 onSubmit={submitHandler}
-                                isSubmitting={isSubmitting}
+                                isSubmitting={isPending}
+                                isDisabled={isPending}
                                 xtraClass="self-end w-auto"
                             />
                         </div>
