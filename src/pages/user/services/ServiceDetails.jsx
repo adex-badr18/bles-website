@@ -95,7 +95,7 @@ const ServiceDetails = () => {
                                 </h3>
                                 <p className="text-grey font-rubik leading-[28px]">
                                     At{" "}
-                                    <span className="text-vividRed font-semibold">
+                                    <span className="text-originalGreen font-semibold">
                                         BrightLife Enhancement Services
                                     </span>{" "}
                                     {serviceInfo.descr2}
@@ -106,7 +106,8 @@ const ServiceDetails = () => {
                         <div className="justify-self-start mt-6">
                             <LinkButton
                                 name="Schedule an Appointment Now"
-                                to="/appointment"
+                                to="https://mentalhealthchart.com/book-appointment/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlckhlYWx0aGllSWQiOiI4Nzk4NjYiLCJsb2NhdGlvbkhlYWx0aGllSWQiOiI2MzYyOSIsInByYWN0aWNlTmFtZSI6IkJyaWdodExpZmUgRW5oYW5jZW1lbnQgU2VydmljZXMiLCJwcmFjdGljZUlkIjoxMDIyMywicHJvdmlkZXJGdWxsTmFtZSI6Ik1pYSBBbCIsInRlbmFudElkIjoiMTY5NDY4NDUtNzYwNy00MGU0LTkxOTItMjBkYzU3N2I0NTgwIiwicHJlc2NyZWVuaW5nRm9ybSI6dHJ1ZSwiY3VzdG9tRm9ybUlkIjoiNDhjNmEzYzgtMjJlYi00ZjRmLWIwN2UtMTRmNmE4MjFlNTE1IiwicmVhc29uRm9yVmlzaXQiOnRydWUsIm1haW5QcmFjdGljZUlkIjoxMDIyMywic21zRW5hYmxlZCI6dHJ1ZSwic21zUmVtaW5kZXJzRW5hYmxlZCI6ZmFsc2UsImlhdCI6MTc0NTI2ODgwNn0.g3TWHfRuZ03RPvRq25WuE34Wot-h6hJoDuoj3hP8JFs"
+                                target="_blank"
                                 icon={
                                     <MdOutlineScheduleSend className="text-lg" />
                                 }

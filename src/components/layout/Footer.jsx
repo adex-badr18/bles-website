@@ -59,9 +59,11 @@ const Footer = () => {
                         </h3>
 
                         <p className="font-rubik">
-                            At BrightLife Ehancement Services, we consistently
+                            {/* At BrightLife Ehancement Services, we consistently
                             provide safe and satisfactory care to all patients
-                            and families and we always place our clients first.
+                            and families and we always place our clients first. */}
+                            Empowering individuals, embracing strengths, and
+                            guiding lives toward <span className="text-originalGreen font-bold">brighter</span> futures.
                         </p>
 
                         <div className="space-y-3">

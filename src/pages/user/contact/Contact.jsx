@@ -21,7 +21,7 @@ const Contact = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
                     <ContactCard
                         icon={<BiPhoneCall />}
-                        title={`Phone`}
+                        title={`Phone/Fax`}
                         value1={`(410) 988-2626`}
                         value2={`(410) 988-2655`}
                     />
@@ -58,7 +58,7 @@ const Contact = () => {
                 <div className="bg-lightBlue text-darkBlue py-5 md:py-10 px-8 md:px-16 rounded-xl shadow-xl">
                     <h3 className="text-xl md:text-2xl font-medium text-center mb-2">
                         Schedule your appointment with{" "}
-                        <span className="text-vividRed font-bold">
+                        <span className="text-originalGreen font-bold">
                             BrightLife Enhacement Services
                         </span>{" "}
                         today.
@@ -67,7 +67,7 @@ const Contact = () => {
                         <em className="">
                             "Every day is a new opportunity for change.
                             Together, we can build a{" "}
-                            <span className="text-vividRed">brighter</span>{" "}
+                            <span className="text-originalGreen">brighter</span>{" "}
                             future filled with hope and resilience."
                         </em>
                     </p>
@@ -75,10 +75,11 @@ const Contact = () => {
                     <div className="w-full max-w-xs mx-auto mt-6">
                         <LinkButton
                             name="Schedule Now"
-                            to="/appointment"
+                            to="https://mentalhealthchart.com/book-appointment/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlckhlYWx0aGllSWQiOiI4Nzk4NjYiLCJsb2NhdGlvbkhlYWx0aGllSWQiOiI2MzYyOSIsInByYWN0aWNlTmFtZSI6IkJyaWdodExpZmUgRW5oYW5jZW1lbnQgU2VydmljZXMiLCJwcmFjdGljZUlkIjoxMDIyMywicHJvdmlkZXJGdWxsTmFtZSI6Ik1pYSBBbCIsInRlbmFudElkIjoiMTY5NDY4NDUtNzYwNy00MGU0LTkxOTItMjBkYzU3N2I0NTgwIiwicHJlc2NyZWVuaW5nRm9ybSI6dHJ1ZSwiY3VzdG9tRm9ybUlkIjoiNDhjNmEzYzgtMjJlYi00ZjRmLWIwN2UtMTRmNmE4MjFlNTE1IiwicmVhc29uRm9yVmlzaXQiOnRydWUsIm1haW5QcmFjdGljZUlkIjoxMDIyMywic21zRW5hYmxlZCI6dHJ1ZSwic21zUmVtaW5kZXJzRW5hYmxlZCI6ZmFsc2UsImlhdCI6MTc0NTI2ODgwNn0.g3TWHfRuZ03RPvRq25WuE34Wot-h6hJoDuoj3hP8JFs"
+                            target="_blank"
                             icon={<MdOutlineScheduleSend />}
                             classAttrs=""
-                            bgColor="red"
+                            bgColor="green"
                         />
                     </div>
                 </div>

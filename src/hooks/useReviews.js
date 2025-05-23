@@ -36,7 +36,7 @@ export const useGetPublishedReviews = ({
         queryKey: ["publishedReviews"],
         queryFn: getPublishedReviews,
         enabled: true,
-        retry: 3,
+        // retry: 3,
         onError: () => {
             setTestimonialsData(fallbackReviews);
         },

@@ -57,7 +57,7 @@ const ConditionDetails = () => {
 
     return (
         <section className="">
-            <Breadcrumb obj={conditionInfo} page="conditions" />
+            <Breadcrumb obj={conditionInfo} page="services" />
 
             <div className="wrapper py-5 md:py-20">
                 <div className="flex flex-col md:flex-row px-5 gap-10 w-full max-w-[1024px] mx-auto">
@@ -148,7 +148,8 @@ const ConditionDetails = () => {
                         <div className="justify-self-start mt-6">
                             <LinkButton
                                 name="Start your journey now"
-                                to="/appointment"
+                                to="https://mentalhealthchart.com/book-appointment/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm92aWRlckhlYWx0aGllSWQiOiI4Nzk4NjYiLCJsb2NhdGlvbkhlYWx0aGllSWQiOiI2MzYyOSIsInByYWN0aWNlTmFtZSI6IkJyaWdodExpZmUgRW5oYW5jZW1lbnQgU2VydmljZXMiLCJwcmFjdGljZUlkIjoxMDIyMywicHJvdmlkZXJGdWxsTmFtZSI6Ik1pYSBBbCIsInRlbmFudElkIjoiMTY5NDY4NDUtNzYwNy00MGU0LTkxOTItMjBkYzU3N2I0NTgwIiwicHJlc2NyZWVuaW5nRm9ybSI6dHJ1ZSwiY3VzdG9tRm9ybUlkIjoiNDhjNmEzYzgtMjJlYi00ZjRmLWIwN2UtMTRmNmE4MjFlNTE1IiwicmVhc29uRm9yVmlzaXQiOnRydWUsIm1haW5QcmFjdGljZUlkIjoxMDIyMywic21zRW5hYmxlZCI6dHJ1ZSwic21zUmVtaW5kZXJzRW5hYmxlZCI6ZmFsc2UsImlhdCI6MTc0NTI2ODgwNn0.g3TWHfRuZ03RPvRq25WuE34Wot-h6hJoDuoj3hP8JFs"
+                                target="_blank"
                                 icon={
                                     <MdOutlineScheduleSend className="text-lg" />
                                 }

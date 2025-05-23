@@ -10,10 +10,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import testImage1 from "../../../../assets/testimonial-1.webp";
-import testImage2 from "../../../../assets/testimonial-2.webp";
-import testImage3 from "../../../../assets/doc3.webp";
-
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 import Spinner from "../../../../components/Spinner";
 
@@ -42,29 +38,7 @@ const Testimonials = () => {
     const prevButton = useRef();
     const nextButton = useRef();
 
-    const [testimonialsData, setTestimonialsData] = useState([]);
-    const { data, isLoading, isSuccess, isError, error } =
-        useGetPublishedReviews({setTestimonialsData, fallbackReviews});
-
-    console.log(testimonialsData);
-
-    useEffect(() => {
-        if (data?.reviews.length > 0) {
-            const transformedReviews = data?.reviews.map((review, index) => ({
-                id: review.id || index,
-                name: review.nickname,
-                message: review.message,
-            }));
-
-            setTestimonialsData(transformedReviews);
-        } else {
-            setTestimonialsData(fallbackReviews);
-        }
-
-        if (isError) {
-            setTestimonialsData(fallbackReviews);
-        }
-    }, [data, isSuccess, isError]);
+    const [testimonialsData, setTestimonialsData] = useState(fallbackReviews);
 
     return (
         <section className={`py-8 md:py-20`}>
@@ -75,20 +49,6 @@ const Testimonials = () => {
                     secondaryTitle="Our Testimonials"
                     titleAlignment="center"
                 />
-
-                {isLoading && (
-                    <Spinner
-                        secondaryText="Loading testimonials"
-                        borderClass="border-lightGreen"
-                        spinnerSize="w-8 h-8"
-                    />
-                )}
-
-                {/* {isError && (
-                    <div className="text-vividRed">
-                        {error.message || "Error loading testimonials."}
-                    </div>
-                )} */}
 
                 {testimonialsData.length === 0 && (
                     <div className="text-deepGrey text-center font-medium">
