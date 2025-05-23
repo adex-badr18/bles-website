@@ -4,6 +4,7 @@ const Breadcrumb = ({ obj, page }) => {
     const { pathname } = useLocation();
 
     const breadcrumbList = pathname.split("/").map((path, index) => {
+        console.log(path)
         if (path === "") {
             return { id: index + 1, name: "Home", link: "/" };
         }
@@ -14,6 +15,10 @@ const Breadcrumb = ({ obj, page }) => {
 
         if (path.includes("-")) {
             return { id: index + 1, name: obj.title || obj.name, link: "" };
+        }
+
+        if (path === "conditions") {
+            return { id: index + 1, name: `Conditions`, link: "/services#conditions" };
         }
 
         return {
@@ -49,7 +54,7 @@ const Breadcrumb = ({ obj, page }) => {
                             data-aos="fade-up"
                             data-aos-delay={index * 300}
                             className={`pl-4 text-lg font-semibold ${
-                                item.link ? "text-white" : "text-lightGreen"
+                                item.link ? "text-white" : "text-originalGreen"
                             }`}
                         >
                             {item.name}

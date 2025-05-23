@@ -24,8 +24,17 @@ const Services = () => {
                             Our Supportive Care Services
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
-                            {supportiveServicesData.map((service) => {
-                                return (
+                            {supportiveServicesData.map((service, index) => {
+                                return index ===
+                                    supportiveServicesData.length - 1 ? (
+                                    <ServiceCard
+                                        key={service.id}
+                                        icon={service.icon}
+                                        title={service.name}
+                                        descr={service.descr}
+                                        id="conditions"
+                                    />
+                                ) : (
                                     <ServiceCard
                                         key={service.id}
                                         icon={service.icon}
